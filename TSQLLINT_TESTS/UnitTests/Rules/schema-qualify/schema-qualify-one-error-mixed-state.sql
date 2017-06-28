@@ -1,0 +1,5 @@
+﻿IF @SomeVar IS NULL
+BEGIN
+    SELECT BAR FROM FOO;
+    SELECT BAR FROM dbo.FOO;
+END

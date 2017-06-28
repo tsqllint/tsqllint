@@ -1,0 +1,2 @@
+﻿/* should error */
+SELECT FOO FROM INFORMATION_SCHEMA

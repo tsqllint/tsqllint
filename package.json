@@ -1,0 +1,28 @@
+{
+  "name": "tsqllint",
+  "version": "0.1.29",
+  "description": "Configurable linting for TSQL.",
+  "keywords": [
+    "TSQL",
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsqllint/tsqllint.git"
+  },
+  "files": [
+    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
+  ],
+  "bin": {
+    "tsqllint": "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
+  },
+  "os": [
+    "win32"
+  ],
+  "author": "Nathan Boyd & Doug Wilson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsqllint/tsqllint/issues"
+  },
+  "homepage": "https://github.com/tsqllint/tsqllint#readme"
+}

@@ -1,0 +1,2 @@
+﻿SELECT UPPER("foo");
+SELECT LOWER("foo");

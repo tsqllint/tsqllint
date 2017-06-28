@@ -1,0 +1,1 @@
+﻿SELECT FOO FROM BAR;

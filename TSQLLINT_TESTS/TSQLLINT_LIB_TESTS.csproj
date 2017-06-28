@@ -7,8 +7,8 @@
     <ProjectGuid>{998DE33C-C5EE-4F11-88AB-25BB12BE0473}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TSQLLINT_TESTS</RootNamespace>
-    <AssemblyName>TSQLLINT_TESTS</AssemblyName>
+    <RootNamespace>TSQLLINT_LIB_TESTS</RootNamespace>
+    <AssemblyName>TSQLLINT_LIB_TESTS</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,30 +31,114 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration Tests\IntegrationExceptionCases.cs" />
-    <Compile Include="Integration Tests\TestHelper.cs" />
-    <Compile Include="Unit Tests\Config\ConfigReaderTests.cs" />
-    <Compile Include="Integration Tests\IntegrationHappyPathCases.cs" />
+    <Compile Include="IntegrationTests\ExceptionalCases\invalid-lint-file-path\invalid-lint-file-path-test.cs" />
+    <Compile Include="IntegrationTests\ExceptionalCases\invalid-syntax\invalid-syntax-test.cs" />
+    <Compile Include="TestHelper.cs" />
+    <Compile Include="UnitTests\CommandLineParser\CommandLineParserTest.cs" />
+    <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
+    <Compile Include="RuleViolationCompare.cs" />
+    <Compile Include="UnitTests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
+    <None Include="IntegrationTests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
+    <None Include="IntegrationTests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
+    <None Include="IntegrationTests\.tsqllintrc" />
+    <Compile Include="UnitTests\Config\ConfigReaderTests.cs" />
+    <Compile Include="IntegrationTests\integration-test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit Tests\Rules\SchemaQualifyRuleTest.cs" />
-    <Compile Include="Unit Tests\Rules\SetNoCountRuleTests.cs" />
-    <Compile Include="Unit Tests\Rules\StatementTerminationRuleTest.cs" />
-    <Content Include="Test Files\sample.sql" />
-    <Compile Include="Unit Tests\Rules\SelectStarRuleTests.cs" />
-    <Compile Include="Unit Tests\Rules\SetTransactionIsolationLevelRuleTest.cs" />
+    <Content Include="IntegrationTests\ExceptionalCases\invalid-syntax\invalid-syntax.sql" />
+    <Content Include="IntegrationTests\TestFiles\TestFileSubDirectory\integration-test-two.sql" />
+    <Content Include="IntegrationTests\TestFiles\integration-test-one.sql" />
+    <Compile Include="UnitTests\Rules\rule-tests.cs" />
+    <Content Include="UnitTests\Rules\data-type-length\data-type-length-all-errors.sql" />
+    <Content Include="UnitTests\Rules\data-type-length\data-type-length-no-error.sql" />
+    <Content Include="UnitTests\Rules\data-type-length\data-type-length-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\data-type-length\data-type-length-one-error.sql" />
+    <Content Include="UnitTests\Rules\data-type-length\data-type-length-two-errors.sql" />
+    <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-multiple-errors-with-spaces.sql" />
+    <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-one-error-with-spaces.sql" />
+    <Content Include="UnitTests\Rules\print-statement\print-statement-no-error.sql" />
+    <Content Include="UnitTests\Rules\print-statement\print-statement-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\print-statement\print-statement-one-error.sql" />
+    <Content Include="UnitTests\Rules\print-statement\print-statement-two-errors.sql" />
+    <Content Include="UnitTests\Rules\conditional-begin-end\conditional-begin-end-no-error.sql" />
+    <Content Include="UnitTests\Rules\conditional-begin-end\conditional-begin-end-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\conditional-begin-end\conditional-begin-end-one-error.sql" />
+    <Content Include="UnitTests\Rules\conditional-begin-end\conditional-begin-end-two-errors.sql" />
+    <Content Include="UnitTests\Rules\disallow-cursors\disallow-cursors-no-error.sql" />
+    <Content Include="UnitTests\Rules\disallow-cursors\disallow-cursors-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\disallow-cursors\disallow-cursors-one-error.sql" />
+    <Content Include="UnitTests\Rules\disallow-cursors\disallow-cursors-two-errors.sql" />
+    <Content Include="UnitTests\Rules\keyword-capitalization\keyword-capitalization-no-error.sql" />
+    <Content Include="UnitTests\Rules\keyword-capitalization\keyword-capitalization-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\keyword-capitalization\keyword-capitalization-one-error.sql" />
+    <Content Include="UnitTests\Rules\keyword-capitalization\keyword-capitalization-multiple-errors-tabs.sql" />
+    <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-no-error.sql" />
+    <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-one-error-with-tabs.sql" />
+    <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-multiple-errors-with-tabs.sql" />
+    <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-multiple-errors-with-tab.sql" />
+    <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-try-catch-while.sql" />
+    <Content Include="UnitTests\Rules\set-nocount\set-nocount-no-rowset-action.sql" />
+    <Content Include="UnitTests\Rules\upper-lower\upper-lower-no-error.sql" />
+    <Content Include="UnitTests\Rules\upper-lower\upper-lower-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\upper-lower\upper-lower-one-error.sql" />
+    <Content Include="UnitTests\Rules\upper-lower\upper-lower-two-errors.sql" />
+    <Content Include="UnitTests\Rules\object-property\object-property-no-error.sql" />
+    <Content Include="UnitTests\Rules\object-property\object-property-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\object-property\object-property-one-error.sql" />
+    <Content Include="UnitTests\Rules\object-property\object-property-two-errors.sql" />
+    <Content Include="UnitTests\Rules\schema-qualify\schema-qualify-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\schema-qualify\schema-qualify-one-error.sql" />
+    <Content Include="UnitTests\Rules\schema-qualify\schema-qualify-two-errors.sql" />
+    <Content Include="UnitTests\Rules\schema-qualify\schema-qualify-no-error.sql" />
+    <Content Include="UnitTests\Rules\information-schema\information-schema-no-error.sql" />
+    <Content Include="UnitTests\Rules\information-schema\information-schema-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\information-schema\information-schema-one-error.sql" />
+    <Content Include="UnitTests\Rules\information-schema\information-schema-two-errors.sql" />
+    <Content Include="UnitTests\Rules\data-compression\data-compression-no-error.sql" />
+    <Content Include="UnitTests\Rules\data-compression\data-compression-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\data-compression\data-compression-one-error.sql" />
+    <Content Include="UnitTests\Rules\data-compression\data-compression-two-errors.sql" />
+    <Content Include="UnitTests\Rules\set-quoted-identifier\set-quoted-identifier-no-error.sql" />
+    <Content Include="UnitTests\Rules\set-quoted-identifier\set-quoted-identifier-one-error.sql" />
+    <Content Include="UnitTests\Rules\set-ansi\set-ansi-no-error.sql" />
+    <Content Include="UnitTests\Rules\set-ansi\set-ansi-one-error.sql" />
+    <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-no-error.sql" />
+    <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-one-error.sql" />
+    <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-multiple-errors.sql" />
+    <Content Include="UnitTests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-no-error.sql" />
+    <Content Include="UnitTests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-one-error.sql" />
+    <Content Include="UnitTests\Rules\set-nocount\set-nocount-no-error.sql" />
+    <Content Include="UnitTests\Rules\set-nocount\set-nocount-one-error.sql" />
+    <Content Include="UnitTests\Rules\select-star\select-star-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\select-star\select-star-two-errors.sql" />
+    <Content Include="UnitTests\Rules\select-star\select-star-one-error.sql" />
+    <Content Include="UnitTests\Rules\select-star\select-star-no-error.sql" />
+    <None Include="UnitTests\Config\.tsqllintrc" />
+    <None Include="UnitTests\Config\.tsqllintrc-bad-json" />
+    <None Include="UnitTests\Config\.tsqllintrc-bad-severity" />
+    <None Include="UnitTests\Config\.tsqllintrc-missing-rules" />
+    <None Include="UnitTests\RuleVisitorBuilder\.tsqllintrc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Test Files\.tsqllintrc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TSQLLINT_CONSOLE\TSQLLINT_CONSOLE.csproj">
+      <Project>{5292f15d-1f0a-47ce-928f-9fdc1929792b}</Project>
+      <Name>TSQLLINT_CONSOLE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TSQLLINT_LIB\TSQLLINT_LIB.csproj">
       <Project>{A61929F1-6CCE-402D-ACB5-189AFC81181D}</Project>
       <Name>TSQLLINT_LIB</Name>
