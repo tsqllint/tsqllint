@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A61929F1-6CCE-402D-ACB5-189AFC81181D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TSQLLINT_LIB</RootNamespace>
+    <AssemblyName>TSQLLINT_LIB</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\ILintConfigReader.cs" />
+    <Compile Include="Config\LintConfig.cs" />
+    <Compile Include="Config\LintConfigReader.cs" />
+    <Compile Include="Config\LintConfigRules.cs" />
+    <Compile Include="Parser\Interfaces\IResultReporter.cs" />
+    <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
+    <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />
+    <Compile Include="Parser\SqlFileProcessor.cs" />
+    <Compile Include="Parser\SqlRuleVisitor.cs" />
+    <Compile Include="Rules\Interfaces\ISqlRule.cs" />
+    <Compile Include="Rules\RuleViolations\RuleViolation.cs" />
+    <Compile Include="Rules\RuleViolations\RuleViolationSeverity.cs" />
+    <Compile Include="Rules\SchemaQualifyRule.cs" />
+    <Compile Include="Rules\SelectStarRule.cs" />
+    <Compile Include="Rules\SetNoCountRule.cs" />
+    <Compile Include="Rules\SetTransactionIsolationLevelRule.cs" />
+    <Compile Include="Rules\TerminateStatementsWithSemicolonRule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
