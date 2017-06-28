@@ -31,7 +31,7 @@ namespace TSQLLINT_TESTS.Unit_Tests.Rules
                     SET NOCOUNT ON
                     GO
                     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
-                    SELCT * FROM FOO;",
+                    SELECT * FROM FOO;",
                     0,
                     Description = "Transaction Isolation Level Should Appear in one of the top 5 lines of the script")]
 
