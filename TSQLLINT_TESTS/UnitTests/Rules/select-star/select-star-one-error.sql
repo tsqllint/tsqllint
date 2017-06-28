@@ -1,0 +1,2 @@
+﻿SELECT * FROM FOO;
+SELECT Name FROM FOO;

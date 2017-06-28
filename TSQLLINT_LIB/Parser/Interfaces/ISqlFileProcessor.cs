@@ -4,5 +4,6 @@
     {
         void ProcessPath(string path);
         void ProcessFile(string fileContents, string filePath);
+        int GetFileCount();
     }
 }

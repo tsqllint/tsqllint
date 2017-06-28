@@ -1,46 +1,61 @@
 # tsqllint
 
-## Usage
+[![npm version](https://badge.fury.io/js/tsqllint.svg)](https://badge.fury.io/js/tsqllint)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)](https://ci.appveyor.com/project/nathan-boyd/tsqllint)
+[![codecov](https://codecov.io/gh/tsqllint/tsqllint/branch/master/graph/badge.svg)](https://codecov.io/gh/tsqllint/tsqllint)  
+
+[![Gitter chat](https://img.shields.io/gitter/room/badges/shields.svg)](https://gitter.im/TSQLLint/Lobby)
+
+### Installation 
+
+```
+npm install tsqllint -g
+```
+
+### Usage
+```
+# generate .tsqllintrc config file
+tsqllint --init
+
+# lint a single file
+tsqllint --path test.sql
+
+# lint a list of files (must be seperated by comma)
+tsqllint --path "test_one.sql, test_two.sql"
+
+# lint all .sql filed in a directory
+tsqllint --path "c:\database_scripts"
+
+# display usage hints
+tsqllint --help
+```
+
 ### Configuration
+
+This tool can be configured by editing the .tsqllintrc file. Rules may be set to off, warning, or error.
 
 sample .tsqllintrc file
 
 ```
+
 {
   "rules": {
-    "select-star": "error",
-    "statement-semicolon-termination": "error",
+    "select-star": "off",
+    "statement-semicolon-termination": "warning",
     "set-transaction-isolation-level": "error"
   }
 }
 ```
 
-### Usage
-```
-TSQLLINT.exe -c .tsqllintrc -p test.sql
-```
-
 ## Contributing to the project
+
 ### Adding a new rule
 
-add rule severity property to [LintConfigRules](./TSQLLINT_LIB/Config/LintConfigRules.cs), be sure to decorate with the JsonProperty name that you use in the .tsqllintrc file
+#### Write tests
+Write some failing unit tests.
 
-```csharp
-internal class LintConfigRules
-{
-    [JsonProperty("select-star")]
-    public RuleViolationSeverity SelectStar { get; set; }
-
-    [JsonProperty("statement-semicolon-termination")]
-    public RuleViolationSeverity StatementSemicolon { get; set; }
-
-    [JsonProperty("set-transaction-isolation-level")]
-    public RuleViolationSeverity SetTransactionIsolationLevel { get; set; }
-}
-
-```
-
-implement rule visitor in [Rules](./TSQLLINT_LIB/Rules)
+#### Write your rule
+Implement your new rule visitor in [Rules](./TSQLLINT_LIB/Rules) sample rule below.
 
 ```csharp
 namespace TSQLLINT_LIB.Rules 
@@ -62,4 +77,28 @@ namespace TSQLLINT_LIB.Rules
         }
     }
 }
+```
+
+#### Add rule to RuleVisitorBuilder
+Add your new rule type to the RuleVisitors List in [RuleVisitorBuilder.cs](./TSQLLINT_LIB/Parser/RuleVisitorBuilder.cs), reflection is expensive.
+
+```csharp
+private readonly List<Type> RuleVisitors = new List<Type>()
+{
+    typeof(ConditionalBeginEndRule),
+    typeof(DataCompressionOptionRule),
+    typeof(DataTypeLengthRule),
+    typeof(DisallowCursorRule),
+    typeof(InformationSchemaRule),
+    typeof(ObjectPropertyRule),
+    typeof(PrintStatementRule),
+    typeof(SchemaQualifyRule),
+    typeof(SelectStarRule),
+    typeof(SemicolonTerminationRule),
+    typeof(SetAnsiNullsRule),
+    typeof(SetNoCountRule),
+    typeof(SetQuotedIdentifierRule),
+    typeof(SetTransactionIsolationLevelRule),
+    typeof(UpperLowerRule)
+};
 ```

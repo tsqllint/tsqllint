@@ -1,0 +1,58 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# Maximum number of concurrent jobs for the project
+max_jobs: 2
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Build worker image (VM template)
+image: Visual Studio 2017
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
+
+# clone directory
+clone_folder: c:\projects\myproject
+
+# fetch repository as zip archive
+shallow_clone: true                 # default is "false"
+
+# set clone depth
+clone_depth: 5                      # clone entire repository history if not defined
+
+# cache nuget packages
+cache:
+  - C:\Users\appveyor\AppData\Local\NuGet\Cache
+
+hosts:
+  api.nuget.org: 93.184.221.200
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: Any CPU
+
+before_build:
+  - nuget restore
+
+build:
+  parallel: true                  # enable MSBuild parallel builds
+  project: TSQLLINT.sln           # path to Visual Studio solution or project
+
+after_build:
+  - cmd: ./scripts/cover
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#

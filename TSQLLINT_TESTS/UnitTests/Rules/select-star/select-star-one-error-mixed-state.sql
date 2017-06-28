@@ -1,0 +1,5 @@
+﻿IF @SomeVar IS NULL
+BEGIN
+    SELECT * FROM FOO;
+    SELECT FOO FROM BAR;
+END

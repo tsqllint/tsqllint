@@ -1,37 +1,44 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.IO;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Config
 {
     public class LintConfigReader : ILintConfigReader
     {
-        public Dictionary<string, RuleViolationSeverity> Rules { get; private set; }
+        private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
 
-        public LintConfigReader(string jsonConfig)
+        public LintConfigReader(string configFilePath)
         {
-           Rules = new Dictionary<string, RuleViolationSeverity>();
-           SetupRules(jsonConfig);
-        }
-
-        private void SetupRules(string jsonConfig)
-        {
-            // deserialize string into lint config poco
-            var lintConfig = JsonConvert.DeserializeObject<LintConfig>(jsonConfig);
-
-            if (lintConfig == null)
+            if (string.IsNullOrEmpty(configFilePath))
             {
                 throw new Exception("Config file not valid");
             }
 
-            // add rule configurations to kvp list
-            foreach (var prop in typeof(LintConfigRules).GetProperties())
+            var jsonConfig = File.ReadAllText(configFilePath);
+            SetupRules(jsonConfig);
+        }
+
+        private void SetupRules(string jsonConfig)
+        {
+            var jsonObject = JObject.Parse(jsonConfig);
+
+            JToken rules;
+            if (!jsonObject.TryGetValue("rules", out rules)) return;
+
+            foreach (var rule in rules)
             {
-                var attrs = (JsonPropertyAttribute[])prop.GetCustomAttributes(typeof(JsonPropertyAttribute), false);
-                foreach (var attr in attrs)
+                var name = ((JProperty) rule).Name;
+                var value = ((JProperty) rule).Value.ToString();
+
+                RuleViolationSeverity severity;
+                var severityIsValid = Enum.TryParse(value, true, out severity);
+
+                if (severityIsValid)
                 {
-                    Rules.Add(attr.PropertyName, (RuleViolationSeverity)prop.GetValue(lintConfig.Rules));
+                    Rules.Add(name, severity);
                 }
             }
         }
@@ -39,7 +46,7 @@ namespace TSQLLINT_LIB.Config
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
             RuleViolationSeverity ruleValue;
-            return !Rules.TryGetValue(key, out ruleValue) ? RuleViolationSeverity.Off : ruleValue;
+            return Rules.TryGetValue(key, out ruleValue) ? ruleValue : RuleViolationSeverity.Off;
         }
     }
 }

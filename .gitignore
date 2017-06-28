@@ -129,9 +129,6 @@ AutoTest.Net/
 # Web workbench (sass)
 .sass-cache/
 
-# Installshield output folder
-[Ee]xpress/
-
 # DocProject is a documentation generator add-in
 DocProject/buildhelp/
 DocProject/Help/*.HxT
@@ -170,14 +167,6 @@ PublishScripts/
 *.nuget.props
 *.nuget.targets
 
-# Microsoft Azure Build Output
-csx/
-*.build.csdef
-
-# Microsoft Azure Emulator
-ecf/
-rcf/
-
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/
@@ -202,13 +191,6 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
-# Since there are multiple workflows, uncomment next line to ignore bower_components
-# (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
-#bower_components/
-
-# RIA/Silverlight projects
-Generated_Code/
-
 # Backup & report files from converting an old project file
 # to a newer Visual Studio version. Backup files are not needed,
 # because we have git ;-)
@@ -221,11 +203,6 @@ UpgradeLog*.htm
 *.mdf
 *.ldf
 *.ndf
-
-# Business Intelligence projects
-*.rdl.data
-*.bim.layout
-*.bim_*.settings
 
 # Microsoft Fakes
 FakesAssemblies/
@@ -282,8 +259,11 @@ __pycache__/
 # Telerik's JustMock configuration file
 *.jmconfig
 
-# BizTalk build output
-*.btp.cs
-*.btm.cs
-*.odx.cs
-*.xsd.cs
+# code coverage reports
+coverage
+
+# npm logs
+npm-debug.log*
+
+# ignore tsqllintrc in root or scripts directories
+scripts/.tsqllintrc

@@ -1,47 +1,44 @@
 ﻿using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLINT_LIB.Rules.Interfaces;
+using TSQLLINT_LIB.Rules.Interface;
 
 namespace TSQLLINT_LIB.Rules
 {
     public class SetTransactionIsolationLevelRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "set-transaction-isolation-level"; } }
-        public string RULE_TEXT { get { return "Set Transaction Isolation Level Read Uncommitted Should Appear Before Other Statements"; }}
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public string RULE_TEXT { get { return "Place Set Transaction Isolation Level Read Uncommitted near top of file"; }}
+        public Action<string, string, int, int> ErrorCallback;
 
-        private bool TransactionIsolationLevelStatementVisited;
         private bool ErrorLogged;
 
-        public SetTransactionIsolationLevelRule(Action<string, string, TSqlFragment> errorCallback)
+        public SetTransactionIsolationLevelRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(TSqlStatement node)
+        public override void Visit(TSqlScript node)
         {
-            // Allow ansi nulls, nocount, and quoted identifier statements to precede isolation level statements
-            if (node.GetType().Name == "PredicateSetStatement")
+            var childTransactionIsolationLevelVisitor = new ChildTransactionIsolationLevelVisitor();
+            node.AcceptChildren(childTransactionIsolationLevelVisitor);
+            if (!childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound && !ErrorLogged)
             {
-                var typedNode = node as PredicateSetStatement;
-                if (typedNode.Options == SetOptions.AnsiNulls || 
-                    typedNode.Options == SetOptions.QuotedIdentifier ||
-                    typedNode.Options == SetOptions.NoCount)
-                {
-                    return;
-                }
-            }
-
-            if(!TransactionIsolationLevelStatementVisited && !ErrorLogged)
-            {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
                 ErrorLogged = true;
             }
         }
 
-        public override void ExplicitVisit(SetTransactionIsolationLevelStatement node)
+        public class ChildTransactionIsolationLevelVisitor : TSqlFragmentVisitor
         {
-            TransactionIsolationLevelStatementVisited = true;
+            public bool TransactionIsolationLevelFound;
+
+            public override void Visit(SetTransactionIsolationLevelStatement node)
+            {
+                if (node.Level == IsolationLevel.ReadUncommitted)
+                {
+                    TransactionIsolationLevelFound = true;
+                }
+            }
         }
     }
 }

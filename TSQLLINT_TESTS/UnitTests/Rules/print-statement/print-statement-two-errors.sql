@@ -1,0 +1,2 @@
+﻿PRINT 'Foo'
+PRINT 'BAR'

@@ -1,0 +1,4 @@
+﻿IF @SomeVar IS NULL
+BEGIN
+    PRINT 'SomeVar IS NULL'
+END
