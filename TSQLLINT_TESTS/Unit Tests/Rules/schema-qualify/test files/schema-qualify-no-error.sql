@@ -1,0 +1,1 @@
+﻿SELECT BAR FROM dbo.FOO;

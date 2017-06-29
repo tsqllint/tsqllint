@@ -7,8 +7,8 @@
     <ProjectGuid>{998DE33C-C5EE-4F11-88AB-25BB12BE0473}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TSQLLINT_TESTS</RootNamespace>
-    <AssemblyName>TSQLLINT_TESTS</AssemblyName>
+    <RootNamespace>TSQLLINT_LIB_TESTS</RootNamespace>
+    <AssemblyName>TSQLLINT_LIB_TESTS</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -38,17 +38,42 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration Tests\IntegrationExceptionCases.cs" />
-    <Compile Include="Integration Tests\TestHelper.cs" />
+    <Content Include="Integration Tests\ExceptionalCases_OLD\IntegrationExceptionCases.cs.txt" />
+    <Compile Include="Integration Tests\ExceptionalCases\IntegrationHappyPathCases.cs" />
+    <Compile Include="TestHelper.cs" />
+    <None Include="Integration Tests\ExceptionalCases\.tsqllintrc" />
+    <None Include="Integration Tests\HappyPath\.tsqllintrc" />
+    <None Include="Unit Tests\Config\tsqllintrc" />
     <Compile Include="Unit Tests\Config\ConfigReaderTests.cs" />
-    <Compile Include="Integration Tests\IntegrationHappyPathCases.cs" />
+    <Compile Include="Integration Tests\HappyPath\IntegrationHappyPathCases.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit Tests\Rules\SchemaQualifyRuleTest.cs" />
-    <Compile Include="Unit Tests\Rules\SetNoCountRuleTests.cs" />
-    <Compile Include="Unit Tests\Rules\StatementTerminationRuleTest.cs" />
+    <Compile Include="Unit Tests\Rules\schema-qualify\schema-qualify-rule-tests.cs" />
+    <Compile Include="Unit Tests\Rules\statement-semicolon-termination\statement-semicolon-termination-rule-tests.cs" />
+    <Compile Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-rule-tests.cs" />
+    <Compile Include="Unit Tests\Rules\set-nocount\set-nocount-rule-tests.cs" />
+    <Content Include="Integration Tests\ExceptionalCases\happy-path-one.sql" />
+    <Content Include="Integration Tests\HappyPath\happy-path-two.sql" />
+    <Content Include="Integration Tests\HappyPath\happy-path-one.sql" />
     <Content Include="Test Files\sample.sql" />
-    <Compile Include="Unit Tests\Rules\SelectStarRuleTests.cs" />
-    <Compile Include="Unit Tests\Rules\SetTransactionIsolationLevelRuleTest.cs" />
+    <Compile Include="Unit Tests\Rules\select-star\select-star-rule-tests.cs" />
+    <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-one-error.sql" />
+    <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-no-error.sql" />
+    <Content Include="Unit Tests\Rules\statement-semicolon-termination\test files\statement-semicolon-termination-no-error.sql" />
+    <Content Include="Unit Tests\Rules\statement-semicolon-termination\test files\statement-semicolon-termination-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\statement-semicolon-termination\test files\statement-semicolon-termination-one-error.sql" />
+    <Content Include="Unit Tests\Rules\statement-semicolon-termination\test files\statement-semicolon-termination-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\set-transaction-isolation-level\test files\set-transaction-isolation-level-no-error.sql" />
+    <Content Include="Unit Tests\Rules\set-transaction-isolation-level\test files\set-transaction-isolation-level-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\set-transaction-isolation-level\test files\set-transaction-isolation-level-one-error.sql" />
+    <Content Include="Unit Tests\Rules\set-nocount\test files\set-nocount-no-error.sql" />
+    <Content Include="Unit Tests\Rules\set-nocount\test files\set-nocount-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\set-nocount\test files\set-nocount-one-error.sql" />
+    <Content Include="Unit Tests\Rules\select-star\test files\select-star-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\select-star\test files\select-star-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\select-star\test files\select-star-one-error.sql" />
+    <Content Include="Unit Tests\Rules\select-star\test files\select-star-no-error.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

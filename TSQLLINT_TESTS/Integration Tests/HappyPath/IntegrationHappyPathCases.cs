@@ -7,59 +7,24 @@ using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
-namespace TSQLLINT_TESTS.Integration_Tests
+namespace TSQLLINT_LIB_TESTS.Integration_Tests
 {
     public class IntegrationHappyPathCases
     {
-        private string workingDirectory;
-        private string configFilePath;
-        private TestHelper TestHelper;
-
-        [OneTimeSetUp]
-        public void setup()
-        {
-            workingDirectory = TestContext.CurrentContext.TestDirectory;
-            TestHelper = new TestHelper(workingDirectory);
-
-            TestHelper.createFileForTesting(testFileName: @"IntegrationTestFile1.sql", content: @"
-                    update foo set bar = 1
-                    select foo from bar
-            ");
-
-            TestHelper.createFileForTesting(testFileName: @"IntegrationTestFile2.sql", content: @"
-                    select * from foo;
-            ");
-
-            TestHelper.createFileForTesting(testFileName: @".tsqllintrc", content: @"
-                    {
-                      'rules': {
-                        'select-star': 'error',
-                        'statement-semicolon-termination': 'error',
-                        'set-transaction-isolation-level': 'error'
-                      }
-                    }
-            ");
-
-            configFilePath = Path.GetFullPath(Path.Combine(workingDirectory, @".tsqllintrc"));
-        }
-
-        [OneTimeTearDown]
-        public void teardown()
-        {
-            TestHelper.cleanup();
-        }
 
         [Test]
         public void RuleValidationTest()
         {
-            var configFileString = File.ReadAllText(configFilePath);
+            var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath");
+
+            var configFileString = File.ReadAllText(Path.Combine(lintTarget, ".tsqllintrc"));
 
             ILintConfigReader configReader = new LintConfigReader(configFileString);
             IRuleVisitor ruleVisitor = new SqlRuleVisitor();
             IResultReporter testReporter = new TestReporter();
             var fileProcessor = new SqlFileProcessor(ruleVisitor, configReader);
 
-            fileProcessor.ProcessPath(workingDirectory);
+            fileProcessor.ProcessPath(lintTarget);
             testReporter.ReportResults(ruleVisitor.Violations);
         }
     }
