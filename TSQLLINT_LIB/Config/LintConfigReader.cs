@@ -39,7 +39,7 @@ namespace TSQLLINT_LIB.Config
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
             RuleViolationSeverity ruleValue;
-            return !Rules.TryGetValue(key, out ruleValue) ? RuleViolationSeverity.Off : ruleValue;
+            return Rules.TryGetValue(key, out ruleValue) ? ruleValue : RuleViolationSeverity.Off;
         }
     }
 }
