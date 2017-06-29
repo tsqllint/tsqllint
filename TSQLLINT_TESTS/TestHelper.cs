@@ -18,23 +18,5 @@ namespace TSQLLINT_LIB_TESTS
             var path = Path.GetFullPath(Path.Combine(WorkingDirectory, string.Format("..\\..\\Unit Tests\\{0}", testFilePath)));
             return File.ReadAllText(path);
         }
-
-        public void createFileForTesting(string testFileName, string content)
-        {
-            var testFilePath = Path.GetFullPath(Path.Combine(WorkingDirectory, testFileName));
-            using (var sw = File.CreateText(testFilePath))
-            {
-                sw.WriteLine(content);
-            }
-            filesToCleanUp.Add(testFilePath);
-        }
-
-        public void cleanup()
-        {
-            foreach (var file in filesToCleanUp)
-            {
-                File.Delete(file);
-            }
-        }
     }
 }

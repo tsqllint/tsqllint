@@ -6,7 +6,6 @@ using TSQLLINT_LIB;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Rules;
 using TSQLLINT_LIB.Rules.RuleViolations;
-using TSQLLINT_LIB_TESTS.Integration_Tests;
 
 namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
 {

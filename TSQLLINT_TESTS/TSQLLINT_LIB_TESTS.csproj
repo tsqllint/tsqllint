@@ -38,23 +38,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Integration Tests\ExceptionalCases_OLD\IntegrationExceptionCases.cs.txt" />
-    <Compile Include="Integration Tests\ExceptionalCases\IntegrationHappyPathCases.cs" />
+    <Compile Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\invalid-lint-file-path-test.cs" />
+    <Compile Include="Integration Tests\ExceptionalCases\invalid-syntax\invalid-syntax-test.cs" />
     <Compile Include="TestHelper.cs" />
-    <None Include="Integration Tests\ExceptionalCases\.tsqllintrc" />
+    <None Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
+    <None Include="Integration Tests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
     <None Include="Integration Tests\HappyPath\.tsqllintrc" />
     <None Include="Unit Tests\Config\tsqllintrc" />
     <Compile Include="Unit Tests\Config\ConfigReaderTests.cs" />
-    <Compile Include="Integration Tests\HappyPath\IntegrationHappyPathCases.cs" />
+    <Compile Include="Integration Tests\HappyPath\happy-path-test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit Tests\Rules\schema-qualify\schema-qualify-rule-tests.cs" />
     <Compile Include="Unit Tests\Rules\statement-semicolon-termination\statement-semicolon-termination-rule-tests.cs" />
     <Compile Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-rule-tests.cs" />
     <Compile Include="Unit Tests\Rules\set-nocount\set-nocount-rule-tests.cs" />
-    <Content Include="Integration Tests\ExceptionalCases\happy-path-one.sql" />
-    <Content Include="Integration Tests\HappyPath\happy-path-two.sql" />
-    <Content Include="Integration Tests\HappyPath\happy-path-one.sql" />
-    <Content Include="Test Files\sample.sql" />
+    <Content Include="Integration Tests\ExceptionalCases\invalid-syntax\invalid-syntax.sql" />
+    <Content Include="Integration Tests\HappyPath\Test Files\happy-path-two.sql" />
+    <Content Include="Integration Tests\HappyPath\Test Files\happy-path-one.sql" />
     <Compile Include="Unit Tests\Rules\select-star\select-star-rule-tests.cs" />
     <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-one-error.sql" />
@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Test Files\.tsqllintrc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TSQLLINT_LIB\TSQLLINT_LIB.csproj">

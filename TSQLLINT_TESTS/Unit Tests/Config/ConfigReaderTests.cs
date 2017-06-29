@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Rules.RuleViolations;
-using TSQLLINT_LIB_TESTS.Integration_Tests;
 
 namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
 {
@@ -16,6 +16,12 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
             var ConfigReader = new LintConfigReader(configString);
             Assert.AreEqual(RuleViolationSeverity.Error, ConfigReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, ConfigReader.GetRuleSeverity("statement-semicolon-termination"));
+        }
+
+        [Test]
+        public void ConfigReadEmptyFile()
+        {
+            Assert.Throws<Exception>(() => { new LintConfigReader(""); });
         }
     }
 }

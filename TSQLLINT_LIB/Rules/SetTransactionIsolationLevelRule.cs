@@ -10,7 +10,7 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "Set Transaction Isolation Level Read Uncommitted Should Appear Before Other Statements"; }}
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        private bool TransactionIsolationLevelStatementVisited;
+        private bool TransactionIsolationLevelStatementFound;
         private bool ErrorLogged;
 
         public SetTransactionIsolationLevelRule(Action<string, string, TSqlFragment> errorCallback)
@@ -20,19 +20,16 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlStatement node)
         {
-            // Allow ansi nulls, nocount, and quoted identifier statements to precede isolation level statements
-            if (node.GetType().Name == "PredicateSetStatement")
+            var nodeType = node.GetType();
+
+            // Allow ansi nulls, nocount, and quoted identifier statements, as well as other predicates
+            // to precede isolation level statements
+            if (nodeType == typeof(PredicateSetStatement))
             {
-                var typedNode = node as PredicateSetStatement;
-                if (typedNode.Options == SetOptions.AnsiNulls || 
-                    typedNode.Options == SetOptions.QuotedIdentifier ||
-                    typedNode.Options == SetOptions.NoCount)
-                {
-                    return;
-                }
+                return;
             }
 
-            if(!TransactionIsolationLevelStatementVisited && !ErrorLogged)
+            if(!TransactionIsolationLevelStatementFound && !ErrorLogged)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
                 ErrorLogged = true;
@@ -41,7 +38,7 @@ namespace TSQLLINT_LIB.Rules
 
         public override void ExplicitVisit(SetTransactionIsolationLevelStatement node)
         {
-            TransactionIsolationLevelStatementVisited = true;
+            TransactionIsolationLevelStatementFound = true;
         }
     }
 }
