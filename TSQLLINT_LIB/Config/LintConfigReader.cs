@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
@@ -9,21 +10,23 @@ namespace TSQLLINT_LIB.Config
     {
         public Dictionary<string, RuleViolationSeverity> Rules { get; private set; }
 
-        public LintConfigReader(string jsonConfig)
+        public LintConfigReader(string configFilePath)
         {
-           Rules = new Dictionary<string, RuleViolationSeverity>();
-           SetupRules(jsonConfig);
+            if (string.IsNullOrEmpty(configFilePath))
+            {
+                throw new Exception("Config file not valid");
+            }
+
+
+            Rules = new Dictionary<string, RuleViolationSeverity>();
+            var jsonConfig = File.ReadAllText(configFilePath);
+            SetupRules(jsonConfig);
         }
 
         private void SetupRules(string jsonConfig)
         {
             // deserialize string into lint config poco
             var lintConfig = JsonConvert.DeserializeObject<LintConfig>(jsonConfig);
-
-            if (lintConfig == null)
-            {
-                throw new Exception("Config file not valid");
-            }
 
             // add rule configurations to kvp list
             foreach (var prop in typeof(LintConfigRules).GetProperties())

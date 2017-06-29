@@ -38,6 +38,7 @@ namespace TSQLLINT_LIB.Parser
             for (var index = 0; index < RuleVisitors.Count; index++)
             {
                 var visitor = RuleVisitors[index];
+
                 Action<string, string, TSqlFragment> ErrorCallback =
                     delegate(string ruleName, string ruleText, TSqlFragment node)
                     {
@@ -56,11 +57,6 @@ namespace TSQLLINT_LIB.Parser
                 {
                     configuredVisitors.Add((TSqlFragmentVisitor) visitorInstance);
                 }
-            }
-
-            if (configuredVisitors.Count < 1)
-            {
-                throw new Exception("No rule visitors are configured");
             }
 
             var sqlFragment = GetFragment(sqlTextReader);

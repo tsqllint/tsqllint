@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 
@@ -16,9 +15,7 @@ namespace TSQLLINT
                 return;
             }
 
-            var configFile = File.ReadAllText(commandLineOptions.ConfigFile);
-           
-            var configReader = new LintConfigReader(configFile);
+            var configReader = new LintConfigReader(commandLineOptions.ConfigFile);
             var ruleVisitor = new SqlRuleVisitor();
             var reporter = new ConsoleResultReporter();
             var parser = new SqlFileProcessor(ruleVisitor, configReader);

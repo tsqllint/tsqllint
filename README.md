@@ -1,5 +1,7 @@
 # tsqllint
 
+https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint
+
 ## Usage
 ### Configuration
 

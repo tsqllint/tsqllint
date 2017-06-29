@@ -6,7 +6,6 @@ namespace TSQLLINT_LIB_TESTS
     public class TestHelper
     {
         private readonly string WorkingDirectory;
-        private readonly List<string> filesToCleanUp = new List<string>();
 
         public TestHelper(string workingDirectory)
         {

@@ -44,7 +44,6 @@
     <None Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
     <None Include="Integration Tests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
     <None Include="Integration Tests\HappyPath\.tsqllintrc" />
-    <None Include="Unit Tests\Config\tsqllintrc" />
     <Compile Include="Unit Tests\Config\ConfigReaderTests.cs" />
     <Compile Include="Integration Tests\HappyPath\happy-path-test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +73,7 @@
     <Content Include="Unit Tests\Rules\select-star\test files\select-star-two-errors.sql" />
     <Content Include="Unit Tests\Rules\select-star\test files\select-star-one-error.sql" />
     <Content Include="Unit Tests\Rules\select-star\test files\select-star-no-error.sql" />
+    <None Include="Unit Tests\Config\.tsqllintrc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
