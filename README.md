@@ -1,7 +1,7 @@
 # tsqllint
 
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)
-
+[![codecov](https://codecov.io/gh/tsqllint/tsqllint/branch/master/graph/badge.svg)](https://codecov.io/gh/tsqllint/tsqllint)
 
 ## Usage 
 ### Configuration
