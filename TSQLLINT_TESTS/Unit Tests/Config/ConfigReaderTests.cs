@@ -9,7 +9,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
     public class ConfigReaderTests
     {
         [Test]
-        public void ReaderTests()
+        public void GetRuleSeverity()
         {
             var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc" );
             var ConfigReader = new LintConfigReader(configfilePath);
@@ -21,6 +21,14 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
         public void ConfigReadEmptyFile()
         {
             Assert.Throws<Exception>(() => { new LintConfigReader(""); });
+        }
+
+        [Test]
+        public void ConfigReadBadRule()
+        {
+            var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc");
+            var ConfigReader = new LintConfigReader(configfilePath);
+            Assert.AreEqual(RuleViolationSeverity.Off, ConfigReader.GetRuleSeverity("foo"));
         }
     }
 }
