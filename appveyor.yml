@@ -45,6 +45,9 @@ build:
   parallel: true                  # enable MSBuild parallel builds
   project: TSQLLINT.sln           # path to Visual Studio solution or project
 
+after_build:
+  - cmd: cover
+
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
