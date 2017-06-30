@@ -3,6 +3,12 @@
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)
 [![codecov](https://codecov.io/gh/tsqllint/tsqllint/branch/master/graph/badge.svg)](https://codecov.io/gh/tsqllint/tsqllint)
 
+<!--
+[![Code Climate](https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg)](https://codeclimate.com/github/tsqllint/tsqllint) 
+-->
+
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/TSQLLint/Lobby)
+
 ## Usage 
 ### Configuration
 
