@@ -3,7 +3,7 @@
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)
 
 
-## Usage
+## Usage 
 ### Configuration
 
 sample .tsqllintrc file
