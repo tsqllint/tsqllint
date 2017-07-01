@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Config
@@ -24,16 +25,27 @@ namespace TSQLLINT_LIB.Config
 
         private void SetupRules(string jsonConfig)
         {
-            // deserialize string into lint config poco
-            var lintConfig = JsonConvert.DeserializeObject<LintConfig>(jsonConfig);
+            var jsonObject = JObject.Parse(jsonConfig);
 
-            // add rule configurations to kvp list
-            foreach (var prop in typeof(LintConfigRules).GetProperties())
+            JToken rules;
+            var rulesFound = jsonObject.TryGetValue("rules", out rules);
+
+            if (!rulesFound)
             {
-                var attrs = (JsonPropertyAttribute[])prop.GetCustomAttributes(typeof(JsonPropertyAttribute), false);
-                foreach (var attr in attrs)
+                return;
+            }
+
+            foreach (var rule in rules)
+            {
+                var name = ((JProperty) rule).Name;
+                var value = ((JProperty) rule).Value.ToString();
+
+                RuleViolationSeverity severity;
+                var severityIsValid = Enum.TryParse(value, true, out severity);
+
+                if (severityIsValid)
                 {
-                    Rules.Add(attr.PropertyName, (RuleViolationSeverity)prop.GetValue(lintConfig.Rules));
+                    Rules.Add(name, severity);
                 }
             }
         }

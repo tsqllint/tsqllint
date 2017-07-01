@@ -40,9 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\ILintConfigReader.cs" />
-    <Compile Include="Config\LintConfig.cs" />
     <Compile Include="Config\LintConfigReader.cs" />
-    <Compile Include="Config\LintConfigRules.cs" />
     <Compile Include="Parser\Interfaces\IResultReporter.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />

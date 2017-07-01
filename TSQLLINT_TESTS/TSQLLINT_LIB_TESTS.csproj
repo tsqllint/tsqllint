@@ -79,6 +79,7 @@
     <Content Include="Unit Tests\Rules\select-star\select-star-no-error.sql" />
     <None Include="Unit Tests\Config\.tsqllintrc" />
     <None Include="Unit Tests\Config\.tsqllintrc-bad-json" />
+    <None Include="Unit Tests\Config\.tsqllintrc-missing-rules" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
