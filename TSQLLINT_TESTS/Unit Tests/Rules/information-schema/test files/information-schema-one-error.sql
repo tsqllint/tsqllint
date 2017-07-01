@@ -1,0 +1,2 @@
+﻿/* should error */
+SELECT TABLE_CATALOG FROM SomeDatabase.INFORMATION_SCHEMA.COLUMNS;

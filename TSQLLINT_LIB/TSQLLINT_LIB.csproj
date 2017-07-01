@@ -52,6 +52,7 @@
     <Compile Include="Rules\RuleViolations\RuleViolation.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolationSeverity.cs" />
     <Compile Include="Rules\SchemaQualifyRule.cs" />
+    <Compile Include="Rules\InformationSchemaRule.cs" />
     <Compile Include="Rules\SelectStarRule.cs" />
     <Compile Include="Rules\SetNoCountRule.cs" />
     <Compile Include="Rules\SetTransactionIsolationLevelRule.cs" />

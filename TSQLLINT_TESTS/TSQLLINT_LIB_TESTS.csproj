@@ -48,6 +48,7 @@
     <Compile Include="Integration Tests\HappyPath\happy-path-test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit Tests\Rules\schema-qualify\schema-qualify-rule-tests.cs" />
+    <Compile Include="Unit Tests\Rules\information-schema\information-schema-tests.cs" />
     <Compile Include="Unit Tests\Rules\statement-semicolon-termination\statement-semicolon-termination-rule-tests.cs" />
     <Compile Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-rule-tests.cs" />
     <Compile Include="Unit Tests\Rules\set-nocount\set-nocount-rule-tests.cs" />
@@ -59,6 +60,10 @@
     <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-one-error.sql" />
     <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-two-errors.sql" />
     <Content Include="Unit Tests\Rules\schema-qualify\test files\schema-qualify-no-error.sql" />
+    <Content Include="Unit Tests\Rules\information-schema\test files\information-schema-no-error.sql" />
+    <Content Include="Unit Tests\Rules\information-schema\test files\information-schema-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\information-schema\test files\information-schema-one-error.sql" />
+    <Content Include="Unit Tests\Rules\information-schema\test files\information-schema-two-errors.sql" />
     <Content Include="Unit Tests\Rules\statement-semicolon-termination\test files\statement-semicolon-termination-no-error.sql" />
     <Content Include="Unit Tests\Rules\statement-semicolon-termination\test files\statement-semicolon-termination-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\statement-semicolon-termination\test files\statement-semicolon-termination-one-error.sql" />

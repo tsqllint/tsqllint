@@ -19,5 +19,8 @@ namespace TSQLLINT_LIB.Config
 
         [JsonProperty("schema-qualify")]
         public RuleViolationSeverity SchemaQualify { get; set; }
+
+        [JsonProperty("information-schema")]
+        public RuleViolationSeverity InformationSchema { get; set; }
     }
 }
