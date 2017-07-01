@@ -18,6 +18,12 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("information-schema", typeof(InfirmationSchemaRule), "information-schema-one-error", 1)]
         [TestCase("information-schema", typeof(InfirmationSchemaRule), "information-schema-two-errors", 2)]
 
+
+        [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-no-error", 0)]
+        [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-one-error-mixed-state", 1)]
+        [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-one-error", 1)]
+        [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-two-errors", 2)]
+
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-no-error", 0)]
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-one-error-mixed-state", 1)]
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-one-error", 1)]

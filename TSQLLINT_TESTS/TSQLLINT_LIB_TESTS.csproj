@@ -55,6 +55,10 @@
     <Content Include="Integration Tests\HappyPath\Test Files\happy-path-two.sql" />
     <Content Include="Integration Tests\HappyPath\Test Files\happy-path-one.sql" />
     <Compile Include="Unit Tests\Rules\rule-tests.cs" />
+    <Content Include="Unit Tests\Rules\object-property\object-property-no-error.sql" />
+    <Content Include="Unit Tests\Rules\object-property\object-property-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\object-property\object-property-one-error.sql" />
+    <Content Include="Unit Tests\Rules\object-property\object-property-two-errors.sql" />
     <Content Include="Unit Tests\Rules\schema-qualify\schema-qualify-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\schema-qualify\schema-qualify-one-error.sql" />
     <Content Include="Unit Tests\Rules\schema-qualify\schema-qualify-two-errors.sql" />
