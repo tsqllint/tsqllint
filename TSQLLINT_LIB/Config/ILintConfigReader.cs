@@ -5,7 +5,6 @@ namespace TSQLLINT_LIB.Config
 {
     public interface ILintConfigReader
     {
-        Dictionary<string, RuleViolationSeverity> Rules { get; }
 
         RuleViolationSeverity GetRuleSeverity(string key);
     }

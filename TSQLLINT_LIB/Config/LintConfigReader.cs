@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
@@ -9,7 +8,7 @@ namespace TSQLLINT_LIB.Config
 {
     public class LintConfigReader : ILintConfigReader
     {
-        public Dictionary<string, RuleViolationSeverity> Rules { get; private set; }
+        private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
 
         public LintConfigReader(string configFilePath)
         {
@@ -18,7 +17,6 @@ namespace TSQLLINT_LIB.Config
                 throw new Exception("Config file not valid");
             }
 
-            Rules = new Dictionary<string, RuleViolationSeverity>();
             var jsonConfig = File.ReadAllText(configFilePath);
             SetupRules(jsonConfig);
         }
@@ -28,12 +26,7 @@ namespace TSQLLINT_LIB.Config
             var jsonObject = JObject.Parse(jsonConfig);
 
             JToken rules;
-            var rulesFound = jsonObject.TryGetValue("rules", out rules);
-
-            if (!rulesFound)
-            {
-                return;
-            }
+            if (!jsonObject.TryGetValue("rules", out rules)) return;
 
             foreach (var rule in rules)
             {

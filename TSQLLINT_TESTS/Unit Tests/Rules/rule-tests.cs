@@ -36,6 +36,10 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-one-error-mixed-state", 1)]
         [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-one-error", 1)]
         [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-two-errors", 2)]
+
+        [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-no-error", 0)]
+        [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-one-error-mixed-state", 1)]
+        [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-one-error", 1)]
             
         public void RuleTests(string rule, Type ruleType, string testFileName, int violationCount)
         {
