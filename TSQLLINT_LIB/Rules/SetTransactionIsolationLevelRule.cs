@@ -37,7 +37,10 @@ namespace TSQLLINT_LIB.Rules
 
         public override void ExplicitVisit(SetTransactionIsolationLevelStatement node)
         {
-            TransactionIsolationLevelStatementFound = true;
+            if (node.Level == IsolationLevel.ReadUncommitted)
+            {
+                TransactionIsolationLevelStatementFound = true;
+            }
         }
     }
 }
