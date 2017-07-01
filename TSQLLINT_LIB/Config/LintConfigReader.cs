@@ -17,7 +17,6 @@ namespace TSQLLINT_LIB.Config
                 throw new Exception("Config file not valid");
             }
 
-
             Rules = new Dictionary<string, RuleViolationSeverity>();
             var jsonConfig = File.ReadAllText(configFilePath);
             SetupRules(jsonConfig);

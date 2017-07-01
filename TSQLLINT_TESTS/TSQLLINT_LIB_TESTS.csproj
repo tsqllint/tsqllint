@@ -31,6 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SqlServer.TransactSql.ScriptDom, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -74,6 +78,7 @@
     <Content Include="Unit Tests\Rules\select-star\select-star-one-error.sql" />
     <Content Include="Unit Tests\Rules\select-star\select-star-no-error.sql" />
     <None Include="Unit Tests\Config\.tsqllintrc" />
+    <None Include="Unit Tests\Config\.tsqllintrc-bad-json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

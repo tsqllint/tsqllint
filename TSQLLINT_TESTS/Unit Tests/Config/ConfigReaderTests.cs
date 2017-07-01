@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Rules.RuleViolations;
@@ -21,6 +22,13 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
         public void ConfigReadEmptyFile()
         {
             Assert.Throws<Exception>(() => { new LintConfigReader(""); });
+        }
+
+        [Test]
+        public void ConfigReadInvalidJson()
+        {
+            var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc-bad-json");
+            Assert.Throws<JsonSerializationException>(() => { new LintConfigReader(configfilePath); });
         }
 
         [Test]
