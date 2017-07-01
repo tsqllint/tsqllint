@@ -16,9 +16,9 @@ namespace TSQLLINT
             }
 
             var configReader = new LintConfigReader(commandLineOptions.ConfigFile);
-            var ruleVisitor = new SqlRuleVisitor();
+            var ruleVisitor = new SqlRuleVisitor(configReader);
             var reporter = new ConsoleResultReporter();
-            var parser = new SqlFileProcessor(ruleVisitor, configReader);
+            var parser = new SqlFileProcessor(ruleVisitor);
 
             parser.ProcessPath(commandLineOptions.LintPath);
             reporter.ReportResults(ruleVisitor.Violations);

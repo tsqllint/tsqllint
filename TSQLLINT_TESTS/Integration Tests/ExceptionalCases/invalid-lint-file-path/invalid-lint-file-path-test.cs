@@ -15,8 +15,8 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.ExceptionalCases
             var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\ExceptionalCases\\invalid-lint-file-path\\");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
-            IRuleVisitor ruleVisitor = new SqlRuleVisitor();
-            var fileProcessor = new SqlFileProcessor(ruleVisitor, configReader);
+            IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
+            var fileProcessor = new SqlFileProcessor(ruleVisitor);
 
             fileProcessor.ProcessPath("foo.sql");
         }

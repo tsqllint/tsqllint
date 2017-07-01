@@ -15,12 +15,14 @@ namespace TSQLLINT_LIB.Parser
         public List<RuleViolation> Violations { get; set; }
         private TSql120Parser Parser;
         private List<Type> RuleVisitors;
+        private ILintConfigReader ConfigReader;
 
         /// <summary>
         /// Configures the parser without rules
         /// </summary>
-        public SqlRuleVisitor()
+        public SqlRuleVisitor(ILintConfigReader configReader)
         {
+            ConfigReader = configReader;
             Parser = new TSql120Parser(true);
             Violations = new List<RuleViolation>();
 
@@ -31,7 +33,7 @@ namespace TSQLLINT_LIB.Parser
                 .Where(p => type.IsAssignableFrom(p) && !p.IsInterface).ToList();
         }
 
-        public void VisitRules(ILintConfigReader configReader, string sqlPath, TextReader sqlTextReader)
+        public void VisitRules(string sqlPath, TextReader sqlTextReader)
         {
             var configuredVisitors = new List<TSqlFragmentVisitor>();
 
@@ -47,11 +49,11 @@ namespace TSQLLINT_LIB.Parser
                             ruleName,
                             ruleText,
                             node,
-                            configReader.GetRuleSeverity(ruleName)));
+                            ConfigReader.GetRuleSeverity(ruleName)));
                     };
 
                 var visitorInstance = (ISqlRule) Activator.CreateInstance(visitor, ErrorCallback);
-                var severity = configReader.GetRuleSeverity(visitorInstance.RULE_NAME);
+                var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
 
                 if (severity == RuleViolationSeverity.Error || severity == RuleViolationSeverity.Warning)
                 {

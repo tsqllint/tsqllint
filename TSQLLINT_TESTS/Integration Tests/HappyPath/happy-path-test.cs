@@ -18,9 +18,9 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
-            IRuleVisitor ruleVisitor = new SqlRuleVisitor();
+            IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IResultReporter testReporter = new HappyPathLintDirectoryTestReporter();
-            var fileProcessor = new SqlFileProcessor(ruleVisitor, configReader);
+            var fileProcessor = new SqlFileProcessor(ruleVisitor);
 
             fileProcessor.ProcessPath(lintTarget);
             testReporter.ReportResults(ruleVisitor.Violations);
@@ -47,9 +47,9 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
-            IRuleVisitor ruleVisitor = new SqlRuleVisitor();
+            IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IResultReporter testReporter = new HappyPathLintFileTestReporter();
-            var fileProcessor = new SqlFileProcessor(ruleVisitor, configReader);
+            var fileProcessor = new SqlFileProcessor(ruleVisitor);
 
             var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath\\Test Files\\happy-path-one.sql");
             fileProcessor.ProcessPath(lintFile);

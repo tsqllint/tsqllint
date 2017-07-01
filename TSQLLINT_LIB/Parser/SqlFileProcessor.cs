@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Parser
@@ -8,12 +7,10 @@ namespace TSQLLINT_LIB.Parser
     public class SqlFileProcessor : ISqlFileProcessor
     {
         private readonly IRuleVisitor RuleVisitor;
-        private readonly ILintConfigReader ConfigReader;
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor, ILintConfigReader configReader)
+        public SqlFileProcessor(IRuleVisitor ruleVisitor)
         {
             RuleVisitor = ruleVisitor;
-            ConfigReader = configReader;
         }
 
         public void ProcessPath(string path)
@@ -50,7 +47,7 @@ namespace TSQLLINT_LIB.Parser
         public void ProcessFile(string fileContents, string filePath)
         {
             var txtRdr = Utility.CreateTextReaderFromString(fileContents);
-            RuleVisitor.VisitRules(ConfigReader, filePath, txtRdr);
+            RuleVisitor.VisitRules(filePath, txtRdr);
         }
     }
 }
