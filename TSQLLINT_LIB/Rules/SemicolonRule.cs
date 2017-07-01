@@ -1,16 +1,15 @@
 ﻿using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLINT_LIB.Rules.Interfaces;
 
 namespace TSQLLINT_LIB.Rules
 {
-    public class TerminateStatementsWithSemicolonRule : TSqlFragmentVisitor, ISqlRule
+    public class SemicolonRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME {get { return "statement-semicolon-termination";}}
         public string RULE_TEXT { get { return "Terminate statements with semicolon"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        public TerminateStatementsWithSemicolonRule(Action<string, string, TSqlFragment> errorCallback)
+        public SemicolonRule(Action<string, string, TSqlFragment> errorCallback)
         {
             ErrorCallback = errorCallback;
         }

@@ -1,6 +1,6 @@
-﻿namespace TSQLLINT_LIB.Rules.Interfaces
+﻿namespace TSQLLINT_LIB.Rules
 {
-    internal interface ISqlRule
+    public interface ISqlRule
     {
         string RULE_NAME { get; }
         string RULE_TEXT { get; }
