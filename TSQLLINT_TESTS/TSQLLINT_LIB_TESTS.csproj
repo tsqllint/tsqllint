@@ -67,6 +67,10 @@
     <Content Include="Unit Tests\Rules\information-schema\information-schema-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\information-schema\information-schema-one-error.sql" />
     <Content Include="Unit Tests\Rules\information-schema\information-schema-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\data-compression\data-compression-no-error.sql" />
+    <Content Include="Unit Tests\Rules\data-compression\data-compression-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\data-compression\data-compression-one-error.sql" />
+    <Content Include="Unit Tests\Rules\data-compression\data-compression-two-errors.sql" />
     <Content Include="Unit Tests\Rules\statement-semicolon-termination\statement-semicolon-termination-no-error.sql" />
     <Content Include="Unit Tests\Rules\statement-semicolon-termination\statement-semicolon-termination-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\statement-semicolon-termination\statement-semicolon-termination-one-error.sql" />

@@ -13,11 +13,15 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
     {
         private readonly TestHelper TestHelper = new TestHelper(TestContext.CurrentContext.TestDirectory);
 
-        [TestCase("information-schema", typeof(InfirmationSchemaRule), "information-schema-no-error", 0)]
-        [TestCase("information-schema", typeof(InfirmationSchemaRule), "information-schema-one-error-mixed-state", 1)]
-        [TestCase("information-schema", typeof(InfirmationSchemaRule), "information-schema-one-error", 1)]
-        [TestCase("information-schema", typeof(InfirmationSchemaRule), "information-schema-two-errors", 2)]
+        [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-no-error", 0)]
+        [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-one-error-mixed-state", 1)]
+        [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-one-error", 1)]
+        [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-two-errors", 2)]
 
+        [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-no-error", 0)]
+        [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-one-error-mixed-state", 1)]
+        [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-one-error", 1)]
+        [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-two-errors", 2)]
 
         [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-no-error", 0)]
         [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-one-error-mixed-state", 1)]

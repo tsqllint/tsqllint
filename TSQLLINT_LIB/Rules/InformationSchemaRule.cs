@@ -3,13 +3,13 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLINT_LIB.Rules
 {
-    public class InfirmationSchemaRule : TSqlFragmentVisitor, ISqlRule
+    public class InformationSchemaRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "information-schema"; } }
         public string RULE_TEXT { get { return "Do not use the INFORMATION_SCHEMA views"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        public InfirmationSchemaRule(Action<string, string, TSqlFragment> errorCallback)
+        public InformationSchemaRule(Action<string, string, TSqlFragment> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
