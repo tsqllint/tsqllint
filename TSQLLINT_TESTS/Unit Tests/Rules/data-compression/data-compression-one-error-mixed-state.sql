@@ -5,4 +5,5 @@ WITH (DATA_COMPRESSION = ROW);
 
 CREATE TABLE MyTableTwo
 	(ID INT, 
-	Name nvarchar(50));
+	Name nvarchar(50))
+WITH (SYSTEM_VERSIONING = ON);
