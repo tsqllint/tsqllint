@@ -26,11 +26,19 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
         }
 
         [Test]
-        public void ConfigReadBadRule()
+        public void ConfigReadBadRuleName()
         {
             var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc");
             var ConfigReader = new LintConfigReader(configfilePath);
             Assert.AreEqual(RuleViolationSeverity.Off, ConfigReader.GetRuleSeverity("foo"));
+        }
+
+        [Test]
+        public void ConfigReadBadRuleSeverity()
+        {
+            var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc-bad-severity");
+            var ConfigReader = new LintConfigReader(configfilePath);
+            Assert.AreEqual(RuleViolationSeverity.Off, ConfigReader.GetRuleSeverity("select-star"));
         }
 
         [Test]
