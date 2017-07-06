@@ -18,6 +18,11 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-one-error", 1)]
         [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-two-errors", 2)]
 
+        [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-no-error", 0)]
+        [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-one-error-mixed-state", 1)]
+        [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-one-error", 1)]
+        [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-two-errors", 2)]
+
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-no-error", 0)]
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-one-error-mixed-state", 1)]
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-one-error", 1)]
