@@ -13,9 +13,21 @@ namespace TSQLLINT_LIB.Parser
     public class SqlRuleVisitor : IRuleVisitor
     {
         public List<RuleViolation> Violations { get; set; }
-        private TSql120Parser Parser;
-        private List<Type> RuleVisitors;
-        private ILintConfigReader ConfigReader;
+        private readonly TSql120Parser Parser;
+        private readonly ILintConfigReader ConfigReader;
+
+        private readonly List<Type> RuleVisitors = new List<Type>()
+        {
+            typeof(DataCompressionOptionRule),
+            typeof(DataTypeLengthRule),
+            typeof(InformationSchemaRule),
+            typeof(ObjectPropertyRule),
+            typeof(SchemaQualifyRule),
+            typeof(SelectStarRule),
+            typeof(SemicolonRule),
+            typeof(SetNoCountRule),
+            typeof(SetTransactionIsolationLevelRule)
+        };
 
         /// <summary>
         /// Configures the parser without rules
@@ -25,12 +37,6 @@ namespace TSQLLINT_LIB.Parser
             ConfigReader = configReader;
             Parser = new TSql120Parser(true);
             Violations = new List<RuleViolation>();
-
-            // get all classes that implement the ISqlRule interface
-            var type = typeof(ISqlRule);
-            RuleVisitors = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface).ToList();
         }
 
         public void VisitRules(string sqlPath, TextReader sqlTextReader)
