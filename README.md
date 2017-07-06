@@ -60,16 +60,16 @@ namespace TSQLLINT_LIB.Rules
 add your new rule type to the RuleVisitors List
 
 ```csharp
-    private readonly List<Type> RuleVisitors = new List<Type>()
-    {
-        typeof(DataCompressionOptionRule),
-        typeof(DataTypeLengthRule),
-        typeof(InformationSchemaRule),
-        typeof(ObjectPropertyRule),
-        typeof(SchemaQualifyRule),
-        typeof(SelectStarRule),
-        typeof(SemicolonRule),
-        typeof(SetNoCountRule),
-        typeof(SetTransactionIsolationLevelRule)
-    };
+private readonly List<Type> RuleVisitors = new List<Type>()
+{
+    typeof(DataCompressionOptionRule),
+    typeof(DataTypeLengthRule),
+    typeof(InformationSchemaRule),
+    typeof(ObjectPropertyRule),
+    typeof(SchemaQualifyRule),
+    typeof(SelectStarRule),
+    typeof(SemicolonRule),
+    typeof(SetNoCountRule),
+    typeof(SetTransactionIsolationLevelRule)
+};
 ```
