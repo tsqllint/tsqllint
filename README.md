@@ -32,7 +32,6 @@ TSQLLINT.exe -c .tsqllintrc -p test.sql
 ## Contributing to the project
 ### Adding a new rule
 
-```
 
 implement rule visitor in [Rules](./TSQLLINT_LIB/Rules)
 
@@ -56,4 +55,21 @@ namespace TSQLLINT_LIB.Rules
         }
     }
 }
+```
+
+add your new rule type to the RuleVisitors List
+
+```csharp
+    private readonly List<Type> RuleVisitors = new List<Type>()
+    {
+        typeof(DataCompressionOptionRule),
+        typeof(DataTypeLengthRule),
+        typeof(InformationSchemaRule),
+        typeof(ObjectPropertyRule),
+        typeof(SchemaQualifyRule),
+        typeof(SelectStarRule),
+        typeof(SemicolonRule),
+        typeof(SetNoCountRule),
+        typeof(SetTransactionIsolationLevelRule)
+    };
 ```
