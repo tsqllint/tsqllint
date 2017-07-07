@@ -46,7 +46,7 @@ build:
   project: TSQLLINT.sln           # path to Visual Studio solution or project
 
 after_build:
-  - cmd: cover
+  - cmd: ./scripts/cover
 
 #---------------------------------#
 #       tests configuration       #
