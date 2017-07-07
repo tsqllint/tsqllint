@@ -2,7 +2,7 @@
 using CommandLine;
 using CommandLine.Text;
 
-namespace TSQLLINT
+namespace TSQLLINT_CONSOLE
 {
     internal class CommandLineOptions
     {

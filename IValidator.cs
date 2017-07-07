@@ -1,4 +1,4 @@
-﻿namespace TSQLLINT
+﻿namespace TSQLLINT_CONSOLE
 {
     internal interface IValidator<T>
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
-namespace TSQLLINT
+namespace TSQLLINT_CONSOLE
 {
     public class ConsoleResultReporter : IResultReporter
     {

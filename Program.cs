@@ -2,11 +2,10 @@
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 
-namespace TSQLLINT
+namespace TSQLLINT_CONSOLE
 {
     internal class Program
     {
-
         private static void Main(string[] args)
         {
             var commandLineOptions = GetCommandLineOptions(args);

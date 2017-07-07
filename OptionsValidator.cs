@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace TSQLLINT
+namespace TSQLLINT_CONSOLE
 {
     internal class OptionsValidator : IValidator<CommandLineOptions>
     {
