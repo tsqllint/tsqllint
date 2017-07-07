@@ -57,7 +57,7 @@ namespace TSQLLINT_LIB.Rules
 }
 ```
 
-add your new rule type to the RuleVisitors List
+add your new rule type to the RuleVisitors List, reflection is expensive :)
 
 ```csharp
 private readonly List<Type> RuleVisitors = new List<Type>()
