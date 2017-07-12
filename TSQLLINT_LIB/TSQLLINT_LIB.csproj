@@ -48,6 +48,7 @@
     <Compile Include="Parser\SqlRuleVisitor.cs" />
     <Compile Include="Rules\DataTypeLengthRule.cs" />
     <Compile Include="Rules\ISqlRule.cs" />
+    <Compile Include="Rules\UpperLowerRule.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolation.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolationSeverity.cs" />
     <Compile Include="Rules\SchemaQualifyRule.cs" />

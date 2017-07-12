@@ -63,7 +63,12 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-no-error", 0)]
         [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-one-error-mixed-state", 1)]
         [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-one-error", 1)]
-            
+
+        [TestCase("upper-lower", typeof(UpperLowerRule), "upper-lower-no-error", 0)]
+        [TestCase("upper-lower", typeof(UpperLowerRule), "upper-lower-one-error-mixed-state", 1)]
+        [TestCase("upper-lower", typeof(UpperLowerRule), "upper-lower-one-error", 1)]
+        [TestCase("upper-lower", typeof(UpperLowerRule), "upper-lower-two-errors", 2)]
+  
         public void RuleTests(string rule, Type ruleType, string testFileName, int violationCount)
         {
             // arrange
