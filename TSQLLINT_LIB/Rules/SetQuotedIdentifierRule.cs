@@ -18,10 +18,9 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(SetOnOffStatement node)
+        public override void Visit(PredicateSetStatement node)
         {
-            var typedNode = node as PredicateSetStatement;
-            if (typedNode.Options == SetOptions.QuotedIdentifier)
+            if (node.Options == SetOptions.QuotedIdentifier)
             {
                 SetNoCountFound = true;
             }
@@ -40,7 +39,8 @@ namespace TSQLLINT_LIB.Rules
             {
                 var typedNode = node as PredicateSetStatement;
                 if (typedNode.Options == SetOptions.AnsiNulls || 
-                    typedNode.Options == SetOptions.QuotedIdentifier)
+                    typedNode.Options == SetOptions.QuotedIdentifier ||
+                    typedNode.Options == SetOptions.NoCount)
                 {
                     return;
                 }

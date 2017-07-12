@@ -20,8 +20,10 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(SetOnOffStatement node)
         {
+
             var typedNode = node as PredicateSetStatement;
-            if (typedNode.Options == SetOptions.AnsiNulls)
+            if (typedNode != null && 
+                typedNode.Options == SetOptions.AnsiNulls)
             {
                 SetNoCountFound = true;
             }
