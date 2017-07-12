@@ -55,6 +55,7 @@
     <Compile Include="Rules\ObjectPropertyRule.cs" />
     <Compile Include="Rules\DataCompressionOptionRule.cs" />
     <Compile Include="Rules\SelectStarRule.cs" />
+    <Compile Include="Rules\SetAnsiNullsRule.cs" />
     <Compile Include="Rules\SetNoCountRule.cs" />
     <Compile Include="Rules\SetTransactionIsolationLevelRule.cs" />
     <Compile Include="Rules\SemicolonRule.cs" />

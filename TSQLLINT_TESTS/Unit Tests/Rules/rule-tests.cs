@@ -38,6 +38,10 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-one-error", 1)]
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-two-errors", 2)]
 
+        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-no-error", 0)]
+        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error-mixed-state", 1)]
+        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error", 1)]
+
         [TestCase("select-star", typeof(SelectStarRule), "select-star-no-error", 0)]
         [TestCase("select-star", typeof(SelectStarRule), "select-star-one-error-mixed-state", 1)]
         [TestCase("select-star", typeof(SelectStarRule), "select-star-one-error", 1)]
