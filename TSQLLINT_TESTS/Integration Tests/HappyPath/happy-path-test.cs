@@ -31,13 +31,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             public void ReportResults(List<RuleViolation> violations)
             {
                 var selectStarViolations = violations.Where(x => x.RuleName == "select-star");
-                Assert.AreEqual(1, selectStarViolations.Count(), "there should be one select star violation");
-
-                var semicolonViolations = violations.Where(x => x.RuleName == "statement-semicolon-termination");
-                Assert.AreEqual(2, semicolonViolations.Count(), "there should be two semicolon violations");
-
-                var transactionLevel = violations.Where(x => x.RuleName == "set-transaction-isolation-level");
-                Assert.AreEqual(2, transactionLevel.Count(), "there should be one violation of the transaction isolation level");
+                Assert.AreEqual(2, selectStarViolations.Count(), "there should be two select star violation");
             }
         }
 
@@ -60,7 +54,44 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
         {
             public void ReportResults(List<RuleViolation> violations)
             {
-                Assert.AreEqual(2, violations.Count);
+                Assert.AreEqual(11, violations.Count);
+
+                var dataCompressionViolations = violations.Where(x => x.RuleName == "data-compression");
+                Assert.AreEqual(1, dataCompressionViolations.Count(), "there should be one data-compression violation");
+
+                var dataTypeLength = violations.Where(x => x.RuleName == "data-type-length");
+                Assert.AreEqual(1, dataTypeLength.Count(), "there should be one data-type-length violation");
+
+                var informationSchema = violations.Where(x => x.RuleName == "information-schema");
+                Assert.AreEqual(1, informationSchema.Count(), "there should be one information-schema violation");
+
+                var objectProperty = violations.Where(x => x.RuleName == "object-property");
+                Assert.AreEqual(1, objectProperty.Count(), "there should be one object-property violation");
+
+                // todo
+                //var schemaQualify = violations.Where(x => x.RuleName == "schema-qualify");
+                //Assert.AreEqual(1, schemaQualify.Count(), "there should be one schema-qualify violation");
+
+                var selectStar = violations.Where(x => x.RuleName == "select-star");
+                Assert.AreEqual(1, selectStar.Count(), "there should be one select-star violation");
+
+                var statementSemicolonTermination = violations.Where(x => x.RuleName == "statement-semicolon-termination");
+                Assert.AreEqual(1, statementSemicolonTermination.Count(), "there should be one statement-semicolon-termination violation");
+
+                var setAnsi = violations.Where(x => x.RuleName == "set-ansi");
+                Assert.AreEqual(1, setAnsi.Count(), "there should be one set-ansi violation");
+
+                var setNocount = violations.Where(x => x.RuleName == "set-nocount");
+                Assert.AreEqual(1, setNocount.Count(), "there should be one set-nocount violation");
+
+                var setTransactionIsolationLevel = violations.Where(x => x.RuleName == "set-transaction-isolation-level");
+                Assert.AreEqual(1, setTransactionIsolationLevel.Count(), "there should be one set-transaction-isolation-level violation");
+
+                var setQuoted = violations.Where(x => x.RuleName == "set-quoted");
+                Assert.AreEqual(1, setQuoted.Count(), "there should be one set-quoted violation");
+
+                var upperLower = violations.Where(x => x.RuleName == "upper-lower");
+                Assert.AreEqual(1, upperLower.Count(), "there should be one upper-lower violation");
 
                 var semicolonViolations = violations.Where(x => x.RuleName == "statement-semicolon-termination");
                 Assert.AreEqual(1, semicolonViolations.Count(), "there should be two semicolon violations");

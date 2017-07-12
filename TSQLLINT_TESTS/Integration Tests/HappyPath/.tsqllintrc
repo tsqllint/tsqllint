@@ -1,7 +1,15 @@
 {
-  'rules': {
-    'select-star': 'error',
-    'statement-semicolon-termination': 'error',
-    'set-transaction-isolation-level': 'error'
-  }
+	"rules": {
+		"data-compression": "error",
+		"data-type-length": "error",
+		"information-schema": "error",
+		"object-property": "error",
+		"select-star": "error",
+		"statement-semicolon-termination": "error",
+		"set-ansi": "error",
+		"set-nocount": "error",
+		"set-transaction-isolation-level": "error",
+		"set-quoted": "error",
+		"upper-lower": "error"
+	}
 }

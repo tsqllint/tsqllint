@@ -33,9 +33,6 @@ namespace TSQLLINT_LIB.Parser
             typeof(UpperLowerRule)
         };
 
-        /// <summary>
-        /// Configures the parser without rules
-        /// </summary>
         public SqlRuleVisitor(ILintConfigReader configReader)
         {
             ConfigReader = configReader;
