@@ -75,6 +75,9 @@
     <Content Include="Unit Tests\Rules\data-compression\data-compression-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\data-compression\data-compression-one-error.sql" />
     <Content Include="Unit Tests\Rules\data-compression\data-compression-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\set-quoted\set-quoted-no-error.sql" />
+    <Content Include="Unit Tests\Rules\set-quoted\set-quoted-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\set-quoted\set-quoted-one-error.sql" />
     <Content Include="Unit Tests\Rules\set-ansi\set-ansi-no-error.sql" />
     <Content Include="Unit Tests\Rules\set-ansi\set-ansi-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\set-ansi\set-ansi-one-error.sql" />

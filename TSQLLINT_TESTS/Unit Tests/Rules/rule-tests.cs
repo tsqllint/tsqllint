@@ -51,6 +51,10 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-one-error-mixed-state", 1)]
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-one-error", 1)]
 
+        [TestCase("set-quoted", typeof(SetQuotedIdentifierRule), "set-quoted-no-error", 0)]
+        [TestCase("set-quoted", typeof(SetQuotedIdentifierRule), "set-quoted-one-error-mixed-state", 1)]
+        [TestCase("set-quoted", typeof(SetQuotedIdentifierRule), "set-quoted-one-error", 1)]
+
         [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-no-error", 0)]
         [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-one-error-mixed-state", 1)]
         [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-one-error", 1)]
