@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using TSQLLINT_LIB.Rules.Interface;
 
 namespace TSQLLINT_LIB.Rules
 {

@@ -6,6 +6,7 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules;
+using TSQLLINT_LIB.Rules.Interface;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Parser
@@ -25,8 +26,11 @@ namespace TSQLLINT_LIB.Parser
             typeof(SchemaQualifyRule),
             typeof(SelectStarRule),
             typeof(SemicolonRule),
+            typeof(SetAnsiNullsRule),
             typeof(SetNoCountRule),
-            typeof(SetTransactionIsolationLevelRule)
+            typeof(SetQuotedIdentifierRule),
+            typeof(SetTransactionIsolationLevelRule),
+            typeof(UpperLowerRule)
         };
 
         /// <summary>

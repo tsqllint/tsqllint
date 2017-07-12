@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using TSQLLINT_LIB.Rules.Interface;
 
 namespace TSQLLINT_LIB.Rules
 {
