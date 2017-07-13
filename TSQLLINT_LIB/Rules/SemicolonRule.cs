@@ -17,6 +17,11 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlStatement node)
         {
+            if (node.GetType() == typeof(TryCatchStatement))
+            {
+                return;
+            }
+
             var lastToken = node.ScriptTokenStream[node.LastTokenIndex].TokenType;
             if (lastToken != TSqlTokenType.Semicolon)
             {
