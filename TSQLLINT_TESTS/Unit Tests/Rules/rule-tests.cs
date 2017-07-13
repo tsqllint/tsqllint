@@ -20,8 +20,9 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
 
         [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-no-error", 0)]
         [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-one-error-mixed-state", 1)]
-        [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-one-error", 1)]
+        [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-one-error", 1)] 
         [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-two-errors", 2)]
+        [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-all-errors", 11)]
 
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-no-error", 0)]
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-one-error-mixed-state", 1)]
