@@ -37,13 +37,7 @@ namespace TSQLLINT_LIB.Rules
 
             if (nodeType == typeof(PredicateSetStatement))
             {
-                var typedNode = node as PredicateSetStatement;
-                if (typedNode.Options == SetOptions.AnsiNulls || 
-                    typedNode.Options == SetOptions.QuotedIdentifier ||
-                    typedNode.Options == SetOptions.NoCount)
-                {
-                    return;
-                }
+                return;
             }
 
             if (!SetNoCountFound && !ErrorLogged)
