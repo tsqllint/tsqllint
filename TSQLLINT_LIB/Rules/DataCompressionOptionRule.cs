@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Interface;
 
@@ -29,7 +30,13 @@ namespace TSQLLINT_LIB.Rules
 
             for (var index = 0; index < node.Definition.TableConstraints.Count; index++)
             {
-                var tableConstraint = (UniqueConstraintDefinition) node.Definition.TableConstraints[index];
+                var constraint = node.Definition.TableConstraints[index];
+                if (constraint.GetType() != typeof(UniqueConstraintDefinition))
+                {
+                    continue;
+                }
+
+                var tableConstraint = (UniqueConstraintDefinition) constraint;
                 for (var i = 0; i < tableConstraint.IndexOptions.Count; i++)
                 {
                     var indexOption = tableConstraint.IndexOptions[i];
