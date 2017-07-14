@@ -26,6 +26,17 @@ namespace TSQLLINT_LIB.Rules
                 }
             }
 
+            foreach (UniqueConstraintDefinition tableConstraint in node.Definition.TableConstraints)
+            {
+                foreach (var foo in tableConstraint.IndexOptions)
+                {
+                    if (foo.OptionKind == IndexOptionKind.DataCompression)
+                    {
+                        compressionOptionExists = true;
+                    }
+                }
+            }
+
             if (!compressionOptionExists)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
