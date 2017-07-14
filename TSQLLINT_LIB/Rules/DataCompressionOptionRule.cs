@@ -18,19 +18,22 @@ namespace TSQLLINT_LIB.Rules
         public override void Visit(CreateTableStatement node)
         {
             var compressionOptionExists = false;
-            foreach (var tableOption in node.Options)
+            for (var index = 0; index < node.Options.Count; index++)
             {
+                var tableOption = node.Options[index];
                 if (tableOption.OptionKind == TableOptionKind.DataCompression)
                 {
                     compressionOptionExists = true;
                 }
             }
 
-            foreach (UniqueConstraintDefinition tableConstraint in node.Definition.TableConstraints)
+            for (var index = 0; index < node.Definition.TableConstraints.Count; index++)
             {
-                foreach (var foo in tableConstraint.IndexOptions)
+                var tableConstraint = (UniqueConstraintDefinition) node.Definition.TableConstraints[index];
+                for (var i = 0; i < tableConstraint.IndexOptions.Count; i++)
                 {
-                    if (foo.OptionKind == IndexOptionKind.DataCompression)
+                    var indexOption = tableConstraint.IndexOptions[i];
+                    if (indexOption.OptionKind == IndexOptionKind.DataCompression)
                     {
                         compressionOptionExists = true;
                     }
