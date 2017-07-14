@@ -2,3 +2,7 @@
 	(ID INT, 
 	Name nvarchar(50))
 WITH (DATA_COMPRESSION = ROW);
+
+CREATE TABLE [#SomeTempTable](
+	ID INT)
+WITH (DATA_COMPRESSION = PAGE);
