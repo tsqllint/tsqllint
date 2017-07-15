@@ -22,8 +22,7 @@ namespace TSQLLINT_LIB.Rules
                 SqlDataTypeOption.Float,
                 SqlDataTypeOption.DateTime,
                 SqlDataTypeOption.DateTimeOffset
-            };
-
+        };
 
         public DataTypeLengthRule(Action<string, string, TSqlFragment> errorCallback)
         {
