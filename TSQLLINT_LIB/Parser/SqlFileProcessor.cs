@@ -7,20 +7,24 @@ namespace TSQLLINT_LIB.Parser
     public class SqlFileProcessor : ISqlFileProcessor
     {
         private readonly IRuleVisitor RuleVisitor;
+        public int FileCount;
+
+        public int GetFileCount()
+        {
+            return FileCount;
+        }
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor)
         {
             RuleVisitor = ruleVisitor;
         }
 
-        public int ProcessPath(string path)
+        public void ProcessPath(string path)
         {
-            var fileCount = 0;
-
             if (File.Exists(path))
             {
                 ProcessFile(Utility.GetFileContents(path), path);
-                return 0;
+                return;
             }
 
             if (Directory.Exists(path))
@@ -34,7 +38,7 @@ namespace TSQLLINT_LIB.Parser
             else
             {
                 Console.WriteLine("{0} is not a valid path.", path);
-                return 0;
+                return;
             }
 
             var fileEntries = Directory.GetFiles(path);
@@ -46,10 +50,8 @@ namespace TSQLLINT_LIB.Parser
                 }
                 var fileContents = Utility.GetFileContents(fileName);
                 ProcessFile(fileContents, fileName);
-                fileCount++;
+                FileCount++;
             }
-
-            return fileCount;
         }
 
         public void ProcessFile(string fileContents, string filePath)

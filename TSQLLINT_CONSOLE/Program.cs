@@ -21,13 +21,13 @@ namespace TSQLLINT_CONSOLE
             var configReader = new LintConfigReader(commandLineOptions.ConfigFile);
             var ruleVisitor = new SqlRuleVisitor(configReader);
             var parser = new SqlFileProcessor(ruleVisitor);
-            var fileCount = parser.ProcessPath(commandLineOptions.LintPath);
+            parser.ProcessPath(commandLineOptions.LintPath);
             var reporter = new ConsoleResultReporter();
 
             stopWatch.Stop();
             TimeSpan timespan = stopWatch.Elapsed;
 
-            reporter.ReportResults(ruleVisitor.Violations, timespan, fileCount);
+            reporter.ReportResults(ruleVisitor.Violations, timespan, parser.GetFileCount());
         }
 
         private static CommandLineOptions GetCommandLineOptions(string[] args)
