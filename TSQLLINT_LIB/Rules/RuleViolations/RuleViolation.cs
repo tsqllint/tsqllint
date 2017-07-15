@@ -20,5 +20,11 @@ namespace TSQLLINT_LIB.Rules.RuleViolations
             Severity = severity;
             Text = text;
         }
+
+        public RuleViolation(string fileName, string text)
+        {
+            FileName = fileName;
+            Text = text;
+        }
     }
 }

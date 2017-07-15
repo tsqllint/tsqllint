@@ -38,7 +38,10 @@ namespace TSQLLINT_LIB.Parser
             var fileEntries = Directory.GetFiles(path);
             foreach (var fileName in fileEntries)
             {
-                if (Path.GetExtension(fileName) != ".sql") continue;
+                if (Path.GetExtension(fileName) != ".sql")
+                {
+                    continue;
+                }
                 var fileContents = Utility.GetFileContents(fileName);
                 ProcessFile(fileContents, fileName);
             }

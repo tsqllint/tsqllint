@@ -26,7 +26,15 @@ namespace TSQLLINT_LIB.Parser
 
         public void VisitRules(string sqlPath, TextReader sqlTextReader)
         {
-            var sqlFragment = GetFragment(sqlTextReader);
+            IList<ParseError> errors;
+            var sqlFragment = GetFragment(sqlTextReader, out errors);
+
+            if (errors.Count > 0)
+            {
+                Violations.Add(new RuleViolation(sqlPath, "TSQL not syntactically correct"));
+                return;
+            }
+
             foreach (var visitor in RuleVisitorBuilder.BuildVisitory(sqlPath, Violations))
             {
                 sqlFragment.Accept(visitor);
@@ -35,21 +43,14 @@ namespace TSQLLINT_LIB.Parser
 
         public void VisistRule(TextReader txtRdr, TSqlFragmentVisitor visitor)
         {
-            var sqlFragment = GetFragment(txtRdr);
+            IList<ParseError> errors;
+            var sqlFragment = GetFragment(txtRdr, out errors);
             sqlFragment.Accept(visitor);
         }
 
-        private TSqlFragment GetFragment(TextReader txtRdr)
+        private TSqlFragment GetFragment(TextReader txtRdr, out IList<ParseError> errors)
         {
-            IList<ParseError> errors;
-            var fragment = Parser.Parse(txtRdr, out errors);
-
-            if (errors.Count > 0)
-            {
-                throw new Exception(String.Format("Errors found while parsing file: {0}", errors.FirstOrDefault().Message));
-            }
-
-            return fragment;
+            return Parser.Parse(txtRdr, out errors);
         }
     }
 }
