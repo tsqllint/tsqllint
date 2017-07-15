@@ -8,7 +8,7 @@ using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Parser
 {
-    class RuleVisitorBuilder
+    public class RuleVisitorBuilder
     {
         private readonly ILintConfigReader ConfigReader;
         private readonly List<Type> RuleVisitors = new List<Type>()

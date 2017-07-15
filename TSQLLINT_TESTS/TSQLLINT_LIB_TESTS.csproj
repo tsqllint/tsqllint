@@ -45,6 +45,7 @@
     <Compile Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\invalid-lint-file-path-test.cs" />
     <Compile Include="Integration Tests\ExceptionalCases\invalid-syntax\invalid-syntax-test.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="Unit Tests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
     <None Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
     <None Include="Integration Tests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
     <None Include="Integration Tests\HappyPath\.tsqllintrc" />
@@ -104,6 +105,7 @@
     <None Include="Unit Tests\Config\.tsqllintrc-bad-json" />
     <None Include="Unit Tests\Config\.tsqllintrc-bad-severity" />
     <None Include="Unit Tests\Config\.tsqllintrc-missing-rules" />
+    <None Include="Unit Tests\RuleVisitorBuilder\.tsqllintrc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
