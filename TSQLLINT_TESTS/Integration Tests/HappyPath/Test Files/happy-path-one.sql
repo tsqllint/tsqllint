@@ -13,12 +13,10 @@ SELECT FOO FROM BAR;
 -- select star discouraged
 SELECT * FROM dbo.BAR;
 
----- create table without compression or data length
+-- create table without compression or data length
 CREATE TABLE [dbo].[MyTable]
 	([ID] INT, 
-	[Name] nvarchar);
-
--- todo add update table without schema
+	 [Name] nvarchar);
 
 -- checking information schema rather than sys tables
 SELECT TABLE_CATALOG FROM dbo.SomeDatabase.INFORMATION_SCHEMA.COLUMNS;

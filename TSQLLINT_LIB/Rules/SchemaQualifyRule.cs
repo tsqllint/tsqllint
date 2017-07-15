@@ -15,9 +15,15 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(SchemaObjectName node)
+        public override void Visit(NamedTableReference node)
         {
-            if (node.SchemaIdentifier == null)
+            if (node.SchemaObject.SchemaIdentifier != null)
+            {
+                return;
+            }
+            
+            // don't enforce schema validation on temp tables
+            if (!node.SchemaObject.BaseIdentifier.Value.Contains("#"))
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
             }
