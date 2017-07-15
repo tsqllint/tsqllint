@@ -35,7 +35,7 @@ namespace TSQLLINT_LIB.Parser
                 return;
             }
 
-            foreach (var visitor in RuleVisitorBuilder.BuildVisitory(sqlPath, Violations))
+            foreach (var visitor in RuleVisitorBuilder.BuildVisitors(sqlPath, Violations))
             {
                 sqlFragment.Accept(visitor);
             }
