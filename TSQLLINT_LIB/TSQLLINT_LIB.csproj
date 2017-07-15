@@ -44,6 +44,7 @@
     <Compile Include="Parser\Interfaces\IResultReporter.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />
+    <Compile Include="Parser\RuleVisitorBuilder.cs" />
     <Compile Include="Parser\SqlFileProcessor.cs" />
     <Compile Include="Parser\SqlRuleVisitor.cs" />
     <Compile Include="Rules\DataTypeLengthRule.cs" />

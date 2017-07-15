@@ -15,61 +15,19 @@ namespace TSQLLINT_LIB.Parser
     {
         public List<RuleViolation> Violations { get; set; }
         private readonly TSql120Parser Parser;
-        private readonly ILintConfigReader ConfigReader;
-
-        private readonly List<Type> RuleVisitors = new List<Type>()
-        {
-            typeof(DataCompressionOptionRule),
-            typeof(DataTypeLengthRule),
-            typeof(InformationSchemaRule),
-            typeof(ObjectPropertyRule),
-            typeof(SchemaQualifyRule),
-            typeof(SelectStarRule),
-            typeof(SemicolonRule),
-            typeof(SetAnsiNullsRule),
-            typeof(SetNoCountRule),
-            typeof(SetQuotedIdentifierRule),
-            typeof(SetTransactionIsolationLevelRule),
-            typeof(UpperLowerRule)
-        };
+        private RuleVisitorBuilder RuleVisitorBuilder;
 
         public SqlRuleVisitor(ILintConfigReader configReader)
         {
-            ConfigReader = configReader;
             Parser = new TSql120Parser(true);
             Violations = new List<RuleViolation>();
+            RuleVisitorBuilder = new RuleVisitorBuilder(configReader);
         }
 
         public void VisitRules(string sqlPath, TextReader sqlTextReader)
         {
-            var configuredVisitors = new List<TSqlFragmentVisitor>();
-
-            for (var index = 0; index < RuleVisitors.Count; index++)
-            {
-                var visitor = RuleVisitors[index];
-
-                Action<string, string, TSqlFragment> ErrorCallback =
-                    delegate(string ruleName, string ruleText, TSqlFragment node)
-                    {
-                        Violations.Add(new RuleViolation(
-                            sqlPath,
-                            ruleName,
-                            ruleText,
-                            node,
-                            ConfigReader.GetRuleSeverity(ruleName)));
-                    };
-
-                var visitorInstance = (ISqlRule) Activator.CreateInstance(visitor, ErrorCallback);
-                var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
-
-                if (severity == RuleViolationSeverity.Error || severity == RuleViolationSeverity.Warning)
-                {
-                    configuredVisitors.Add((TSqlFragmentVisitor) visitorInstance);
-                }
-            }
-
             var sqlFragment = GetFragment(sqlTextReader);
-            foreach (var visitor in configuredVisitors)
+            foreach (var visitor in RuleVisitorBuilder.BuildVisitory(sqlPath, Violations))
             {
                 sqlFragment.Accept(visitor);
             }
