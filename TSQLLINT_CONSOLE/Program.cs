@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 
@@ -8,6 +9,9 @@ namespace TSQLLINT_CONSOLE
     {
         private static void Main(string[] args)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             var commandLineOptions = GetCommandLineOptions(args);
             if (commandLineOptions == null)
             {
@@ -16,11 +20,14 @@ namespace TSQLLINT_CONSOLE
 
             var configReader = new LintConfigReader(commandLineOptions.ConfigFile);
             var ruleVisitor = new SqlRuleVisitor(configReader);
-            var reporter = new ConsoleResultReporter();
             var parser = new SqlFileProcessor(ruleVisitor);
+            var fileCount = parser.ProcessPath(commandLineOptions.LintPath);
+            var reporter = new ConsoleResultReporter();
 
-            parser.ProcessPath(commandLineOptions.LintPath);
-            reporter.ReportResults(ruleVisitor.Violations);
+            stopWatch.Stop();
+            TimeSpan timespan = stopWatch.Elapsed;
+
+            reporter.ReportResults(ruleVisitor.Violations, timespan, fileCount);
         }
 
         private static CommandLineOptions GetCommandLineOptions(string[] args)

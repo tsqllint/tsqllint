@@ -13,12 +13,14 @@ namespace TSQLLINT_LIB.Parser
             RuleVisitor = ruleVisitor;
         }
 
-        public void ProcessPath(string path)
+        public int ProcessPath(string path)
         {
+            var fileCount = 0;
+
             if (File.Exists(path))
             {
                 ProcessFile(Utility.GetFileContents(path), path);
-                return;
+                return 0;
             }
 
             if (Directory.Exists(path))
@@ -32,7 +34,7 @@ namespace TSQLLINT_LIB.Parser
             else
             {
                 Console.WriteLine("{0} is not a valid path.", path);
-                return;
+                return 0;
             }
 
             var fileEntries = Directory.GetFiles(path);
@@ -44,7 +46,10 @@ namespace TSQLLINT_LIB.Parser
                 }
                 var fileContents = Utility.GetFileContents(fileName);
                 ProcessFile(fileContents, fileName);
+                fileCount++;
             }
+
+            return fileCount;
         }
 
         public void ProcessFile(string fileContents, string filePath)

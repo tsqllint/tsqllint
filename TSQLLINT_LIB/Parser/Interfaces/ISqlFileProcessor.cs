@@ -2,7 +2,7 @@
 {
     public interface ISqlFileProcessor
     {
-        void ProcessPath(string path);
+        int ProcessPath(string path);
         void ProcessFile(string fileContents, string filePath);
     }
 }
