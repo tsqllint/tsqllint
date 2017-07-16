@@ -66,6 +66,9 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
                 var dataTypeLength = violations.Where(x => x.RuleName == "data-type-length");
                 Assert.AreEqual(1, dataTypeLength.Count(), "there should be one data-type-length violation");
 
+                var disallowCursors = violations.Where(x => x.RuleName == "disallow-cursors");
+                Assert.AreEqual(1, disallowCursors.Count(), "there should be one disallow-cursors violation");
+
                 var informationSchema = violations.Where(x => x.RuleName == "information-schema");
                 Assert.AreEqual(1, informationSchema.Count(), "there should be one information-schema violation");
 

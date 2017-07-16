@@ -30,3 +30,6 @@ PRINT 'Foo';
 -- conditional blocks should contain being end blocks
 IF(1 = 1)
     SELECT 1 FROM DBO.FOO;
+
+-- disallow cursors
+OPEN some_cursor;

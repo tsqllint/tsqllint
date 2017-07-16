@@ -29,6 +29,11 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-two-errors", 2)]
         [TestCase("data-type-length", typeof(DataTypeLengthRule), "data-type-length-all-errors", 11)]
 
+        [TestCase("disallow-cursors", typeof(DisallowCursorRule), "disallow-cursors-no-error", 0)]
+        [TestCase("disallow-cursors", typeof(DisallowCursorRule), "disallow-cursors-one-error-mixed-state", 1)]
+        [TestCase("disallow-cursors", typeof(DisallowCursorRule), "disallow-cursors-one-error", 1)]
+        [TestCase("disallow-cursors", typeof(DisallowCursorRule), "disallow-cursors-two-errors", 2)]
+
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-no-error", 0)]
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-one-error-mixed-state", 1)]
         [TestCase("information-schema", typeof(InformationSchemaRule), "information-schema-one-error", 1)]

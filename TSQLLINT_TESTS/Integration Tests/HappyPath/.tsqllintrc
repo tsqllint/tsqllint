@@ -3,6 +3,7 @@
         "conditional-begin-end": "error",
         "data-compression": "error",
         "data-type-length": "error",
+        "disallow-cursors": "error",
         "information-schema": "error",
         "object-property": "error",
         "print-statement": "error",

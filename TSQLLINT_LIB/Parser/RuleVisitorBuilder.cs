@@ -16,6 +16,7 @@ namespace TSQLLINT_LIB.Parser
             typeof(ConditionalBeginEndRule),
             typeof(DataCompressionOptionRule),
             typeof(DataTypeLengthRule),
+            typeof(DisallowCursorRule),
             typeof(InformationSchemaRule),
             typeof(ObjectPropertyRule),
             typeof(PrintStatementRule),
