@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class UpperLowerRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "upper-lower"; } }
-        public string RULE_TEXT { get { return "Use of the UPPER or LOWER functions is not required when running database in case insensitive mode."; } }
+        public string RULE_TEXT { get { return "Use of the UPPER or LOWER functions is not required when running database in case insensitive mode"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         public UpperLowerRule(Action<string, string, TSqlFragment> errorCallback)

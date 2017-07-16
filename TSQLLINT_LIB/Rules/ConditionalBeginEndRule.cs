@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class ConditionalBeginEndRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME {get { return "conditional-begin-end";}}
-        public string RULE_TEXT { get { return "Conditional logic blocks must use BEGIN and END statements."; } }
+        public string RULE_TEXT { get { return "Conditional logic blocks must use BEGIN and END statements"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         public ConditionalBeginEndRule(Action<string, string, TSqlFragment> errorCallback)

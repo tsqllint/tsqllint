@@ -11,7 +11,6 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
 {
     public class IntegrationHappyPathCases
     {
-
         [Test]
         public void HappyPathLintDirectory()
         {
@@ -34,7 +33,6 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             {
                 var selectStarViolations = violations.Where(x => x.RuleName == "select-star");
                 Assert.AreEqual(2, selectStarViolations.Count(), "there should be two select star violation");
-
             }
         }
 

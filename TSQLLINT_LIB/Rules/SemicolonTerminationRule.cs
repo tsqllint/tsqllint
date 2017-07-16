@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class SemicolonTerminationRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME {get { return "semicolon-termination";}}
-        public string RULE_TEXT { get { return "Terminate statements with semicolon."; } }
+        public string RULE_TEXT { get { return "Terminate statements with semicolon"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         public SemicolonTerminationRule(Action<string, string, TSqlFragment> errorCallback)
