@@ -10,7 +10,7 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "Type length must be specified"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        private readonly SqlDataTypeOption[] RequireLength = {
+        private readonly SqlDataTypeOption[] TypesThatRequireLength = {
                 SqlDataTypeOption.Char,
                 SqlDataTypeOption.VarChar,
                 SqlDataTypeOption.NVarChar,
@@ -31,9 +31,9 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(SqlDataTypeReference node)
         {
-            for (var i = 0; i < RequireLength.Length; i++)
+            for (var i = 0; i < TypesThatRequireLength.Length; i++)
             {
-                var option = RequireLength[i];
+                var option = TypesThatRequireLength[i];
                 if (Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1)
                 {
                     ErrorCallback(RULE_NAME, RULE_TEXT, node);
