@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Interface;
 
