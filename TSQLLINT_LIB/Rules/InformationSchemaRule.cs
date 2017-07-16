@@ -20,9 +20,7 @@ namespace TSQLLINT_LIB.Rules
 
             var schemaIdentifier = node.SchemaIdentifier != null && node.SchemaIdentifier.Value != null;
 
-            if ( 
-                schemaIdentifier 
-                && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
+            if (schemaIdentifier && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
             }
