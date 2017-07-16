@@ -8,7 +8,7 @@ namespace TSQLLINT_LIB.Rules
     public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "schema-qualify"; } }
-        public string RULE_TEXT { get { return "Schema qualify all object names"; } }
+        public string RULE_TEXT { get { return "Schema qualify all object names."; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         private List<string> TableAliases = new List<string>
@@ -25,9 +25,9 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlStatement node)
         {
-            var aliasVisitor = new AliasVisitor();
-            node.AcceptChildren(aliasVisitor);
-            TableAliases.AddRange(aliasVisitor.TableAliases);
+            var childAliasVisitor = new ChildAliasVisitor();
+            node.AcceptChildren(childAliasVisitor);
+            TableAliases.AddRange(childAliasVisitor.TableAliases);
         }
 
         public override void Visit(NamedTableReference node)
@@ -51,23 +51,23 @@ namespace TSQLLINT_LIB.Rules
 
             ErrorCallback(RULE_NAME, RULE_TEXT, node);
         }
-    }
 
-    public class AliasVisitor : TSqlFragmentVisitor
-    {
-        public List<string> TableAliases = new List<string>();
-
-        public override void Visit(TableReferenceWithAlias node)
+        public class ChildAliasVisitor : TSqlFragmentVisitor
         {
-            if (node.Alias != null)
+            public List<string> TableAliases = new List<string>();
+
+            public override void Visit(TableReferenceWithAlias node)
             {
-                TableAliases.Add(node.Alias.Value);
+                if (node.Alias != null)
+                {
+                    TableAliases.Add(node.Alias.Value);
+                }
             }
-        }
 
-        public override void Visit(CommonTableExpression node)
-        {
-            TableAliases.Add(node.ExpressionName.Value);
+            public override void Visit(CommonTableExpression node)
+            {
+                TableAliases.Add(node.ExpressionName.Value);
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class SetQuotedIdentifierRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "set-quoted-identifier"; } }
-        public string RULE_TEXT { get { return "Place SET QUOTED_IDENTIFIER ON at top of file"; } }
+        public string RULE_TEXT { get { return "Place SET QUOTED_IDENTIFIER ON near top of file."; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         private bool ErrorLogged;

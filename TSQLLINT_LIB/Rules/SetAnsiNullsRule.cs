@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class SetAnsiNullsRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "set-ansi"; } }
-        public string RULE_TEXT { get { return "SET ANSI_NULLS ON at top of file"; } }
+        public string RULE_TEXT { get { return "SET ANSI_NULLS ON near top of file."; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         private bool ErrorLogged;

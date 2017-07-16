@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class SetNoCountRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "set-nocount"; } }
-        public string RULE_TEXT { get { return "SET NOCOUNT ON at top of file"; } }
+        public string RULE_TEXT { get { return "SET NOCOUNT ON near top of file."; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         private bool ErrorLogged;

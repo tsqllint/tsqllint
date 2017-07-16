@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class ObjectPropertyRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "object-property"; } }
-        public string RULE_TEXT { get { return "Use sys.columns query instead of objectProperty function"; } }
+        public string RULE_TEXT { get { return "Use SYS.Columns instead of ObjectProperty function."; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
         public ObjectPropertyRule(Action<string, string, TSqlFragment> errorCallback)
