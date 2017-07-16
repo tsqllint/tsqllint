@@ -11,7 +11,12 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "Schema qualify all object names"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        private List<string> TableAliases = new List<string>();
+        private List<string> TableAliases = new List<string>
+        {
+            "INSERTED",
+            "UPDATED",
+            "DELETED"
+        };
 
         public SchemaQualifyRule(Action<string, string, TSqlFragment> errorCallback)
         {
@@ -20,9 +25,9 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlStatement node)
         {
-            var tableAliasVisitor = new TableAliasVisitor();
-            node.AcceptChildren(tableAliasVisitor);
-            TableAliases = tableAliasVisitor.TableAliases;
+            var aliasVisitor = new AliasVisitor();
+            node.AcceptChildren(aliasVisitor);
+            TableAliases.AddRange(aliasVisitor.TableAliases);
         }
 
         public override void Visit(NamedTableReference node)
@@ -39,7 +44,7 @@ namespace TSQLLINT_LIB.Rules
             }
 
             // don't attempt to enforce schema validation on table aliases
-            if (TableAliases.Contains(node.SchemaObject.BaseIdentifier.Value))
+            if (TableAliases.FindIndex(x => x.Equals(node.SchemaObject.BaseIdentifier.Value, StringComparison.OrdinalIgnoreCase)) != -1)
             {
                 return;
             }
@@ -48,7 +53,7 @@ namespace TSQLLINT_LIB.Rules
         }
     }
 
-    public class TableAliasVisitor : TSqlFragmentVisitor
+    public class AliasVisitor : TSqlFragmentVisitor
     {
         public List<string> TableAliases = new List<string>();
 
@@ -58,6 +63,11 @@ namespace TSQLLINT_LIB.Rules
             {
                 TableAliases.Add(node.Alias.Value);
             }
+        }
+
+        public override void Visit(CommonTableExpression node)
+        {
+            TableAliases.Add(node.ExpressionName.Value);
         }
     }
 }
