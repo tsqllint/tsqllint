@@ -13,6 +13,7 @@ namespace TSQLLINT_LIB.Parser
         private readonly ILintConfigReader ConfigReader;
         private readonly List<Type> RuleVisitors = new List<Type>()
         {
+            typeof(ConditionalBeginEndRule),
             typeof(DataCompressionOptionRule),
             typeof(DataTypeLengthRule),
             typeof(InformationSchemaRule),

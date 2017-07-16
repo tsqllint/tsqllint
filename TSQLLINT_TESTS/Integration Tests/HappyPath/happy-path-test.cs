@@ -60,7 +60,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
                 Assert.AreEqual(14, violations.Count);
 
                 var conditionalBeginEnd = violations.Where(x => x.RuleName == "conditional-begin-end");
-                Assert.AreEqual(1, conditionalBeginEnd.Count(), "there should be one conditionanl-begin-end violation");
+                Assert.AreEqual(1, conditionalBeginEnd.Count(), "there should be one conditional-begin-end violation");
 
                 var dataCompressionViolations = violations.Where(x => x.RuleName == "data-compression");
                 Assert.AreEqual(1, dataCompressionViolations.Count(), "there should be one data-compression violation");
