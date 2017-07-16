@@ -49,27 +49,27 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-one-error", 1)]
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-two-errors", 2)]
 
-        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-no-error", 0)]
-        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error-mixed-state", 1)]
-        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error", 1)]
-
         [TestCase("select-star", typeof(SelectStarRule), "select-star-no-error", 0)]
         [TestCase("select-star", typeof(SelectStarRule), "select-star-one-error-mixed-state", 1)]
         [TestCase("select-star", typeof(SelectStarRule), "select-star-one-error", 1)]
         [TestCase("select-star", typeof(SelectStarRule), "select-star-two-errors", 2)]
 
+        [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-no-error", 0)]
+        [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-one-error-mixed-state", 1)]
+        [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-one-error", 1)]
+        [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-two-errors", 2)]
+
+        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-no-error", 0)]
+        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error-mixed-state", 1)]
+        [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error", 1)]
+
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-no-error", 0)]
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-one-error-mixed-state", 1)]
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-one-error", 1)]
 
-        [TestCase("set-quoted", typeof(SetQuotedIdentifierRule), "set-quoted-no-error", 0)]
-        [TestCase("set-quoted", typeof(SetQuotedIdentifierRule), "set-quoted-one-error-mixed-state", 1)]
-        [TestCase("set-quoted", typeof(SetQuotedIdentifierRule), "set-quoted-one-error", 1)]
-
-        [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-no-error", 0)]
-        [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-one-error-mixed-state", 1)]
-        [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-one-error", 1)]
-        [TestCase("statement-semicolon-termination", typeof(SemicolonRule), "statement-semicolon-termination-two-errors", 2)]
+        [TestCase("set-quoted-identifier", typeof(SetQuotedIdentifierRule), "set-quoted-identifier-no-error", 0)]
+        [TestCase("set-quoted-identifier", typeof(SetQuotedIdentifierRule), "set-quoted-identifier-one-error-mixed-state", 1)]
+        [TestCase("set-quoted-identifier", typeof(SetQuotedIdentifierRule), "set-quoted-identifier-one-error", 1)]
 
         [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-no-error", 0)]
         [TestCase("set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule), "set-transaction-isolation-level-one-error-mixed-state", 1)]

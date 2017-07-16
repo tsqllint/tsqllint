@@ -6,13 +6,13 @@
         "information-schema": "error",
         "object-property": "error",
         "print-statement": "error",
-        "select-star": "error",
         "schema-qualify": "error",
-        "statement-semicolon-termination": "error",
+        "select-star": "error",
+        "semicolon-termination": "error",
         "set-ansi": "error",
         "set-nocount": "error",
+        "set-quoted-identifier": "error",
         "set-transaction-isolation-level": "error",
-        "set-quoted": "error",
         "upper-lower": "error"
     }
 }

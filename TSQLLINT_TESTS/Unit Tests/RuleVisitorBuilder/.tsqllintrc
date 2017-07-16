@@ -2,6 +2,6 @@
     'rules': {
         'schema-qualify': 'off',
         'select-star': 'warning',
-        'statement-semicolon-termination': 'error'
+        'semicolon-termination': 'error'
     }
 }

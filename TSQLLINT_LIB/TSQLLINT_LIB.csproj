@@ -63,7 +63,7 @@
     <Compile Include="Rules\SetAnsiNullsRule.cs" />
     <Compile Include="Rules\SetNoCountRule.cs" />
     <Compile Include="Rules\SetTransactionIsolationLevelRule.cs" />
-    <Compile Include="Rules\SemicolonRule.cs" />
+    <Compile Include="Rules\SemicolonTerminationRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>

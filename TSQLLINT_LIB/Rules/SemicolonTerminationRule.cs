@@ -4,13 +4,13 @@ using TSQLLINT_LIB.Rules.Interface;
 
 namespace TSQLLINT_LIB.Rules
 {
-    public class SemicolonRule : TSqlFragmentVisitor, ISqlRule
+    public class SemicolonTerminationRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME {get { return "statement-semicolon-termination";}}
+        public string RULE_NAME {get { return "semicolon-termination";}}
         public string RULE_TEXT { get { return "Terminate statements with semicolon"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        public SemicolonRule(Action<string, string, TSqlFragment> errorCallback)
+        public SemicolonTerminationRule(Action<string, string, TSqlFragment> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
