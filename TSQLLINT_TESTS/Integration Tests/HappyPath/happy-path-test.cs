@@ -57,8 +57,6 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
         {
             public void ReportResults(List<RuleViolation> violations)
             {
-                //Assert.AreEqual(14, violations.Count);
-
                 var conditionalBeginEnd = violations.Where(x => x.RuleName == "conditional-begin-end");
                 Assert.AreEqual(1, conditionalBeginEnd.Count(), "there should be one conditional-begin-end violation");
 
@@ -92,18 +90,14 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
                 var setNocount = violations.Where(x => x.RuleName == "set-nocount");
                 Assert.AreEqual(1, setNocount.Count(), "there should be one set-nocount violation");
 
-                var setTransactionIsolationLevel = violations.Where(x => x.RuleName == "set-transaction-isolation-level");
-                Assert.AreEqual(1, setTransactionIsolationLevel.Count(), "there should be one set-transaction-isolation-level violation");
-
                 var setQuoted = violations.Where(x => x.RuleName == "set-quoted-identifier");
                 Assert.AreEqual(1, setQuoted.Count(), "there should be one set-quoted-identifier violation");
 
+                var setTransactionIsolationLevel = violations.Where(x => x.RuleName == "set-transaction-isolation-level");
+                Assert.AreEqual(1, setTransactionIsolationLevel.Count(), "there should be one set-transaction-isolation-level violation");
+
                 var upperLower = violations.Where(x => x.RuleName == "upper-lower");
                 Assert.AreEqual(1, upperLower.Count(), "there should be one upper-lower violation");
-
-                var transactionLevel = violations.Where(x => x.RuleName == "set-transaction-isolation-level");
-                Assert.AreEqual(1, transactionLevel.Count(), "there should be one violation of the transaction isolation level");
-            
             }
         }
     }
