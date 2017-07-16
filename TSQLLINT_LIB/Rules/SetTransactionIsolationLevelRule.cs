@@ -22,8 +22,8 @@ namespace TSQLLINT_LIB.Rules
         {
             var nodeType = node.GetType();
 
-            // Allow ansi nulls, nocount, and quoted identifier statements, as well as other predicates
-            // to precede isolation level statements
+            // Allow ansi nulls, nocount, and quoted identifier statements, 
+            // as well as other predicates to precede isolation level statements
             if (nodeType == typeof(PredicateSetStatement))
             {
                 return;

@@ -17,38 +17,22 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(CreateTableStatement node)
         {
-            var compressionOptionExists = false;
-            for (var index = 0; index < node.Options.Count; index++)
-            {
-                var tableOption = node.Options[index];
-                if (tableOption.OptionKind == TableOptionKind.DataCompression)
-                {
-                    compressionOptionExists = true;
-                }
-            }
+            var childCompressionVisitor = new childCompressionVisitor();
+            node.AcceptChildren(childCompressionVisitor);
 
-            for (var index = 0; index < node.Definition.TableConstraints.Count; index++)
-            {
-                var constraint = node.Definition.TableConstraints[index];
-                if (constraint.GetType() != typeof(UniqueConstraintDefinition))
-                {
-                    continue;
-                }
-
-                var tableConstraint = (UniqueConstraintDefinition) constraint;
-                for (var i = 0; i < tableConstraint.IndexOptions.Count; i++)
-                {
-                    var indexOption = tableConstraint.IndexOptions[i];
-                    if (indexOption.OptionKind == IndexOptionKind.DataCompression)
-                    {
-                        compressionOptionExists = true;
-                    }
-                }
-            }
-
-            if (!compressionOptionExists)
+            if (!childCompressionVisitor.compressionOptionExists)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
+            }
+        }
+
+        public class childCompressionVisitor : TSqlFragmentVisitor
+        {
+            public bool compressionOptionExists;
+
+            public override void Visit(DataCompressionOption node)
+            {
+                compressionOptionExists = true;
             }
         }
     }
