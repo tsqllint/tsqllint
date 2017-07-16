@@ -15,8 +15,8 @@ SELECT * FROM dbo.BAR;
 
 -- create table without compression or data length
 CREATE TABLE [dbo].[MyTable]
-	([ID] INT, 
-	 [Name] nvarchar);
+    ([ID] INT, 
+     [Name] nvarchar);
 
 -- checking information schema rather than sys tables
 SELECT TABLE_CATALOG FROM dbo.SomeDatabase.INFORMATION_SCHEMA.COLUMNS;
@@ -32,3 +32,7 @@ SET NOCOUNT ON;
 
 -- print statements should not be allowed
 PRINT 'Foo';
+
+-- conditional blocks should contain being end blocks
+IF(1 = 1)
+    SELECT 1;

@@ -65,6 +65,10 @@
     <Content Include="Unit Tests\Rules\print-statement\print-statement-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\print-statement\print-statement-one-error.sql" />
     <Content Include="Unit Tests\Rules\print-statement\print-statement-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\conditional-begin-end\conditional-begin-end-no-error.sql" />
+    <Content Include="Unit Tests\Rules\conditional-begin-end\conditional-begin-end-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\conditional-begin-end\conditional-begin-end-one-error.sql" />
+    <Content Include="Unit Tests\Rules\conditional-begin-end\conditional-begin-end-two-errors.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-no-error.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-one-error.sql" />

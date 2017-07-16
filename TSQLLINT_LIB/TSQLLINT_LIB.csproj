@@ -50,6 +50,7 @@
     <Compile Include="Rules\DataTypeLengthRule.cs" />
     <Compile Include="Rules\Interface\ISqlRule.cs" />
     <Compile Include="Rules\PrintStatementRule.cs" />
+    <Compile Include="Rules\ConditionalBeginEndRule.cs" />
     <Compile Include="Rules\UpperLowerRule.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolation.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolationSeverity.cs" />

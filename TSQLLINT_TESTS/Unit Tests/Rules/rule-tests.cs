@@ -13,6 +13,11 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
     {
         private readonly TestHelper TestHelper = new TestHelper(TestContext.CurrentContext.TestDirectory);
 
+        [TestCase("conditional-begin-end", typeof(ConditionalBeginEndRule), "conditional-begin-end-no-error", 0)]
+        [TestCase("conditional-begin-end", typeof(ConditionalBeginEndRule), "conditional-begin-end-one-error-mixed-state", 1)]
+        [TestCase("conditional-begin-end", typeof(ConditionalBeginEndRule), "conditional-begin-end-one-error", 1)]
+        [TestCase("conditional-begin-end", typeof(ConditionalBeginEndRule), "conditional-begin-end-two-errors", 2)]
+
         [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-no-error", 0)]
         [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-one-error-mixed-state", 1)]
         [TestCase("data-compression", typeof(DataCompressionOptionRule), "data-compression-one-error", 1)]
@@ -33,6 +38,11 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-one-error-mixed-state", 1)]
         [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-one-error", 1)]
         [TestCase("object-property", typeof(ObjectPropertyRule), "object-property-two-errors", 2)]
+
+        [TestCase("print-statement", typeof(PrintStatementRule), "print-statement-no-error", 0)]
+        [TestCase("print-statement", typeof(PrintStatementRule), "print-statement-one-error-mixed-state", 1)]
+        [TestCase("print-statement", typeof(PrintStatementRule), "print-statement-one-error", 1)]
+        [TestCase("print-statement", typeof(PrintStatementRule), "print-statement-two-errors", 2)]
 
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-no-error", 0)]
         [TestCase("schema-qualify", typeof(SchemaQualifyRule), "schema-qualify-one-error-mixed-state", 1)]

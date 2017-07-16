@@ -1,0 +1,4 @@
+﻿IF(1 = 1)
+BEGIN;
+    SELECT 1
+END;
