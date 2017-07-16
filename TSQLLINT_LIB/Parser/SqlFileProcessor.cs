@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Parser
@@ -21,6 +22,9 @@ namespace TSQLLINT_LIB.Parser
 
         public void ProcessPath(string path)
         {
+            // remove double quotes from path
+            path = path.Replace("\"", "");
+
             if (File.Exists(path))
             {
                 ProcessFile(Utility.GetFileContents(path), path);
