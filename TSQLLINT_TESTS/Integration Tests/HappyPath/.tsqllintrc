@@ -1,5 +1,6 @@
 {
     "rules": {
+        "conditional-begin-end":  "error",
         "data-compression": "error",
         "data-type-length": "error",
         "information-schema": "error",
