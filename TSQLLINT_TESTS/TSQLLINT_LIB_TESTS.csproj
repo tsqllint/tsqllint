@@ -61,6 +61,10 @@
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-one-error.sql" />
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\print-statement\print-statement-no-error.sql" />
+    <Content Include="Unit Tests\Rules\print-statement\print-statement-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\print-statement\print-statement-one-error.sql" />
+    <Content Include="Unit Tests\Rules\print-statement\print-statement-two-errors.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-no-error.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-one-error.sql" />

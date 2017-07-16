@@ -57,7 +57,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
         {
             public void ReportResults(List<RuleViolation> violations)
             {
-                Assert.AreEqual(12, violations.Count);
+                Assert.AreEqual(13, violations.Count);
 
                 var dataCompressionViolations = violations.Where(x => x.RuleName == "data-compression");
                 Assert.AreEqual(1, dataCompressionViolations.Count(), "there should be one data-compression violation");
@@ -70,6 +70,9 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
 
                 var objectProperty = violations.Where(x => x.RuleName == "object-property");
                 Assert.AreEqual(1, objectProperty.Count(), "there should be one object-property violation");
+
+                var printStatement = violations.Where(x => x.RuleName == "print-statement");
+                Assert.AreEqual(1, printStatement.Count(), "there should be one print-statement violation");
 
                 var schemaQualify = violations.Where(x => x.RuleName == "schema-qualify");
                 Assert.AreEqual(1, schemaQualify.Count(), "there should be one schema-qualify violation");

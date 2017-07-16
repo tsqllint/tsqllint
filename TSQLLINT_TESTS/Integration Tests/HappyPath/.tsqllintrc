@@ -4,6 +4,7 @@
         "data-type-length": "error",
         "information-schema": "error",
         "object-property": "error",
+        "print-statement": "error",
         "select-star": "error",
         "schema-qualify": "error",
         "statement-semicolon-termination": "error",

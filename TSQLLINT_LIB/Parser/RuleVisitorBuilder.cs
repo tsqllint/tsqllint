@@ -17,6 +17,7 @@ namespace TSQLLINT_LIB.Parser
             typeof(DataTypeLengthRule),
             typeof(InformationSchemaRule),
             typeof(ObjectPropertyRule),
+            typeof(PrintStatementRule),
             typeof(SchemaQualifyRule),
             typeof(SelectStarRule),
             typeof(SemicolonRule),
