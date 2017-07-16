@@ -19,16 +19,10 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(ExistsPredicate node)
         {
-            var selectStarExpressionsInPredicate = 0;
-            for (var index = 0; index < ((QuerySpecification) (node.Subquery.QueryExpression)).SelectElements.Count; index++)
-            {
-                var x = ((QuerySpecification) (node.Subquery.QueryExpression)).SelectElements[index];
-                if (x.GetType() == typeof(SelectStarExpression))
-                {
-                    selectStarExpressionsInPredicate++;
-                }
-            }
-            expressionCounter += selectStarExpressionsInPredicate;
+            // count select star expressions in predicate
+            var childVisitor = new ChildVisitor();
+            node.AcceptChildren(childVisitor);
+            expressionCounter += childVisitor.SelectStarExpressionCount;
         }
 
         public override void Visit(SelectStarExpression node)
@@ -40,6 +34,15 @@ namespace TSQLLINT_LIB.Rules
             }
 
             ErrorCallback(RULE_NAME, RULE_TEXT, node);
+        }
+
+        public class ChildVisitor : TSqlFragmentVisitor
+        {
+            public int SelectStarExpressionCount = 0;
+            public override void Visit(SelectStarExpression node)
+            {
+                SelectStarExpressionCount++;
+            }
         }
     }
 }
