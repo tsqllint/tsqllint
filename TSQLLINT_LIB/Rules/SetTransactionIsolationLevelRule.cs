@@ -10,7 +10,6 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "Set Transaction Isolation Level Read Uncommitted Should Appear Before Other Statements"; }}
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        private bool TransactionIsolationLevelStatementFound;
         private bool ErrorLogged;
 
         public SetTransactionIsolationLevelRule(Action<string, string, TSqlFragment> errorCallback)
