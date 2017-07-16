@@ -10,7 +10,6 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "SET ANSI_NULLS ON at top of file"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        private bool SetNoCountFound;
         private bool ErrorLogged;
 
         public SetAnsiNullsRule(Action<string, string, TSqlFragment> errorCallback)
@@ -18,40 +17,28 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(SetOnOffStatement node)
+        public override void Visit(TSqlScript node)
         {
-
-            var typedNode = node as PredicateSetStatement;
-            if (typedNode != null && 
-                typedNode.Options == SetOptions.AnsiNulls)
-            {
-                SetNoCountFound = true;
-            }
-        }
-
-        public override void Visit(TSqlStatement node)
-        {
-            var nodeType = node.GetType();
-
-            if (nodeType == typeof(SetTransactionIsolationLevelStatement))
-            {
-                return;
-            }
-
-            if (nodeType == typeof(PredicateSetStatement))
-            {
-                var typedNode = node as PredicateSetStatement;
-                if (typedNode.Options == SetOptions.AnsiNulls || 
-                    typedNode.Options == SetOptions.QuotedIdentifier)
-                {
-                    return;
-                }
-            }
-
-            if (!SetNoCountFound && !ErrorLogged)
+            var childAnsiNullsVisitor = new ChildAnsiNullsVisitor();
+            node.AcceptChildren(childAnsiNullsVisitor);
+            if (!childAnsiNullsVisitor.SetAnsiNullsFound && !ErrorLogged)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
                 ErrorLogged = true;
+            }
+        }
+
+        public class ChildAnsiNullsVisitor : TSqlFragmentVisitor
+        {
+            public bool SetAnsiNullsFound;
+
+            public override void Visit(SetOnOffStatement node)
+            {
+                var typedNode = node as PredicateSetStatement;
+                if (typedNode != null && typedNode.Options == SetOptions.AnsiNulls)
+                {
+                    SetAnsiNullsFound = true;
+                }
             }
         }
     }

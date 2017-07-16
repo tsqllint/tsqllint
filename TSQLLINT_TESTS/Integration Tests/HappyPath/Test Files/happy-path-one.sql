@@ -24,12 +24,6 @@ SELECT TABLE_CATALOG FROM dbo.SomeDatabase.INFORMATION_SCHEMA.COLUMNS;
 -- uses of upper lower should error
 SELECT upper("foo");
 
--- script should start with these
-SET ANSI_NULLS ON;
-SET QUOTED_IDENTIFIER ON;
-SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
-SET NOCOUNT ON;
-
 -- print statements should not be allowed
 PRINT 'Foo';
 

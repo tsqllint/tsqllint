@@ -10,7 +10,6 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "SET NOCOUNT ON at top of file"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        private bool SetNoCountFound;
         private bool ErrorLogged;
 
         public SetNoCountRule(Action<string, string, TSqlFragment> errorCallback)
@@ -18,32 +17,28 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(PredicateSetStatement node)
+        public override void Visit(TSqlScript node)
         {
-            if (node.Options == SetOptions.NoCount)
-            {
-                SetNoCountFound = true;
-            }
-        }
-
-        public override void Visit(TSqlStatement node)
-        {
-            var nodeType = node.GetType();
-
-            if (nodeType == typeof(SetTransactionIsolationLevelStatement))
-            {
-                return;
-            }
-
-            if (nodeType == typeof(PredicateSetStatement))
-            {
-                return;
-            }
-
-            if (!SetNoCountFound && !ErrorLogged)
+            var childNoCountVisitor = new ChildNoCountVisitor();
+            node.AcceptChildren(childNoCountVisitor);
+            if (!childNoCountVisitor.SetNoCountFound && !ErrorLogged)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
                 ErrorLogged = true;
+            }
+        }
+
+        public class ChildNoCountVisitor : TSqlFragmentVisitor
+        {
+            public bool SetNoCountFound;
+
+            public override void Visit(SetOnOffStatement node)
+            {
+                var typedNode = node as PredicateSetStatement;
+                if (typedNode != null && typedNode.Options == SetOptions.NoCount)
+                {
+                    SetNoCountFound = true;
+                }
             }
         }
     }

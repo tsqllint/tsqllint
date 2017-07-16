@@ -10,7 +10,6 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "SET QUOTED_IDENTIFIER ON at top of file"; } }
         public Action<string, string, TSqlFragment> ErrorCallback;
 
-        private bool SetNoCountFound;
         private bool ErrorLogged;
 
         public SetQuotedIdentifierRule(Action<string, string, TSqlFragment> errorCallback)
@@ -18,32 +17,27 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(PredicateSetStatement node)
+        public override void Visit(TSqlScript node)
         {
-            if (node.Options == SetOptions.QuotedIdentifier)
-            {
-                SetNoCountFound = true;
-            }
-        }
-
-        public override void Visit(TSqlStatement node)
-        {
-            var nodeType = node.GetType();
-
-            if (nodeType == typeof(SetTransactionIsolationLevelStatement))
-            {
-                return;
-            }
-
-            if (nodeType == typeof(PredicateSetStatement))
-            {
-                return;
-            }
-
-            if (!SetNoCountFound && !ErrorLogged)
+            var childQuotedidentifierVisitor = new ChildQuotedidentifierVisitor();
+            node.AcceptChildren(childQuotedidentifierVisitor);
+            if (!childQuotedidentifierVisitor.QuotedIdentifierFound && !ErrorLogged)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
                 ErrorLogged = true;
+            }
+        }
+
+        public class ChildQuotedidentifierVisitor : TSqlFragmentVisitor
+        {
+            public bool QuotedIdentifierFound;
+
+            public override void Visit(PredicateSetStatement node)
+            {
+                if (node.Options == SetOptions.QuotedIdentifier)
+                {
+                    QuotedIdentifierFound = true;
+                }
             }
         }
     }

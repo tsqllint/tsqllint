@@ -18,29 +18,27 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(TSqlStatement node)
+        public override void Visit(TSqlScript node)
         {
-            var nodeType = node.GetType();
-
-            // Allow ansi nulls, nocount, and quoted identifier statements, 
-            // as well as other predicates to precede isolation level statements
-            if (nodeType == typeof(PredicateSetStatement))
-            {
-                return;
-            }
-
-            if(!TransactionIsolationLevelStatementFound && !ErrorLogged)
+            var childTransactionIsolationLevelVisitor = new ChildTransactionIsolationLevelVisitor();
+            node.AcceptChildren(childTransactionIsolationLevelVisitor);
+            if (!childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound && !ErrorLogged)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
                 ErrorLogged = true;
             }
         }
 
-        public override void ExplicitVisit(SetTransactionIsolationLevelStatement node)
+        public class ChildTransactionIsolationLevelVisitor : TSqlFragmentVisitor
         {
-            if (node.Level == IsolationLevel.ReadUncommitted)
+            public bool TransactionIsolationLevelFound;
+
+            public override void Visit(SetTransactionIsolationLevelStatement node)
             {
-                TransactionIsolationLevelStatementFound = true;
+                if (node.Level == IsolationLevel.ReadUncommitted)
+                {
+                    TransactionIsolationLevelFound = true;
+                }
             }
         }
     }
