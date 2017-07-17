@@ -7,7 +7,5 @@
      ColSix VarBinary,
      ColSeven Decimal,
      ColEight Numeric,
-     ColNine Float,
-     ColTen DateTime,
-     ColEleven DateTimeOffset)
+     ColNine Float)
 WITH (DATA_COMPRESSION = ROW);

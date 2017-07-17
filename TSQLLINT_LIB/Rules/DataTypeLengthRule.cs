@@ -19,9 +19,7 @@ namespace TSQLLINT_LIB.Rules
                 SqlDataTypeOption.VarBinary,
                 SqlDataTypeOption.Decimal,
                 SqlDataTypeOption.Numeric,
-                SqlDataTypeOption.Float,
-                SqlDataTypeOption.DateTime,
-                SqlDataTypeOption.DateTimeOffset
+                SqlDataTypeOption.Float
         };
 
         public DataTypeLengthRule(Action<string, string, TSqlFragment> errorCallback)
