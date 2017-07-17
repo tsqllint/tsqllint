@@ -9,12 +9,19 @@ namespace TSQLLINT_CONSOLE
     {
         private static void Main(string[] args)
         {
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
 
             var commandLineOptions = GetCommandLineOptions(args);
             if (commandLineOptions == null)
             {
+                return;
+            }
+
+            if (commandLineOptions.Init)
+            {
+                // write config file and exit
+                ConfigFileGenerator.WriteConfigFile();
                 return;
             }
 
@@ -25,7 +32,7 @@ namespace TSQLLINT_CONSOLE
             var reporter = new ConsoleResultReporter();
 
             stopWatch.Stop();
-            TimeSpan timespan = stopWatch.Elapsed;
+            var timespan = stopWatch.Elapsed;
 
             reporter.ReportResults(ruleVisitor.Violations, timespan, parser.GetFileCount());
         }

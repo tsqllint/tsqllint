@@ -15,9 +15,15 @@ namespace TSQLLINT_CONSOLE
 
         [Option(shortName: 'p',
             longName: "path",
-            Required = true,
+            Required = false,
             HelpText = "Target path for linting")]
         public string LintPath { get; set; }
+
+        [Option(shortName: 'i',
+            longName: "init",
+            Required = false,
+            HelpText = "generate .tsqllintrc file")]
+        public bool Init { get; set; }
 
         [HelpOption]
         public string GetUsage()

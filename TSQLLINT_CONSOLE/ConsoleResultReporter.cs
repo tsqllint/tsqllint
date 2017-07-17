@@ -7,8 +7,6 @@ namespace TSQLLINT_CONSOLE
 {
     public class ConsoleResultReporter : IResultReporter
     {
-
-
         public void ReportResults(List<RuleViolation> violations, TimeSpan timespan, int fileCount)
         {
             var errorCount = 0;

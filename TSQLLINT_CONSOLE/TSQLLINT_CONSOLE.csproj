@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineOptions.cs" />
+    <Compile Include="ConfigFileGenerator.cs" />
     <Compile Include="ConsoleResultReporter.cs" />
     <Compile Include="IValidator.cs" />
     <Compile Include="OptionsValidator.cs" />
