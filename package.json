@@ -1,6 +1,6 @@
 {
   "name": "tsqllint",
-  "version": "0.1.1",
+  "version": "0.1.10",
   "description": "[![Build Status](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)](https://ci.appveyor.com/project/nathan-boyd/tsqllint)\r [![codecov](https://codecov.io/gh/tsqllint/tsqllint/branch/master/graph/badge.svg)](https://codecov.io/gh/tsqllint/tsqllint)",
   "repository": {
     "type": "git",
@@ -9,8 +9,11 @@
   "files": [
     "LICENSE",
     "README.md",
-    "./bin/Release/TSQLLINT_CONSOLE.exe"
+    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
   ],
+  "bin" : { 
+    "tsqllint" : "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
+  },
   "author": "Nathan Boyd & Doug Wilson",
   "license": "MIT",
   "bugs": {
