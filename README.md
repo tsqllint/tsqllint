@@ -5,8 +5,6 @@
 [![codecov](https://codecov.io/gh/tsqllint/tsqllint/branch/master/graph/badge.svg)](https://codecov.io/gh/tsqllint/tsqllint)
 
 
-## Usage 
-
 ### Installation 
 
 ```
@@ -15,10 +13,19 @@ npm install tsqllint -g
 
 ### Usage
 ```
-TSQLLINT.exe -c .tsqllintrc -p test.sql
+# generate .tsqllintrc config file
+TSQLLINT.exe --init
+
+# lint a single file
+tsqllint --path test.sql
+
+# lint all .sql filed in a directory
+tsqllint --path "c:\database_scripts"
 ```
 
 ### Configuration
+
+This tool can be configured by editing the .tsqllintrc file. Rules may be set to off, warning, or error.
 
 sample .tsqllintrc file
 
@@ -26,8 +33,8 @@ sample .tsqllintrc file
 
 {
   "rules": {
-    "select-star": "error",
-    "statement-semicolon-termination": "error",
+    "select-star": "off",
+    "statement-semicolon-termination": "warning",
     "set-transaction-isolation-level": "error"
   }
 }
@@ -37,7 +44,11 @@ sample .tsqllintrc file
 
 ### Adding a new rule
 
-implement rule visitor in [Rules](./TSQLLINT_LIB/Rules)
+#### Write tests
+Write some failing tests in [Rules](./TSQLLINT_TEST/rules-tests.cs)  
+
+#### Write your rule
+Implement your new rule visitor in [Rules](./TSQLLINT_LIB/Rules) sample rule below.
 
 ```csharp
 namespace TSQLLINT_LIB.Rules 
@@ -61,19 +72,26 @@ namespace TSQLLINT_LIB.Rules
 }
 ```
 
-add your new rule type to the RuleVisitors List, reflection is expensive :)
+#### Add rule to RuleVisitorBuilder
+Add your new rule type to the RuleVisitors List in [RuleVisitorBuilder.cs](./TSQLLINT_LIB/Parser/RuleVisitorBuilder.cs), reflection is expensive.
 
 ```csharp
 private readonly List<Type> RuleVisitors = new List<Type>()
 {
+    typeof(ConditionalBeginEndRule),
     typeof(DataCompressionOptionRule),
     typeof(DataTypeLengthRule),
+    typeof(DisallowCursorRule),
     typeof(InformationSchemaRule),
     typeof(ObjectPropertyRule),
+    typeof(PrintStatementRule),
     typeof(SchemaQualifyRule),
     typeof(SelectStarRule),
-    typeof(SemicolonRule),
+    typeof(SemicolonTerminationRule),
+    typeof(SetAnsiNullsRule),
     typeof(SetNoCountRule),
-    typeof(SetTransactionIsolationLevelRule)
+    typeof(SetQuotedIdentifierRule),
+    typeof(SetTransactionIsolationLevelRule),
+    typeof(UpperLowerRule)
 };
 ```
