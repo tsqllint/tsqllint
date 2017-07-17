@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Parser
@@ -54,7 +53,6 @@ namespace TSQLLINT_LIB.Parser
                 }
                 var fileContents = Utility.GetFileContents(fileName);
                 ProcessFile(fileContents, fileName);
-                FileCount++;
             }
         }
 
@@ -62,7 +60,7 @@ namespace TSQLLINT_LIB.Parser
         {
             var txtRdr = Utility.CreateTextReaderFromString(fileContents);
             RuleVisitor.VisitRules(filePath, txtRdr);
+            FileCount++;
         }
     }
 }
-
