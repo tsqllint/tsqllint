@@ -15,7 +15,7 @@ npm install tsqllint -g
 ### Usage
 ```
 # generate .tsqllintrc config file
-TSQLLINT.exe --init
+tsqllint --init
 
 # lint a single file
 tsqllint --path test.sql
