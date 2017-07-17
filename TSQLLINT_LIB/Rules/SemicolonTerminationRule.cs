@@ -1,4 +1,6 @@
 ﻿using System;
+using System.CodeDom;
+using System.Linq.Expressions;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Interface;
 
@@ -15,10 +17,25 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
+        public override void Visit(TryCatchStatement node)
+        {
+            var childBeginEndBlockVisitor = new ChildBeginEndBlockVisitor();
+            node.AcceptChildren(childBeginEndBlockVisitor);
+
+            if (childBeginEndBlockVisitor.ErrorLoged)
+            {
+                ErrorCallback(RULE_NAME, RULE_TEXT, childBeginEndBlockVisitor.ErrorNode);
+            }
+        }
+
         public override void Visit(TSqlStatement node)
         {
-            if (node.GetType() == typeof(TryCatchStatement))
+            var childBeginEndBlockVisitor = new ChildBeginEndBlockVisitor();
+            node.AcceptChildren(childBeginEndBlockVisitor);
+
+            if (childBeginEndBlockVisitor.ErrorLoged)
             {
+                ErrorCallback(RULE_NAME, RULE_TEXT, childBeginEndBlockVisitor.ErrorNode);
                 return;
             }
 
@@ -26,6 +43,22 @@ namespace TSQLLINT_LIB.Rules
             if (lastToken != TSqlTokenType.Semicolon)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
+            }
+        }
+
+        public class ChildBeginEndBlockVisitor : TSqlFragmentVisitor
+        {
+            public bool ErrorLoged;
+            public BeginEndBlockStatement ErrorNode;
+
+            public override void Visit(BeginEndBlockStatement node)
+            {
+                var lastToken = node.ScriptTokenStream[node.LastTokenIndex].TokenType;
+                if (lastToken != TSqlTokenType.Semicolon)
+                {
+                    ErrorLoged = true;
+                    ErrorNode = node;
+                }
             }
         }
     }

@@ -73,6 +73,7 @@
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-one-error.sql" />
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\semicolon-termination\statement-semicolon-termination-try-catch-while.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-no-error.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-one-error.sql" />

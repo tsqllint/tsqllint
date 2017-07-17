@@ -1,18 +1,13 @@
-﻿SELECT FOO FROM BAR;
-GO
-
--- should not be a violation
-BEGIN TRY
+﻿BEGIN TRY
 	SELECT 1;
 END TRY
 BEGIN CATCH
 	SELECT 2;
-END CATCH;
+END CATCH -- missing semicolon
 
--- should not be a violation
 DECLARE @KeepGoing INT = 1;
 WHILE (@KeepGoing = 1)
-BEGIN;
+BEGIN -- missing semicolon
   SELECT @KeepGoing = -1;
   PRINT 'Foo';
-END;
+END -- missing semicolon
