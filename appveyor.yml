@@ -31,6 +31,10 @@ shallow_clone: true                 # default is "false"
 # set clone depth
 clone_depth: 5                      # clone entire repository history if not defined
 
+# cache nuget packages
+cache:
+  - C:\Users\appveyor\AppData\Local\NuGet\Cache
+
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#

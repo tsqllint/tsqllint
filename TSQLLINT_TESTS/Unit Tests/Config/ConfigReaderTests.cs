@@ -7,6 +7,15 @@ using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
 {
+    public class ConfigFileGeneratorTests
+    {
+        [Test]
+        public void WriteConfigFile()
+        {
+            ConfigFileGenerator.WriteConfigFile();
+        }
+    }
+
     public class ConfigReaderTests
     {
         [Test]
