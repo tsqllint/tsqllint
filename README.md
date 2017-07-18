@@ -20,8 +20,14 @@ tsqllint --init
 # lint a single file
 tsqllint --path test.sql
 
+# lint a list of files (must be seperated by comma)
+tsqllint --path "test_one.sql, test_two.sql"
+
 # lint all .sql filed in a directory
 tsqllint --path "c:\database_scripts"
+
+# display usage hints
+tsqllint --help
 ```
 
 ### Configuration
