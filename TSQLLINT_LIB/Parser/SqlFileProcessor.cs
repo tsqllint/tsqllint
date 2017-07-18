@@ -25,6 +25,12 @@ namespace TSQLLINT_LIB.Parser
             path = path.Replace("\"", "");
             var pathStrings = path.Split(',');
 
+            // remove leading and trailing whitespace
+            for (var index = 0; index < pathStrings.Length; index++)
+            {
+                pathStrings[index] = pathStrings[index].Trim();
+            }
+
             foreach (var pathString in pathStrings)
             {
                 if (File.Exists(pathString))
