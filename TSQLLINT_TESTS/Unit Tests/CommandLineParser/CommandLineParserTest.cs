@@ -14,10 +14,11 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             };
 
             var noProblemsReporter = new NoProblemsReporter();
+            noProblemsReporter.Report("test message");
             var commandLineOptions = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(args, noProblemsReporter);
             Assert.AreEqual(".tsqllintrc", commandLineOptions.ConfigFile);
             Assert.AreEqual("c:\\database\\foo.sql", commandLineOptions.LintPath);
-            Assert.AreEqual(0, noProblemsReporter.MessageCount);
+            Assert.AreEqual(1, noProblemsReporter.MessageCount);
             Assert.AreEqual(true, commandLineOptions.PerformLinting);
         }
 
