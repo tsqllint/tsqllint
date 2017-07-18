@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using TSQLLINT_LIB.Parser.Interfaces;
 
@@ -23,6 +24,7 @@ namespace TSQLLINT_LIB.Parser
         {
             // remove double quotes from path
             path = path.Replace("\"", "");
+
             var pathStrings = path.Split(',');
 
             // remove leading and trailing whitespace
@@ -33,12 +35,11 @@ namespace TSQLLINT_LIB.Parser
 
             foreach (var pathString in pathStrings)
             {
-                if (File.Exists(pathString))
+                if (File.Exists(@pathString))
                 {
                     ProcessFile(Utility.GetFileContents(pathString), pathString);
                 }
-
-                if (Directory.Exists(pathString))
+                else if (Directory.Exists(@pathString))
                 {
                     ProcessDirectory(pathString);
                 }

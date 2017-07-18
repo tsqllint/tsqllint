@@ -12,6 +12,9 @@ namespace TSQLLINT_CONSOLE.Reporters
             var errorCount = 0;
             var warningCount = 0;
 
+            // get some seperation from last line of user input
+            Report("\n");
+
             foreach (var violation in violations)
             {
                 switch (violation.Severity)
