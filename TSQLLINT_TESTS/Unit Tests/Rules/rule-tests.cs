@@ -70,6 +70,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error", 1)]
 
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-no-error", 0)]
+        [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-no-rowset-action", 0)]
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-one-error-mixed-state", 1)]
         [TestCase("set-nocount", typeof(SetNoCountRule), "set-nocount-one-error", 1)]
 

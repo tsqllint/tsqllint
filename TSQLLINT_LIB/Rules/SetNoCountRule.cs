@@ -19,12 +19,46 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlScript node)
         {
+            // walk child nodes to determine if rowset operations are occurring
+            var childRowsetVisitor = new ChildRowsetVisitor();
+            node.AcceptChildren(childRowsetVisitor);
+
+            if (!childRowsetVisitor.RowsetActionFound)
+            {
+                return;
+            }
+
             var childNoCountVisitor = new ChildNoCountVisitor();
             node.AcceptChildren(childNoCountVisitor);
             if (!childNoCountVisitor.SetNoCountFound && !ErrorLogged)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
                 ErrorLogged = true;
+            }
+        }
+
+        public class ChildRowsetVisitor : TSqlFragmentVisitor
+        {
+            public bool RowsetActionFound;
+
+            public override void Visit(SelectStatement node)
+            {
+                RowsetActionFound = true;
+            }
+
+            public override void Visit(InsertStatement node)
+            {
+                RowsetActionFound = true;
+            }
+
+            public override void Visit(UpdateStatement node)
+            {
+                RowsetActionFound = true;
+            }
+
+            public override void Visit(DeleteStatement node)
+            {
+                RowsetActionFound = true;
             }
         }
 
