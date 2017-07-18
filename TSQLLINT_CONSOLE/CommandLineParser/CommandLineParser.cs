@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;   
+﻿using System.Diagnostics;   
 using CommandLine;
 using CommandLine.Text;
 using TSQLLINT_LIB.Parser.Interfaces;
@@ -9,9 +8,9 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
     public class CommandLineParser
     {
         private readonly string[] Args;
-        private IReporter Reporter;
+        private IBaseReporter Reporter;
 
-        public CommandLineParser(string[] args, IReporter reporter)
+        public CommandLineParser(string[] args, IBaseReporter reporter)
         {
             Args = args;
             Reporter = reporter;
@@ -60,7 +59,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
         {
             if (Parser.Default.ParseArgumentsStrict(Args, this))
             {
-                IValidator<CommandLineParser> optionsValidator = new OptionsValidator();
+                IValidator<CommandLineParser> optionsValidator = new OptionsValidator(Reporter);
                 var optionsValid = optionsValidator.Validate(this);
 
                 if (!optionsValid)
@@ -68,11 +67,6 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
                     Reporter.Report(GetUsage());
                     return null;
                 }
-            }
-            else
-            {
-                Reporter.Report(GetUsage());
-                return null;
             }
 
             return this;

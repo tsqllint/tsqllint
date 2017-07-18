@@ -26,6 +26,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
 
             Assert.AreEqual(2, fileProcessor.GetFileCount());
+            Assert.Throws<NotImplementedException>(() => { testReporter.Report(""); });
         }
 
         internal class HappyPathLintDirectoryTestReporter : IReporter
@@ -34,6 +35,11 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             {
                 var selectStarViolations = violations.Where(x => x.RuleName == "select-star");
                 Assert.AreEqual(2, selectStarViolations.Count(), "there should be two select star violation");
+            }
+
+            public void Report(string message)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -45,6 +51,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IReporter testReporter = new HappyPathLintFileTestReporter();
+            Assert.Throws<NotImplementedException>(() => { testReporter.Report(""); });
             var fileProcessor = new SqlFileProcessor(ruleVisitor);
 
             var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath\\Test Files\\happy-path-one.sql");
@@ -100,6 +107,11 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
 
                 var upperLower = violations.Where(x => x.RuleName == "upper-lower");
                 Assert.AreEqual(1, upperLower.Count(), "there should be one upper-lower violation");
+            }
+
+            public void Report(string message)
+            {
+                throw new NotImplementedException();
             }
         }
     }

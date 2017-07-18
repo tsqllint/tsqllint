@@ -24,6 +24,8 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.ExceptionalCases
             var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\ExceptionalCases\\invalid-syntax\\invalid-syntax.sql");
             fileProcessor.ProcessPath(lintFile);
             testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
+
+            Assert.Throws<NotImplementedException>(() => { testReporter.Report("foo"); });
         }
     }
 
@@ -33,6 +35,11 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.ExceptionalCases
         {
             Assert.AreEqual(1, violations.Count);
             Assert.AreEqual("TSQL not syntactically correct", violations[0].Text);
+        }
+
+        public void Report(string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }
