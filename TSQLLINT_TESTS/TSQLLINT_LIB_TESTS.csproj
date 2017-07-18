@@ -127,7 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TSQLLINT_CONSOLE\TSQLLINT_CONSOLE.csproj">
-      <Project>{5292F15D-1F0A-47CE-928F-9FDC1929792B}</Project>
+      <Project>{5292f15d-1f0a-47ce-928f-9fdc1929792b}</Project>
       <Name>TSQLLINT_CONSOLE</Name>
     </ProjectReference>
     <ProjectReference Include="..\TSQLLINT_LIB\TSQLLINT_LIB.csproj">
