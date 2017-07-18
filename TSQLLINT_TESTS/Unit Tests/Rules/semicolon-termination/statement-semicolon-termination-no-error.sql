@@ -2,10 +2,10 @@
 GO
 
 -- should not be a violation
-BEGIN TRY
+BEGIN TRY;  
 	SELECT 1;
 END TRY
-BEGIN CATCH
+BEGIN CATCH;  
 	SELECT 2;
 END CATCH;
 

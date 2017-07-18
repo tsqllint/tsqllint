@@ -63,7 +63,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
         [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-one-error-mixed-state", 1)]
         [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-one-error", 1)]
         [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-two-errors", 2)]
-        [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-try-catch-while", 3)]
+        [TestCase("semicolon-termination", typeof(SemicolonTerminationRule), "statement-semicolon-termination-try-catch-while", 0)]
 
         [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-no-error", 0)]
         [TestCase("set-ansi", typeof(SetAnsiNullsRule), "set-ansi-one-error-mixed-state", 1)]

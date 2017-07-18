@@ -17,48 +17,20 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(TryCatchStatement node)
-        {
-            var childBeginEndBlockVisitor = new ChildBeginEndBlockVisitor();
-            node.AcceptChildren(childBeginEndBlockVisitor);
-
-            if (childBeginEndBlockVisitor.ErrorLoged)
-            {
-                ErrorCallback(RULE_NAME, RULE_TEXT, childBeginEndBlockVisitor.ErrorNode);
-            }
-        }
-
         public override void Visit(TSqlStatement node)
         {
-            var childBeginEndBlockVisitor = new ChildBeginEndBlockVisitor();
-            node.AcceptChildren(childBeginEndBlockVisitor);
-
-            if (childBeginEndBlockVisitor.ErrorLoged)
+            if (typeof(TryCatchStatement) == node.GetType() 
+                || typeof(WhileStatement) == node.GetType()
+                || typeof(BeginEndBlockStatement) == node.GetType())
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, childBeginEndBlockVisitor.ErrorNode);
                 return;
             }
 
-            var lastToken = node.ScriptTokenStream[node.LastTokenIndex].TokenType;
-            if (lastToken != TSqlTokenType.Semicolon)
+            var lastToken = node.ScriptTokenStream[node.LastTokenIndex];
+            var lastTokenType = lastToken.TokenType;
+            if (lastTokenType != TSqlTokenType.Semicolon)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node);
-            }
-        }
-
-        public class ChildBeginEndBlockVisitor : TSqlFragmentVisitor
-        {
-            public bool ErrorLoged;
-            public BeginEndBlockStatement ErrorNode;
-
-            public override void Visit(BeginEndBlockStatement node)
-            {
-                var lastToken = node.ScriptTokenStream[node.LastTokenIndex].TokenType;
-                if (lastToken != TSqlTokenType.Semicolon)
-                {
-                    ErrorLoged = true;
-                    ErrorNode = node;
-                }
             }
         }
     }
