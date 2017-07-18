@@ -13,6 +13,8 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
         public void WriteConfigFile()
         {
             ConfigFileGenerator.WriteConfigFile();
+            var fileName = Path.Combine(TestContext.CurrentContext.WorkDirectory, ".tsqllintrc");
+            Assert.IsTrue(File.Exists(fileName));
         }
     }
 
