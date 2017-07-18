@@ -39,6 +39,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\ConfigFileGenerator.cs" />
     <Compile Include="Config\ILintConfigReader.cs" />
     <Compile Include="Config\LintConfigReader.cs" />
     <Compile Include="Parser\Interfaces\IResultReporter.cs" />
