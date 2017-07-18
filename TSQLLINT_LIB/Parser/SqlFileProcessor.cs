@@ -23,25 +23,33 @@ namespace TSQLLINT_LIB.Parser
         {
             // remove double quotes from path
             path = path.Replace("\"", "");
+            var pathStrings = path.Split(',');
 
-            if (File.Exists(path))
+            foreach (var pathString in pathStrings)
             {
-                ProcessFile(Utility.GetFileContents(path), path);
-                return;
-            }
-
-            if (Directory.Exists(path))
-            {
-                var subdirectoryEntries = Directory.GetDirectories(path);
-                foreach (var subdirectory in subdirectoryEntries)
+                if (File.Exists(pathString))
                 {
-                    ProcessPath(subdirectory);
+                    ProcessFile(Utility.GetFileContents(pathString), pathString);
+                }
+
+                if (Directory.Exists(pathString))
+                {
+                    ProcessDirectory(pathString);
+                }
+                else
+                {
+                    // TODO: Improve this
+                    Console.WriteLine("\n\n{0} is not a valid path.", pathString);
                 }
             }
-            else
+        }
+
+        private void ProcessDirectory(string path)
+        {
+            var subdirectoryEntries = Directory.GetDirectories(path);
+            foreach (var subdirectory in subdirectoryEntries)
             {
-                Console.WriteLine("{0} is not a valid path.", path);
-                return;
+                ProcessPath(subdirectory);
             }
 
             var fileEntries = Directory.GetFiles(path);

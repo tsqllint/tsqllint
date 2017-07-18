@@ -143,5 +143,32 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
                 Assert.IsTrue(message.Contains("Usage: TSQLLINT [options]"));
             }
         }
+
+
+        [Test]
+        public void LintPathFileList()
+        {
+            var initArgs = new[]
+            {
+                "-p", "foo.sql bar.sql"
+            };
+            var lintPathFileListReporter = new LintPathFileListReporter();
+            lintPathFileListReporter.Report("test message");
+
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, lintPathFileListReporter);
+
+            Assert.AreEqual(1, lintPathFileListReporter.MessageCount);
+            Assert.AreEqual(true, commandLineParser.PerformLinting);
+        }
+
+        private class LintPathFileListReporter : IBaseReporter
+        {
+            public int MessageCount;
+
+            public void Report(string message)
+            {
+                MessageCount++;
+            }
+        }
     }
 }

@@ -13,6 +13,29 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
     public class IntegrationHappyPathCases
     {
         [Test]
+        public void HappyPathLintMultipleFiles()
+        {
+            var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
+            var result = testDirectoryInfo.Parent.Parent.FullName;
+
+            var lintpathBase = Path.Combine(result + "\\Integration Tests\\HappyPath");
+            var lintFileOne = Path.Combine(lintpathBase + "\\Test Files\\happy-path-one.sql");
+            var lintFileTwo = Path.Combine(lintpathBase + "\\Test Files\\happy-path-two.sql");
+            var lintTarget = Path.Combine(lintFileOne + ", " + lintFileTwo);
+
+            ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintpathBase, ".tsqllintrc"));
+            IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
+            IReporter testReporter = new HappyPathLintDirectoryTestReporter();
+            var fileProcessor = new SqlFileProcessor(ruleVisitor);
+
+            fileProcessor.ProcessPath(lintTarget);
+            testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
+
+            Assert.AreEqual(2, fileProcessor.GetFileCount());
+            Assert.Throws<NotImplementedException>(() => { testReporter.Report(""); });
+        }
+
+        [Test]
         public void HappyPathLintDirectory()
         {
             var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath");

@@ -22,21 +22,21 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
 
         [Option(shortName: 'c', 
             longName: "config", 
-            Required = false, 
-            HelpText = "Use configuration from this file or shareable config.", 
+            Required = false,
+            HelpText = "Path to config file", 
             DefaultValue = ".tsqllintrc")]
         public string ConfigFile { get; set; }
 
         [Option(shortName: 'p',
             longName: "path",
             Required = false,
-            HelpText = "Target path for linting")]
+            HelpText = "Target path for linting, or list of one or more files separated by whitespace")]
         public string LintPath { get; set; }
 
         [Option(shortName: 'i',
             longName: "init",
             Required = false,
-            HelpText = "generate .tsqllintrc file")]
+            HelpText = "Generate .tsqllintrc file")]
         public bool Init { get; set; }
 
         private bool ParseCommandLineOptions()
