@@ -18,18 +18,18 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.ExceptionalCases
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
-            IResultReporter testReporter = new IntegrationExceptionalCaseTestReporter();
+            IReporter testReporter = new IntegrationExceptionalCaseTestReporter();
             var fileProcessor = new SqlFileProcessor(ruleVisitor);
 
             var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\ExceptionalCases\\invalid-syntax\\invalid-syntax.sql");
             fileProcessor.ProcessPath(lintFile);
-            testReporter.ReportResults(ruleVisitor.Violations);
+            testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
         }
     }
 
-    public class IntegrationExceptionalCaseTestReporter: IResultReporter
+    public class IntegrationExceptionalCaseTestReporter: IReporter
     {
-        public void ReportResults(List<RuleViolation> violations)
+        public void ReportResults(List<RuleViolation> violations, TimeSpan timespan, int fileCount)
         {
             Assert.AreEqual(1, violations.Count);
             Assert.AreEqual("TSQL not syntactically correct", violations[0].Text);

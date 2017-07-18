@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -18,18 +19,18 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
-            IResultReporter testReporter = new HappyPathLintDirectoryTestReporter();
+            IReporter testReporter = new HappyPathLintDirectoryTestReporter();
             var fileProcessor = new SqlFileProcessor(ruleVisitor);
 
             fileProcessor.ProcessPath(lintTarget);
-            testReporter.ReportResults(ruleVisitor.Violations);
+            testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
 
             Assert.AreEqual(2, fileProcessor.GetFileCount());
         }
 
-        internal class HappyPathLintDirectoryTestReporter : IResultReporter
+        internal class HappyPathLintDirectoryTestReporter : IReporter
         {
-            public void ReportResults(List<RuleViolation> violations)
+            public void ReportResults(List<RuleViolation> violations, TimeSpan timespan, int fileCount)
             {
                 var selectStarViolations = violations.Where(x => x.RuleName == "select-star");
                 Assert.AreEqual(2, selectStarViolations.Count(), "there should be two select star violation");
@@ -43,17 +44,17 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
-            IResultReporter testReporter = new HappyPathLintFileTestReporter();
+            IReporter testReporter = new HappyPathLintFileTestReporter();
             var fileProcessor = new SqlFileProcessor(ruleVisitor);
 
             var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath\\Test Files\\happy-path-one.sql");
             fileProcessor.ProcessPath(lintFile);
-            testReporter.ReportResults(ruleVisitor.Violations);
+            testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
         }
 
-        internal class HappyPathLintFileTestReporter : IResultReporter
+        internal class HappyPathLintFileTestReporter : IReporter
         {
-            public void ReportResults(List<RuleViolation> violations)
+            public void ReportResults(List<RuleViolation> violations, TimeSpan timespan, int fileCount)
             {
                 var conditionalBeginEnd = violations.Where(x => x.RuleName == "conditional-begin-end");
                 Assert.AreEqual(1, conditionalBeginEnd.Count(), "there should be one conditional-begin-end violation");

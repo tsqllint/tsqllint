@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineParser\CommandLineParser.cs" />
-    <Compile Include="Reporters\ConsoleResultReporter.cs" />
+    <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="CommandLineParser\IValidator.cs" />
     <Compile Include="CommandLineParser\OptionsValidator.cs" />
     <Compile Include="Program.cs" />

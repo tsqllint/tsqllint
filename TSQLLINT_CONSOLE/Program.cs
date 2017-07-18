@@ -31,7 +31,7 @@ namespace TSQLLINT_CONSOLE
             var ruleVisitor = new SqlRuleVisitor(configReader);
             var parser = new SqlFileProcessor(ruleVisitor);
             parser.ProcessPath(commandLineOptions.LintPath);
-            var reporter = new ConsoleResultReporter();
+            var reporter = new ConsoleReporter();
 
             stopWatch.Stop();
             var timespan = stopWatch.Elapsed;
