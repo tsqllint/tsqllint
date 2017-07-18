@@ -2,16 +2,19 @@
 using System.Diagnostics;   
 using CommandLine;
 using CommandLine.Text;
+using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.CommandLineParser
 {
     public class CommandLineParser
     {
         private readonly string[] Args;
+        private IReporter Reporter;
 
-        public CommandLineParser(string[] args)
+        public CommandLineParser(string[] args, IReporter reporter)
         {
             Args = args;
+            Reporter = reporter;
         }
 
         [Option(shortName: 'c', 
@@ -55,26 +58,24 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
 
         public CommandLineParser GetCommandLineOptions()
         {
-            var commandLineOptions = new CommandLineParser(Args);
-
-            if (Parser.Default.ParseArgumentsStrict(Args, commandLineOptions))
+            if (Parser.Default.ParseArgumentsStrict(Args, this))
             {
                 IValidator<CommandLineParser> optionsValidator = new OptionsValidator();
-                var optionsValid = optionsValidator.Validate(commandLineOptions);
+                var optionsValid = optionsValidator.Validate(this);
 
                 if (!optionsValid)
                 {
-                    Console.WriteLine(commandLineOptions.GetUsage());
+                    Reporter.Report(GetUsage());
                     return null;
                 }
             }
             else
             {
-                Console.WriteLine(commandLineOptions.GetUsage());
+                Reporter.Report(GetUsage());
                 return null;
             }
 
-            return commandLineOptions;
+            return this;
         }
     }
 }

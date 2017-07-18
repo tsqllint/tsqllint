@@ -28,16 +28,21 @@ namespace TSQLLINT_CONSOLE.Reporters
                         throw new ArgumentOutOfRangeException();
                 }
 
-                Console.WriteLine("{0}({1},{2}): {3} {4} : {5}.",
+                Report(string.Format("{0}({1},{2}): {3} {4} : {5}.",
                     violation.FileName, 
                     violation.Line, 
                     violation.Column,
                     violation.Severity.ToString().ToLowerInvariant(),
                     violation.RuleName, 
-                    violation.Text);
+                    violation.Text));
             }
 
-            Console.WriteLine("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings\n", fileCount, timespan.TotalSeconds, errorCount, warningCount);
+            Report(string.Format("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings\n", fileCount, timespan.TotalSeconds, errorCount, warningCount));
+        }
+
+        public void Report(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }

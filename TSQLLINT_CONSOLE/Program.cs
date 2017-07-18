@@ -12,7 +12,8 @@ namespace TSQLLINT_CONSOLE
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var commandLineHelper  = new CommandLineParser.CommandLineParser(args);
+            var reporter = new ConsoleReporter();
+            var commandLineHelper  = new CommandLineParser.CommandLineParser(args, reporter);
             var commandLineOptions = commandLineHelper.GetCommandLineOptions();
 
             if (commandLineOptions == null)
@@ -31,7 +32,6 @@ namespace TSQLLINT_CONSOLE
             var ruleVisitor = new SqlRuleVisitor(configReader);
             var parser = new SqlFileProcessor(ruleVisitor);
             parser.ProcessPath(commandLineOptions.LintPath);
-            var reporter = new ConsoleReporter();
 
             stopWatch.Stop();
             var timespan = stopWatch.Elapsed;
