@@ -3,7 +3,7 @@ using System.Diagnostics;
 using CommandLine;
 using CommandLine.Text;
 
-namespace TSQLLINT_CONSOLE
+namespace TSQLLINT_CONSOLE.CommandLineParser
 {
     public class CommandLineParser
     {

@@ -1,4 +1,4 @@
-﻿namespace TSQLLINT_CONSOLE
+﻿namespace TSQLLINT_CONSOLE.CommandLineParser
 {
     internal interface IValidator<T>
     {

@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineParser\CommandLineParser.cs" />
-    <Compile Include="ConfigFileGenerator.cs" />
     <Compile Include="Reporters\ConsoleResultReporter.cs" />
     <Compile Include="CommandLineParser\IValidator.cs" />
     <Compile Include="CommandLineParser\OptionsValidator.cs" />

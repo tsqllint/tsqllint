@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TSQLLINT_CONSOLE
+namespace TSQLLINT_LIB.Config
 {
     public static class ConfigFileGenerator
     {
