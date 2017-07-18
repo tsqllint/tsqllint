@@ -57,16 +57,15 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
 
         public CommandLineParser GetCommandLineOptions()
         {
-            if (Parser.Default.ParseArgumentsStrict(Args, this))
-            {
-                IValidator<CommandLineParser> optionsValidator = new OptionsValidator(Reporter);
-                var optionsValid = optionsValidator.Validate(this);
+            Parser.Default.ParseArgumentsStrict(Args, this);
 
-                if (!optionsValid)
-                {
-                    Reporter.Report(GetUsage());
-                    return null;
-                }
+            IValidator<CommandLineParser> optionsValidator = new OptionsValidator(Reporter);
+            var optionsValid = optionsValidator.Validate(this);
+
+            if (!optionsValid)
+            {
+                Reporter.Report(GetUsage());
+                return null;
             }
 
             return this;
