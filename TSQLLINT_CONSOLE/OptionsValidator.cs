@@ -3,13 +3,13 @@ using System.IO;
 
 namespace TSQLLINT_CONSOLE
 {
-    internal class OptionsValidator : IValidator<CommandLineOptions>
+    internal class OptionsValidator : IValidator<CommandLineParser>
     {
-        public bool Validate(CommandLineOptions commandLineOptions)
+        public bool Validate(CommandLineParser commandLineParser)
         {
-            if (!commandLineOptions.Init && !File.Exists(commandLineOptions.ConfigFile))
+            if (!commandLineParser.Init && !File.Exists(commandLineParser.ConfigFile))
             {
-                Console.WriteLine("Config file not found {0}.", commandLineOptions.ConfigFile);
+                Console.WriteLine("Config file not found {0}.", commandLineParser.ConfigFile);
                 return false;
             }
 

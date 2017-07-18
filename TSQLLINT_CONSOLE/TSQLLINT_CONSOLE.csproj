@@ -63,7 +63,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineOptions.cs" />
+    <Compile Include="CommandLineParser.cs" />
     <Compile Include="ConfigFileGenerator.cs" />
     <Compile Include="ConsoleResultReporter.cs" />
     <Compile Include="IValidator.cs" />

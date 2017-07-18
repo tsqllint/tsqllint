@@ -1,11 +1,19 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using CommandLine;
 using CommandLine.Text;
 
 namespace TSQLLINT_CONSOLE
 {
-    internal class CommandLineOptions
+    public class CommandLineParser
     {
+        private readonly string[] Args;
+
+        public CommandLineParser(string[] args)
+        {
+            Args = args;
+        }
+
         [Option(shortName: 'c', 
             longName: "config", 
             Required = false, 
@@ -43,6 +51,30 @@ namespace TSQLLINT_CONSOLE
             help.AddPreOptionsLine("Usage: TSQLLINT [options]");
             help.AddOptions(this);
             return help;
+        }
+
+        public CommandLineParser GetCommandLineOptions()
+        {
+            var commandLineOptions = new CommandLineParser(Args);
+
+            if (Parser.Default.ParseArgumentsStrict(Args, commandLineOptions))
+            {
+                IValidator<CommandLineParser> optionsValidator = new OptionsValidator();
+                var optionsValid = optionsValidator.Validate(commandLineOptions);
+
+                if (!optionsValid)
+                {
+                    Console.WriteLine(commandLineOptions.GetUsage());
+                    return null;
+                }
+            }
+            else
+            {
+                Console.WriteLine(commandLineOptions.GetUsage());
+                return null;
+            }
+
+            return commandLineOptions;
         }
     }
 }

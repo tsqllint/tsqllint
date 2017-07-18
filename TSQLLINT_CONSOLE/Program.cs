@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 
@@ -12,7 +11,9 @@ namespace TSQLLINT_CONSOLE
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var commandLineOptions = GetCommandLineOptions(args);
+            var commandLineHelper  = new CommandLineParser(args);
+            var commandLineOptions = commandLineHelper.GetCommandLineOptions();
+
             if (commandLineOptions == null)
             {
                 return;
@@ -36,30 +37,5 @@ namespace TSQLLINT_CONSOLE
 
             reporter.ReportResults(ruleVisitor.Violations, timespan, parser.GetFileCount());
         }
-
-        private static CommandLineOptions GetCommandLineOptions(string[] args)
-        {
-            var commandLineOptions = new CommandLineOptions();
-
-            if (CommandLine.Parser.Default.ParseArgumentsStrict(args, commandLineOptions))
-            {
-                IValidator<CommandLineOptions> optionsValidator = new OptionsValidator();
-                var optionsValid = optionsValidator.Validate(commandLineOptions);
-
-                if (!optionsValid)
-                {
-                    Console.WriteLine(commandLineOptions.GetUsage());
-                    return null;
-                }
-            }
-            else
-            {
-                Console.WriteLine(commandLineOptions.GetUsage());
-                return null;
-            }
-
-            return commandLineOptions;
-        }
     }
 }
-
