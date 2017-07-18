@@ -52,7 +52,7 @@ sample .tsqllintrc file
 ### Adding a new rule
 
 #### Write tests
-Write some failing tests in [Rules](./TSQLLINT_TEST/rules-tests.cs)  
+Write some failing unit tests.
 
 #### Write your rule
 Implement your new rule visitor in [Rules](./TSQLLINT_LIB/Rules) sample rule below.
