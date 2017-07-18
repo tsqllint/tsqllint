@@ -45,6 +45,8 @@
     <Compile Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\invalid-lint-file-path-test.cs" />
     <Compile Include="Integration Tests\ExceptionalCases\invalid-syntax\invalid-syntax-test.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="Unit Tests\CommandLineParser\CommandLineParserTest.cs" />
+    <Compile Include="Unit Tests\Config\ConfigFileGeneratorTests.cs" />
     <Compile Include="Unit Tests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
     <None Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
     <None Include="Integration Tests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
@@ -124,6 +126,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TSQLLINT_CONSOLE\TSQLLINT_CONSOLE.csproj">
+      <Project>{5292F15D-1F0A-47CE-928F-9FDC1929792B}</Project>
+      <Name>TSQLLINT_CONSOLE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TSQLLINT_LIB\TSQLLINT_LIB.csproj">
       <Project>{A61929F1-6CCE-402D-ACB5-189AFC81181D}</Project>
       <Name>TSQLLINT_LIB</Name>

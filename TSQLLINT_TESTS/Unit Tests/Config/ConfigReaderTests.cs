@@ -7,23 +7,12 @@ using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
 {
-    public class ConfigFileGeneratorTests
-    {
-        [Test]
-        public void WriteConfigFile()
-        {
-            ConfigFileGenerator.WriteConfigFile();
-            var fileName = Path.Combine(TestContext.CurrentContext.WorkDirectory, ".tsqllintrc");
-            Assert.IsTrue(File.Exists(fileName));
-        }
-    }
-
     public class ConfigReaderTests
     {
         [Test]
         public void GetRuleSeverityHappyPath()
         {
-            var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc" );
+            var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc");
             var ConfigReader = new LintConfigReader(configfilePath);
             Assert.AreEqual(RuleViolationSeverity.Error, ConfigReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, ConfigReader.GetRuleSeverity("statement-semicolon-termination"));
