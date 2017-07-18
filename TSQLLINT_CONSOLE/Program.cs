@@ -18,6 +18,7 @@ namespace TSQLLINT_CONSOLE
 
             if (commandLineOptions == null)
             {
+                reporter.Report(commandLineHelper.GetUsage());
                 return;
             }
 
@@ -25,6 +26,12 @@ namespace TSQLLINT_CONSOLE
             {
                 // write config file and exit
                 ConfigFileGenerator.WriteConfigFile();
+                return;
+            }
+
+            if (commandLineOptions.LintPath == null)
+            {
+                reporter.Report(commandLineHelper.GetUsage());
                 return;
             }
 
