@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;   
+﻿using System;
+using System.Diagnostics;   
 using CommandLine;
 using CommandLine.Text;
 using TSQLLINT_LIB.Parser.Interfaces;
@@ -10,10 +11,13 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
         private readonly string[] Args;
         private IBaseReporter Reporter;
 
+        public bool PerformLinting;
+
         public CommandLineParser(string[] args, IBaseReporter reporter)
         {
             Args = args;
             Reporter = reporter;
+            PerformLinting = ParseCommandLineOptions();
         }
 
         [Option(shortName: 'c', 
@@ -35,6 +39,39 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             HelpText = "generate .tsqllintrc file")]
         public bool Init { get; set; }
 
+        private bool ParseCommandLineOptions()
+        {
+            if (Args == null || Args.Length == 0)
+            {
+                Reporter.Report(GetUsage());
+                return false;
+            }
+
+            Parser.Default.ParseArgumentsStrict(Args, this);
+
+            IValidator<CommandLineParser> optionsValidator = new OptionsValidator(Reporter);
+            var optionsValid = optionsValidator.Validate(this);
+
+            if (!optionsValid)
+            {
+                Reporter.Report(GetUsage());
+                return false;
+            }
+
+            if (Init)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(LintPath))
+            {
+                Reporter.Report(GetUsage());
+                return false;
+            }
+
+            return true;
+        }
+
         [HelpOption]
         public string GetUsage()
         {
@@ -53,22 +90,6 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             help.AddPreOptionsLine("Usage: TSQLLINT [options]");
             help.AddOptions(this);
             return help;
-        }
-
-        public CommandLineParser GetCommandLineOptions()
-        {
-            Parser.Default.ParseArgumentsStrict(Args, this);
-
-            IValidator<CommandLineParser> optionsValidator = new OptionsValidator(Reporter);
-            var optionsValid = optionsValidator.Validate(this);
-
-            if (!optionsValid)
-            {
-                Reporter.Report(GetUsage());
-                return null;
-            }
-
-            return this;
         }
     }
 }

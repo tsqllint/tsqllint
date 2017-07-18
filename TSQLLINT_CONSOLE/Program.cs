@@ -13,25 +13,16 @@ namespace TSQLLINT_CONSOLE
             stopWatch.Start();
 
             var reporter = new ConsoleReporter();
-            var commandLineHelper  = new CommandLineParser.CommandLineParser(args, reporter);
-            var commandLineOptions = commandLineHelper.GetCommandLineOptions();
+            var commandLineOptions  = new CommandLineParser.CommandLineParser(args, reporter);
 
-            if (commandLineOptions == null)
+            if (commandLineOptions != null && commandLineOptions.Init)
             {
-                reporter.Report(commandLineHelper.GetUsage());
-                return;
-            }
-
-            if (commandLineOptions.Init)
-            {
-                // write config file and exit
                 ConfigFileGenerator.WriteConfigFile();
                 return;
             }
 
-            if (commandLineOptions.LintPath == null)
+            if (!commandLineOptions.PerformLinting)
             {
-                reporter.Report(commandLineHelper.GetUsage());
                 return;
             }
 

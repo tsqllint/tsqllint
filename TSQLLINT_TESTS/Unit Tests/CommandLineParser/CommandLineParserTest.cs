@@ -6,37 +6,35 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
     class CommandLineParserTest
     {
         [Test]
-        public void CommaneLineParser()
+        public void NoProblems()
         {
             var args = new[]
             {
                 "-p", "c:\\database\\foo.sql"
             };
 
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(args, null);
-            var commaneLineArgs = commandLineParser.GetCommandLineOptions();
-            Assert.AreEqual(".tsqllintrc", commaneLineArgs.ConfigFile);
-            Assert.AreEqual("c:\\database\\foo.sql", commaneLineArgs.LintPath);
+            var commandLineOptions = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(args, null);
+            Assert.AreEqual(".tsqllintrc", commandLineOptions.ConfigFile);
+            Assert.AreEqual("c:\\database\\foo.sql", commandLineOptions.LintPath);
         }
 
         [Test]
-        public void BadArguments()
+        public void InvalidConfigFile()
         {
-            var badArgs = new[]
+            var invalidConfigFileArgs = new[]
             {
                 "-c", ".tsqllintrc-foo"
             };
 
-            var badArgsReporter = new BadArgsReporter();
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(badArgs, badArgsReporter);
-            commandLineParser.GetCommandLineOptions();
+            var invalidConfigFileReporter = new InvalidConfigFileReporter();
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(invalidConfigFileArgs, invalidConfigFileReporter);
 
-            Assert.AreEqual(2, BadArgsReporter.MessageCount);
+            Assert.AreEqual(2, invalidConfigFileReporter.MessageCount);
         }
 
-        private class BadArgsReporter : IBaseReporter
+        private class InvalidConfigFileReporter : IBaseReporter
         {
-            public static int MessageCount;
+            public int MessageCount;
 
             public void Report(string message)
             {
@@ -57,10 +55,84 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         }
 
         [Test]
-        public void GetUsage()
+        public void EmptyArgs()
         {
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(null, null);
-            Assert.IsNotNull(commandLineParser.GetUsage());
+            var emptyArgs = new string[0];
+
+            var emptyArgsReporter = new EmptyArgsReporter();
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(emptyArgs, emptyArgsReporter);
+
+            Assert.AreEqual(1, emptyArgsReporter.MessageCount);
+        }
+
+        private class EmptyArgsReporter : IBaseReporter
+        {
+            public int MessageCount;
+
+            public void Report(string message)
+            {
+                MessageCount++;
+
+                // the second message should contain usage information
+                if (MessageCount == 1)
+                {
+                    Assert.IsTrue(message.Contains("Usage: TSQLLINT [options]"));
+                }
+            }
+        }
+
+        [Test]
+        public void InitArgs()
+        {
+            var initArgs = new[]
+            {
+                "-i"
+            };
+            var initArgsReporter = new InitArgsReporter();
+            initArgsReporter.Report("test message");
+
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, initArgsReporter);
+
+            // only the test message should have been sent
+            Assert.AreEqual(1, initArgsReporter.MessageCount);
+        }
+
+        private class InitArgsReporter : IBaseReporter
+        {
+            public int MessageCount;
+
+            public void Report(string message)
+            {
+                MessageCount++;
+            }
+        }
+
+        [Test]
+        public void NoLintPath()
+        {
+            var initArgs = new[]
+            {
+                "-p", ""
+            };
+            var noLintPathReporter = new NoLintPathReporter();
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, noLintPathReporter);
+
+            Assert.AreEqual(1, noLintPathReporter.MessageCount);
+        }
+
+        private class NoLintPathReporter : IBaseReporter
+        {
+            public int MessageCount;
+
+            public void Report(string message)
+            {
+                MessageCount++;
+
+                if (MessageCount == 1)
+                {
+                    Assert.IsTrue(message.Contains("Usage: TSQLLINT [options]"));
+                }
+            }
         }
     }
 }
