@@ -1,6 +1,7 @@
 {
   "name": "tsqllint",
-  "version": "0.1.17",
+  "version": "0.1.18",
+  "description" : "Configurable static code and linting for TSQL.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tsqllint/tsqllint.git"
