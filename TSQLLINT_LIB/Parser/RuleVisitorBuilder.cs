@@ -42,8 +42,7 @@ namespace TSQLLINT_LIB.Parser
             {
                 var visitor = RuleVisitors[index];
 
-                Action<string, string, TSqlFragment> ErrorCallback =
-                    delegate(string ruleName, string ruleText, TSqlFragment node)
+                Action<string, string, TSqlFragment> ErrorCallback = delegate(string ruleName, string ruleText, TSqlFragment node)
                     {
                         violations.Add(new RuleViolation(
                             sqlPath,
