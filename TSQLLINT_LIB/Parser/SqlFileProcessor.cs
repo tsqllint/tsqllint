@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using TSQLLINT_LIB.Parser.Interfaces;
 

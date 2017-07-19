@@ -87,7 +87,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
                 AddDashesToOption = true
             };
             help.AddPreOptionsLine("License: MIT https://opensource.org/licenses/MIT");
-            help.AddPreOptionsLine("Usage: TSQLLINT [options]");
+            help.AddPreOptionsLine("Usage: tsqllint [options]");
             help.AddOptions(this);
             return help;
         }
