@@ -64,7 +64,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
                 // the second message should contain usage information
                 if (MessageCount == 2)
                 {
-                    Assert.IsTrue(message.Contains("Usage: TSQLLINT [options]"));
+                    Assert.IsTrue(message.Contains("Usage: tsqllint [options]"));
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             public void Report(string message)
             {
                 MessageCount++;
-                Assert.IsTrue(message.Contains("Usage: TSQLLINT [options]"));
+                Assert.IsTrue(message.Contains("Usage: tsqllint [options]"));
             }
         }
 
@@ -140,7 +140,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             public void Report(string message)
             {
                 MessageCount++;
-                Assert.IsTrue(message.Contains("Usage: TSQLLINT [options]"));
+                Assert.IsTrue(message.Contains("Usage: tsqllint [options]"));
             }
         }
 
