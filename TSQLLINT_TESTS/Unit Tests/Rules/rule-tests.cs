@@ -182,10 +182,12 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
           {
               new RuleViolation(ruleName: "semicolon-termination", startLine: 1, startColumn: 18)
           }},
-          new object[] {"semicolon-termination", "semicolon-termination-two-errors", typeof(SemicolonTerminationRule), new List<RuleViolation> 
+          new object[] {"semicolon-termination", "semicolon-termination-multiple-errors", typeof(SemicolonTerminationRule), new List<RuleViolation> 
           {
               new RuleViolation(ruleName: "semicolon-termination", startLine: 1, startColumn: 20),
-              new RuleViolation(ruleName: "semicolon-termination", startLine: 4, startColumn: 13)
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 4, startColumn: 13),
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 12, startColumn: 47),
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 14, startColumn: 29),
           }},
           new object[] {"semicolon-termination", "semicolon-termination-one-error-mixed-state", typeof(SemicolonTerminationRule), new List<RuleViolation>
           {
@@ -243,7 +245,6 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
               new RuleViolation(ruleName: "upper-lower", startLine: 3, startColumn: 8)
           }}
         };
-
 
         [Test, TestCaseSource("conditional_begin_end"), 
                TestCaseSource("data_compression_no_error"),

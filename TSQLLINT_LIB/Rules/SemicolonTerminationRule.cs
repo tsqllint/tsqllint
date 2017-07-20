@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Interface;
 
@@ -17,9 +18,16 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlStatement node)
         {
-            if (typeof(TryCatchStatement) == node.GetType() 
-                || typeof(WhileStatement) == node.GetType()
-                || typeof(BeginEndBlockStatement) == node.GetType())
+            var skipTypes = new[]
+            {
+                typeof(TryCatchStatement),
+                typeof(WhileStatement),
+                typeof(BeginEndBlockStatement),
+                typeof(IfStatement),
+                typeof(IndexDefinition)
+            };
+
+            if (skipTypes.Contains(node.GetType()))
             {
                 return;
             }
@@ -28,7 +36,7 @@ namespace TSQLLINT_LIB.Rules
             var lastTokenType = lastToken.TokenType;
             if (lastTokenType != TSqlTokenType.Semicolon)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, lastToken.Column + lastToken.Text.Length);
+                ErrorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, lastToken.Column + lastToken.Text.Length);
             }
         }
     }

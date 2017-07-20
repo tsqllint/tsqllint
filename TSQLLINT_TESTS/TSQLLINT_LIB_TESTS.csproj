@@ -105,7 +105,7 @@
     <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-no-error.sql" />
     <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-one-error.sql" />
-    <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-multiple-errors.sql" />
     <Content Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-no-error.sql" />
     <Content Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-one-error.sql" />
     <Content Include="Unit Tests\Rules\set-nocount\set-nocount-no-error.sql" />
