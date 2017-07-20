@@ -188,6 +188,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
               new RuleViolation(ruleName: "semicolon-termination", startLine: 4, startColumn: 13),
               new RuleViolation(ruleName: "semicolon-termination", startLine: 12, startColumn: 47),
               new RuleViolation(ruleName: "semicolon-termination", startLine: 14, startColumn: 29),
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 20, startColumn: 47)
           }},
           new object[] {"semicolon-termination", "semicolon-termination-one-error-mixed-state", typeof(SemicolonTerminationRule), new List<RuleViolation>
           {
@@ -284,6 +285,8 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
 
             // assert
+            Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
+
             var compareer = new RuleViolationComparer();
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
         }
