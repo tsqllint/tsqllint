@@ -1,13 +1,4 @@
-# SetAssemblyVersion.ps1
-#
-# http://www.luisrocha.net/2009/11/setting-assembly-version-with-windows.html
-# http://blogs.msdn.com/b/dotnetinterop/archive/2008/04/21/powershell-script-to-batch-update-assemblyinfo-cs-with-new-version.aspx
-# http://jake.murzy.com/post/3099699807/how-to-update-assembly-version-numbers-with-teamcity
-# https://github.com/ferventcoder/this.Log/blob/master/build.ps1#L6-L19
-
-Param(
-    [string]$path=$pwd
-)
+$path=".\"
 
 function Help {
     "Sets the AssemblyVersion and AssemblyFileVersion of AssemblyInfo.cs files`n"
