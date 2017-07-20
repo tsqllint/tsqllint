@@ -1,14 +1,12 @@
-﻿using System;
+﻿using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Config
 {
-    public static class ConfigFileGenerator
+    public class ConfigFileGenerator
     {
-        // write a default config file
-        public static void WriteConfigFile()
-        {
-            string configString = @"
-{
+        private readonly IBaseReporter Reporter;
+        private const string ConfigString =
+@"{
     ""rules"": {
         ""conditional-begin-end"": ""error"",
         ""data-compression"": ""error"",
@@ -26,10 +24,17 @@ namespace TSQLLINT_LIB.Config
         ""set-transaction-isolation-level"": ""error"",
         ""upper-lower"": ""error""
     }
-}
-";
-            System.IO.File.WriteAllText(@".tsqllintrc", configString);
-            Console.WriteLine("Created default config file '.tsqllintrc'");
+}";
+
+        public ConfigFileGenerator(IBaseReporter reporter)
+        {
+            Reporter = reporter;
+        }
+
+        public void WriteConfigFile()
+        {
+            System.IO.File.WriteAllText(@".tsqllintrc", ConfigString);
+            Reporter.Report("Created default config file '.tsqllintrc'");
         }
     }
 }

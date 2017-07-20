@@ -7,6 +7,7 @@ namespace TSQLLINT_LIB.Parser
     public class SqlFileProcessor : ISqlFileProcessor
     {
         private readonly IRuleVisitor RuleVisitor;
+        private readonly IBaseReporter Reporter;
         public int FileCount;
 
         public int GetFileCount()
@@ -14,9 +15,10 @@ namespace TSQLLINT_LIB.Parser
             return FileCount;
         }
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor)
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter)
         {
             RuleVisitor = ruleVisitor;
+            Reporter = reporter;
         }
 
         public void ProcessPath(string path)
@@ -44,8 +46,7 @@ namespace TSQLLINT_LIB.Parser
                 }
                 else
                 {
-                    // TODO: Improve this
-                    Console.WriteLine("\n\n{0} is not a valid path.", pathString);
+                    Reporter.Report(string.Format("\n\n{0} is not a valid path.", pathString));
                 }
             }
         }

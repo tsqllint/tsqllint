@@ -17,7 +17,8 @@ namespace TSQLLINT_CONSOLE
 
             if (commandLineOptions != null && commandLineOptions.Init)
             {
-                ConfigFileGenerator.WriteConfigFile();
+                var configFileGenerator = new ConfigFileGenerator(reporter);
+                configFileGenerator.WriteConfigFile();
                 return;
             }
 
@@ -28,7 +29,7 @@ namespace TSQLLINT_CONSOLE
 
             var configReader = new LintConfigReader(commandLineOptions.ConfigFile);
             var ruleVisitor = new SqlRuleVisitor(configReader);
-            var parser = new SqlFileProcessor(ruleVisitor);
+            var parser = new SqlFileProcessor(ruleVisitor, reporter);
             parser.ProcessPath(commandLineOptions.LintPath);
 
             stopWatch.Stop();

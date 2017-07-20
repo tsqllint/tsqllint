@@ -19,7 +19,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.ExceptionalCases
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IReporter testReporter = new IntegrationExceptionalCaseTestReporter();
-            var fileProcessor = new SqlFileProcessor(ruleVisitor);
+            var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
             var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\ExceptionalCases\\invalid-syntax\\invalid-syntax.sql");
             fileProcessor.ProcessPath(lintFile);

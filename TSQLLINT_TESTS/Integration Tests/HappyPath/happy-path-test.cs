@@ -26,7 +26,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintpathBase, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IReporter testReporter = new HappyPathLintDirectoryTestReporter();
-            var fileProcessor = new SqlFileProcessor(ruleVisitor);
+            var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
             fileProcessor.ProcessPath(lintTarget);
             testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
@@ -43,7 +43,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IReporter testReporter = new HappyPathLintDirectoryTestReporter();
-            var fileProcessor = new SqlFileProcessor(ruleVisitor);
+            var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
             fileProcessor.ProcessPath(lintTarget);
             testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
@@ -75,7 +75,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IReporter testReporter = new HappyPathLintFileTestReporter();
             Assert.Throws<NotImplementedException>(() => { testReporter.Report(""); });
-            var fileProcessor = new SqlFileProcessor(ruleVisitor);
+            var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
             var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath\\Test Files\\happy-path-one.sql");
             fileProcessor.ProcessPath(lintFile);
