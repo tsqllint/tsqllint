@@ -8,9 +8,9 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "object-property"; } }
         public string RULE_TEXT { get { return "Use SYS.Columns instead of ObjectProperty function"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
-        public ObjectPropertyRule(Action<string, string, TSqlFragment> errorCallback)
+        public ObjectPropertyRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -19,7 +19,7 @@ namespace TSQLLINT_LIB.Rules
         {
             if (node.FunctionName.Value.Equals("OBJECTPROPERTY", StringComparison.OrdinalIgnoreCase))
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
             }
         }
     }

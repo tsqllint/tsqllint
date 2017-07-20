@@ -9,7 +9,7 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "schema-qualify"; } }
         public string RULE_TEXT { get { return "Schema qualify all object names"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
         private List<string> TableAliases = new List<string>
         {
@@ -18,7 +18,7 @@ namespace TSQLLINT_LIB.Rules
             "DELETED"
         };
 
-        public SchemaQualifyRule(Action<string, string, TSqlFragment> errorCallback)
+        public SchemaQualifyRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -49,7 +49,7 @@ namespace TSQLLINT_LIB.Rules
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node);
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
         public class ChildAliasVisitor : TSqlFragmentVisitor

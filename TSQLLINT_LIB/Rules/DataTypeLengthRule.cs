@@ -8,7 +8,7 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "data-type-length"; } }
         public string RULE_TEXT { get { return "Date type length must be specified"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
         private readonly SqlDataTypeOption[] TypesThatRequireLength = {
                 SqlDataTypeOption.Char,
@@ -22,7 +22,7 @@ namespace TSQLLINT_LIB.Rules
                 SqlDataTypeOption.Float
         };
 
-        public DataTypeLengthRule(Action<string, string, TSqlFragment> errorCallback)
+        public DataTypeLengthRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -34,7 +34,7 @@ namespace TSQLLINT_LIB.Rules
                 var option = TypesThatRequireLength[i];
                 if (Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1)
                 {
-                    ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                    ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + node.FragmentLength);
                     break;
                 }
             }

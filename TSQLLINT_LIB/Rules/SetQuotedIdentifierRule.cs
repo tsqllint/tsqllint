@@ -8,11 +8,11 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "set-quoted-identifier"; } }
         public string RULE_TEXT { get { return "Place SET QUOTED_IDENTIFIER ON near top of file"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
         private bool ErrorLogged;
 
-        public SetQuotedIdentifierRule(Action<string, string, TSqlFragment> errorCallback)
+        public SetQuotedIdentifierRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -23,7 +23,7 @@ namespace TSQLLINT_LIB.Rules
             node.AcceptChildren(childQuotedidentifierVisitor);
             if (!childQuotedidentifierVisitor.QuotedIdentifierFound && !ErrorLogged)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
                 ErrorLogged = true;
             }
         }

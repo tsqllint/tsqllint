@@ -35,8 +35,9 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -75,7 +76,7 @@
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-one-error.sql" />
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-two-errors.sql" />
-    <Content Include="Unit Tests\Rules\semicolon-termination\statement-semicolon-termination-try-catch-while.sql" />
+    <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-try-catch-while.sql" />
     <Content Include="Unit Tests\Rules\set-nocount\set-nocount-no-rowset-action.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-no-error.sql" />
     <Content Include="Unit Tests\Rules\upper-lower\upper-lower-one-error-mixed-state.sql" />
@@ -98,20 +99,16 @@
     <Content Include="Unit Tests\Rules\data-compression\data-compression-one-error.sql" />
     <Content Include="Unit Tests\Rules\data-compression\data-compression-two-errors.sql" />
     <Content Include="Unit Tests\Rules\set-quoted-identifier\set-quoted-identifier-no-error.sql" />
-    <Content Include="Unit Tests\Rules\set-quoted-identifier\set-quoted-identifier-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\set-quoted-identifier\set-quoted-identifier-one-error.sql" />
     <Content Include="Unit Tests\Rules\set-ansi\set-ansi-no-error.sql" />
-    <Content Include="Unit Tests\Rules\set-ansi\set-ansi-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\set-ansi\set-ansi-one-error.sql" />
-    <Content Include="Unit Tests\Rules\semicolon-termination\statement-semicolon-termination-no-error.sql" />
-    <Content Include="Unit Tests\Rules\semicolon-termination\statement-semicolon-termination-one-error-mixed-state.sql" />
-    <Content Include="Unit Tests\Rules\semicolon-termination\statement-semicolon-termination-one-error.sql" />
-    <Content Include="Unit Tests\Rules\semicolon-termination\statement-semicolon-termination-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-no-error.sql" />
+    <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-one-error.sql" />
+    <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-two-errors.sql" />
     <Content Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-no-error.sql" />
-    <Content Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-one-error.sql" />
     <Content Include="Unit Tests\Rules\set-nocount\set-nocount-no-error.sql" />
-    <Content Include="Unit Tests\Rules\set-nocount\set-nocount-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\set-nocount\set-nocount-one-error.sql" />
     <Content Include="Unit Tests\Rules\select-star\select-star-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\select-star\select-star-two-errors.sql" />

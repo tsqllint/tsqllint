@@ -1,3 +1,3 @@
 ﻿CREATE TABLE MyTable 
-	(ID INT, 
-	Name nvarchar);
+    (ID INT, 
+     Name nvarchar);

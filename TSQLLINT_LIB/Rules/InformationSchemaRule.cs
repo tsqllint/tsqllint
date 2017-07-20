@@ -8,9 +8,9 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "information-schema"; } }
         public string RULE_TEXT { get { return "Do not use the INFORMATION_SCHEMA views, use SYS.Partitions"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
-        public InformationSchemaRule(Action<string, string, TSqlFragment> errorCallback)
+        public InformationSchemaRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -21,7 +21,7 @@ namespace TSQLLINT_LIB.Rules
 
             if (schemaIdentifier && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
             }
         }
     }

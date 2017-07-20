@@ -8,11 +8,11 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "set-transaction-isolation-level"; } }
         public string RULE_TEXT { get { return "Place Set Transaction Isolation Level Read Uncommitted near top of file"; }}
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
         private bool ErrorLogged;
 
-        public SetTransactionIsolationLevelRule(Action<string, string, TSqlFragment> errorCallback)
+        public SetTransactionIsolationLevelRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -23,7 +23,7 @@ namespace TSQLLINT_LIB.Rules
             node.AcceptChildren(childTransactionIsolationLevelVisitor);
             if (!childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound && !ErrorLogged)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
                 ErrorLogged = true;
             }
         }

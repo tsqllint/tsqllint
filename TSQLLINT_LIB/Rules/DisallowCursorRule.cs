@@ -8,16 +8,16 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME {get { return "disallow-cursors";}}
         public string RULE_TEXT { get { return "Use of cursors is not permitted"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
-        public DisallowCursorRule(Action<string, string, TSqlFragment> errorCallback)
+        public DisallowCursorRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
 
         public override void Visit(CursorStatement node)
         {
-            ErrorCallback(RULE_NAME, RULE_TEXT, node);
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
     }
 }

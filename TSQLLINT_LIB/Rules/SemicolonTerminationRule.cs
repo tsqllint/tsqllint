@@ -1,6 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.Linq.Expressions;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Interface;
 
@@ -10,9 +8,9 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME {get { return "semicolon-termination";}}
         public string RULE_TEXT { get { return "Terminate statements with semicolon"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
-        public SemicolonTerminationRule(Action<string, string, TSqlFragment> errorCallback)
+        public SemicolonTerminationRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -30,7 +28,7 @@ namespace TSQLLINT_LIB.Rules
             var lastTokenType = lastToken.TokenType;
             if (lastTokenType != TSqlTokenType.Semicolon)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, lastToken.Column + lastToken.Text.Length);
             }
         }
     }

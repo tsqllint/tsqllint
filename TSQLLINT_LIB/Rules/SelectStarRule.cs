@@ -8,11 +8,11 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "select-star"; } }
         public string RULE_TEXT { get { return "Specify column names in SELECT"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
         private int expressionCounter;
 
-        public SelectStarRule(Action<string, string, TSqlFragment> errorCallback)
+        public SelectStarRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -33,7 +33,7 @@ namespace TSQLLINT_LIB.Rules
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node);
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
         public class ChildVisitor : TSqlFragmentVisitor

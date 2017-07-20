@@ -8,9 +8,9 @@ namespace TSQLLINT_LIB.Rules
     {
         public string RULE_NAME { get { return "upper-lower"; } }
         public string RULE_TEXT { get { return "Use of the UPPER or LOWER functions is not required when running database in case insensitive mode"; } }
-        public Action<string, string, TSqlFragment> ErrorCallback;
+        public Action<string, string, int, int> ErrorCallback;
 
-        public UpperLowerRule(Action<string, string, TSqlFragment> errorCallback)
+        public UpperLowerRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
@@ -20,7 +20,7 @@ namespace TSQLLINT_LIB.Rules
             if (node.FunctionName.Value.Equals("UPPER", StringComparison.OrdinalIgnoreCase) ||
                 node.FunctionName.Value.Equals("LOWER", StringComparison.OrdinalIgnoreCase))
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node);
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
             }
         }
     }

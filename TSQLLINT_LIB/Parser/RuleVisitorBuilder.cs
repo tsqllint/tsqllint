@@ -42,13 +42,14 @@ namespace TSQLLINT_LIB.Parser
             {
                 var visitor = RuleVisitors[index];
 
-                Action<string, string, TSqlFragment> ErrorCallback = delegate(string ruleName, string ruleText, TSqlFragment node)
+                Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
                     {
                         violations.Add(new RuleViolation(
                             sqlPath,
                             ruleName,
                             ruleText,
-                            node,
+                            startLne,
+                            startColumn,
                             ConfigReader.GetRuleSeverity(ruleName)));
                     };
 
