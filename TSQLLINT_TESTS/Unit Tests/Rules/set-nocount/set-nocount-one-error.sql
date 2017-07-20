@@ -1,3 +1,8 @@
-﻿/* two statements, but should only produce one error*/
-SELECT * FROM FOO;
-SELECT * FROM FOO;
+﻿SELECT * FROM FOO;
+
+UPDATE FOO SET BAR = 1;
+
+DELETE FROM BAR;
+
+INSERT INTO Production.UnitMeasure (Name, ID)
+VALUES (N'Foo', 1);
