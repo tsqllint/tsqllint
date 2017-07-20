@@ -1,22 +1,40 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.IO;
+using NUnit.Framework;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
 {
     class CommandLineParserTest
     {
+        private string _configFilePath;
+        private string ConfigFilePath
+        {
+            get { return (string.IsNullOrWhiteSpace(_configFilePath) == false) ? _configFilePath : InitializeConfigFilePath(); }
+        }
+
+        private string InitializeConfigFilePath()
+        {
+            var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
+            var result = testDirectoryInfo.Parent.Parent.FullName;
+            _configFilePath = Path.Combine(result + "\\Integration Tests\\HappyPath\\.tsqllintrc");
+
+            return _configFilePath;
+        }
+
         [Test]
         public void NoProblems()
         {
             var args = new[]
             {
+                "-c", ConfigFilePath,
                 "-p", "c:\\database\\foo.sql"
             };
 
             var noProblemsReporter = new NoProblemsReporter();
             noProblemsReporter.Report("test message");
             var commandLineOptions = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(args, noProblemsReporter);
-            Assert.AreEqual(".tsqllintrc", commandLineOptions.ConfigFile);
+            Assert.AreEqual(ConfigFilePath, commandLineOptions.ConfigFile);
             Assert.AreEqual("c:\\database\\foo.sql", commandLineOptions.LintPath);
             Assert.AreEqual(1, noProblemsReporter.MessageCount);
             Assert.AreEqual(true, commandLineOptions.PerformLinting);
@@ -124,8 +142,10 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         {
             var initArgs = new[]
             {
+                "-c", ConfigFilePath,
                 "-p", ""
             };
+
             var noLintPathReporter = new NoLintPathReporter();
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, noLintPathReporter);
 
@@ -150,8 +170,10 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         {
             var initArgs = new[]
             {
-                "-p", "foo.sql bar.sql"
+                "-c", ConfigFilePath,
+                "-p", "foo.sql, bar.sql"
             };
+
             var lintPathFileListReporter = new LintPathFileListReporter();
             lintPathFileListReporter.Report("test message");
 
