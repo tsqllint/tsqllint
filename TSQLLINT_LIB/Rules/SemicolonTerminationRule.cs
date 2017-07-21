@@ -12,7 +12,7 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "Terminate statements with semicolon"; } }
         public Action<string, string, int, int> ErrorCallback;
 
-        private int TabLength = 4;
+        private const int TabLength = 4;
 
         // don't enforce semicolon termination on these statements
         private readonly Type[] TypesToSkip = {

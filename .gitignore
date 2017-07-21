@@ -293,3 +293,5 @@ coverage
 
 # npm logs
 npm-debug.log*
+
+.tsqllintrc
