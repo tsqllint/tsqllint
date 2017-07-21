@@ -19,6 +19,7 @@ namespace TSQLLINT_LIB.Parser
             typeof(DisallowCursorRule),
             typeof(InformationSchemaRule),
             typeof(KeywordCapitalizationRule),
+            typeof(MultiTableAliasRule),
             typeof(ObjectPropertyRule),
             typeof(PrintStatementRule),
             typeof(SchemaQualifyRule),

@@ -64,6 +64,8 @@
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-one-error.sql" />
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\multi-table-alias\multi-table-alias-multiple-errors-with-spaces.sql" />
+    <Content Include="Unit Tests\Rules\multi-table-alias\multi-table-alias-one-error-with-spaces.sql" />
     <Content Include="Unit Tests\Rules\print-statement\print-statement-no-error.sql" />
     <Content Include="Unit Tests\Rules\print-statement\print-statement-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\print-statement\print-statement-one-error.sql" />
@@ -80,6 +82,9 @@
     <Content Include="Unit Tests\Rules\keyword-capitalization\keyword-capitalization-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\keyword-capitalization\keyword-capitalization-one-error.sql" />
     <Content Include="Unit Tests\Rules\keyword-capitalization\keyword-capitalization-multiple-errors-tabs.sql" />
+    <Content Include="Unit Tests\Rules\multi-table-alias\multi-table-alias-no-error.sql" />
+    <Content Include="Unit Tests\Rules\multi-table-alias\multi-table-alias-one-error-with-tabs.sql" />
+    <Content Include="Unit Tests\Rules\multi-table-alias\multi-table-alias-multiple-errors-with-tabs.sql" />
     <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-multiple-errors-with-tab.sql" />
     <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-try-catch-while.sql" />
     <Content Include="Unit Tests\Rules\set-nocount\set-nocount-no-rowset-action.sql" />

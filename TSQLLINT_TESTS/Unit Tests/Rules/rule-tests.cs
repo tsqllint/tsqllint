@@ -128,6 +128,31 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
           }}
         };
 
+        public static readonly object[] multi_table_alias = {
+          new object[] {"multi-table-alias", "multi-table-alias-no-error",  typeof(MultiTableAliasRule), new List<RuleViolation>()},
+          new object[] {"multi-table-alias", "multi-table-alias-one-error-with-tabs", typeof(MultiTableAliasRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 10)
+          }},
+          new object[] {"multi-table-alias", "multi-table-alias-one-error-with-spaces", typeof(MultiTableAliasRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 10)
+          }},
+          new object[] {"multi-table-alias", "multi-table-alias-multiple-errors-with-tabs", typeof(MultiTableAliasRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 6),
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 3, startColumn: 6),
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 5, startColumn: 6),
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 14, startColumn: 6)
+          }},
+          new object[] {"multi-table-alias", "multi-table-alias-multiple-errors-with-spaces", typeof(MultiTableAliasRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 6),
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 3, startColumn: 6),
+              new RuleViolation(ruleName: "multi-table-alias", startLine: 5, startColumn: 6)
+          }}
+        };
+
         public static readonly object[] object_property = {
           new object[] {"object-property", "object-property-no-error",  typeof(ObjectPropertyRule), new List<RuleViolation>()},
           new object[] {"object-property", "object-property-one-error", typeof(ObjectPropertyRule), new List<RuleViolation>
@@ -281,6 +306,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
                TestCaseSource("disallow_cursors"),
                TestCaseSource("information_schema"),
                TestCaseSource("keyword_capitalization"),
+               TestCaseSource("multi_table_alias"),
                TestCaseSource("object_property"),
                TestCaseSource("print_statement"),
                TestCaseSource("schema_qualify"),

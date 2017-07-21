@@ -3,7 +3,7 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLINT_LIB.Rules.Common
 {
-    public static class TabCounter
+    public static class ColumnNumberCounter
     {
         // count all tabs on a line up to the last token index
         public static int CountTabsOnLine(int lastTokenLine, int lastTokenIndex, IList<TSqlParserToken> tokens)
@@ -26,6 +26,16 @@ namespace TSQLLINT_LIB.Rules.Common
                 }
             }
             return tabCount;
+        }
+
+        public static int GetColumnNumberBeforeToken(int tabsOnLine, TSqlParserToken token)
+        {
+            return token.Column + ((tabsOnLine * Constants.TabLength) - tabsOnLine);
+        }
+
+        public static int GetColumnNumberAfterToken(int tabsOnLine, TSqlParserToken token)
+        {
+            return token.Column + token.Text.Length + ((tabsOnLine * Constants.TabLength) - tabsOnLine);
         }
     }
 }

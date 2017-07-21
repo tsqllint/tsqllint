@@ -14,6 +14,7 @@ namespace TSQLLINT_LIB.Config
         ""disallow-cursors"": ""error"",
         ""information-schema"": ""error"",
         ""keyword-capitalization"": ""error"",
+        ""multi-table-alias"": ""error"",
         ""object-property"": ""error"",
         ""print-statement"": ""error"",
         ""schema-qualify"": ""error"",
