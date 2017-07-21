@@ -76,6 +76,10 @@
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-one-error-mixed-state.sql" />
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-one-error.sql" />
     <Content Include="Unit Tests\Rules\disallow-cursors\disallow-cursors-two-errors.sql" />
+    <Content Include="Unit Tests\Rules\keyword-capitalization\keyword-capitalization-no-error.sql" />
+    <Content Include="Unit Tests\Rules\keyword-capitalization\keyword-capitalization-one-error-mixed-state.sql" />
+    <Content Include="Unit Tests\Rules\keyword-capitalization\keyword-capitalization-one-error.sql" />
+    <Content Include="Unit Tests\Rules\keyword-capitalization\keyword-capitalization-multiple-errors-tabs.sql" />
     <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-multiple-errors-with-tab.sql" />
     <Content Include="Unit Tests\Rules\semicolon-termination\semicolon-termination-try-catch-while.sql" />
     <Content Include="Unit Tests\Rules\set-nocount\set-nocount-no-rowset-action.sql" />

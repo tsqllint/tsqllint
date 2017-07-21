@@ -108,6 +108,26 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
           }}
         };
 
+        public static readonly object[] keyword_capitalization = {
+          new object[] {"keyword-capitalization", "keyword-capitalization-no-error",  typeof(KeywordCapitalizationRule), new List<RuleViolation>()},
+          new object[] {"keyword-capitalization", "keyword-capitalization-one-error", typeof(KeywordCapitalizationRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "keyword-capitalization", startLine: 1, startColumn: 1)
+          }},
+          new object[] {"keyword-capitalization", "keyword-capitalization-multiple-errors-tabs", typeof(KeywordCapitalizationRule), new List<RuleViolation> 
+          {
+              new RuleViolation(ruleName: "keyword-capitalization", startLine: 1, startColumn: 1),
+              new RuleViolation(ruleName: "keyword-capitalization", startLine: 1, startColumn: 8),
+              new RuleViolation(ruleName: "keyword-capitalization", startLine: 3, startColumn: 20),
+              new RuleViolation(ruleName: "keyword-capitalization", startLine: 3, startColumn: 24)
+
+          }},
+          new object[] {"keyword-capitalization", "keyword-capitalization-one-error-mixed-state", typeof(KeywordCapitalizationRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "keyword-capitalization", startLine: 2, startColumn: 10)
+          }}
+        };
+
         public static readonly object[] object_property = {
           new object[] {"object-property", "object-property-no-error",  typeof(ObjectPropertyRule), new List<RuleViolation>()},
           new object[] {"object-property", "object-property-one-error", typeof(ObjectPropertyRule), new List<RuleViolation>
@@ -260,6 +280,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
                TestCaseSource("data_type_length"),
                TestCaseSource("disallow_cursors"),
                TestCaseSource("information_schema"),
+               TestCaseSource("keyword_capitalization"),
                TestCaseSource("object_property"),
                TestCaseSource("print_statement"),
                TestCaseSource("schema_qualify"),

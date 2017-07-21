@@ -48,11 +48,14 @@
     <Compile Include="Parser\RuleVisitorBuilder.cs" />
     <Compile Include="Parser\SqlFileProcessor.cs" />
     <Compile Include="Parser\SqlRuleVisitor.cs" />
+    <Compile Include="Rules\Common\Constants.cs" />
+    <Compile Include="Rules\Common\TabCounter.cs" />
     <Compile Include="Rules\DataTypeLengthRule.cs" />
     <Compile Include="Rules\Interface\ISqlRule.cs" />
     <Compile Include="Rules\PrintStatementRule.cs" />
     <Compile Include="Rules\ConditionalBeginEndRule.cs" />
     <Compile Include="Rules\DisallowCursorRule.cs" />
+    <Compile Include="Rules\KeywordCapitalizationRule.cs" />
     <Compile Include="Rules\UpperLowerRule.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolation.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolationSeverity.cs" />

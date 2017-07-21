@@ -18,6 +18,7 @@ namespace TSQLLINT_LIB.Parser
             typeof(DataTypeLengthRule),
             typeof(DisallowCursorRule),
             typeof(InformationSchemaRule),
+            typeof(KeywordCapitalizationRule),
             typeof(ObjectPropertyRule),
             typeof(PrintStatementRule),
             typeof(SchemaQualifyRule),
