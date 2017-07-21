@@ -13,6 +13,7 @@ namespace TSQLLINT_LIB.Config
         ""data-type-length"": ""error"",
         ""disallow-cursors"": ""error"",
         ""information-schema"": ""error"",
+        ""keyword-capitalization"": ""error"",
         ""object-property"": ""error"",
         ""print-statement"": ""error"",
         ""schema-qualify"": ""error"",
