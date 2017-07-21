@@ -182,9 +182,11 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
           {
               new RuleViolation(ruleName: "semicolon-termination", startLine: 1, startColumn: 18)
           }},
-          new object[] {"semicolon-termination", "semicolon-termination-one-error-with-tab", typeof(SemicolonTerminationRule), new List<RuleViolation>
+          new object[] {"semicolon-termination", "semicolon-termination-multiple-errors-with-tab", typeof(SemicolonTerminationRule), new List<RuleViolation>
           {
-              new RuleViolation(ruleName: "semicolon-termination", startLine: 2, startColumn: 21)
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 2, startColumn: 24),
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 3, startColumn: 28),
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 4, startColumn: 36)
           }},
           new object[] {"semicolon-termination", "semicolon-termination-multiple-errors", typeof(SemicolonTerminationRule), new List<RuleViolation> 
           {
@@ -193,7 +195,8 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
               new RuleViolation(ruleName: "semicolon-termination", startLine: 12, startColumn: 47),
               new RuleViolation(ruleName: "semicolon-termination", startLine: 14, startColumn: 29),
               new RuleViolation(ruleName: "semicolon-termination", startLine: 20, startColumn: 47),
-
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 25, startColumn: 7),
+              new RuleViolation(ruleName: "semicolon-termination", startLine: 27, startColumn: 4)
           }},
           new object[] {"semicolon-termination", "semicolon-termination-one-error-mixed-state", typeof(SemicolonTerminationRule), new List<RuleViolation>
           {

@@ -7,7 +7,7 @@ END CATCH
 
 DECLARE @KeepGoing INT = 1;
 WHILE (@KeepGoing = 1)
-BEGIN
+BEGIN;
   SELECT @KeepGoing = -1;
   PRINT 'Foo';
-END
+END;
