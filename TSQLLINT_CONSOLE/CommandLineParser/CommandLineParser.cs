@@ -26,7 +26,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
         [Option(shortName: 'c', 
             longName: "config", 
             Required = false,
-            HelpText = "Path to config file")]
+            HelpText = "Path to config file.")]
         public string ConfigFile {
             get
             {
@@ -45,19 +45,19 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
         [Option(shortName: 'i',
             longName: "init",
             Required = false,
-            HelpText = "Generate .tsqllintrc config file")]
+            HelpText = "Generate .tsqllintrc config file.")]
         public bool Init { get; set; }
 
         [Option(shortName: 'p',
             longName: "path",
             Required = false,
-            HelpText = "Target path for linting, or list of one or more files separated by whitespace")]
+            HelpText = "Target path for linting, or list of one or more files separated by whitespace.")]
         public string LintPath { get; set; }
 
         [Option(shortName: 'v',
             longName: "version",
             Required = false,
-            HelpText = "Display tsqllint version")]
+            HelpText = "Display tsqllint version.")]
         public bool Version { get; set; }
 
         private bool ParseCommandLineOptions()
