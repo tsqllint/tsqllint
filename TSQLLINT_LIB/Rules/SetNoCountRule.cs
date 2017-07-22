@@ -1,5 +1,5 @@
-using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System;
 using TSQLLINT_LIB.Rules.Interface;
 
 namespace TSQLLINT_LIB.Rules
@@ -19,22 +19,33 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlScript node)
         {
-            // walk child nodes to determine if rowset operations are occurring
-            var childRowsetVisitor = new ChildRowsetVisitor();
-            node.AcceptChildren(childRowsetVisitor);
-
-            if (!childRowsetVisitor.RowsetActionFound)
+            if (ErrorLogged)
             {
                 return;
             }
 
             var childNoCountVisitor = new ChildNoCountVisitor();
             node.AcceptChildren(childNoCountVisitor);
-            if (!childNoCountVisitor.SetNoCountFound && !ErrorLogged)
+            if (childNoCountVisitor.SetNoCountFound)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-                ErrorLogged = true;
+                return;
             }
+
+            // walk child nodes to determine if rowset operations are occurring
+            var childRowsetVisitor = new ChildRowsetVisitor();
+            node.AcceptChildren(childRowsetVisitor);
+
+            // walk child nodes to determine if DDL operations are occurring
+            var childDDLStatementFoundVisitor = new ChildDDLStatementFoundVisitor();
+            node.AcceptChildren(childDDLStatementFoundVisitor);
+
+            if (!childNoCountVisitor.SetNoCountFound && !childDDLStatementFoundVisitor.DDLStatementFound)
+            {
+                return;
+            }
+
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            ErrorLogged = true;
         }
 
         public class ChildRowsetVisitor : TSqlFragmentVisitor
@@ -59,6 +70,31 @@ namespace TSQLLINT_LIB.Rules
             public override void Visit(DeleteStatement node)
             {
                 RowsetActionFound = true;
+            }
+        }
+
+        public class ChildDDLStatementFoundVisitor : TSqlFragmentVisitor
+        {
+            public bool DDLStatementFound;
+
+            public override void Visit(CreateTableStatement node)
+            {
+                DDLStatementFound = true;
+            }
+
+            public override void Visit(AlterTableStatement node)
+            {
+                DDLStatementFound = true;
+            }
+
+            public override void Visit(DropTableStatement node)
+            {
+                DDLStatementFound = true;
+            }
+
+            public override void Visit(TruncateTableStatement node)
+            {
+                DDLStatementFound = true;
             }
         }
 
