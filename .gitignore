@@ -266,5 +266,4 @@ coverage
 npm-debug.log*
 
 # ignore tsqllintrc in root or scripts directories
-.tsqllintrc
 scripts/.tsqllintrc
