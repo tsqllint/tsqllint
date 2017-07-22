@@ -18,9 +18,9 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests
             var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             var result = testDirectoryInfo.Parent.Parent.FullName;
 
-            var lintpathBase = Path.Combine(result + "\\Integration Tests");
-            var lintFileOne = Path.Combine(lintpathBase + "\\Test Files\\integration-test-one.sql");
-            var lintFileTwo = Path.Combine(lintpathBase + "\\Test Files\\integration-test-two.sql");
+            var lintpathBase = Path.Combine(result + "\\IntegrationTests");
+            var lintFileOne = Path.Combine(lintpathBase + "\\TestFiles\\integration-test-one.sql");
+            var lintFileTwo = Path.Combine(lintpathBase + "\\TestFiles\\integration-test-two.sql");
             var lintTarget = Path.Combine(lintFileOne + ", " + lintFileTwo);
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintpathBase, ".tsqllintrc"));
@@ -38,8 +38,8 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests
         [Test]
         public void LintDirectory()
         {
-            var lintBase = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests");
-            var lintTarget = Path.Combine(lintBase, "Test Files");
+            var lintBase = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\IntegrationTests");
+            var lintTarget = Path.Combine(lintBase, "TestFiles");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintBase, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
@@ -70,7 +70,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests
         [Test]
         public void LintFile()
         {
-            var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests");
+            var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\IntegrationTests");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
@@ -78,7 +78,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests
             Assert.Throws<NotImplementedException>(() => { testReporter.Report(""); });
             var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
-            var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\Test Files\\integration-test-one.sql");
+            var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\IntegrationTests\\TestFiles\\integration-test-one.sql");
             fileProcessor.ProcessPath(lintFile);
             testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
         }
@@ -114,7 +114,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests
                 var ruleCompare = new RuleViolationCompare();
 
                 // assert
-                //Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
+                Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
                 CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, ruleCompare);
             }
 

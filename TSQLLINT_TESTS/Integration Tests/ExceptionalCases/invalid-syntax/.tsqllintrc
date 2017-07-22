@@ -1,7 +1,0 @@
-{
-  'rules': {
-    'select-star': 'error',
-    'statement-semicolon-termination': 'error',
-    'set-transaction-isolation-level': 'error'
-  }
-}

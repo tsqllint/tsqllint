@@ -11,7 +11,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.RuleVisitorBuilder
         [Test]
         public void GetRuleSeverity()
         {
-            var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\RuleVisitorBuilder\\.tsqllintrc");
+            var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\UnitTests\\RuleVisitorBuilder\\.tsqllintrc");
             var ConfigReader = new LintConfigReader(configfilePath);
             var RuleVisitorBuilder = new TSQLLINT_LIB.Parser.RuleVisitorBuilder(ConfigReader);
 

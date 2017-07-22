@@ -16,7 +16,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         {
             var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             var result = testDirectoryInfo.Parent.Parent.FullName;
-            _configFilePath = Path.Combine(result + "\\Integration Tests\\.tsqllintrc");
+            _configFilePath = Path.Combine(result + "\\IntegrationTests\\.tsqllintrc");
 
             return _configFilePath;
         }

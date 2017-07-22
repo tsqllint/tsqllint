@@ -1,5 +1,5 @@
-﻿using System.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System.IO;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Parser.Interfaces;
@@ -11,7 +11,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.ExceptionalCases
         [Test]
         public void InvalidLintPath()
         {
-            var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\ExceptionalCases\\invalid-lint-file-path\\");
+            var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\IntegrationTests\\ExceptionalCases\\invalid-lint-file-path\\");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);

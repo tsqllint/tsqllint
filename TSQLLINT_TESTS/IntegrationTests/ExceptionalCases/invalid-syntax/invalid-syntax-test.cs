@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using NUnit.Framework;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Parser.Interfaces;
@@ -14,14 +14,14 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.ExceptionalCases
         [Test]
         public void RuleValidationTest()
         {
-            var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\ExceptionalCases\\invalid-syntax");
+            var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\IntegrationTests\\ExceptionalCases\\invalid-syntax");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
             IReporter testReporter = new IntegrationExceptionalCaseTestReporter();
             var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
-            var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\ExceptionalCases\\invalid-syntax\\invalid-syntax.sql");
+            var lintFile = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\IntegrationTests\\ExceptionalCases\\invalid-syntax\\invalid-syntax.sql");
             fileProcessor.ProcessPath(lintFile);
             testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
 

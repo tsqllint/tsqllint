@@ -1,7 +1,0 @@
-﻿{
-    'rules': {
-        'schema-qualify': 'off',
-        'select-star': 'warning',
-        'semicolon-termination': 'error'
-    }
-}
