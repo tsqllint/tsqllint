@@ -1,8 +1,10 @@
-﻿using TSQLLINT_LIB.Parser.Interfaces;
+﻿using System.IO;
+using TSQLLINT_LIB.Config.Interfaces;
+using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Config
 {
-    public class ConfigFileGenerator
+    public class ConfigFileGenerator : IConfigFileGenerator
     {
         private readonly IBaseReporter Reporter;
         private const string ConfigString =
@@ -33,10 +35,10 @@ namespace TSQLLINT_LIB.Config
             Reporter = reporter;
         }
 
-        public void WriteConfigFile()
+        public void WriteConfigFile(string path)
         {
-            System.IO.File.WriteAllText(@".tsqllintrc", ConfigString);
-            Reporter.Report("Created default config file '.tsqllintrc'");
+            File.WriteAllText(path, ConfigString);
+            Reporter.Report(string.Format("Created default config file {0}", path));
         }
     }
 }

@@ -32,7 +32,9 @@ namespace TSQLLINT_LIB.Rules
             var childDDLStatementFoundVisitor = new ChildDDLStatementFoundVisitor();
             node.AcceptChildren(childDDLStatementFoundVisitor);
 
-            if (!childNoCountVisitor.SetNoCountFound && !childDDLStatementFoundVisitor.DDLStatementFound)
+            if (!childNoCountVisitor.SetNoCountFound && 
+                !childDDLStatementFoundVisitor.DDLStatementFound && 
+                !childRowsetVisitor.RowsetActionFound)
             {
                 return;
             }
