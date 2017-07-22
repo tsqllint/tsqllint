@@ -17,7 +17,7 @@ namespace TSQLLINT_CONSOLE
             var reporter = new ConsoleReporter();
             var commandLineOptions  = new CommandLineParser.CommandLineParser(args, reporter);
 
-            if (commandLineOptions != null && commandLineOptions.Init)
+            if (commandLineOptions.Init)
             {
                 var configFileGenerator = new ConfigFileGenerator(reporter);
 

@@ -37,7 +37,7 @@ namespace TSQLLINT_LIB.Config
         public void WriteConfigFile(string path)
         {
             File.WriteAllText(path, ConfigString);
-            Reporter.Report("Created default config file '.tsqllintrc'");
+            Reporter.Report(string.Format("Created default config file {0}", path));
         }
     }
 }

@@ -48,10 +48,10 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             HelpText = "Generate .tsqllintrc config file.")]
         public bool Init { get; set; }
 
-        [Option(shortName: 'p',
-            longName: "path",
+        [Option(shortName: 'f',
+            longName: "files",
             Required = false,
-            HelpText = "Target path for linting, or list of one or more files separated by whitespace.")]
+            HelpText = "Target for linting. May contain a single file, a directory to be recursively iterated over, or a list of comma separated files.")]
         public string LintPath { get; set; }
 
         [Option(shortName: 'v',

@@ -17,7 +17,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         {
             var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             var result = testDirectoryInfo.Parent.Parent.FullName;
-            _configFilePath = Path.Combine(result + "\\IntegrationTests\\.tsqllintrc");
+            _configFilePath = Path.Combine(result + @"\IntegrationTests\.tsqllintrc");
 
             return _configFilePath;
         }
@@ -25,17 +25,22 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         [Test]
         public void NoProblems()
         {
+            // arrange
             var args = new[]
             {
                 "-c", ConfigFilePath,
-                "-p", "c:\\database\\foo.sql"
+                "-f", @"c:\database\foo.sql"
             };
 
             var noProblemsReporter = new NoProblemsReporter();
             noProblemsReporter.Report("test message");
+
+            // act
             var commandLineOptions = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(args, noProblemsReporter);
+
+            // assert
             Assert.AreEqual(ConfigFilePath, commandLineOptions.ConfigFile);
-            Assert.AreEqual("c:\\database\\foo.sql", commandLineOptions.LintPath);
+            Assert.AreEqual(@"c:\database\foo.sql", commandLineOptions.LintPath);
             Assert.AreEqual(1, noProblemsReporter.MessageCount);
             Assert.AreEqual(true, commandLineOptions.PerformLinting);
         }
@@ -53,12 +58,16 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         [Test]
         public void DefaultConfigFile()
         {
+            // arrange
             var invalidConfigFileArgs = new string[0];
 
             var initArgsReporter = new InitArgsReporter();
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(invalidConfigFileArgs, initArgsReporter);
 
+            // act
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            //assert
 
             // should default to config file in user directory
             Assert.AreEqual(Path.Combine(usersDirectory, @".tsqllintrc"), commandLineParser.ConfigFile);
@@ -70,14 +79,18 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         [Test]
         public void InvalidConfigFile()
         {
+            // arrange
             var invalidConfigFileArgs = new[]
             {
                 "-c", ".tsqllintrc-foo"
             };
 
             var invalidConfigFileReporter = new InvalidConfigFileReporter();
+
+            // act
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(invalidConfigFileArgs, invalidConfigFileReporter);
 
+            // assert
             Assert.AreEqual(2, invalidConfigFileReporter.MessageCount);
             Assert.AreEqual(false, commandLineParser.PerformLinting);
         }
@@ -130,6 +143,8 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         [Test]
         public void InitArgs()
         {
+            // arrange
+
             var initArgs = new[]
             {
                 "-i"
@@ -137,7 +152,11 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             var initArgsReporter = new InitArgsReporter();
             initArgsReporter.Report("test message");
 
+            // act
+
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, initArgsReporter);
+
+            // assert
 
             // only the test message should have been sent
             Assert.AreEqual(1, initArgsReporter.MessageCount);
@@ -157,6 +176,8 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         [Test]
         public void VersionArgs()
         {
+            // arrange
+
             var initArgs = new[]
             {
                 "-v"
@@ -164,7 +185,10 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             var versionArgsReporter = new VersionArgsReporter();
             versionArgsReporter.Report("test message");
 
+            // act
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, versionArgsReporter);
+
+            // assert
 
             // only the test message should have been sent
             Assert.AreEqual(1, versionArgsReporter.MessageCount);
@@ -184,15 +208,21 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         [Test]
         public void NoLintPath()
         {
+            // arrange
             var initArgs = new[]
             {
                 "-c", ConfigFilePath,
-                "-p", ""
+                "-f", ""
             };
 
             var noLintPathReporter = new NoLintPathReporter();
+
+            // act
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, noLintPathReporter);
 
+            // assert
+
+            // only the test message should have been sent
             Assert.AreEqual(1, noLintPathReporter.MessageCount);
             Assert.AreEqual(false, commandLineParser.PerformLinting);
         }
@@ -212,16 +242,22 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         [Test]
         public void LintPathFileList()
         {
+            // arrange
+
             var initArgs = new[]
             {
                 "-c", ConfigFilePath,
-                "-p", "foo.sql, bar.sql"
+                "-f", "foo.sql, bar.sql"
             };
 
             var lintPathFileListReporter = new LintPathFileListReporter();
             lintPathFileListReporter.Report("test message");
 
+            // act
+
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, lintPathFileListReporter);
+
+            // assert
 
             Assert.AreEqual(1, lintPathFileListReporter.MessageCount);
             Assert.AreEqual(true, commandLineParser.PerformLinting);
