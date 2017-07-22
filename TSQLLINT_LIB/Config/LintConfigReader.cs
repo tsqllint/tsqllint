@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Config

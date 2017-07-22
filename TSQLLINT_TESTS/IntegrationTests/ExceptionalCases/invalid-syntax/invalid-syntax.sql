@@ -1,1 +1,0 @@
-﻿SLEECT FOO FROM BAR;

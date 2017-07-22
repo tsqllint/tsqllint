@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace TSQLLINT_LIB_TESTS
+namespace TSQLLINT_LIB_TESTS.Helpers
 {
     public class TestHelper
     {
