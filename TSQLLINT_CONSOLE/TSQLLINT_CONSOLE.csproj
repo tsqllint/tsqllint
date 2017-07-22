@@ -63,11 +63,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineOptionHandler.cs" />
-    <Compile Include="CommandLineParser\CommandLineParser.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionHandler.cs" />
+    <Compile Include="CommandLineOptions\CommandLineParser.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
-    <Compile Include="CommandLineParser\IValidator.cs" />
-    <Compile Include="CommandLineParser\OptionsValidator.cs" />
+    <Compile Include="CommandLineOptions\IValidator.cs" />
+    <Compile Include="CommandLineOptions\OptionsValidator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

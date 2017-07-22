@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.IO;
+using NUnit.Framework;
 using TSQLLINT_LIB.Parser.Interfaces;
 
-namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
+namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
 {
     class CommandLineParserTest
     {

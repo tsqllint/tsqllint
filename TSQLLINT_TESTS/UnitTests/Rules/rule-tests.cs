@@ -1,14 +1,14 @@
-﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
+using NUnit.Framework;
 using TSQLLINT_LIB;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Rules;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
-namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
+namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
 {
     public class SelectStarRuleTests
     {
