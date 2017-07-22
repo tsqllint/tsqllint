@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.IO;
 using TSQLLINT_LIB.Parser.Interfaces;
 
@@ -47,6 +48,23 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             {
                 MessageCount++;
             }
+        }
+
+        [Test]
+        public void DefaultConfigFile()
+        {
+            var invalidConfigFileArgs = new string[0];
+
+            var initArgsReporter = new InitArgsReporter();
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(invalidConfigFileArgs, initArgsReporter);
+
+            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            // should default to config file in user directory
+            Assert.AreEqual(Path.Combine(usersDirectory, @".tsqllintrc"), commandLineParser.ConfigFile);
+
+            // should not continue with linting
+            Assert.AreEqual(false, commandLineParser.PerformLinting);
         }
 
         [Test]
