@@ -20,7 +20,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests
 
             var lintpathBase = Path.Combine(result + "\\IntegrationTests");
             var lintFileOne = Path.Combine(lintpathBase + "\\TestFiles\\integration-test-one.sql");
-            var lintFileTwo = Path.Combine(lintpathBase + "\\TestFiles\\integration-test-two.sql");
+            var lintFileTwo = Path.Combine(lintpathBase + "\\TestFiles\\TestFileSubDirectory\\integration-test-two.sql");
             var lintTarget = Path.Combine(lintFileOne + ", " + lintFileTwo);
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintpathBase, ".tsqllintrc"));

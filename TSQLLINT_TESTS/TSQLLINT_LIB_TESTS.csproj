@@ -57,7 +57,7 @@
     <Compile Include="IntegrationTests\integration-test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="IntegrationTests\ExceptionalCases\invalid-syntax\invalid-syntax.sql" />
-    <Content Include="IntegrationTests\TestFiles\integration-test-two.sql" />
+    <Content Include="IntegrationTests\TestFiles\TestFileSubDirectory\integration-test-two.sql" />
     <Content Include="IntegrationTests\TestFiles\integration-test-one.sql" />
     <Compile Include="UnitTests\Rules\rule-tests.cs" />
     <Content Include="UnitTests\Rules\data-type-length\data-type-length-all-errors.sql" />
