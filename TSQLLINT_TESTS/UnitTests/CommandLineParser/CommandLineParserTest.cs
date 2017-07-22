@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.IO;
 using TSQLLINT_LIB.Parser.Interfaces;
 
@@ -160,6 +161,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             public void Report(string message)
             {
                 MessageCount++;
+                Console.WriteLine(message);
             }
         }
 
