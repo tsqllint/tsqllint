@@ -1,4 +1,5 @@
-﻿using TSQLLINT_LIB.Parser.Interfaces;
+﻿using System.IO;
+using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Config
 {
@@ -33,9 +34,9 @@ namespace TSQLLINT_LIB.Config
             Reporter = reporter;
         }
 
-        public void WriteConfigFile()
+        public void WriteConfigFile(string path)
         {
-            System.IO.File.WriteAllText(@".tsqllintrc", ConfigString);
+            File.WriteAllText(path, ConfigString);
             Reporter.Report("Created default config file '.tsqllintrc'");
         }
     }

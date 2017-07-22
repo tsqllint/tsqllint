@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using TSQLLINT_CONSOLE.Reporters;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
@@ -18,7 +20,11 @@ namespace TSQLLINT_CONSOLE
             if (commandLineOptions != null && commandLineOptions.Init)
             {
                 var configFileGenerator = new ConfigFileGenerator(reporter);
-                configFileGenerator.WriteConfigFile();
+
+                var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
+
+                configFileGenerator.WriteConfigFile(configFilePath);
                 return;
             }
 

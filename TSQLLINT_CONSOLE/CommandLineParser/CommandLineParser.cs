@@ -1,7 +1,8 @@
-﻿using System;
-using System.Diagnostics;   
-using CommandLine;
+﻿using CommandLine;
 using CommandLine.Text;
+using System;
+using System.Diagnostics;
+using System.IO;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.CommandLineParser
@@ -20,12 +21,26 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             PerformLinting = ParseCommandLineOptions();
         }
 
+        private string _ConfigFile;
+
         [Option(shortName: 'c', 
             longName: "config", 
             Required = false,
-            HelpText = "Path to config file", 
-            DefaultValue = ".tsqllintrc")]
-        public string ConfigFile { get; set; }
+            HelpText = "Path to config file")]
+        public string ConfigFile {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_ConfigFile))
+                {
+                    return _ConfigFile;
+                }
+
+                var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                _ConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
+                return _ConfigFile;
+            }
+            set { _ConfigFile = value; }
+        }
 
         [Option(shortName: 'p',
             longName: "path",
