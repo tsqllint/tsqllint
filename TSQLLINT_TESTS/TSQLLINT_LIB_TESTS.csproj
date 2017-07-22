@@ -54,7 +54,7 @@
     <None Include="Integration Tests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
     <None Include="Integration Tests\.tsqllintrc" />
     <Compile Include="Unit Tests\Config\ConfigReaderTests.cs" />
-    <Compile Include="Integration Tests\happy-path-test.cs" />
+    <Compile Include="Integration Tests\integration-test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Integration Tests\ExceptionalCases\invalid-syntax\invalid-syntax.sql" />
     <Content Include="Integration Tests\Test Files\integration-test-two.sql" />
