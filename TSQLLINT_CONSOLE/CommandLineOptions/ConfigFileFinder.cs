@@ -4,7 +4,7 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
 {
     public class ConfigFileFinder : IConfigFileFinder
     {
-        public bool FindDefaultConfigFile(string configFile)
+        public bool FindFile(string configFile)
         {
             return File.Exists(configFile);
         }

@@ -2,6 +2,6 @@
 {
     public interface IConfigFileFinder
     {
-        bool FindDefaultConfigFile(string configFile);
+        bool FindFile(string configFile);
     }
 }

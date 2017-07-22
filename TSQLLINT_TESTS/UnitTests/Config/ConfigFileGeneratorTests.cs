@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
+using TSQLLINT_CONSOLE.CommandLineOptions;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 
@@ -26,12 +27,13 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             // arrange
             var reporter = new TestReporter(); 
             var configFileGenerator = new ConfigFileGenerator(reporter);
+            var configFileFinder = new ConfigFileFinder();
 
             // act
             configFileGenerator.WriteConfigFile(ConfigFileName);
 
             // assert
-            Assert.IsTrue(File.Exists(ConfigFileName));
+            Assert.IsTrue(configFileFinder.FindFile(ConfigFileName));
             Assert.AreEqual(1, reporter.MessageCount);
         }
 

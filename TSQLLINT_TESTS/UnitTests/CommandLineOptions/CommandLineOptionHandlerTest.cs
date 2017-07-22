@@ -142,7 +142,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
                 ShouldFindFile = shouldFindFile;
             }
 
-            public bool FindDefaultConfigFile(string configFile)
+            public bool FindFile(string configFile)
             {
                 return ShouldFindFile;
             }

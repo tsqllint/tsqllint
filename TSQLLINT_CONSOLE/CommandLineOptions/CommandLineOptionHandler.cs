@@ -32,7 +32,7 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
 
             if (commandLineOptions.PrintConfig)
             {
-                if (!configFileFinder.FindDefaultConfigFile(commandLineOptions.ConfigFile))
+                if (!configFileFinder.FindFile(commandLineOptions.ConfigFile))
                 {
                     reporter.Report("Default config file not found. You may generate it with the '--init' option");
                     return;
