@@ -48,6 +48,7 @@
     <Compile Include="TestHelper.cs" />
     <Compile Include="Unit Tests\CommandLineParser\CommandLineParserTest.cs" />
     <Compile Include="Unit Tests\Config\ConfigFileGeneratorTests.cs" />
+    <Compile Include="RuleViolationCompare.cs" />
     <Compile Include="Unit Tests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
     <None Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
     <None Include="Integration Tests\ExceptionalCases\invalid-syntax\.tsqllintrc" />

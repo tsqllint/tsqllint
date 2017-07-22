@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
-using NUnit.Framework;
 using TSQLLINT_LIB;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Rules;
@@ -342,37 +341,8 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Rules
             // assert
             Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
 
-            var compareer = new RuleViolationComparer();
+            var compareer = new RuleViolationCompare();
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
-        }
-        
-        public class RuleViolationComparer : IComparer, IComparer<RuleViolation>
-        {
-            public int Compare(object x, object y)
-            {
-                var lhs = x as RuleViolation;
-                var rhs = y as RuleViolation;
-                if (lhs == null || rhs == null) throw new InvalidOperationException();
-                return Compare(lhs, rhs);
-            }
-
-            public int Compare(RuleViolation x, RuleViolation y)
-            {
-                if (x.Line != y.Line)
-                {
-                    return -1;
-                }
-                if (x.Column != y.Column)
-                {
-                    return -1;
-                }
-                if (x.RuleName != y.RuleName)
-                {
-                    return -1;
-                }
-
-                return 0;
-            }
         }
     }
 }

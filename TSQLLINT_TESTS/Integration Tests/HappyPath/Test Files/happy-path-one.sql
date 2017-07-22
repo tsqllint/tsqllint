@@ -1,35 +1,59 @@
-﻿-- uses of objectproperty should error
+﻿-- conditional-begin-end
+IF(1 = 1)
+	SELECT 1 FROM DBO.FOO;
+
+-- data-compression
+CREATE TABLE [dbo].[MyTable]
+	([ID] INT, 
+	 [Name] nvarchar(64));
+
+-- data-type-length
+CREATE TABLE MyTable 
+	(ID INT, 
+	 Name nvarchar)
+WITH (DATA_COMPRESSION = ROW);
+
+-- disallow-cursors
+OPEN some_cursor;
+
+-- information-schema
+SELECT TABLE_CATALOG FROM dbo.SomeDatabase.INFORMATION_SCHEMA.COLUMNS;
+
+-- keyword-capitalization
+select Name FROM dbo.foo;
+
+-- multi-table-alias
+SELECT Name, v.Name
+	FROM Purchasing.Product
+JOIN Purchasing.ProductVendor pv
+	ON ProductID = pv.ProductID
+JOIN Purchasing.Vendor v
+	ON pv.BusinessEntityID = v.BusinessEntityID
+WHERE ProductSubcategoryID = 15
+ORDER BY v.Name;
+
+-- object-property
 SELECT name, object_id, type_desc  
 FROM sys.objects   
 WHERE OBJECTPROPERTY(object_id, N'SchemaId') = SCHEMA_ID(N'Production')  
-ORDER BY type_desc, name;  
+ORDER BY type_desc, name;
 
--- statement not terminated with semicolon
-UPDATE [dbo].[FOO] SET BAR = 1
-
--- tables are not schema qualified
-SELECT FOO FROM BAR;
-
--- select star discouraged
-SELECT * FROM dbo.BAR;
-
--- create table without compression or data length
-CREATE TABLE [dbo].[MyTable]
-    ([ID] INT, 
-     [Name] nvarchar);
-
--- checking information schema rather than sys tables
-SELECT TABLE_CATALOG FROM dbo.SomeDatabase.INFORMATION_SCHEMA.COLUMNS;
-
--- uses of upper lower should error
-SELECT upper("foo");
-
--- print statements should not be allowed
+-- print-statement
 PRINT 'Foo';
 
--- conditional blocks should contain being end blocks
-IF(1 = 1)
-    SELECT 1 FROM DBO.FOO;
+-- schema-qualify
+SELECT FOO FROM BAR;
 
--- disallow cursors
-OPEN some_cursor;
+-- select-star
+SELECT * FROM dbo.BAR;
+
+-- semicolon-termination
+UPDATE [dbo].[FOO] SET BAR = 1
+
+-- set-ansi
+-- set-nocount
+-- set-quoted-identifier
+-- set-transaction-isolation-level
+
+-- upper-lower
+SELECT upper("foo");

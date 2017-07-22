@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Parser.Interfaces;
@@ -10,10 +10,10 @@ using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
 {
-    public class IntegrationHappyPathCases
+    public class IntegrationTests
     {
         [Test]
-        public void HappyPathLintMultipleFiles()
+        public void LintMultipleFiles()
         {
             var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             var result = testDirectoryInfo.Parent.Parent.FullName;
@@ -25,7 +25,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintpathBase, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
-            IReporter testReporter = new HappyPathLintDirectoryTestReporter();
+            IReporter testReporter = new LintDirectoryTestReporter();
             var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
             fileProcessor.ProcessPath(lintTarget);
@@ -36,13 +36,13 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
         }
 
         [Test]
-        public void HappyPathLintDirectory()
+        public void LintDirectory()
         {
             var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
-            IReporter testReporter = new HappyPathLintDirectoryTestReporter();
+            IReporter testReporter = new LintDirectoryTestReporter();
             var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
             fileProcessor.ProcessPath(lintTarget);
@@ -52,7 +52,7 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             Assert.Throws<NotImplementedException>(() => { testReporter.Report(""); });
         }
 
-        internal class HappyPathLintDirectoryTestReporter : IReporter
+        internal class LintDirectoryTestReporter : IReporter
         {
             public void ReportResults(List<RuleViolation> violations, TimeSpan timespan, int fileCount)
             {
@@ -67,13 +67,13 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
         }
 
         [Test]
-        public void HappyPathLintFile()
+        public void LintFile()
         {
             var lintTarget = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Integration Tests\\HappyPath");
 
             ILintConfigReader configReader = new LintConfigReader(Path.Combine(lintTarget, ".tsqllintrc"));
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(configReader);
-            IReporter testReporter = new HappyPathLintFileTestReporter();
+            IReporter testReporter = new LintFileTestReporter();
             Assert.Throws<NotImplementedException>(() => { testReporter.Report(""); });
             var fileProcessor = new SqlFileProcessor(ruleVisitor, testReporter);
 
@@ -82,54 +82,39 @@ namespace TSQLLINT_LIB_TESTS.Integration_Tests.HappyPath
             testReporter.ReportResults(ruleVisitor.Violations, new TimeSpan(), 0);
         }
 
-        internal class HappyPathLintFileTestReporter : IReporter
+        internal class LintFileTestReporter : IReporter
         {
-            public void ReportResults(List<RuleViolation> violations, TimeSpan timespan, int fileCount)
+            public void ReportResults(List<RuleViolation> ruleViolations, TimeSpan timespan, int fileCount)
             {
-                var conditionalBeginEnd = violations.Where(x => x.RuleName == "conditional-begin-end");
-                Assert.AreEqual(1, conditionalBeginEnd.Count(), "there should be one conditional-begin-end violation");
+                var expectedRuleViolations = new List<RuleViolation>
+                {
+                    new RuleViolation(ruleName: "conditional-begin-end", startLine: 2, startColumn: 1),
+                    new RuleViolation(ruleName: "data-compression", startLine: 6, startColumn: 1),
+                    new RuleViolation(ruleName: "data-type-length", startLine: 13, startColumn: 16),
+                    new RuleViolation(ruleName: "disallow-cursors", startLine: 17, startColumn: 1),
+                    new RuleViolation(ruleName: "information-schema", startLine: 20, startColumn: 27),
+                    new RuleViolation(ruleName: "keyword-capitalization", startLine: 23, startColumn: 1),
+                    new RuleViolation(ruleName: "multi-table-alias", startLine: 27, startColumn: 10),
+                    new RuleViolation(ruleName: "object-property", startLine: 38, startColumn: 7),
+                    new RuleViolation(ruleName: "print-statement", startLine: 42, startColumn: 1),
+                    new RuleViolation(ruleName: "schema-qualify", startLine: 45, startColumn: 17),
+                    new RuleViolation(ruleName: "select-star", startLine: 48, startColumn: 8),
+                    new RuleViolation(ruleName: "semicolon-termination", startLine: 51, startColumn: 31),
+                    new RuleViolation(ruleName: "set-ansi", startLine: 1, startColumn: 1),
+                    new RuleViolation(ruleName: "set-nocount", startLine: 1, startColumn: 1),
+                    new RuleViolation(ruleName: "set-quoted-identifier", startLine: 1, startColumn: 1),
+                    new RuleViolation(ruleName: "set-transaction-isolation-level", startLine: 1, startColumn: 1),
+                    new RuleViolation(ruleName: "upper-lower", startLine: 59, startColumn: 8),
+                };
 
-                var dataCompressionViolations = violations.Where(x => x.RuleName == "data-compression");
-                Assert.AreEqual(1, dataCompressionViolations.Count(), "there should be one data-compression violation");
+                ruleViolations = ruleViolations.OrderBy(o => o.RuleName).ToList();
+                expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.RuleName).ToList();
 
-                var dataTypeLength = violations.Where(x => x.RuleName == "data-type-length");
-                Assert.AreEqual(1, dataTypeLength.Count(), "there should be one data-type-length violation");
+                var ruleCompare = new RuleViolationCompare();
 
-                var disallowCursors = violations.Where(x => x.RuleName == "disallow-cursors");
-                Assert.AreEqual(1, disallowCursors.Count(), "there should be one disallow-cursors violation");
-
-                var informationSchema = violations.Where(x => x.RuleName == "information-schema");
-                Assert.AreEqual(1, informationSchema.Count(), "there should be one information-schema violation");
-
-                var objectProperty = violations.Where(x => x.RuleName == "object-property");
-                Assert.AreEqual(1, objectProperty.Count(), "there should be one object-property violation");
-
-                var printStatement = violations.Where(x => x.RuleName == "print-statement");
-                Assert.AreEqual(1, printStatement.Count(), "there should be one print-statement violation");
-
-                var schemaQualify = violations.Where(x => x.RuleName == "schema-qualify");
-                Assert.AreEqual(1, schemaQualify.Count(), "there should be one schema-qualify violation");
-
-                var selectStar = violations.Where(x => x.RuleName == "select-star");
-                Assert.AreEqual(1, selectStar.Count(), "there should be one select-star violation");
-
-                var statementSemicolonTermination = violations.Where(x => x.RuleName == "semicolon-termination");
-                Assert.AreEqual(1, statementSemicolonTermination.Count(), "there should be one statement-semicolon-termination violation");
-
-                var setAnsi = violations.Where(x => x.RuleName == "set-ansi");
-                Assert.AreEqual(1, setAnsi.Count(), "there should be one set-ansi violation");
-
-                var setNocount = violations.Where(x => x.RuleName == "set-nocount");
-                Assert.AreEqual(1, setNocount.Count(), "there should be one set-nocount violation");
-
-                var setQuoted = violations.Where(x => x.RuleName == "set-quoted-identifier");
-                Assert.AreEqual(1, setQuoted.Count(), "there should be one set-quoted-identifier violation");
-
-                var setTransactionIsolationLevel = violations.Where(x => x.RuleName == "set-transaction-isolation-level");
-                Assert.AreEqual(1, setTransactionIsolationLevel.Count(), "there should be one set-transaction-isolation-level violation");
-
-                var upperLower = violations.Where(x => x.RuleName == "upper-lower");
-                Assert.AreEqual(1, upperLower.Count(), "there should be one upper-lower violation");
+                // assert
+                //Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
+                CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, ruleCompare);
             }
 
             public void Report(string message)
