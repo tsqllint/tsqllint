@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Parser
@@ -34,19 +33,24 @@ namespace TSQLLINT_LIB.Parser
                 pathStrings[index] = pathStrings[index].Trim();
             }
 
-            foreach (var pathString in pathStrings)
+            for (var index = 0; index < pathStrings.Length; index++)
             {
-                if (File.Exists(@pathString))
+                var pathString = pathStrings[index];
+
+                if (!File.Exists(pathString))
                 {
-                    ProcessFile(Utility.GetFileContents(pathString), pathString);
-                }
-                else if (Directory.Exists(@pathString))
-                {
-                    ProcessDirectory(pathString);
+                    if (Directory.Exists(pathString))
+                    {
+                        ProcessDirectory(pathString);
+                    }
+                    else
+                    {
+                        Reporter.Report(string.Format("\n\n{0} is not a valid path.", pathString));
+                    }
                 }
                 else
                 {
-                    Reporter.Report(string.Format("\n\n{0} is not a valid path.", pathString));
+                    ProcessFile(Utility.GetFileContents(pathString), pathString);
                 }
             }
         }
@@ -54,20 +58,21 @@ namespace TSQLLINT_LIB.Parser
         private void ProcessDirectory(string path)
         {
             var subdirectoryEntries = Directory.GetDirectories(path);
-            foreach (var subdirectory in subdirectoryEntries)
+            for (var index = 0; index < subdirectoryEntries.Length; index++)
             {
+                var subdirectory = subdirectoryEntries[index];
                 ProcessPath(subdirectory);
             }
 
             var fileEntries = Directory.GetFiles(path);
-            foreach (var fileName in fileEntries)
+            for (var index = 0; index < fileEntries.Length; index++)
             {
-                if (Path.GetExtension(fileName) != ".sql")
+                var fileName = fileEntries[index];
+                if (Path.GetExtension(fileName) == ".sql")
                 {
-                    continue;
+                    var fileContents = Utility.GetFileContents(fileName);
+                    ProcessFile(fileContents, fileName);
                 }
-                var fileContents = Utility.GetFileContents(fileName);
-                ProcessFile(fileContents, fileName);
             }
         }
 

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System.Collections.Generic;
 using System.IO;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
@@ -31,8 +31,9 @@ namespace TSQLLINT_LIB.Parser
                 return;
             }
 
-            foreach (var visitor in RuleVisitorBuilder.BuildVisitors(sqlPath, Violations))
+            for (var index = 0; index < RuleVisitorBuilder.BuildVisitors(sqlPath, Violations).Count; index++)
             {
+                var visitor = RuleVisitorBuilder.BuildVisitors(sqlPath, Violations)[index];
                 sqlFragment.Accept(visitor);
             }
         }

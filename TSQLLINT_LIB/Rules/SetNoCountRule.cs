@@ -10,8 +10,6 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "SET NOCOUNT ON near top of file"; } }
         public Action<string, string, int, int> ErrorCallback;
 
-        private bool ErrorLogged;
-
         public SetNoCountRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
@@ -19,11 +17,6 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlScript node)
         {
-            if (ErrorLogged)
-            {
-                return;
-            }
-
             var childNoCountVisitor = new ChildNoCountVisitor();
             node.AcceptChildren(childNoCountVisitor);
             if (childNoCountVisitor.SetNoCountFound)
@@ -45,7 +38,6 @@ namespace TSQLLINT_LIB.Rules
             }
 
             ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-            ErrorLogged = true;
         }
 
         public class ChildRowsetVisitor : TSqlFragmentVisitor
