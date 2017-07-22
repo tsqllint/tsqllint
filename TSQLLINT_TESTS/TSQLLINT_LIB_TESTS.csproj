@@ -46,7 +46,8 @@
     <Compile Include="IntegrationTests\ExceptionalCases\invalid-lint-file-path\invalid-lint-file-path-test.cs" />
     <Compile Include="IntegrationTests\ExceptionalCases\invalid-syntax\invalid-syntax-test.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="UnitTests\CommandLineParser\CommandLineParserTest.cs" />
+    <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />
+    <Compile Include="UnitTests\CommandLineOptions\CommandLineParserTest.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
     <Compile Include="RuleViolationCompare.cs" />
     <Compile Include="UnitTests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />

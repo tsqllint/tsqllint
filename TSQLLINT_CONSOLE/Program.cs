@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using TSQLLINT_CONSOLE.CommandLineOptions;
 using TSQLLINT_CONSOLE.CommandLineParser;
 using TSQLLINT_CONSOLE.Reporters;
 using TSQLLINT_LIB.Config;
@@ -16,7 +17,9 @@ namespace TSQLLINT_CONSOLE
             var reporter = new ConsoleReporter();
             var commandLineOptions  = new ConsoleCommandLineOptionParser(args, reporter);
             var commandLineOptionHandler = new CommandLineOptionHandler();
-            commandLineOptionHandler.HandleCommandLineOptions(commandLineOptions, reporter);
+            var configFileGenerator = new ConfigFileGenerator(reporter);
+            var configFileFinder = new ConfigFileFinder();
+            commandLineOptionHandler.HandleCommandLineOptions(commandLineOptions, configFileFinder, configFileGenerator, reporter);
 
             if (!commandLineOptions.PerformLinting)
             {

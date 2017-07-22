@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using TSQLLINT_CONSOLE.CommandLineParser;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 
-namespace TSQLLINT_CONSOLE.CommandLineParser
+namespace TSQLLINT_CONSOLE.CommandLineOptions
 {
     public class CommandLineOptionHandler
     {
-        public void HandleCommandLineOptions(ConsoleCommandLineOptionParser commandLineOptions, IReporter reporter)
+        public void HandleCommandLineOptions(ConsoleCommandLineOptionParser commandLineOptions, 
+            IConfigFileFinder configFileFinder,
+            IConfigFileGenerator configFileGenerator, 
+            IBaseReporter reporter)
         {
             if (commandLineOptions.Init)
             {
-                var configFileGenerator = new ConfigFileGenerator(reporter);
-
                 var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
 
@@ -30,7 +32,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
 
             if (commandLineOptions.PrintConfig)
             {
-                if (!File.Exists(commandLineOptions.ConfigFile))
+                if (!configFileFinder.FindDefaultConfigFile(commandLineOptions.ConfigFile))
                 {
                     reporter.Report("Default config file not found. You may generate it with the '--init' option");
                     return;

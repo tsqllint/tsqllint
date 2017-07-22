@@ -65,8 +65,10 @@
   <ItemGroup>
     <Compile Include="CommandLineOptions\CommandLineOptionHandler.cs" />
     <Compile Include="CommandLineOptions\CommandLineParser.cs" />
+    <Compile Include="CommandLineOptions\ConfigFileFinder.cs" />
+    <Compile Include="CommandLineOptions\Interfaces\IConfigFileFinder.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
-    <Compile Include="CommandLineOptions\IValidator.cs" />
+    <Compile Include="CommandLineOptions\Interfaces\IValidator.cs" />
     <Compile Include="CommandLineOptions\OptionsValidator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

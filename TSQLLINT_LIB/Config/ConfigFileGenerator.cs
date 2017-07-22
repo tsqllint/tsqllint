@@ -3,7 +3,7 @@ using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Config
 {
-    public class ConfigFileGenerator
+    public class ConfigFileGenerator : IConfigFileGenerator
     {
         private readonly IBaseReporter Reporter;
         private const string ConfigString =
