@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NUnit.Framework;
+using System;
+using System.IO;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
@@ -10,7 +10,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.Config
     public class ConfigReaderTests
     {
         [Test]
-        public void GetRuleSeverityHappyPath()
+        public void GetRuleSeverity()
         {
             var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\Config\\.tsqllintrc");
             var ConfigReader = new LintConfigReader(configfilePath);

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using System.IO;
-using NUnit.Framework;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
@@ -9,7 +9,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.RuleVisitorBuilder
     class RuleVisitorBuilderTest
     {
         [Test]
-        public void GetRuleSeverityHappyPath()
+        public void GetRuleSeverity()
         {
             var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\Unit Tests\\RuleVisitorBuilder\\.tsqllintrc");
             var ConfigReader = new LintConfigReader(configfilePath);

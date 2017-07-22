@@ -52,13 +52,13 @@
     <Compile Include="Unit Tests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
     <None Include="Integration Tests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
     <None Include="Integration Tests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
-    <None Include="Integration Tests\HappyPath\.tsqllintrc" />
+    <None Include="Integration Tests\.tsqllintrc" />
     <Compile Include="Unit Tests\Config\ConfigReaderTests.cs" />
-    <Compile Include="Integration Tests\HappyPath\happy-path-test.cs" />
+    <Compile Include="Integration Tests\happy-path-test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Integration Tests\ExceptionalCases\invalid-syntax\invalid-syntax.sql" />
-    <Content Include="Integration Tests\HappyPath\Test Files\happy-path-two.sql" />
-    <Content Include="Integration Tests\HappyPath\Test Files\happy-path-one.sql" />
+    <Content Include="Integration Tests\Test Files\integration-test-two.sql" />
+    <Content Include="Integration Tests\Test Files\integration-test-one.sql" />
     <Compile Include="Unit Tests\Rules\rule-tests.cs" />
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-all-errors.sql" />
     <Content Include="Unit Tests\Rules\data-type-length\data-type-length-no-error.sql" />

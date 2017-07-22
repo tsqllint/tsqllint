@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Common;
 using TSQLLINT_LIB.Rules.Interface;
 
@@ -11,8 +11,6 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_NAME { get { return "keyword-capitalization"; } }
         public string RULE_TEXT { get { return "TSQL Keywords must be capitalized"; } }
         public Action<string, string, int, int> ErrorCallback;
-
-        private int expressionCounter;
 
         public KeywordCapitalizationRule(Action<string, string, int, int> errorCallback)
         {

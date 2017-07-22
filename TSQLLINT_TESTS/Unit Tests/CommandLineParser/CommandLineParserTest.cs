@@ -1,6 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
 using System.IO;
-using NUnit.Framework;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
@@ -17,7 +16,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         {
             var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             var result = testDirectoryInfo.Parent.Parent.FullName;
-            _configFilePath = Path.Combine(result + "\\Integration Tests\\HappyPath\\.tsqllintrc");
+            _configFilePath = Path.Combine(result + "\\Integration Tests\\.tsqllintrc");
 
             return _configFilePath;
         }
