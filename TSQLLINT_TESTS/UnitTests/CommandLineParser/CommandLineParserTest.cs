@@ -195,6 +195,28 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             Assert.AreEqual(false, commandLineParser.PerformLinting);
         }
 
+        [Test]
+        public void PrintConfigArgs()
+        {
+            // arrange
+
+            var printConfigArgs = new[]
+            {
+                "-p"
+            };
+            var versionArgsReporter = new VersionArgsReporter();
+            versionArgsReporter.Report("test message");
+
+            // act
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(printConfigArgs, versionArgsReporter);
+
+            // assert
+
+            // only the test message should have been sent
+            Assert.AreEqual(1, versionArgsReporter.MessageCount);
+            Assert.AreEqual(false, commandLineParser.PerformLinting);
+        }
+
         private class VersionArgsReporter : IBaseReporter
         {
             public int MessageCount;

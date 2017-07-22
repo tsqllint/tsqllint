@@ -54,6 +54,12 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             HelpText = "Target for linting. May contain a single file, a directory to be recursively iterated over, or a list of comma separated files.")]
         public string LintPath { get; set; }
 
+        [Option(shortName: 'p',
+            longName: "print-config",
+            Required = false,
+            HelpText = "Print path to .tsqllintrc config file")]
+        public bool PrintConfig { get; set; }
+
         [Option(shortName: 'v',
             longName: "version",
             Required = false,
@@ -79,12 +85,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
                 return false;
             }
 
-            if (Init)
-            {
-                return false;
-            }
-
-            if (Version)
+            if (Init || Version || PrintConfig)
             {
                 return false;
             }

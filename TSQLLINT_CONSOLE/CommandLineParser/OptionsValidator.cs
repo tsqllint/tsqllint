@@ -14,7 +14,10 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
 
         public bool Validate(CommandLineParser commandLineParser)
         {
-            if (commandLineParser.Init || commandLineParser.Version || File.Exists(commandLineParser.ConfigFile))
+            if (commandLineParser.Init || 
+                commandLineParser.Version || 
+                commandLineParser.PrintConfig || 
+                File.Exists(commandLineParser.ConfigFile))
             {
                 return true;
             }

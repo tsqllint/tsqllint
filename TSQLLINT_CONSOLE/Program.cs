@@ -36,6 +36,16 @@ namespace TSQLLINT_CONSOLE
                 reporter.Report(string.Format("v{0}", version));
             }
 
+            if (commandLineOptions.PrintConfig)
+            {
+                if (!File.Exists(commandLineOptions.ConfigFile))
+                {
+                    reporter.Report("Default config file not found. You may generate it with the '--init' option");
+                    return;
+                }
+                reporter.Report(string.Format("Default config file found at: {0}", commandLineOptions.ConfigFile));
+            }
+
             if (!commandLineOptions.PerformLinting)
             {
                 return;
