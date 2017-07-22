@@ -81,7 +81,6 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
 
             if (!optionsValid)
             {
-                Reporter.Report(GetUsage());
                 return false;
             }
 

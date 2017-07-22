@@ -22,7 +22,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
                 return true;
             }
 
-            Reporter.Report(string.Format("Config file not found {0}.", consoleCommandLineOptionParser.ConfigFile));
+            Reporter.Report(string.Format("\nTSQLLINT Config file not found: {0} \nYou may generate it with the '--init' option", consoleCommandLineOptionParser.ConfigFile));
             return false;
         }
     }

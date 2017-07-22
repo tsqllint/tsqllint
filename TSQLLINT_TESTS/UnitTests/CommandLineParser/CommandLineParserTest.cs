@@ -91,7 +91,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(invalidConfigFileArgs, invalidConfigFileReporter);
 
             // assert
-            Assert.AreEqual(2, invalidConfigFileReporter.MessageCount);
+            Assert.AreEqual(1, invalidConfigFileReporter.MessageCount);
             Assert.AreEqual(false, commandLineParser.PerformLinting);
         }
 
@@ -106,13 +106,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
                 // the first message should be an error message about the config file
                 if (MessageCount == 1)
                 {
-                    Assert.AreEqual("Config file not found .tsqllintrc-foo.", message);
-                }
-
-                // the second message should contain usage information
-                if (MessageCount == 2)
-                {
-                    Assert.IsTrue(message.Contains("Usage: tsqllint [options]"));
+                    Assert.IsTrue(message.Contains("TSQLLINT Config file not found"));
                 }
             }
         }
