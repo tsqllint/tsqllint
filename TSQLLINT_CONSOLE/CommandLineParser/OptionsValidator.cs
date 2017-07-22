@@ -3,7 +3,7 @@ using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.CommandLineParser
 {
-    internal class OptionsValidator : IValidator<CommandLineParser>
+    internal class OptionsValidator : IValidator<ConsoleCommandLineOptionParser>
     {
         private readonly IBaseReporter Reporter;
 
@@ -12,17 +12,17 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             Reporter = reporter;
         }
 
-        public bool Validate(CommandLineParser commandLineParser)
+        public bool Validate(ConsoleCommandLineOptionParser consoleCommandLineOptionParser)
         {
-            if (commandLineParser.Init || 
-                commandLineParser.Version || 
-                commandLineParser.PrintConfig || 
-                File.Exists(commandLineParser.ConfigFile))
+            if (consoleCommandLineOptionParser.Init || 
+                consoleCommandLineOptionParser.Version || 
+                consoleCommandLineOptionParser.PrintConfig || 
+                File.Exists(consoleCommandLineOptionParser.ConfigFile))
             {
                 return true;
             }
 
-            Reporter.Report(string.Format("Config file not found {0}.", commandLineParser.ConfigFile));
+            Reporter.Report(string.Format("Config file not found {0}.", consoleCommandLineOptionParser.ConfigFile));
             return false;
         }
     }

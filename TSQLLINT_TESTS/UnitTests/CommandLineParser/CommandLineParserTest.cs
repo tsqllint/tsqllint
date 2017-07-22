@@ -36,7 +36,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             noProblemsReporter.Report("test message");
 
             // act
-            var commandLineOptions = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(args, noProblemsReporter);
+            var commandLineOptions = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(args, noProblemsReporter);
 
             // assert
             Assert.AreEqual(ConfigFilePath, commandLineOptions.ConfigFile);
@@ -62,7 +62,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             var invalidConfigFileArgs = new string[0];
 
             var initArgsReporter = new InitArgsReporter();
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(invalidConfigFileArgs, initArgsReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(invalidConfigFileArgs, initArgsReporter);
 
             // act
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -88,7 +88,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             var invalidConfigFileReporter = new InvalidConfigFileReporter();
 
             // act
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(invalidConfigFileArgs, invalidConfigFileReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(invalidConfigFileArgs, invalidConfigFileReporter);
 
             // assert
             Assert.AreEqual(2, invalidConfigFileReporter.MessageCount);
@@ -123,7 +123,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             var emptyArgs = new string[0];
 
             var emptyArgsReporter = new EmptyArgsReporter();
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(emptyArgs, emptyArgsReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(emptyArgs, emptyArgsReporter);
 
             Assert.AreEqual(1, emptyArgsReporter.MessageCount);
             Assert.AreEqual(false, commandLineParser.PerformLinting);
@@ -154,7 +154,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
 
             // act
 
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, initArgsReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(initArgs, initArgsReporter);
 
             // assert
 
@@ -186,7 +186,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             versionArgsReporter.Report("test message");
 
             // act
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, versionArgsReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(initArgs, versionArgsReporter);
 
             // assert
 
@@ -208,7 +208,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             versionArgsReporter.Report("test message");
 
             // act
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(printConfigArgs, versionArgsReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(printConfigArgs, versionArgsReporter);
 
             // assert
 
@@ -240,7 +240,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
             var noLintPathReporter = new NoLintPathReporter();
 
             // act
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, noLintPathReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(initArgs, noLintPathReporter);
 
             // assert
 
@@ -277,7 +277,7 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
 
             // act
 
-            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, lintPathFileListReporter);
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.ConsoleCommandLineOptionParser(initArgs, lintPathFileListReporter);
 
             // assert
 

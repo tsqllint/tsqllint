@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using TSQLLINT_CONSOLE.CommandLineParser;
 using TSQLLINT_CONSOLE.Reporters;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
@@ -15,7 +16,7 @@ namespace TSQLLINT_CONSOLE
             stopWatch.Start();
 
             var reporter = new ConsoleReporter();
-            var commandLineOptions  = new CommandLineParser.CommandLineParser(args, reporter);
+            var commandLineOptions  = new ConsoleCommandLineOptionParser(args, reporter);
 
             if (commandLineOptions.Init)
             {
