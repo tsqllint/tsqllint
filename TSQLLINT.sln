@@ -24,11 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0F5B2C
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{36779787-6B4E-43F3-BB76-5F766047A516}"
-	ProjectSection(SolutionItems) = preProject
-		cover.bat = cover.bat
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,8 +45,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{36779787-6B4E-43F3-BB76-5F766047A516} = {2468C43F-D20B-4392-AC0B-139C33885F1E}
 	EndGlobalSection
 EndGlobal
