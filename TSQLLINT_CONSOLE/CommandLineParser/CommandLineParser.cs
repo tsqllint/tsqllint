@@ -10,7 +10,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
     public class CommandLineParser
     {
         private readonly string[] Args;
-        private IBaseReporter Reporter;
+        private readonly IBaseReporter Reporter;
 
         public bool PerformLinting;
 
@@ -42,17 +42,23 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             set { _ConfigFile = value; }
         }
 
+        [Option(shortName: 'i',
+            longName: "init",
+            Required = false,
+            HelpText = "Generate .tsqllintrc config file")]
+        public bool Init { get; set; }
+
         [Option(shortName: 'p',
             longName: "path",
             Required = false,
             HelpText = "Target path for linting, or list of one or more files separated by whitespace")]
         public string LintPath { get; set; }
 
-        [Option(shortName: 'i',
-            longName: "init",
+        [Option(shortName: 'v',
+            longName: "version",
             Required = false,
-            HelpText = "Generate .tsqllintrc file")]
-        public bool Init { get; set; }
+            HelpText = "Display tsqllint version")]
+        public bool Version { get; set; }
 
         private bool ParseCommandLineOptions()
         {
@@ -78,13 +84,18 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
                 return false;
             }
 
-            if (string.IsNullOrEmpty(LintPath))
+            if (Version)
             {
-                Reporter.Report(GetUsage());
                 return false;
             }
 
-            return true;
+            if (!string.IsNullOrEmpty(LintPath))
+            {
+                return true;
+            }
+
+            Reporter.Report(GetUsage());
+            return false;
         }
 
         [HelpOption]

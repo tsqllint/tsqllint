@@ -28,6 +28,14 @@ namespace TSQLLINT_CONSOLE
                 return;
             }
 
+            if (commandLineOptions.Version)
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                var version = fvi.FileVersion;
+                reporter.Report(string.Format("v{0}", version));
+            }
+
             if (!commandLineOptions.PerformLinting)
             {
                 return;

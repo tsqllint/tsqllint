@@ -137,6 +137,33 @@ namespace TSQLLINT_LIB_TESTS.Unit_Tests.CommandLineParser
         }
 
         [Test]
+        public void VersionArgs()
+        {
+            var initArgs = new[]
+            {
+                "-v"
+            };
+            var versionArgsReporter = new VersionArgsReporter();
+            versionArgsReporter.Report("test message");
+
+            var commandLineParser = new TSQLLINT_CONSOLE.CommandLineParser.CommandLineParser(initArgs, versionArgsReporter);
+
+            // only the test message should have been sent
+            Assert.AreEqual(1, versionArgsReporter.MessageCount);
+            Assert.AreEqual(false, commandLineParser.PerformLinting);
+        }
+
+        private class VersionArgsReporter : IBaseReporter
+        {
+            public int MessageCount;
+
+            public void Report(string message)
+            {
+                MessageCount++;
+            }
+        }
+
+        [Test]
         public void NoLintPath()
         {
             var initArgs = new[]
