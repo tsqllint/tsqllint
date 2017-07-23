@@ -8,11 +8,15 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
 {
     public class ConsoleCommandLineOptionParser
     {
+        public bool OptionsParsed;
         public bool PerformLinting;
 
         public ConsoleCommandLineOptionParser(string[] args)
         {
-            Parser.Default.ParseArgumentsStrict(args, this);
+            if (Parser.Default.ParseArgumentsStrict(args, this))
+            {
+                OptionsParsed = true;
+            }
         }
 
         private string _ConfigFile;

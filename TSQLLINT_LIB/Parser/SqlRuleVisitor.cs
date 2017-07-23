@@ -51,4 +51,3 @@ namespace TSQLLINT_LIB.Parser
         }
     }
 }
-

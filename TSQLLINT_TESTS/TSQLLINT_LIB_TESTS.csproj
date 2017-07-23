@@ -47,6 +47,7 @@
     <Compile Include="IntegrationTests\ExceptionalCases\invalid-lint-file-path\invalid-lint-file-path-test.cs" />
     <Compile Include="IntegrationTests\ExceptionalCases\invalid-syntax\invalid-syntax-test.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
+    <Compile Include="IntNew\InitNew.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineParserTest.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
@@ -62,6 +63,8 @@
     <Content Include="IntegrationTests\TestFiles\TestFileSubDirectory\integration-test-two.sql" />
     <Content Include="IntegrationTests\TestFiles\integration-test-one.sql" />
     <Compile Include="UnitTests\Rules\rule-tests.cs" />
+    <Content Include="IntNew\TestFiles\integration-test-one.sql" />
+    <Content Include="IntNew\TestFiles\TestFileSubDirectory\integration-test-two.sql" />
     <Content Include="UnitTests\Rules\data-type-length\data-type-length-all-errors.sql" />
     <Content Include="UnitTests\Rules\data-type-length\data-type-length-no-error.sql" />
     <Content Include="UnitTests\Rules\data-type-length\data-type-length-one-error-mixed-state.sql" />
@@ -128,6 +131,7 @@
     <Content Include="UnitTests\Rules\select-star\select-star-two-errors.sql" />
     <Content Include="UnitTests\Rules\select-star\select-star-one-error.sql" />
     <Content Include="UnitTests\Rules\select-star\select-star-no-error.sql" />
+    <None Include="IntNew\TestFiles\.tsqllintrc" />
     <None Include="UnitTests\Config\.tsqllintrc" />
     <None Include="UnitTests\Config\.tsqllintrc-bad-json" />
     <None Include="UnitTests\Config\.tsqllintrc-bad-severity" />

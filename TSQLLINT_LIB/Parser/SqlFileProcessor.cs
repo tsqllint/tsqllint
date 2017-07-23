@@ -45,7 +45,7 @@ namespace TSQLLINT_LIB.Parser
                     }
                     else
                     {
-                        Reporter.Report(string.Format("\n\n{0} is not a valid path.", pathString));
+                        Reporter.Report(string.Format("\n{0} is not a valid path.", pathString));
                     }
                 }
                 else

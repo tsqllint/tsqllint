@@ -28,7 +28,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests.ExceptionalCases
             public void Report(string message)
             {
                 MessageCount++;
-                Assert.AreEqual("\n\nfoo.sql is not a valid path.", message);
+                Assert.AreEqual("\nfoo.sql is not a valid path.", message);
             }
         }
     }

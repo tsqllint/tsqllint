@@ -10,19 +10,23 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
     {
         public bool PerformLinting = true;
 
-        public void HandleCommandLineOptions(ConsoleCommandLineOptionParser commandLineOptions, 
-            IConfigFileFinder configFileFinder,
-            IConfigFileGenerator configFileGenerator, 
-            IBaseReporter reporter)
+        public void HandleCommandLineOptions(ConsoleCommandLineOptionParser commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
         {
+            if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile) && !File.Exists(commandLineOptions.ConfigFile))
+            {
+                reporter.Report(string.Format("\nTSQLLINT Config file not found: {0} \nYou may generate it with the '--init' option", commandLineOptions.ConfigFile));
+                PerformLinting = false;
+                return;
+            }
+
             if (commandLineOptions.Init)
             {
                 var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
-
                 configFileGenerator.WriteConfigFile(configFilePath);
 
                 PerformLinting = false;
+                return;
             }
 
             if (commandLineOptions.Version)
@@ -33,6 +37,7 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
                 reporter.Report(string.Format("v{0}", version));
 
                 PerformLinting = false;
+                return;
             }
 
             if (commandLineOptions.PrintConfig)
@@ -44,7 +49,13 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
                 }
 
                 reporter.Report(string.Format("Default config file found at: {0}", commandLineOptions.ConfigFile));
+                PerformLinting = false;
+                return;
+            }
 
+            if (string.IsNullOrWhiteSpace(commandLineOptions.LintPath))
+            {
+                reporter.Report(commandLineOptions.GetUsage());
                 PerformLinting = false;
             }
         }
