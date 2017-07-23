@@ -15,12 +15,13 @@ namespace TSQLLINT_LIB_TESTS.IntNew
     {
         #region Test Values
 
-        private RuleViolationCompare comparer = new RuleViolationCompare();
-        private static string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntNew\TestFiles");
+        private readonly RuleViolationCompare comparer = new RuleViolationCompare();
+        private static readonly string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\TestFiles");
 
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
         private static readonly string TestFileOne = Path.Combine(TestFileDirectory, @"integration-test-one.sql");
         private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory\integration-test-two.sql");
+        private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
 
         private static string _GetUsageString;
         private static string GetUsageString
@@ -50,7 +51,12 @@ namespace TSQLLINT_LIB_TESTS.IntNew
                 return _TSqllVersion;
             }
         }
-        
+
+        private static readonly List<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>
+        {
+            new RuleViolation(null, "TSQL not syntactically correct")
+        };
+
         private static readonly List<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
         {
             new RuleViolation(ruleName: "conditional-begin-end", startLine: 2, startColumn: 1),
@@ -77,7 +83,6 @@ namespace TSQLLINT_LIB_TESTS.IntNew
             new RuleViolation(ruleName: "print-statement", startLine: 5, startColumn: 1),
         };
 
-
         private static readonly List<RuleViolation> _MultiFileRuleViolations = new List<RuleViolation>();
         public static List<RuleViolation> MultiFileRuleViolations
         {
@@ -90,6 +95,22 @@ namespace TSQLLINT_LIB_TESTS.IntNew
                 }
 
                 return _MultiFileRuleViolations;
+            }
+        }
+
+        private static readonly List<RuleViolation> _AllRuleViolations = new List<RuleViolation>();
+        public static List<RuleViolation> AllRuleViolations
+        {
+            get
+            {
+                if (_AllRuleViolations.Count == 0)
+                {
+                    _AllRuleViolations.AddRange(TestFileOneRuleViolations);
+                    _AllRuleViolations.AddRange(TestFileTwoRuleViolations);
+                    _AllRuleViolations.AddRange(TestFileInvalidSyntaxRuleViolations);
+                }
+
+                return _AllRuleViolations;
             }
         }
 
@@ -156,9 +177,9 @@ namespace TSQLLINT_LIB_TESTS.IntNew
           {
             new List<string> { "-f", TestFileDirectory },
             null,
-            MultiFileRuleViolations,
-            2
-          }, 
+            AllRuleViolations,
+            3
+          } 
         };
 
         public static readonly object[] FileArgs_InValid_NoFile = {
@@ -168,7 +189,7 @@ namespace TSQLLINT_LIB_TESTS.IntNew
             GetUsageString,
             new List<RuleViolation>(),
             0
-          }, 
+          }
         };
 
         public static readonly object[] FileArgs_InValid_FileNotExists = {
@@ -178,6 +199,16 @@ namespace TSQLLINT_LIB_TESTS.IntNew
             "\nfoo.sql is not a valid path.",
             new List<RuleViolation>(),
             0
+          }, 
+        };
+
+        public static readonly object[] FileArgs_InValid_InvalidSyntax = {
+          new object[]
+          {
+            new List<string> { "-f", TestFileInvalidSyntax },
+            null,
+            TestFileInvalidSyntaxRuleViolations,
+            1
           }, 
         };
 
@@ -225,7 +256,8 @@ namespace TSQLLINT_LIB_TESTS.IntNew
 
         #endregion
 
-        [Test, TestCaseSource("ConfigArgs_Valid_NoLintPath"),
+        [Test,
+            TestCaseSource("ConfigArgs_Valid_NoLintPath"),
             TestCaseSource("ConfigArgs_InValid_NoLintPath"),
             TestCaseSource("ConfigArgs_Valid_LintOneFile"),
             TestCaseSource("InitArgs_Valid"),
@@ -234,9 +266,11 @@ namespace TSQLLINT_LIB_TESTS.IntNew
             TestCaseSource("FileArgs_Valid_LintDirectory"),
             TestCaseSource("FileArgs_InValid_NoFile"),
             TestCaseSource("FileArgs_InValid_FileNotExists"),
+            TestCaseSource("FileArgs_InValid_InvalidSyntax"),
             TestCaseSource("Print_Config_Valid"),
-            TestCaseSource("Print_Version_Valid")]
-        public void IntegrationTest(List<string> args, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
+            TestCaseSource("Print_Version_Valid")
+        ]
+        public void RunIntegrationTestUseCase(List<string> args, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
             // arrange
             var appArgs = args.ToArray();
