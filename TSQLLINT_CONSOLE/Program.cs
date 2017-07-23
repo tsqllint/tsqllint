@@ -18,9 +18,14 @@ namespace TSQLLINT_CONSOLE
             var commandLineOptionHandler = new CommandLineOptionHandler();
             var configFileGenerator = new ConfigFileGenerator(reporter);
             var configFileFinder = new ConfigFileFinder();
-            commandLineOptionHandler.HandleCommandLineOptions(commandLineOptions, configFileFinder, configFileGenerator, reporter);
 
-            if (!commandLineOptions.PerformLinting)
+            commandLineOptionHandler.HandleCommandLineOptions(
+                commandLineOptions, 
+                configFileFinder, 
+                configFileGenerator, 
+                reporter);
+
+            if (!commandLineOptionHandler.PerformLinting)
             {
                 return;
             }

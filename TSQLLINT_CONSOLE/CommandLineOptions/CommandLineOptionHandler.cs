@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using TSQLLINT_CONSOLE.CommandLineParser;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 
@@ -9,6 +8,8 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
 {
     public class CommandLineOptionHandler
     {
+        public bool PerformLinting = true;
+
         public void HandleCommandLineOptions(ConsoleCommandLineOptionParser commandLineOptions, 
             IConfigFileFinder configFileFinder,
             IConfigFileGenerator configFileGenerator, 
@@ -20,6 +21,8 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
                 var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
 
                 configFileGenerator.WriteConfigFile(configFilePath);
+
+                PerformLinting = false;
             }
 
             if (commandLineOptions.Version)
@@ -28,6 +31,8 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
                 var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
                 var version = fvi.FileVersion;
                 reporter.Report(string.Format("v{0}", version));
+
+                PerformLinting = false;
             }
 
             if (commandLineOptions.PrintConfig)
@@ -39,6 +44,8 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
                 }
 
                 reporter.Report(string.Format("Default config file found at: {0}", commandLineOptions.ConfigFile));
+
+                PerformLinting = false;
             }
         }
     }
