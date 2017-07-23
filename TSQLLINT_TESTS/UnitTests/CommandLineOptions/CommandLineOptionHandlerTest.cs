@@ -1,15 +1,15 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using NUnit.Framework;
 using TSQLLINT_CONSOLE.CommandLineOptions;
-using TSQLLINT_CONSOLE.CommandLineParser;
+using TSQLLINT_CONSOLE.CommandLineOptions.Interfaces;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 
-namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
+namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
     class CommandLineOptionHandlerTest
     {

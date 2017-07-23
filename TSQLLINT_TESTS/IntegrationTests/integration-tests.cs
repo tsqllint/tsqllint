@@ -8,8 +8,9 @@ using TSQLLINT_CONSOLE;
 using TSQLLINT_CONSOLE.CommandLineOptions;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
+using TSQLLINT_LIB_TESTS.Helpers;
 
-namespace TSQLLINT_LIB_TESTS.IntNew
+namespace TSQLLINT_LIB_TESTS.IntegrationTests
 {
     class InitNew
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
-namespace TSQLLINT_LIB_TESTS
+namespace TSQLLINT_LIB_TESTS.Helpers
 {
     public class RuleViolationCompare : IComparer, IComparer<RuleViolation>
     {

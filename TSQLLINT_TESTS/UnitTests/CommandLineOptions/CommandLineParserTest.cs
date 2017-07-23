@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using NUnit.Framework;
 using TSQLLINT_CONSOLE.CommandLineOptions;
-using TSQLLINT_LIB.Parser.Interfaces;
 
-namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
+namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
     class CommandLineParserTest
     {
