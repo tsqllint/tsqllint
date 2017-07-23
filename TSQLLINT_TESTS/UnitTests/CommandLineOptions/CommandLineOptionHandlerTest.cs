@@ -6,14 +6,14 @@ using System.Linq;
 using NUnit.Framework;
 using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
-using TSQLLINT_LIB.Config;
+using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
-    class CommandLineOptionHandlerTest
+    public class CommandLineOptionHandlerTest
     {
-        CommandLineOptionHandler Handler = new CommandLineOptionHandler();
+        private readonly CommandLineOptionHandler Handler = new CommandLineOptionHandler();
 
         [Test]
         public void InitOptionsTest()
@@ -28,7 +28,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-i"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args);
+            var options = new CommandLineOptionParser(args);
 
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
@@ -55,7 +55,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-v"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args);
+            var options = new CommandLineOptionParser(args);
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -84,7 +84,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-p"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args);
+            var options = new CommandLineOptionParser(args);
             var epectedMessage = "Default config file not found. You may generate it with the \'--init\' option";
 
             // act
@@ -108,7 +108,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-p"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args);
+            var options = new CommandLineOptionParser(args);
 
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
@@ -134,7 +134,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
         private class TestCommandLineOptionHandlerConfigFileFinder : IConfigFileFinder
         {
-            private bool ShouldFindFile;
+            private readonly bool ShouldFindFile;
 
             public TestCommandLineOptionHandlerConfigFileFinder(bool shouldFindFile)
             {

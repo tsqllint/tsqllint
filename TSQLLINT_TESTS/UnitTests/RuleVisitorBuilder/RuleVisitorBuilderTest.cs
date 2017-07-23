@@ -6,7 +6,7 @@ using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.RuleVisitorBuilder
 {
-    class RuleVisitorBuilderTest
+    public class RuleVisitorBuilderTest
     {
         [Test]
         public void GetRuleSeverity()

@@ -20,10 +20,10 @@ tsqllint --init
 # lint a single file
 tsqllint --files test.sql
 
-# lint a list of files (must be seperated by comma)
-tsqllint --files "test_one.sql, test_two.sql"
+# lint a list of files and directories (must be seperated by comma)
+tsqllint --files "test_one.sql, test_two.sql, c:\database_scripts"
 
-# lint all .sql filed in a directory
+# lint all files in a directory
 tsqllint --files "c:\database_scripts"
 
 # display usage hints
@@ -51,6 +51,8 @@ sample .tsqllintrc file
 ```
 
 ## Contributing to the project
+
+Read  [contribution guidelines](CONTTIBUTING.MD).
 
 ### Adding a new rule
 
@@ -83,7 +85,7 @@ namespace TSQLLINT_LIB.Rules
 ```
 
 #### Add rule to RuleVisitorBuilder
-Add your new rule type to the RuleVisitors List in [RuleVisitorBuilder.cs](./TSQLLINT_LIB/Parser/RuleVisitorBuilder.cs), reflection is expensive.
+Add your new rule type to the RuleVisitors List in [RuleVisitorBuilder.cs](./TSQLLINT_LIB/Parser/RuleVisitorBuilder.cs).
 
 ```csharp
 private readonly List<Type> RuleVisitors = new List<Type>()
@@ -105,3 +107,6 @@ private readonly List<Type> RuleVisitors = new List<Type>()
     typeof(UpperLowerRule)
 };
 ```
+
+#### Add your rule name to the config file generator
+Add your new rule name to the  [ConfigFileGenerator.cs](./TSQLLINT_LIB/Config/ConfigFileGenerator.cs).

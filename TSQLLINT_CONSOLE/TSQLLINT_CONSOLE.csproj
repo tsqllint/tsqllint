@@ -65,7 +65,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="ConfigHandler\CommandLineOptionHandler.cs" />
-    <Compile Include="ConfigHandler\CommandLineParser.cs" />
+    <Compile Include="ConfigHandler\CommandLineOptionParser.cs" />
     <Compile Include="ConfigHandler\ConfigFileFinder.cs" />
     <Compile Include="ConfigHandler\Interfaces\IConfigFileFinder.cs" />
     <Compile Include="ConfigHandler\ConfigHandler.cs" />

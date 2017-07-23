@@ -12,7 +12,7 @@ using TSQLLINT_LIB_TESTS.Helpers;
 
 namespace TSQLLINT_LIB_TESTS.IntegrationTests
 {
-    class InitNew
+    public class IntegrationTests
     {
         #region Test Values
 
@@ -31,7 +31,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             {
                 if (string.IsNullOrEmpty(_GetUsageString))
                 {
-                    var consoleCommandLineOptionParser = new ConsoleCommandLineOptionParser(new string[0]);
+                    var consoleCommandLineOptionParser = new CommandLineOptionParser(new string[0]);
                     _GetUsageString = consoleCommandLineOptionParser.GetUsage();
                 }
                 return _GetUsageString;

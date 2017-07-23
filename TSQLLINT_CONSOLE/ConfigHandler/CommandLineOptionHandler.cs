@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 using TSQLLINT_LIB.Config;
+using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
@@ -11,7 +12,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
     {
         public bool PerformLinting = true;
 
-        public void HandleCommandLineOptions(ConsoleCommandLineOptionParser commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
+        public void HandleCommandLineOptions(CommandLineOptionParser commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
         {
             if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile) && !File.Exists(commandLineOptions.ConfigFile))
             {

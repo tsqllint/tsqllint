@@ -7,7 +7,7 @@ namespace TSQLLINT_CONSOLE
     public class Application
     {
         private readonly string[] Args;
-        private IReporter Reporter;
+        private readonly IReporter Reporter;
 
         public Application(string[] args, IReporter reporter)
         {
@@ -21,7 +21,7 @@ namespace TSQLLINT_CONSOLE
             stopWatch.Start();
 
             // parse options
-            var commandLineOptions = new ConsoleCommandLineOptionParser(Args);
+            var commandLineOptions = new CommandLineOptionParser(Args);
 
             // perform non-linting actions
             var configHandler = new ConfigHandler.ConfigHandler(commandLineOptions, Reporter);

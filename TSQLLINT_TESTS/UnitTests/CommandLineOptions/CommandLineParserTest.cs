@@ -5,7 +5,7 @@ using TSQLLINT_CONSOLE.ConfigHandler;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
-    class CommandLineParserTest
+    public class CommandLineParserTest
     {
         private string _configFilePath;
         private string ConfigFilePath
@@ -33,7 +33,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             };
 
             // act
-            var commandLineOptions = new ConsoleCommandLineOptionParser(args);
+            var commandLineOptions = new CommandLineOptionParser(args);
 
             // assert
             Assert.AreEqual(ConfigFilePath, commandLineOptions.ConfigFile);
@@ -48,7 +48,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             // act
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var commandLineParser = new ConsoleCommandLineOptionParser(args);
+            var commandLineParser = new CommandLineOptionParser(args);
 
             //assert
             Assert.AreEqual(Path.Combine(usersDirectory, @".tsqllintrc"), commandLineParser.ConfigFile);
@@ -61,8 +61,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var args = new string[0];
 
             // act
-            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var commandLineParser = new ConsoleCommandLineOptionParser(args);
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var commandLineParser = new CommandLineOptionParser(args);
 
             //assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("Usage: tsqllint [options]"));

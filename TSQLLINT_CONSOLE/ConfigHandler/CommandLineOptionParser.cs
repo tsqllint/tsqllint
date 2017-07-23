@@ -6,12 +6,12 @@ using CommandLine.Text;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
 {
-    public class ConsoleCommandLineOptionParser
+    public class CommandLineOptionParser
     {
         public bool OptionsParsed;
         public bool PerformLinting;
 
-        public ConsoleCommandLineOptionParser(string[] args)
+        public CommandLineOptionParser(string[] args)
         {
             Parser.Default.ParseArgumentsStrict(args, this);
         }
