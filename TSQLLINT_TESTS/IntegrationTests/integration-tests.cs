@@ -6,6 +6,7 @@ using System.Linq;
 using NUnit.Framework;
 using TSQLLINT_CONSOLE;
 using TSQLLINT_CONSOLE.ConfigHandler;
+using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 using TSQLLINT_LIB_TESTS.Helpers;
@@ -14,6 +15,21 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
 {
     public class IntegrationTests
     {
+        private readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            var configFileGenerator = new ConfigFileGenerator(new TestReporter());
+            configFileGenerator.WriteConfigFile(DefaultConfigFile);
+        }
+
+        [OneTimeTearDown]
+        public void Teardown()
+        {
+            File.Delete(DefaultConfigFile);
+        }
+
         #region Test Values
 
         private readonly RuleViolationCompare comparer = new RuleViolationCompare();

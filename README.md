@@ -52,7 +52,7 @@ sample .tsqllintrc file
 
 ## Contributing to the project
 
-Read  [contribution guidelines](CONTTIBUTING.MD).
+Read  [contribution guidelines](CONTRIBUTING.MD).
 
 ### Adding a new rule
 

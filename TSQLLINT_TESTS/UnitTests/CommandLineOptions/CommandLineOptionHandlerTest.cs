@@ -6,6 +6,8 @@ using System.Linq;
 using NUnit.Framework;
 using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
+using TSQLLINT_CONSOLE.Reporters;
+using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
 
@@ -13,6 +15,21 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
     public class CommandLineOptionHandlerTest
     {
+        private readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
+
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            var configFileGenerator = new ConfigFileGenerator(new ConsoleReporter());
+            configFileGenerator.WriteConfigFile(DefaultConfigFile);
+        }
+
+        [OneTimeTearDown]
+        public void Teardown()
+        {
+            File.Delete(DefaultConfigFile);
+        }
+
         private readonly CommandLineOptionHandler Handler = new CommandLineOptionHandler();
 
         [Test]
@@ -124,7 +141,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
         private class TestCommandLineOptionHandlerReporter : IBaseReporter
         {
-            public List<string> Messages = new List<string>();
+            public readonly List<string> Messages = new List<string>();
 
             public void Report(string message)
             {
@@ -149,7 +166,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
         private class TestCommandLineOptionHandlerConfigFileGenerator : IConfigFileGenerator
         {
-            public List<string> ConfigFilePaths = new List<string>();
+            public readonly List<string> ConfigFilePaths = new List<string>();
 
             public void WriteConfigFile(string path)
             {
