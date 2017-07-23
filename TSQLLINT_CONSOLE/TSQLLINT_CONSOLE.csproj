@@ -71,7 +71,6 @@
     <Compile Include="ConfigHandler\ConfigHandler.cs" />
     <Compile Include="LintingHandler.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
-    <Compile Include="ConfigHandler\Interfaces\IValidator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
