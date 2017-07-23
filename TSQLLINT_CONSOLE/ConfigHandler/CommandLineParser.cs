@@ -4,7 +4,7 @@ using System.IO;
 using CommandLine;
 using CommandLine.Text;
 
-namespace TSQLLINT_CONSOLE.CommandLineOptions
+namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class ConsoleCommandLineOptionParser
     {
@@ -13,10 +13,7 @@ namespace TSQLLINT_CONSOLE.CommandLineOptions
 
         public ConsoleCommandLineOptionParser(string[] args)
         {
-            if (Parser.Default.ParseArgumentsStrict(args, this))
-            {
-                OptionsParsed = true;
-            }
+            Parser.Default.ParseArgumentsStrict(args, this);
         }
 
         private string _ConfigFile;

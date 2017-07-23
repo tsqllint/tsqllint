@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using TSQLLINT_CONSOLE.CommandLineOptions.Interfaces;
+using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 
-namespace TSQLLINT_CONSOLE.CommandLineOptions
+namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class CommandLineOptionHandler
     {

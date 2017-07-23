@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TSQLLINT_CONSOLE.CommandLineOptions;
+using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Parser.Interfaces;

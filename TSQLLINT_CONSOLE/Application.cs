@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using TSQLLINT_CONSOLE.CommandLineOptions;
+using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE
@@ -24,7 +24,7 @@ namespace TSQLLINT_CONSOLE
             var commandLineOptions = new ConsoleCommandLineOptionParser(Args);
 
             // perform non-linting actions
-            var configHandler = new ConfigHandler(commandLineOptions, Reporter);
+            var configHandler = new ConfigHandler.ConfigHandler(commandLineOptions, Reporter);
             configHandler.HandleConfigs();
 
             if (!configHandler.PerformLinting)

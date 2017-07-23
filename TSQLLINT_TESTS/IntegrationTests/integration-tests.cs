@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using TSQLLINT_CONSOLE;
-using TSQLLINT_CONSOLE.CommandLineOptions;
+using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 using TSQLLINT_LIB_TESTS.Helpers;

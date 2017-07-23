@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using TSQLLINT_CONSOLE.CommandLineOptions;
-using TSQLLINT_CONSOLE.CommandLineOptions.Interfaces;
+using TSQLLINT_CONSOLE.ConfigHandler;
+using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 

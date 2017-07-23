@@ -1,8 +1,7 @@
-using TSQLLINT_CONSOLE.CommandLineOptions;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser.Interfaces;
 
-namespace TSQLLINT_CONSOLE
+namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class ConfigHandler
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
-using TSQLLINT_CONSOLE.CommandLineOptions;
+using TSQLLINT_CONSOLE.ConfigHandler;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
