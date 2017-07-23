@@ -43,13 +43,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\HelperTests.cs" />
     <Compile Include="IntegrationTests\ExceptionalCases\invalid-lint-file-path\invalid-lint-file-path-test.cs" />
     <Compile Include="IntegrationTests\ExceptionalCases\invalid-syntax\invalid-syntax-test.cs" />
-    <Compile Include="TestHelper.cs" />
+    <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineParserTest.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
-    <Compile Include="RuleViolationCompare.cs" />
+    <Compile Include="Helpers\RuleViolationCompare.cs" />
     <Compile Include="UnitTests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
     <None Include="IntegrationTests\ExceptionalCases\invalid-lint-file-path\.tsqllintrc" />
     <None Include="IntegrationTests\ExceptionalCases\invalid-syntax\.tsqllintrc" />
@@ -90,6 +91,7 @@
     <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-multiple-errors-with-tab.sql" />
     <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-try-catch-while.sql" />
     <Content Include="UnitTests\Rules\set-nocount\set-nocount-no-rowset-action.sql" />
+    <Content Include="UnitTests\Rules\set-nocount\set-nocount-one-error-rowset-action.sql" />
     <Content Include="UnitTests\Rules\upper-lower\upper-lower-no-error.sql" />
     <Content Include="UnitTests\Rules\upper-lower\upper-lower-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\upper-lower\upper-lower-one-error.sql" />
@@ -121,7 +123,7 @@
     <Content Include="UnitTests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-no-error.sql" />
     <Content Include="UnitTests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-one-error.sql" />
     <Content Include="UnitTests\Rules\set-nocount\set-nocount-no-error.sql" />
-    <Content Include="UnitTests\Rules\set-nocount\set-nocount-one-error.sql" />
+    <Content Include="UnitTests\Rules\set-nocount\set-nocount-one-error-ddl.sql" />
     <Content Include="UnitTests\Rules\select-star\select-star-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\select-star\select-star-two-errors.sql" />
     <Content Include="UnitTests\Rules\select-star\select-star-one-error.sql" />

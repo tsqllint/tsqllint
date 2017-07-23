@@ -11,7 +11,12 @@ namespace TSQLLINT_LIB_TESTS
         {
             var lhs = x as RuleViolation;
             var rhs = y as RuleViolation;
-            if (lhs == null || rhs == null) throw new InvalidOperationException();
+
+            if (lhs == null || rhs == null)
+            {
+                throw new InvalidOperationException("cannot compare null object");
+            }
+
             return Compare(lhs, rhs);
         }
 

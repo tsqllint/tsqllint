@@ -1,24 +1,18 @@
-﻿using CommandLine;
-using CommandLine.Text;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
-using TSQLLINT_LIB.Parser.Interfaces;
+using CommandLine;
+using CommandLine.Text;
 
-namespace TSQLLINT_CONSOLE.CommandLineParser
+namespace TSQLLINT_CONSOLE.CommandLineOptions
 {
     public class ConsoleCommandLineOptionParser
     {
-        private readonly string[] Args;
-        private readonly IBaseReporter Reporter;
-
         public bool PerformLinting;
 
-        public ConsoleCommandLineOptionParser(string[] args, IBaseReporter reporter)
+        public ConsoleCommandLineOptionParser(string[] args)
         {
-            Args = args;
-            Reporter = reporter;
-            PerformLinting = ParseCommandLineOptions();
+            Parser.Default.ParseArgumentsStrict(args, this);
         }
 
         private string _ConfigFile;
@@ -26,7 +20,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
         [Option(shortName: 'c', 
             longName: "config", 
             Required = false,
-            HelpText = "Path to config file.")]
+            HelpText = "Used to specify a .tsqllintrc file path to use rather than the default.")]
         public string ConfigFile {
             get
             {
@@ -57,7 +51,7 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
         [Option(shortName: 'p',
             longName: "print-config",
             Required = false,
-            HelpText = "Print path to .tsqllintrc config file")]
+            HelpText = "Print path to default .tsqllintrc config file")]
         public bool PrintConfig { get; set; }
 
         [Option(shortName: 'v',
@@ -65,38 +59,6 @@ namespace TSQLLINT_CONSOLE.CommandLineParser
             Required = false,
             HelpText = "Display tsqllint version.")]
         public bool Version { get; set; }
-
-        private bool ParseCommandLineOptions()
-        {
-            if (Args == null || Args.Length == 0)
-            {
-                Reporter.Report(GetUsage());
-                return false;
-            }
-
-            Parser.Default.ParseArgumentsStrict(Args, this);
-
-            IValidator<ConsoleCommandLineOptionParser> optionsValidator = new OptionsValidator(Reporter);
-            var optionsValid = optionsValidator.Validate(this);
-
-            if (!optionsValid)
-            {
-                return false;
-            }
-
-            if (Init || Version || PrintConfig)
-            {
-                return false;
-            }
-
-            if (!string.IsNullOrEmpty(LintPath))
-            {
-                return true;
-            }
-
-            Reporter.Report(GetUsage());
-            return false;
-        }
 
         [HelpOption]
         public string GetUsage()

@@ -28,7 +28,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
                 "-i"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args, reporter);
+            var options = new ConsoleCommandLineOptionParser(args);
 
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
@@ -55,7 +55,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
                 "-v"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args, reporter);
+            var options = new ConsoleCommandLineOptionParser(args);
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -84,7 +84,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
                 "-p"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args, reporter);
+            var options = new ConsoleCommandLineOptionParser(args);
             var epectedMessage = "Default config file not found. You may generate it with the \'--init\' option";
 
             // act
@@ -103,13 +103,12 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineParser
             var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
             var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
 
-
             var args = new[]
             {
                 "-p"
             };
 
-            var options = new ConsoleCommandLineOptionParser(args, reporter);
+            var options = new ConsoleCommandLineOptionParser(args);
 
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");

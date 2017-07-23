@@ -7,6 +7,7 @@ using TSQLLINT_LIB;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Rules;
 using TSQLLINT_LIB.Rules.RuleViolations;
+using TSQLLINT_LIB_TESTS.Helpers;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
 {
@@ -259,7 +260,11 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
 
         public static readonly object[] set_nocount = {
           new object[] {"set-nocount", "set-nocount-no-error",  typeof(SetNoCountRule), new List<RuleViolation>()},
-          new object[] {"set-nocount", "set-nocount-one-error", typeof(SetNoCountRule), new List<RuleViolation>
+          new object[] {"set-nocount", "set-nocount-one-error-ddl", typeof(SetNoCountRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "set-nocount", startLine: 1, startColumn: 1)
+          }},
+          new object[] {"set-nocount", "set-nocount-one-error-rowset-action", typeof(SetNoCountRule), new List<RuleViolation>
           {
               new RuleViolation(ruleName: "set-nocount", startLine: 1, startColumn: 1)
           }},

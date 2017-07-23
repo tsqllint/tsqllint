@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using TSQLLINT_CONSOLE.CommandLineOptions;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.CommandLineParser

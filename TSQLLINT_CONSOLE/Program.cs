@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using TSQLLINT_CONSOLE.CommandLineOptions;
-using TSQLLINT_CONSOLE.CommandLineParser;
 using TSQLLINT_CONSOLE.Reporters;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
@@ -15,7 +14,7 @@ namespace TSQLLINT_CONSOLE
             stopWatch.Start();
 
             var reporter = new ConsoleReporter();
-            var commandLineOptions  = new ConsoleCommandLineOptionParser(args, reporter);
+            var commandLineOptions  = new ConsoleCommandLineOptionParser(args);
             var commandLineOptionHandler = new CommandLineOptionHandler();
             var configFileGenerator = new ConfigFileGenerator(reporter);
             var configFileFinder = new ConfigFileFinder();
@@ -36,6 +35,5 @@ namespace TSQLLINT_CONSOLE
 
             reporter.ReportResults(ruleVisitor.Violations, timespan, parser.GetFileCount());
         }
-
     }
 }
