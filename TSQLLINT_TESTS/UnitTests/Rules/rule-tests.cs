@@ -11,7 +11,7 @@ using TSQLLINT_LIB_TESTS.Helpers;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
 {
-    public class SelectStarRuleTests
+    public class RuleTests
     {
         private readonly TestHelper TestHelper = new TestHelper(TestContext.CurrentContext.TestDirectory);
 
@@ -321,7 +321,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
                TestCaseSource("set_quoted_identifier"),
                TestCaseSource("set_transaction_isolation_level"),
                TestCaseSource("upper_lower")]
-        public void RuleTests(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             // arrange
             var sqlString = TestHelper.GetTestFile(string.Format("Rules\\{0}\\{1}.sql", rule, testFileName));

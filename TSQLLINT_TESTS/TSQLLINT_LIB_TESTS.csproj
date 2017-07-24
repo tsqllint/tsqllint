@@ -54,6 +54,7 @@
     <Compile Include="UnitTests\Config\ConfigReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Rules\rule-tests.cs" />
+    <Compile Include="UnitTests\Utility\UtilityTests.cs" />
     <Content Include="IntegrationTests\TestFiles\integration-test-one.sql" />
     <Content Include="IntegrationTests\TestFiles\invalid-syntax.sql" />
     <Content Include="IntegrationTests\TestFiles\TestFileSubDirectory\integration-test-two.sql" />

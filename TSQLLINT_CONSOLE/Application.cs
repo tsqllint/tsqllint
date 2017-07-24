@@ -21,7 +21,7 @@ namespace TSQLLINT_CONSOLE
             stopWatch.Start();
 
             // parse options
-            var commandLineOptions = new CommandLineOptionParser(Args);
+            var commandLineOptions = new CommandLineOptions(Args);
 
             // perform non-linting actions
             var configHandler = new ConfigHandler.ConfigHandler(commandLineOptions, Reporter);

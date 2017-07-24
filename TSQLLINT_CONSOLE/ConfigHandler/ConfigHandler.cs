@@ -7,13 +7,13 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
     {
         public bool PerformLinting;
 
-        private readonly CommandLineOptionParser CommandLineOptions;
+        private readonly CommandLineOptions CommandLineOptions;
         private readonly CommandLineOptionHandler CommandLineOptionHandler;
         private readonly ConfigFileGenerator ConfigFileGenerator;
         private readonly ConfigFileFinder ConfigFileFinder;
         private readonly IBaseReporter Reporter;
 
-        public ConfigHandler(CommandLineOptionParser commandLineOptions, IBaseReporter reporter)
+        public ConfigHandler(CommandLineOptions commandLineOptions, IBaseReporter reporter)
         {
             Reporter = reporter;
             CommandLineOptions = commandLineOptions;
