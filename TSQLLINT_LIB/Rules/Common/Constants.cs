@@ -2,7 +2,7 @@ namespace TSQLLINT_LIB.Rules.Common
 {
     public static class Constants
     {
-        public static int TabLength = 4;
+        public static int TabWidth = 4;
 
         public static readonly string[] TSqlKeywords = {
             "ADD",

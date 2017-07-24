@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
@@ -18,31 +19,31 @@ namespace TSQLLINT_LIB.Config
                 throw new Exception("Config file not valid");
             }
 
-            var jsonConfig = File.ReadAllText(configFilePath);
-            SetupRules(jsonConfig);
+            var jsonConfigString = File.ReadAllText(configFilePath);
+            var jsonConfigObject = JObject.Parse(jsonConfigString);
+
+            SetupRules(jsonConfigObject);
+
         }
 
-        private void SetupRules(string jsonConfig)
+        private void SetupRules(JToken jsonObject)
         {
-            var jsonObject = JObject.Parse(jsonConfig);
+            var rules = jsonObject.SelectTokens("..rules").ToList();
 
-            JToken rules;
-            if (!jsonObject.TryGetValue("rules", out rules))
+            for (var index = 0; index < rules.Count; index++)
             {
-                return;
-            }
-
-            foreach (var rule in rules)
-            {
-                var name = ((JProperty) rule).Name;
-                var value = ((JProperty) rule).Value.ToString();
-
-                RuleViolationSeverity severity;
-                var severityIsValid = Enum.TryParse(value, true, out severity);
-
-                if (severityIsValid)
+                var rule = rules[index];
+                foreach (var jToken in rule.Children())
                 {
-                    Rules.Add(name, severity);
+                    var prop = (JProperty) jToken;
+
+                    RuleViolationSeverity severity;
+                    if (!Enum.TryParse(prop.Value.ToString(), true, out severity))
+                    {
+                        continue;
+                    }
+
+                    Rules.Add(prop.Name, severity);
                 }
             }
         }

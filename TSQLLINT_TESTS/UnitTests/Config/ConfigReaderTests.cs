@@ -25,6 +25,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             Assert.DoesNotThrow(() => { new LintConfigReader(configfilePath); });
         }
 
+
+
         [Test]
         public void ConfigReadBadRuleName()
         {
