@@ -8,7 +8,7 @@ namespace TSQLLINT_LIB.Rules
     public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "schema-qualify"; } }
-        public string RULE_TEXT { get { return "Schema qualify all object names"; } }
+        public string RULE_TEXT { get { return "Object name not schema qualified"; } }
         public Action<string, string, int, int> ErrorCallback;
 
         private List<string> TableAliases = new List<string>
