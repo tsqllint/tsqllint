@@ -45,7 +45,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-i"
             };
 
-            var options = new CommandLineOptionParser(args);
+            var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
@@ -72,7 +72,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-v"
             };
 
-            var options = new CommandLineOptionParser(args);
+            var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -101,7 +101,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-p"
             };
 
-            var options = new CommandLineOptionParser(args);
+            var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
             var epectedMessage = "Default config file not found. You may generate it with the \'--init\' option";
 
             // act
@@ -125,7 +125,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
                 "-p"
             };
 
-            var options = new CommandLineOptionParser(args);
+            var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");

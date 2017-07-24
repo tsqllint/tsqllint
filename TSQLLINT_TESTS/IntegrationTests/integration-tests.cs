@@ -47,7 +47,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             {
                 if (string.IsNullOrEmpty(_GetUsageString))
                 {
-                    var consoleCommandLineOptionParser = new CommandLineOptionParser(new string[0]);
+                    var consoleCommandLineOptionParser = new CommandLineOptions(new string[0]);
                     _GetUsageString = consoleCommandLineOptionParser.GetUsage();
                 }
                 return _GetUsageString;
@@ -149,7 +149,17 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo") },
-            string.Format("\nTSQLLINT Config file not found: {0} \nYou may generate it with the '--init' option", Path.Combine(TestFileDirectory, @".tsqllintrc-foo")),
+            GetUsageString,
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
+        public static readonly object[] ConfigArgs_InValid_LintPath = {
+          new object[]
+          {
+            new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo"), "-f", TestFileOne},
+            string.Format("Config file not found: {0} \nYou may generate one to use by default with the '--init' option", Path.Combine(TestFileDirectory, @".tsqllintrc-foo")),
             new List<RuleViolation>(),
             0
           }, 
@@ -229,6 +239,16 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           }, 
         };
 
+        public static readonly object[] FileArgs_InValid_NoArgs = {
+          new object[]
+          {
+            new List<string>(),
+            GetUsageString,
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
         #endregion
 
         #region Init Argument Test Cases
@@ -276,6 +296,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         [Test,
             TestCaseSource("ConfigArgs_Valid_NoLintPath"),
             TestCaseSource("ConfigArgs_InValid_NoLintPath"),
+            TestCaseSource("ConfigArgs_InValid_LintPath"),
             TestCaseSource("ConfigArgs_Valid_LintOneFile"),
             TestCaseSource("InitArgs_Valid"),
             TestCaseSource("FileArgs_Valid_LintOneFile"),
@@ -284,6 +305,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             TestCaseSource("FileArgs_InValid_NoFile"),
             TestCaseSource("FileArgs_InValid_FileNotExists"),
             TestCaseSource("FileArgs_InValid_InvalidSyntax"),
+            TestCaseSource("FileArgs_InValid_NoArgs"),
             TestCaseSource("Print_Config_Valid"),
             TestCaseSource("Print_Version_Valid")
         ]

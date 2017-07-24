@@ -30,12 +30,12 @@ namespace TSQLLINT_LIB.Rules.Common
 
         public static int GetColumnNumberBeforeToken(int tabsOnLine, TSqlParserToken token)
         {
-            return token.Column + ((tabsOnLine * Constants.TabLength) - tabsOnLine);
+            return token.Column + ((tabsOnLine * Constants.TabWidth) - tabsOnLine);
         }
 
         public static int GetColumnNumberAfterToken(int tabsOnLine, TSqlParserToken token)
         {
-            return token.Column + token.Text.Length + ((tabsOnLine * Constants.TabLength) - tabsOnLine);
+            return token.Column + token.Text.Length + ((tabsOnLine * Constants.TabWidth) - tabsOnLine);
         }
     }
 }

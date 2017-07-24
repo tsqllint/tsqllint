@@ -33,7 +33,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             };
 
             // act
-            var commandLineOptions = new CommandLineOptionParser(args);
+            var commandLineOptions = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             // assert
             Assert.AreEqual(ConfigFilePath, commandLineOptions.ConfigFile);
@@ -48,7 +48,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             // act
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var commandLineParser = new CommandLineOptionParser(args);
+            var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             //assert
             Assert.AreEqual(Path.Combine(usersDirectory, @".tsqllintrc"), commandLineParser.ConfigFile);
@@ -62,7 +62,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             // act
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var commandLineParser = new CommandLineOptionParser(args);
+            var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             //assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("Usage: tsqllint [options]"));
