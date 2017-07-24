@@ -27,7 +27,10 @@ namespace TSQLLINT_LIB.Config
             var jsonObject = JObject.Parse(jsonConfig);
 
             JToken rules;
-            if (!jsonObject.TryGetValue("rules", out rules)) return;
+            if (!jsonObject.TryGetValue("rules", out rules))
+            {
+                return;
+            }
 
             foreach (var rule in rules)
             {

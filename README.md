@@ -44,7 +44,7 @@ $ tsqllint --help
 $ tsqllint --init
 ```
 
-Configure tsqllint by editing the .tsqllintrc file. Rules may be set to off, warning, or error.
+TConfigure tsqllint by editing the .tsqllintrc file. Rules may be set to off, warning, or error.
 
 ```
 {
