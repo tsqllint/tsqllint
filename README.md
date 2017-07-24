@@ -6,7 +6,7 @@
 
 # tsqllint
 
-tsqllint is a tool for describing, identifying, and reporting on undesirable patterns in TSQL code.
+tsqllint is a tool for describing, identifying, and reporting on undesirable patterns in TSQL scripts
 
 ## Installation
 
