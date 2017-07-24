@@ -12,9 +12,6 @@ namespace TSQLLINT_CONSOLE.Reporters
             var errorCount = 0;
             var warningCount = 0;
 
-            // get some seperation from last line of user input
-            Report("\n");
-
             foreach (var violation in violations)
             {
                 switch (violation.Severity)
@@ -31,7 +28,7 @@ namespace TSQLLINT_CONSOLE.Reporters
                         throw new ArgumentOutOfRangeException();
                 }
 
-                Report(string.Format("{0}({1},{2}): {3} {4} : {5}.",
+                ReportViolation(string.Format("{0}({1},{2}): {3} {4} : {5}.",
                     violation.FileName, 
                     violation.Line, 
                     violation.Column,
@@ -40,12 +37,17 @@ namespace TSQLLINT_CONSOLE.Reporters
                     violation.Text));
             }
 
-            Report(string.Format("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings\n", fileCount, timespan.TotalSeconds, errorCount, warningCount));
+            Report(string.Format("Linted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings", fileCount, timespan.TotalSeconds, errorCount, warningCount));
+        }
+
+        private static void ReportViolation(string message)
+        {
+            Console.WriteLine("{0}", message);
         }
 
         public void Report(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine("\n{0}", message);
         }
     }
 }

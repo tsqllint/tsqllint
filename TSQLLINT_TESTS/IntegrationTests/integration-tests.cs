@@ -149,7 +149,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo") },
-            string.Format("\nTSQLLINT Config file not found: {0} \nYou may generate it with the '--init' option", Path.Combine(TestFileDirectory, @".tsqllintrc-foo")),
+            string.Format("Config file not found: {0} \nYou may generate one to use by default with the '--init' option", Path.Combine(TestFileDirectory, @".tsqllintrc-foo")),
             new List<RuleViolation>(),
             0
           }, 

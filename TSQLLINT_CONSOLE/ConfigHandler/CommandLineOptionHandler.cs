@@ -23,13 +23,6 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile) && !File.Exists(commandLineOptions.ConfigFile))
-            {
-                reporter.Report(string.Format("\nTSQLLINT Config file not found: {0} \nYou may generate it with the '--init' option", commandLineOptions.ConfigFile));
-                PerformLinting = false;
-                return;
-            }
-
             if (commandLineOptions.Version)
             {
                 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -46,6 +39,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 if (!configFileFinder.FindFile(commandLineOptions.ConfigFile))
                 {
                     reporter.Report("Default config file not found. You may generate it with the '--init' option");
+                    PerformLinting = false;
                     return;
                 }
 
@@ -54,10 +48,19 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 return;
             }
 
+            if (!File.Exists(commandLineOptions.ConfigFile))
+            {
+                reporter.Report(string.Format("Config file not found: {0} \nYou may generate one to use by default with the '--init' option", commandLineOptions.ConfigFile));
+                PerformLinting = false;
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(commandLineOptions.LintPath))
             {
+                reporter.Report("Linting path not provided. You may provide it with the '-f' option");
                 reporter.Report(commandLineOptions.GetUsage());
                 PerformLinting = false;
+                return;
             }
         }
     }
