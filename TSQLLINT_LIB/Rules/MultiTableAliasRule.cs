@@ -8,7 +8,7 @@ namespace TSQLLINT_LIB.Rules
     public class MultiTableAliasRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "multi-table-alias"; } }
-        public string RULE_TEXT { get { return "All tables referenced in a multi table joins should be aliased"; } }
+        public string RULE_TEXT { get { return "Unaliased table found in multi table joins"; } }
         public Action<string, string, int, int> ErrorCallback;
 
         public MultiTableAliasRule(Action<string, string, int, int> errorCallback)
