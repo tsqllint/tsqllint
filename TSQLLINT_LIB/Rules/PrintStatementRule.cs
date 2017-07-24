@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class PrintStatementRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME {get { return "print-statement";}}
-        public string RULE_TEXT { get { return "Do not put print statements in scripts"; } }
+        public string RULE_TEXT { get { return "PRINT statement found"; } }
         public Action<string, string, int, int> ErrorCallback;
 
         public PrintStatementRule(Action<string, string, int, int> errorCallback)

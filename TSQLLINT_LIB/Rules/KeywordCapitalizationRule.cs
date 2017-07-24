@@ -9,7 +9,7 @@ namespace TSQLLINT_LIB.Rules
     public class KeywordCapitalizationRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "keyword-capitalization"; } }
-        public string RULE_TEXT { get { return "TSQL Keywords must be capitalized"; } }
+        public string RULE_TEXT { get { return "Expected TSQL Keyword to be capitalized"; } }
         public Action<string, string, int, int> ErrorCallback;
 
         public KeywordCapitalizationRule(Action<string, string, int, int> errorCallback)

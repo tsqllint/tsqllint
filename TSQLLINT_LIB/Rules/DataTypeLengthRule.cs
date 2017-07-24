@@ -7,7 +7,7 @@ namespace TSQLLINT_LIB.Rules
     public class DataTypeLengthRule : TSqlFragmentVisitor, ISqlRule
     {
         public string RULE_NAME { get { return "data-type-length"; } }
-        public string RULE_TEXT { get { return "Date type length must be specified"; } }
+        public string RULE_TEXT { get { return "Date type length not specified"; } }
         public Action<string, string, int, int> ErrorCallback;
 
         private readonly SqlDataTypeOption[] TypesThatRequireLength = {
