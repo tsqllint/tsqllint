@@ -46,7 +46,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         [Test]
         public void ConfigReadEmptyFile()
         {
-            Assert.Throws<Exception>(() => { new LintConfigReader(""); });
+            var ConfigReader = new LintConfigReader("");
+            Assert.IsFalse(ConfigReader.ConfigIsValid);
         }
 
         [Test]

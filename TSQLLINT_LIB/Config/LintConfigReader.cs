@@ -10,13 +10,15 @@ namespace TSQLLINT_LIB.Config
 {
     public class LintConfigReader : ILintConfigReader
     {
+        public bool ConfigIsValid { get; protected set; }
         private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
 
         public LintConfigReader(string configFilePath)
         {
             if (string.IsNullOrEmpty(configFilePath))
             {
-                throw new Exception("Config file not valid");
+                ConfigIsValid = false;
+                return;
             }
 
             var jsonConfigString = File.ReadAllText(configFilePath);
