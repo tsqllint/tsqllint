@@ -8,28 +8,28 @@ using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Config
 {
-    public class LintConfigReader : ILintConfigReader
+    public class ConfigReader : IConfigReader
     {
         public bool ConfigIsValid { get; protected set; }
         private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
 
-        public LintConfigReader(string configFilePath)
+        public ConfigReader(string configFilePath)
         {
-            if (string.IsNullOrEmpty(configFilePath))
+            if (!string.IsNullOrEmpty(configFilePath) && File.Exists(configFilePath))
             {
-                ConfigIsValid = false;
-                return;
+                var jsonConfigString = File.ReadAllText(configFilePath);
+
+                JToken token;
+                if (Utility.tryParseJson(jsonConfigString, out token))
+                {
+                    SetupRules(token);
+                }
             }
-
-            var jsonConfigString = File.ReadAllText(configFilePath);
-            var jsonConfigObject = JObject.Parse(jsonConfigString);
-
-            SetupRules(jsonConfigObject);
-
         }
 
         private void SetupRules(JToken jsonObject)
         {
+            ConfigIsValid = true;
             var rules = jsonObject.SelectTokens("..rules").ToList();
 
             for (var index = 0; index < rules.Count; index++)

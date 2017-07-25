@@ -41,8 +41,8 @@
   <ItemGroup>
     <Compile Include="Config\ConfigFileGenerator.cs" />
     <Compile Include="Config\Interfaces\IConfigFileGenerator.cs" />
-    <Compile Include="Config\Interfaces\ILintConfigReader.cs" />
-    <Compile Include="Config\LintConfigReader.cs" />
+    <Compile Include="Config\Interfaces\IConfigReader.cs" />
+    <Compile Include="Config\ConfigReader.cs" />
     <Compile Include="Parser\Interfaces\IReporter.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />

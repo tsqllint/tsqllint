@@ -30,15 +30,16 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             File.Delete(DefaultConfigFile);
         }
 
+        TestCommandLineOptionHandlerReporter reporter = new TestCommandLineOptionHandlerReporter();
+        TestCommandLineOptionHandlerConfigFileGenerator configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
+        TestCommandLineOptionHandlerConfigFileFinder configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
         private readonly CommandLineOptionHandler Handler = new CommandLineOptionHandler();
 
         [Test]
         public void InitOptionsTest()
         {
             // arrange
-            var reporter = new TestCommandLineOptionHandlerReporter();
-            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
-            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
+
 
             var args = new[]
             {
@@ -95,14 +96,13 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
             var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(false);
 
-
             var args = new[]
             {
                 "-p"
             };
 
             var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
-            var epectedMessage = "Default config file not found. You may generate it with the \'--init\' option";
+            var epectedMessage = "Config file not found. You may generate it with the \'--init\' option";
 
             // act
             Handler.HandleCommandLineOptions(options, configFileFinder, configFileGenerator, reporter);
@@ -129,7 +129,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
-            var expectedMessage = string.Format("Default config file found at: {0}", defaultConfigFile);
+            var expectedMessage = string.Format("Config file found at: {0}", defaultConfigFile);
 
             // act
             Handler.HandleCommandLineOptions(options, configFileFinder, configFileGenerator, reporter);

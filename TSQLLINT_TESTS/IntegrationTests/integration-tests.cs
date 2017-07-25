@@ -40,20 +40,6 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory\integration-test-two.sql");
         private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
 
-        private static string _GetUsageString;
-        private static string GetUsageString
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_GetUsageString))
-                {
-                    var consoleCommandLineOptionParser = new CommandLineOptions(new string[0]);
-                    _GetUsageString = consoleCommandLineOptionParser.GetUsage();
-                }
-                return _GetUsageString;
-            }
-        }
-
         private static string _TSqllVersion;
         private static string TSqllVersion
         {
@@ -139,7 +125,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-c" , ValidConfigFile },
-            GetUsageString,
+            "Linting path not provided. You may provide it with the '-f' option",
             new List<RuleViolation>(),
             0
           }, 
@@ -149,7 +135,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo") },
-            GetUsageString,
+            string.Format("Config file not found. You may generate it with the '--init' option"),
             new List<RuleViolation>(),
             0
           }, 
@@ -159,7 +145,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo"), "-f", TestFileOne},
-            string.Format("Config file not found: {0} \nYou may generate one to use by default with the '--init' option", Path.Combine(TestFileDirectory, @".tsqllintrc-foo")),
+            string.Format("Config file not found. You may generate it with the '--init' option"),
             new List<RuleViolation>(),
             0
           }, 
@@ -213,7 +199,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-f", "" },
-            GetUsageString,
+            "Linting path not provided. You may provide it with the '-f' option",
             new List<RuleViolation>(),
             0
           }
@@ -243,7 +229,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string>(),
-            GetUsageString,
+            "Linting path not provided. You may provide it with the '-f' option",
             new List<RuleViolation>(),
             0
           }, 
@@ -271,7 +257,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-p" },
-            string.Format("Default config file found at: {0}\\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc"),
+            string.Format("Config file found at: {0}\\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc"),
             new List<RuleViolation>(),
             0
           }, 
