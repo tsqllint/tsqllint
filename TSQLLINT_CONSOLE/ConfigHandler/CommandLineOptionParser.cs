@@ -8,8 +8,6 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class CommandLineOptionParser
     {
-        public bool OptionsParsed;
-        public bool PerformLinting;
 
         public CommandLineOptionParser(string[] args)
         {
