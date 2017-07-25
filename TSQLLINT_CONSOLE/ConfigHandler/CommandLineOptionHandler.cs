@@ -11,7 +11,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
     {
         public bool PerformLinting = true;
 
-        public void HandleCommandLineOptions(CommandLineOptionParser commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
+        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
         {
             if (commandLineOptions.Init)
             {

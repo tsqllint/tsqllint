@@ -6,10 +6,9 @@ using CommandLine.Text;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
 {
-    public class CommandLineOptionParser
+    public class CommandLineOptions
     {
-
-        public CommandLineOptionParser(string[] args)
+        public CommandLineOptions(string[] args)
         {
             Parser.Default.ParseArgumentsStrict(args, this);
         }

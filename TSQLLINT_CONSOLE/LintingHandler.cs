@@ -15,9 +15,9 @@ namespace TSQLLINT_CONSOLE
         private readonly SqlFileProcessor Parser;
         private readonly LintConfigReader ConfigReader;
         private readonly SqlRuleVisitor RuleVisitor;
-        private readonly CommandLineOptionParser CommandLineOptions;
+        private readonly CommandLineOptions CommandLineOptions;
 
-        public LintingHandler(CommandLineOptionParser commandLineOptions, IBaseReporter reporter)
+        public LintingHandler(CommandLineOptions commandLineOptions, IBaseReporter reporter)
         {
             CommandLineOptions = commandLineOptions;
             ConfigReader = new LintConfigReader(CommandLineOptions.ConfigFile);
