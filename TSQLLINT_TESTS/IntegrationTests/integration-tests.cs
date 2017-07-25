@@ -155,6 +155,16 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           }, 
         };
 
+        public static readonly object[] ConfigArgs_InValid_LintPath = {
+          new object[]
+          {
+            new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo"), "-f", TestFileOne},
+            string.Format("Config file not found: {0} \nYou may generate one to use by default with the '--init' option", Path.Combine(TestFileDirectory, @".tsqllintrc-foo")),
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
         public static readonly object[] ConfigArgs_Valid_LintOneFile = {
           new object[]
           {
@@ -286,6 +296,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         [Test,
             TestCaseSource("ConfigArgs_Valid_NoLintPath"),
             TestCaseSource("ConfigArgs_InValid_NoLintPath"),
+            TestCaseSource("ConfigArgs_InValid_LintPath"),
             TestCaseSource("ConfigArgs_Valid_LintOneFile"),
             TestCaseSource("InitArgs_Valid"),
             TestCaseSource("FileArgs_Valid_LintOneFile"),
