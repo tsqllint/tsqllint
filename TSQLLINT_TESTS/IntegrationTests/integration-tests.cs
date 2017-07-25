@@ -229,6 +229,16 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           }, 
         };
 
+        public static readonly object[] FileArgs_InValid_NoArgs = {
+          new object[]
+          {
+            new List<string>(),
+            GetUsageString,
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
         #endregion
 
         #region Init Argument Test Cases
@@ -284,6 +294,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             TestCaseSource("FileArgs_InValid_NoFile"),
             TestCaseSource("FileArgs_InValid_FileNotExists"),
             TestCaseSource("FileArgs_InValid_InvalidSyntax"),
+            TestCaseSource("FileArgs_InValid_NoArgs"),
             TestCaseSource("Print_Config_Valid"),
             TestCaseSource("Print_Version_Valid")
         ]
