@@ -13,7 +13,7 @@ namespace TSQLLINT_LIB.Parser
         private readonly TSql120Parser Parser;
         private readonly RuleVisitorBuilder RuleVisitorBuilder;
 
-        public SqlRuleVisitor(ILintConfigReader configReader)
+        public SqlRuleVisitor(IConfigReader configReader)
         {
             Parser = new TSql120Parser(true);
             Violations = new List<RuleViolation>();

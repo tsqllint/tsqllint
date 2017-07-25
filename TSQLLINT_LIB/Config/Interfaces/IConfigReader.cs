@@ -2,7 +2,7 @@
 
 namespace TSQLLINT_LIB.Config.Interfaces
 {
-    public interface ILintConfigReader
+    public interface IConfigReader
     {
         RuleViolationSeverity GetRuleSeverity(string key);
         bool ConfigIsValid { get; }

@@ -13,14 +13,14 @@ namespace TSQLLINT_CONSOLE
         public List<RuleViolation> RuleViolations = new List<RuleViolation>();
 
         private readonly SqlFileProcessor Parser;
-        private readonly LintConfigReader ConfigReader;
+        private readonly ConfigReader ConfigReader;
         private readonly SqlRuleVisitor RuleVisitor;
         private readonly CommandLineOptions CommandLineOptions;
 
         public LintingHandler(CommandLineOptions commandLineOptions, IBaseReporter reporter)
         {
             CommandLineOptions = commandLineOptions;
-            ConfigReader = new LintConfigReader(CommandLineOptions.ConfigFile);
+            ConfigReader = new ConfigReader(CommandLineOptions.ConfigFile);
             RuleVisitor = new SqlRuleVisitor(ConfigReader);
             Parser = new SqlFileProcessor(RuleVisitor, reporter);
         }

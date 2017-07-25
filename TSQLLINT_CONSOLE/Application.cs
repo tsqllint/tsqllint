@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using TSQLLINT_CONSOLE.ConfigHandler;
+﻿using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE
@@ -8,18 +7,17 @@ namespace TSQLLINT_CONSOLE
     {
         private readonly string[] Args;
         private readonly IReporter Reporter;
+        private readonly ConsoleTimer Timer = new ConsoleTimer();
 
         public Application(string[] args, IReporter reporter)
         {
+            Timer.start();
             Args = args;
             Reporter = reporter;
         }
 
         public void Run()
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             // parse options
             var commandLineOptions = new CommandLineOptions(Args);
 
@@ -32,14 +30,11 @@ namespace TSQLLINT_CONSOLE
                 return;
             }
 
-            // lint
+            // perform lint
             var lintingHandler = new LintingHandler(commandLineOptions, Reporter);
             lintingHandler.Lint();
 
-            stopWatch.Stop();
-            var timespan = stopWatch.Elapsed;
-
-            Reporter.ReportResults(lintingHandler.RuleViolations, timespan, lintingHandler.LintedFileCount);
+            Reporter.ReportResults(lintingHandler.RuleViolations, Timer.stop(), lintingHandler.LintedFileCount);
         }
     }
 }

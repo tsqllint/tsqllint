@@ -15,10 +15,10 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
         private string _ConfigFile;
 
-        [Option(shortName: 'c', 
-            longName: "config", 
-            Required = false,
-            HelpText = "Used to specify a .tsqllintrc file path to use rather than the default.")]
+        [Option(shortName: 'c',
+             longName: "config",
+             Required = false,
+             HelpText = "Used to specify a .tsqllintrc file path to use rather than the default.")]
         public string ConfigFile {
             get
             {
@@ -37,7 +37,8 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'i',
             longName: "init",
             Required = false,
-            HelpText = "Generate .tsqllintrc config file.")]
+            HelpText = "Generate .tsqllintrc config file."),
+        TSQLLINTOption(NonLintingCommand = true)]
         public bool Init { get; set; }
 
         [Option(shortName: 'f',
@@ -49,13 +50,15 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'p',
             longName: "print-config",
             Required = false,
-            HelpText = "Print path to default .tsqllintrc config file")]
+            HelpText = "Print path to default .tsqllintrc config file"),
+        TSQLLINTOption(NonLintingCommand = true)]
         public bool PrintConfig { get; set; }
 
         [Option(shortName: 'v',
             longName: "version",
             Required = false,
-            HelpText = "Display tsqllint version.")]
+            HelpText = "Display tsqllint version."),
+        TSQLLINTOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
         [HelpOption]

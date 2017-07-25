@@ -26,7 +26,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         public void GetRuleSeverity()
         {
             var configfilePath = Path.Combine(TestDirectory, ".tsqllintrc");
-            var ConfigReader = new LintConfigReader(configfilePath);
+            var ConfigReader = new ConfigReader(configfilePath);
             Assert.AreEqual(RuleViolationSeverity.Error, ConfigReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, ConfigReader.GetRuleSeverity("statement-semicolon-termination"));
         }
@@ -35,14 +35,14 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         public void ConfigNoRulesNoThrow()
         {
             var configfilePath = Path.Combine(TestDirectory, ".tsqllintrc-missing-rules");
-            Assert.DoesNotThrow(() => { new LintConfigReader(configfilePath); });
+            Assert.DoesNotThrow(() => { new ConfigReader(configfilePath); });
         }
 
         [Test]
         public void ConfigReadBadRuleName()
         {
             var configfilePath = Path.Combine(TestDirectory, ".tsqllintrc");
-            var ConfigReader = new LintConfigReader(configfilePath);
+            var ConfigReader = new ConfigReader(configfilePath);
             Assert.AreEqual(RuleViolationSeverity.Off, ConfigReader.GetRuleSeverity("foo"));
         }
 
@@ -50,14 +50,14 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         public void ConfigReadBadRuleSeverity()
         {
             var configfilePath = Path.Combine(TestDirectory, ".tsqllintrc-bad-severity");
-            var ConfigReader = new LintConfigReader(configfilePath);
+            var ConfigReader = new ConfigReader(configfilePath);
             Assert.AreEqual(RuleViolationSeverity.Off, ConfigReader.GetRuleSeverity("select-star"));
         }
 
         [Test]
         public void ConfigReadEmptyFile()
         {
-            var ConfigReader = new LintConfigReader("");
+            var ConfigReader = new ConfigReader("");
             Assert.IsFalse(ConfigReader.ConfigIsValid);
         }
 
@@ -65,7 +65,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         public void ConfigReadInvalidJson()
         {
             var configfilePath = Path.Combine(TestDirectory, ".tsqllintrc-bad-json");
-            Assert.Throws<JsonReaderException>(() => { new LintConfigReader(configfilePath); });
+            var ConfigReader = new ConfigReader(configfilePath);
+            Assert.IsFalse(ConfigReader.ConfigIsValid);
         }
     }
 }

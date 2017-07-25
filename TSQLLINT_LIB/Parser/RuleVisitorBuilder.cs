@@ -10,7 +10,7 @@ namespace TSQLLINT_LIB.Parser
 {
     public class RuleVisitorBuilder
     {
-        private readonly ILintConfigReader ConfigReader;
+        private readonly IConfigReader ConfigReader;
         private readonly List<Type> RuleVisitors = new List<Type>()
         {
             typeof(ConditionalBeginEndRule),
@@ -32,7 +32,7 @@ namespace TSQLLINT_LIB.Parser
             typeof(UpperLowerRule)
         };
 
-        public RuleVisitorBuilder(ILintConfigReader configReader)
+        public RuleVisitorBuilder(IConfigReader configReader)
         {
             ConfigReader = configReader;
         }
@@ -43,17 +43,16 @@ namespace TSQLLINT_LIB.Parser
             for (var index = 0; index < RuleVisitors.Count; index++)
             {
                 var visitor = RuleVisitors[index];
-
                 Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
-                    {
-                        violations.Add(new RuleViolation(
-                            sqlPath,
-                            ruleName,
-                            ruleText,
-                            startLne,
-                            startColumn,
-                            ConfigReader.GetRuleSeverity(ruleName)));
-                    };
+                {
+                    violations.Add(new RuleViolation(
+                        sqlPath,
+                        ruleName,
+                        ruleText,
+                        startLne,
+                        startColumn,
+                        ConfigReader.GetRuleSeverity(ruleName)));
+                };
 
                 var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, ErrorCallback);
                 var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
