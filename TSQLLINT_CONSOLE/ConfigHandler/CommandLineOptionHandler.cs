@@ -48,7 +48,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 return;
             }
 
-            if (!File.Exists(commandLineOptions.ConfigFile))
+            if (!File.Exists(commandLineOptions.ConfigFile) && !string.IsNullOrWhiteSpace(commandLineOptions.LintPath))
             {
                 reporter.Report(string.Format("Config file not found: {0} \nYou may generate one to use by default with the '--init' option", commandLineOptions.ConfigFile));
                 PerformLinting = false;

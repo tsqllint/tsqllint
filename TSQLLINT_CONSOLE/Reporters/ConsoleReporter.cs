@@ -37,7 +37,7 @@ namespace TSQLLINT_CONSOLE.Reporters
                     violation.Text));
             }
 
-            Report(string.Format("Linted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings", fileCount, timespan.TotalSeconds, errorCount, warningCount));
+            Report(string.Format("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings", fileCount, timespan.TotalSeconds, errorCount, warningCount));
         }
 
         private static void ReportViolation(string message)
@@ -47,7 +47,7 @@ namespace TSQLLINT_CONSOLE.Reporters
 
         public void Report(string message)
         {
-            Console.WriteLine("\n{0}", message);
+            Console.WriteLine("{0}", message);
         }
     }
 }
