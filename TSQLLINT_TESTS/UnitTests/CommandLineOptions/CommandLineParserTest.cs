@@ -29,7 +29,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var args = new[]
             {
                 "-c", ConfigFilePath,
-                "-f", @"c:\database\foo.sql"
+                @"c:\database\foo.sql"
             };
 
             // act

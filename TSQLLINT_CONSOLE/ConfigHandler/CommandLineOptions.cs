@@ -8,8 +8,11 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class CommandLineOptions
     {
+        public string[] Args;
+
         public CommandLineOptions(string[] args)
         {
+            Args = args;
             Parser.Default.ParseArgumentsStrict(args, this);
         }
 
@@ -42,9 +45,12 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         public bool Init { get; set; }
 
         [Option(shortName: 'f',
-            longName: "files",
+            longName: "force",
             Required = false,
-            HelpText = "Target for linting. May contain a single file, a directory to be recursively iterated over, or a list of comma separated files.")]
+            HelpText = "Used to force generation of default config file when one already exists")]
+        public bool Force { get; set; }
+
+        [ValueOption(0)]
         public string LintPath { get; set; }
 
         [Option(shortName: 'p',

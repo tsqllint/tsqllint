@@ -17,14 +17,14 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         {
             Reporter = reporter;
             CommandLineOptions = commandLineOptions;
-            CommandLineOptionHandler = new CommandLineOptionHandler();
-            ConfigFileGenerator = new ConfigFileGenerator(reporter);
             ConfigFileFinder = new ConfigFileFinder();
+            ConfigFileGenerator = new ConfigFileGenerator(reporter);
+            CommandLineOptionHandler = new CommandLineOptionHandler(CommandLineOptions, ConfigFileFinder, ConfigFileGenerator, Reporter);
         }
 
         public void HandleConfigs()
         {
-            CommandLineOptionHandler.HandleCommandLineOptions(CommandLineOptions, ConfigFileFinder, ConfigFileGenerator, Reporter);
+            CommandLineOptionHandler.HandleCommandLineOptions();
             PerformLinting = CommandLineOptionHandler.PerformLinting;
         }
     }

@@ -16,16 +16,23 @@ The recommended method of installing tsqllint is to install the tool globally us
 $ npm install tsqllint -g
 ```
 
+## Configuration
+
+```
+# generate a default .tsqllintrc file using the init flag
+$ tsqllint --init
+```
+
 ## Usage
 ```
 # lint a single file
-$ tsqllint --files test.sql
+$ tsqllint test.sql
 
-# lint a list of files and directories (must be seperated by comma)
-$ tsqllint --files "test_one.sql, test_two.sql, c:\database_scripts"
+# lint a list of files and directories (must be seperated by comma and enclosed in quotes)
+$ tsqllint "test_one.sql, test_two.sql, c:\database_scripts"
 
 # lint all files in a directory
-$ tsqllint --files "c:\database_scripts"
+$ tsqllint "c:\database_scripts"
 
 # display usage hints
 $ tsqllint --help
@@ -37,14 +44,11 @@ $ tsqllint --print
 $ tsqllint --help
 ```
 
-## Configuration
+## Creating custom configurations
 
-```
-# generate a default .tsqllintrc file using the init flag
-$ tsqllint --init
-```
+Configure tsqllint by editing its config file, which is called .tsqllintrc, you can find its location with the "--print-confg" or "-p" option.  
 
-TConfigure tsqllint by editing the .tsqllintrc file. Rules may be set to off, warning, or error.
+Rules may be set to off, warning, or error.
 
 ```
 {

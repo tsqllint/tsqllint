@@ -50,7 +50,7 @@ namespace TSQLLINT_LIB.Parser
                 }
                 else
                 {
-                    ProcessFile(Utility.GetFileContents(pathString), pathString);
+                    ProcessFile(Utility.Utility.GetFileContents(pathString), pathString);
                 }
             }
         }
@@ -70,7 +70,7 @@ namespace TSQLLINT_LIB.Parser
                 var fileName = fileEntries[index];
                 if (Path.GetExtension(fileName) == ".sql")
                 {
-                    var fileContents = Utility.GetFileContents(fileName);
+                    var fileContents = Utility.Utility.GetFileContents(fileName);
                     ProcessFile(fileContents, fileName);
                 }
             }
@@ -78,7 +78,7 @@ namespace TSQLLINT_LIB.Parser
 
         public void ProcessFile(string fileContents, string filePath)
         {
-            var txtRdr = Utility.CreateTextReaderFromString(fileContents);
+            var txtRdr = Utility.Utility.CreateTextReaderFromString(fileContents);
             RuleVisitor.VisitRules(filePath, txtRdr);
             FileCount++;
         }

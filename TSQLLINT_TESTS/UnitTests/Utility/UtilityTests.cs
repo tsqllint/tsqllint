@@ -1,28 +1,30 @@
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using TSQLLINT_LIB;
 
-public class UtilityTests
+namespace TSQLLINT_LIB_TESTS.UnitTests.Utility
 {
-    [TestCase("{")]
-    [TestCase("}")]
-    [TestCase("")]
-    [TestCase("{{}")]
-    [TestCase("Foo")]
-    public void InvalidJson(string testString)
+    public class UtilityTests
     {
-        JToken token;
-        Assert.IsFalse(Utility.tryParseJson(testString, out token));
-        Assert.IsNull(token);
-    }
+        [TestCase("{")]
+        [TestCase("}")]
+        [TestCase("")]
+        [TestCase("{{}")]
+        [TestCase("Foo")]
+        public void InvalidJson(string testString)
+        {
+            JToken token;
+            Assert.IsFalse(TSQLLINT_LIB.Utility.Utility.tryParseJson(testString, out token));
+            Assert.IsNull(token);
+        }
 
-    [TestCase("{}")]
-    [TestCase("{ \"foo\": \"bar\"}")]
-    [TestCase("99")]
-    public void ValidJson(string testString)
-    {
-        JToken token;
-        Assert.IsTrue(Utility.tryParseJson(testString, out token));
-        Assert.IsNotNull(token);
+        [TestCase("{}")]
+        [TestCase("{ \"foo\": \"bar\"}")]
+        [TestCase("99")]
+        public void ValidJson(string testString)
+        {
+            JToken token;
+            Assert.IsTrue(TSQLLINT_LIB.Utility.Utility.tryParseJson(testString, out token));
+            Assert.IsNotNull(token);
+        }
     }
 }

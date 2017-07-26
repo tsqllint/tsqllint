@@ -12,35 +12,72 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
     {
         public bool PerformLinting = true;
 
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
+        private CommandLineOptions CommandLineOptions;
+        private IConfigFileFinder ConfigFileFinder;
+        private IConfigFileGenerator ConfigFileGenerator;
+        private IBaseReporter Reporter;
+
+        public CommandLineOptionHandler(CommandLineOptions commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
         {
-            CheckOptionsForNonLintingActions(commandLineOptions);
-            var configFileExists = configFileFinder.FindFile(commandLineOptions.ConfigFile);
+            CommandLineOptions = commandLineOptions;
+            ConfigFileFinder = configFileFinder;
+            ConfigFileGenerator = configFileGenerator;
+            Reporter = reporter;
+        }
 
-            if (commandLineOptions.Init)
+        public void HandleCommandLineOptions()
+        {
+            if (CommandLineOptions.Args.Length == 0)
             {
-                CreateDefaultConfigFile(configFileGenerator);
-            }
-
-            if (commandLineOptions.Version)
-            {
-                ReportVersionInfo(reporter);
-            }
-
-            if (commandLineOptions.PrintConfig && configFileExists)
-            {
-                reporter.Report(string.Format("Config file found at: {0}", commandLineOptions.ConfigFile));
-            }
-
-            if (!configFileExists)
-            {
-                reporter.Report("Config file not found. You may generate it with the '--init' option");
+                Reporter.Report(string.Format(CommandLineOptions.GetUsage()));
                 PerformLinting = false;
             }
 
-            if (PerformLinting && string.IsNullOrWhiteSpace(commandLineOptions.LintPath))
+            CheckOptionsForNonLintingActions(CommandLineOptions);
+            var configFileExists = ConfigFileFinder.FindFile(CommandLineOptions.ConfigFile);
+
+            if (CommandLineOptions.Init)
             {
-                reporter.Report("Linting path not provided. You may provide it with the '-f' option");
+                var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
+                var defaultConfigFileExists = ConfigFileFinder.FindFile(defaultConfigFile);
+
+                if (!defaultConfigFileExists || CommandLineOptions.Force)
+                {
+                    ConfigFileGenerator.WriteConfigFile(defaultConfigFile);
+                }
+                else
+                {
+                    Reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite", defaultConfigFile));
+                }
+            }
+
+            if (CommandLineOptions.Version)
+            {
+                ReportVersionInfo(Reporter);
+            }
+
+            if (CommandLineOptions.PrintConfig)
+            {
+                if (configFileExists)
+                {
+                    Reporter.Report(string.Format("Config file found at: {0}", CommandLineOptions.ConfigFile));
+                }
+                else
+                {
+                    Reporter.Report("Config file not found. You may generate it with the '--init' option");
+                }
+            }
+
+            if (PerformLinting && !configFileExists)
+            {
+                Reporter.Report("Config file not found. You may generate it with the '--init' option");
+                PerformLinting = false;
+            }
+
+            if (PerformLinting && string.IsNullOrWhiteSpace(CommandLineOptions.LintPath))
+            {
+                Reporter.Report("Linting path not provided");
                 PerformLinting = false;
             }
         }
@@ -53,13 +90,6 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             reporter.Report(string.Format("v{0}", version));
         }
 
-        private static void CreateDefaultConfigFile(IConfigFileGenerator configFileGenerator)
-        {
-            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
-            configFileGenerator.WriteConfigFile(configFilePath);
-        }
-
         private void CheckOptionsForNonLintingActions(CommandLineOptions commandLineOptions)
         {
             var properties = typeof(CommandLineOptions).GetProperties();
@@ -67,7 +97,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             {
                 if (!PerformLinting)
                 {
-                    break;
+                    return;
                 }
 
                 var propertyValue = prop.GetValue(commandLineOptions);
