@@ -30,17 +30,38 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             File.Delete(DefaultConfigFile);
         }
 
-        TestCommandLineOptionHandlerReporter reporter = new TestCommandLineOptionHandlerReporter();
-        TestCommandLineOptionHandlerConfigFileGenerator configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
-        TestCommandLineOptionHandlerConfigFileFinder configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
-        private readonly CommandLineOptionHandler Handler = new CommandLineOptionHandler();
-
         [Test]
-        public void InitOptionsTest()
+        public void InitOptionsForceTest_FileExitst()
         {
             // arrange
+            var args = new[]
+            {
+                "-i", "-f"
+            };
+
+            var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
+
+            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
+            var reporter = new TestCommandLineOptionHandlerReporter();
+            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
+            var handler = new CommandLineOptionHandler(options, configFileFinder, configFileGenerator, reporter);
+
+            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
+
+            // act
+            handler.HandleCommandLineOptions();
+
+            // assert
+            Assert.AreEqual(1, configFileGenerator.ConfigFilePaths.Count);
+            Assert.AreEqual(configFilePath, configFileGenerator.ConfigFilePaths.First());
+        }
 
 
+        [Test]
+        public void InitOptionsNoForceTest_FileExists()
+        {
+            // arrange
             var args = new[]
             {
                 "-i"
@@ -48,32 +69,32 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
-            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var configFilePath = Path.Combine(usersDirectory, @".tsqllintrc");
+            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
+            var reporter = new TestCommandLineOptionHandlerReporter();
+            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
+            var handler = new CommandLineOptionHandler(options, configFileFinder, configFileGenerator, reporter);
 
             // act
-            Handler.HandleCommandLineOptions(options, configFileFinder, configFileGenerator, reporter);
+            handler.HandleCommandLineOptions();
 
             // assert
-            Assert.AreEqual(1, configFileGenerator.ConfigFilePaths.Count);
-            Assert.AreEqual(configFilePath, configFileGenerator.ConfigFilePaths.First());
+            Assert.AreEqual(0, configFileGenerator.ConfigFilePaths.Count);
         }
 
         [Test]
         public void VersionOptionsTest()
         {
             // arrange
-            var reporter = new TestCommandLineOptionHandlerReporter();
-            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
-            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
-
-
             var args = new[]
             {
                 "-v"
             };
 
             var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
+            var reporter = new TestCommandLineOptionHandlerReporter();
+            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
+            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
+            var handler = new CommandLineOptionHandler(options, configFileFinder, configFileGenerator, reporter);
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -81,7 +102,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var tsqllintVersion = string.Format("v{0}", version);
 
             // act
-            Handler.HandleCommandLineOptions(options, configFileFinder, configFileGenerator, reporter);
+            handler.HandleCommandLineOptions();
 
             // assert
             Assert.AreEqual(1, reporter.Messages.Count);
@@ -92,20 +113,22 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         public void PrintConfigOptionsFileNotExistTest()
         {
             // arrange
-            var reporter = new TestCommandLineOptionHandlerReporter();
-            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
-            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(false);
-
             var args = new[]
             {
                 "-p"
             };
 
             var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
+
+            var reporter = new TestCommandLineOptionHandlerReporter();
+            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
+            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(false);
+            var handler = new CommandLineOptionHandler(options, configFileFinder, configFileGenerator, reporter);
+
             var epectedMessage = "Config file not found. You may generate it with the \'--init\' option";
 
             // act
-            Handler.HandleCommandLineOptions(options, configFileFinder, configFileGenerator, reporter);
+            handler.HandleCommandLineOptions();
 
             // assert
             Assert.AreEqual(1, reporter.Messages.Count);
@@ -116,10 +139,6 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         public void PrintConfigOptionsFileExistTest()
         {
             // arrange
-            var reporter = new TestCommandLineOptionHandlerReporter();
-            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
-            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
-
             var args = new[]
             {
                 "-p"
@@ -127,12 +146,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             var options = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
+            var reporter = new TestCommandLineOptionHandlerReporter();
+            var configFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator();
+            var configFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(true);
+            var handler = new CommandLineOptionHandler(options, configFileFinder, configFileGenerator, reporter);
+
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
             var expectedMessage = string.Format("Config file found at: {0}", defaultConfigFile);
 
             // act
-            Handler.HandleCommandLineOptions(options, configFileFinder, configFileGenerator, reporter);
+            handler.HandleCommandLineOptions();
 
             // assert
             Assert.AreEqual(1, reporter.Messages.Count);

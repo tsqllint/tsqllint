@@ -40,18 +40,22 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory\integration-test-two.sql");
         private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
 
-        private static string _TSqllVersion;
+
+        private static string UsageString
+        {
+            get
+            {
+                return new CommandLineOptions(new string[0]).GetUsage();;
+            }
+        }
+
         private static string TSqllVersion
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_TSqllVersion))
-                {
-                    var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                    var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-                    _TSqllVersion = fvi.FileVersion;
-                }
-                return _TSqllVersion;
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                return fvi.FileVersion;
             }
         }
 
@@ -125,7 +129,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-c" , ValidConfigFile },
-            "Linting path not provided. You may provide it with the '-f' option",
+            "Linting path not provided",
             new List<RuleViolation>(),
             0
           }, 
@@ -144,7 +148,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] ConfigArgs_InValid_LintPath = {
           new object[]
           {
-            new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo"), "-f", TestFileOne},
+            new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc-foo"), TestFileOne},
             string.Format("Config file not found. You may generate it with the '--init' option"),
             new List<RuleViolation>(),
             0
@@ -154,7 +158,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] ConfigArgs_Valid_LintOneFile = {
           new object[]
           {
-            new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc"), "-f", TestFileOne },
+            new List<string> { "-c" , Path.Combine(TestFileDirectory, @".tsqllintrc"), TestFileOne },
             null,
             TestFileOneRuleViolations,
             1
@@ -168,7 +172,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] FileArgs_Valid_LintOneFile = {
           new object[]
           {
-            new List<string> { "-f", TestFileOne },
+            new List<string> { TestFileOne },
             null,
             TestFileOneRuleViolations,
             1
@@ -178,7 +182,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] FileArgs_Valid_LintTwoFiles = {
           new object[]
           {
-            new List<string> { "-f", string.Format("{0}, {1}", TestFileOne, TestFileTwo) },
+            new List<string> { string.Format("{0}, {1}", TestFileOne, TestFileTwo) },
             null,
             MultiFileRuleViolations,
             2
@@ -188,7 +192,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] FileArgs_Valid_LintDirectory = {
           new object[]
           {
-            new List<string> { "-f", TestFileDirectory },
+            new List<string> { TestFileDirectory },
             null,
             AllRuleViolations,
             3
@@ -198,8 +202,8 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] FileArgs_InValid_NoFile = {
           new object[]
           {
-            new List<string> { "-f", "" },
-            "Linting path not provided. You may provide it with the '-f' option",
+            new List<string> { "" },
+            "Linting path not provided",
             new List<RuleViolation>(),
             0
           }
@@ -208,7 +212,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] FileArgs_InValid_FileNotExists = {
           new object[]
           {
-            new List<string> { "-f", "foo.sql" },
+            new List<string> { "foo.sql" },
             "\nfoo.sql is not a valid path.",
             new List<RuleViolation>(),
             0
@@ -218,20 +222,10 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] FileArgs_InValid_InvalidSyntax = {
           new object[]
           {
-            new List<string> { "-f", TestFileInvalidSyntax },
+            new List<string> { TestFileInvalidSyntax },
             null,
             TestFileInvalidSyntaxRuleViolations,
             1
-          }, 
-        };
-
-        public static readonly object[] FileArgs_InValid_NoArgs = {
-          new object[]
-          {
-            new List<string>(),
-            "Linting path not provided. You may provide it with the '-f' option",
-            new List<RuleViolation>(),
-            0
           }, 
         };
 
@@ -239,11 +233,21 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
 
         #region Init Argument Test Cases
 
-        public static readonly object[] InitArgs_Valid = {
+        public static readonly object[] InitArgs_ForceValid = {
+          new object[]
+          {
+            new List<string> { "-i", "-f" },
+            string.Format("Created default config file {0}\\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc"),
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
+        public static readonly object[] InitArgs_NoForceValid = {
           new object[]
           {
             new List<string> { "-i" },
-            string.Format("Created default config file {0}\\{1}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc"),
+            string.Format(String.Format("Existing config file found at: {0} use the '--force' option to overwrite", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc"))),
             new List<RuleViolation>(),
             0
           }, 
@@ -279,21 +283,36 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
 
         #endregion
 
+        #region No Args
+
+        public static readonly object[] NoArgs = {
+          new object[]
+          {
+            new List<string>(),
+            UsageString,
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
+        #endregion
+
         [Test,
             TestCaseSource("ConfigArgs_Valid_NoLintPath"),
             TestCaseSource("ConfigArgs_InValid_NoLintPath"),
             TestCaseSource("ConfigArgs_InValid_LintPath"),
             TestCaseSource("ConfigArgs_Valid_LintOneFile"),
-            TestCaseSource("InitArgs_Valid"),
+            TestCaseSource("InitArgs_ForceValid"),
+            TestCaseSource("InitArgs_NoForceValid"),
             TestCaseSource("FileArgs_Valid_LintOneFile"),
             TestCaseSource("FileArgs_Valid_LintTwoFiles"),
             TestCaseSource("FileArgs_Valid_LintDirectory"),
             TestCaseSource("FileArgs_InValid_NoFile"),
             TestCaseSource("FileArgs_InValid_FileNotExists"),
             TestCaseSource("FileArgs_InValid_InvalidSyntax"),
-            TestCaseSource("FileArgs_InValid_NoArgs"),
             TestCaseSource("Print_Config_Valid"),
-            TestCaseSource("Print_Version_Valid")
+            TestCaseSource("Print_Version_Valid"),
+            TestCaseSource("NoArgs")
         ]
         public void RunIntegrationTestUseCase(List<string> args, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {

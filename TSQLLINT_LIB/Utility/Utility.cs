@@ -2,7 +2,7 @@
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace TSQLLINT_LIB
+namespace TSQLLINT_LIB.Utility
 {
     public static class Utility
     {
