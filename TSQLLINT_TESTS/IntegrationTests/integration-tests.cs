@@ -182,7 +182,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         public static readonly object[] FileArgs_Valid_LintTwoFiles = {
           new object[]
           {
-            new List<string> { string.Format("{0}, {1}", TestFileOne, TestFileTwo) },
+            new List<string> { TestFileOne, TestFileTwo },
             null,
             MultiFileRuleViolations,
             2

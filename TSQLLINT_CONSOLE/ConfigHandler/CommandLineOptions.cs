@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using CommandLine;
@@ -21,7 +22,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'c',
              longName: "config",
              Required = false,
-             HelpText = "Used to specify a .tsqllintrc file path to use rather than the default.")]
+             HelpText = "Used to specify a .tsqllintrc file path other than the default.")]
         public string ConfigFile {
             get
             {
@@ -37,21 +38,21 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             set { _ConfigFile = value; }
         }
 
-        [Option(shortName: 'i',
-            longName: "init",
-            Required = false,
-            HelpText = "Generate .tsqllintrc config file."),
-        TSQLLINTOption(NonLintingCommand = true)]
-        public bool Init { get; set; }
-
         [Option(shortName: 'f',
             longName: "force",
             Required = false,
             HelpText = "Used to force generation of default config file when one already exists")]
         public bool Force { get; set; }
 
-        [ValueOption(0)]
-        public string LintPath { get; set; }
+        [Option(shortName: 'i',
+            longName: "init",
+            Required = false,
+            HelpText = "Generate default .tsqllintrc config file."),
+        TSQLLINTOption(NonLintingCommand = true)]
+        public bool Init { get; set; }
+
+        [ValueList(typeof(List<string>))]
+        public List<string> LintPath { get; set; }
 
         [Option(shortName: 'p',
             longName: "print-config",
@@ -70,19 +71,12 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [HelpOption]
         public string GetUsage()
         {
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            var version = fvi.FileVersion;
-
             var help = new HelpText
             {
-                Heading = new HeadingInfo("TSQLLINT", version),
-                Copyright = new CopyrightInfo("Nathan Boyd & Doug Wilson", 2017),
-                AdditionalNewLineAfterOption = true,
-                AddDashesToOption = true
+                AddDashesToOption = true,
             };
-            help.AddPreOptionsLine("License: MIT https://opensource.org/licenses/MIT");
-            help.AddPreOptionsLine("Usage: tsqllint [options]");
+
+            help.AddPreOptionsLine("tsqllint [options] file.sql | [file.sql] | [dir] | [file.sql | dir]");
             help.AddOptions(this);
             return help;
         }

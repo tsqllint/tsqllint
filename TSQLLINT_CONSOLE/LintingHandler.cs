@@ -27,7 +27,7 @@ namespace TSQLLINT_CONSOLE
 
         public void Lint()
         {
-            Parser.ProcessPath(CommandLineOptions.LintPath);
+            Parser.ProcessList(CommandLineOptions.LintPath);
             RuleViolations = RuleVisitor.Violations;
             LintedFileCount = Parser.GetFileCount();
         }
