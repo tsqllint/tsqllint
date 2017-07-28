@@ -23,7 +23,7 @@ namespace TSQLLINT_LIB.Parser
 
         public void ProcessPath(string path)
         {
-            // remove double quotes from path
+            // remove quotes from path
             path = path.Replace("\"", "");
 
             var pathStrings = path.Split(',');
@@ -84,12 +84,11 @@ namespace TSQLLINT_LIB.Parser
             FileCount++;
         }
 
-
-        // TODO better name fix file count
         public void ProcessList(List<string> paths)
         {
-            foreach (var path in paths)
+            for (var index = 0; index < paths.Count; index++)
             {
+                var path = paths[index];
                 ProcessPath(path);
             }
         }

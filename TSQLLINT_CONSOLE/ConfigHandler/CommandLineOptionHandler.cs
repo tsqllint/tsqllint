@@ -17,7 +17,10 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         private readonly IConfigFileGenerator ConfigFileGenerator;
         private readonly IBaseReporter Reporter;
 
-        public CommandLineOptionHandler(CommandLineOptions commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
+        public CommandLineOptionHandler(CommandLineOptions commandLineOptions, 
+            IConfigFileFinder configFileFinder, 
+            IConfigFileGenerator configFileGenerator, 
+            IBaseReporter reporter)
         {
             CommandLineOptions = commandLineOptions;
             ConfigFileFinder = configFileFinder;
@@ -59,7 +62,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
             if (PerformLinting && CommandLineOptions.LintPath.Count < 1)
             {
-                Reporter.Report("Linting path not provided");
+                Reporter.Report(CommandLineOptions.GetUsage());
                 PerformLinting = false;
             }
         }

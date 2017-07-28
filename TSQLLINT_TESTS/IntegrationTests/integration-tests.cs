@@ -129,7 +129,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "-c" , ValidConfigFile },
-            "Linting path not provided",
+            UsageString,
             new List<RuleViolation>(),
             0
           }, 
@@ -203,7 +203,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           new object[]
           {
             new List<string> { "" },
-            "Linting path not provided",
+            UsageString,
             new List<RuleViolation>(),
             0
           }
