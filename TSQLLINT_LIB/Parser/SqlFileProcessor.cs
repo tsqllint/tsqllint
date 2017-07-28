@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Parser
@@ -81,6 +82,16 @@ namespace TSQLLINT_LIB.Parser
             var txtRdr = Utility.Utility.CreateTextReaderFromString(fileContents);
             RuleVisitor.VisitRules(filePath, txtRdr);
             FileCount++;
+        }
+
+
+        // TODO better name fix file count
+        public void ProcessList(List<string> paths)
+        {
+            foreach (var path in paths)
+            {
+                ProcessPath(path);
+            }
         }
     }
 }

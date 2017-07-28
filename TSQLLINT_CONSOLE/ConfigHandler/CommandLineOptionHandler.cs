@@ -12,10 +12,10 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
     {
         public bool PerformLinting = true;
 
-        private CommandLineOptions CommandLineOptions;
-        private IConfigFileFinder ConfigFileFinder;
-        private IConfigFileGenerator ConfigFileGenerator;
-        private IBaseReporter Reporter;
+        private readonly CommandLineOptions CommandLineOptions;
+        private readonly IConfigFileFinder ConfigFileFinder;
+        private readonly IConfigFileGenerator ConfigFileGenerator;
+        private readonly IBaseReporter Reporter;
 
         public CommandLineOptionHandler(CommandLineOptions commandLineOptions, IConfigFileFinder configFileFinder, IConfigFileGenerator configFileGenerator, IBaseReporter reporter)
         {
@@ -38,18 +38,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
             if (CommandLineOptions.Init)
             {
-                var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
-                var defaultConfigFileExists = ConfigFileFinder.FindFile(defaultConfigFile);
-
-                if (!defaultConfigFileExists || CommandLineOptions.Force)
-                {
-                    ConfigFileGenerator.WriteConfigFile(defaultConfigFile);
-                }
-                else
-                {
-                    Reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite", defaultConfigFile));
-                }
+                HandleInitOptions();
             }
 
             if (CommandLineOptions.Version)
@@ -59,14 +48,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
             if (CommandLineOptions.PrintConfig)
             {
-                if (configFileExists)
-                {
-                    Reporter.Report(string.Format("Config file found at: {0}", CommandLineOptions.ConfigFile));
-                }
-                else
-                {
-                    Reporter.Report("Config file not found. You may generate it with the '--init' option");
-                }
+                HanldePrintConfigOption(configFileExists);
             }
 
             if (PerformLinting && !configFileExists)
@@ -75,10 +57,39 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 PerformLinting = false;
             }
 
-            if (PerformLinting && string.IsNullOrWhiteSpace(CommandLineOptions.LintPath))
+            if (PerformLinting && CommandLineOptions.LintPath.Count < 1)
             {
                 Reporter.Report("Linting path not provided");
                 PerformLinting = false;
+            }
+        }
+
+        private void HanldePrintConfigOption(bool configFileExists)
+        {
+            if (configFileExists)
+            {
+                Reporter.Report(string.Format("Config file found at: {0}", CommandLineOptions.ConfigFile));
+            }
+            else
+            {
+                Reporter.Report("Config file not found. You may generate it with the '--init' option");
+            }
+        }
+
+        private void HandleInitOptions()
+        {
+            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
+            var defaultConfigFileExists = ConfigFileFinder.FindFile(defaultConfigFile);
+
+            if (!defaultConfigFileExists || CommandLineOptions.Force)
+            {
+                ConfigFileGenerator.WriteConfigFile(defaultConfigFile);
+            }
+            else
+            {
+                Reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite",
+                    defaultConfigFile));
             }
         }
 
@@ -101,12 +112,6 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 }
 
                 var propertyValue = prop.GetValue(commandLineOptions);
-
-                if (propertyValue == null)
-                {
-                    continue;
-                }
-
                 var propertyType = propertyValue.GetType();
                 if (propertyType == typeof(bool))
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using TSQLLINT_CONSOLE.ConfigHandler;
 
@@ -26,10 +27,13 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         public void NoProblems()
         {
             // arrange
+
+            var path = @"c:\database\foo.sql";
+
             var args = new[]
             {
                 "-c", ConfigFilePath,
-                @"c:\database\foo.sql"
+                path
             };
 
             // act
@@ -37,7 +41,49 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             // assert
             Assert.AreEqual(ConfigFilePath, commandLineOptions.ConfigFile);
-            Assert.AreEqual(@"c:\database\foo.sql", commandLineOptions.LintPath);
+            Assert.AreEqual(path, commandLineOptions.LintPath.FirstOrDefault());
+        }
+
+        [Test]
+        public void MultipleFiles()
+        {
+            // arrange
+            var fileOne = @"c:\database\foo.sql";
+            var fileTwo = @"c:\database\bar.sql";
+
+            var args = new[]
+            {
+                fileOne,
+                fileTwo
+            };
+
+            // act
+            var commandLineOptions = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
+
+            // assert
+            Assert.AreEqual(fileOne, commandLineOptions.LintPath[0]);
+            Assert.AreEqual(fileTwo, commandLineOptions.LintPath[1]);
+        }
+
+        [Test]
+        public void MultipleFilesWithSpaces()
+        {
+            // arrange
+            var fileOne = @"c:\database\foo.sql";
+            var fileTwo = @"c:\database directory\bar.sql";
+
+            var args = new[]
+            {
+                fileOne,
+                fileTwo
+            };
+
+            // act
+            var commandLineOptions = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
+
+            // assert
+            Assert.AreEqual(fileOne, commandLineOptions.LintPath[0]);
+            Assert.AreEqual(fileTwo, commandLineOptions.LintPath[1]);
         }
 
         [Test]
@@ -65,7 +111,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             //assert
-            Assert.IsTrue(commandLineParser.GetUsage().Contains("Usage: tsqllint [options]"));
+            Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
         }
     }
 }

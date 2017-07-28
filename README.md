@@ -28,14 +28,11 @@ $ tsqllint --init
 # lint a single file
 $ tsqllint test.sql
 
-# lint a list of files and directories (must be seperated by comma and enclosed in quotes)
-$ tsqllint "test_one.sql, test_two.sql, c:\database_scripts"
-
 # lint all files in a directory
-$ tsqllint "c:\database_scripts"
+$ tsqllint c:\database_scripts
 
-# display usage hints
-$ tsqllint --help
+# lint a list of files and directories, paths with whitespace must be enclosed in quotes
+$ tsqllint file_one.sql file_two.sql "c:\database scripts"
 
 # print path to .tsqllintrc config file
 $ tsqllint --print
