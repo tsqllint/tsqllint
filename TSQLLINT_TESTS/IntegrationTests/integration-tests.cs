@@ -61,7 +61,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
 
         private static readonly List<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>
         {
-            new RuleViolation(null, "TSQL not syntactically correct")
+            new RuleViolation(null, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error)
         };
 
         private static readonly List<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
