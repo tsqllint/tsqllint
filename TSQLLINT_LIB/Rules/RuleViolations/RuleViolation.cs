@@ -25,11 +25,5 @@
             Line = startLine;
             Column = startColumn;
         }
-
-        public RuleViolation(string fileName, string text)
-        {
-            FileName = fileName;
-            Text = text;
-        }
     }
 }

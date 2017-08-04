@@ -27,7 +27,7 @@ namespace TSQLLINT_LIB.Parser
 
             if (errors.Count > 0)
             {
-                Violations.Add(new RuleViolation(sqlPath, "TSQL not syntactically correct"));
+                Violations.Add(new RuleViolation(sqlPath, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error));
                 return;
             }
 
