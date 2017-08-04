@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Common;
 using TSQLLINT_LIB.Rules.Interface;
@@ -11,9 +12,18 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "Unaliased table found in multi table joins"; } }
         public Action<string, string, int, int> ErrorCallback;
 
+        public HashSet<string> CteNames = new HashSet<string>();
+
         public MultiTableAliasRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
+        }
+
+        public override void Visit(TSqlStatement node)
+        {
+            var childCommonTableExpressionVisitor = new ChildCommonTableExpressionVisitor();
+            node.AcceptChildren(childCommonTableExpressionVisitor);
+            CteNames = childCommonTableExpressionVisitor.CommonTableExpressionIdentifiers;
         }
 
         public override void Visit(TableReference node)
@@ -33,8 +43,18 @@ namespace TSQLLINT_LIB.Rules
                 return;
             }
 
-            var childTableAliasVisitor = new ChildTableAliasVisitor(ChildCallback);
+            var childTableAliasVisitor = new ChildTableAliasVisitor(ChildCallback, CteNames);
             node.AcceptChildren(childTableAliasVisitor);
+        }
+
+        public class ChildCommonTableExpressionVisitor : TSqlFragmentVisitor
+        {
+            public HashSet<string> CommonTableExpressionIdentifiers = new HashSet<string>();
+
+            public override void Visit(CommonTableExpression node)
+            {
+                CommonTableExpressionIdentifiers.Add(node.ExpressionName.Value);
+            }
         }
 
         public class ChildTableJoinVisitor : TSqlFragmentVisitor
@@ -50,14 +70,21 @@ namespace TSQLLINT_LIB.Rules
         public class ChildTableAliasVisitor : TSqlFragmentVisitor
         {
             public Action<TSqlFragment> ChildCallback;
+            public HashSet<string> CteNames;
 
-            public ChildTableAliasVisitor(Action<TSqlFragment> errorCallback)
+            public ChildTableAliasVisitor(Action<TSqlFragment> errorCallback, HashSet<string> cteNames)
             {
+                CteNames = cteNames;
                 ChildCallback = errorCallback;
             }
 
             public override void Visit(NamedTableReference node)
             {
+                if(CteNames.Contains(node.SchemaObject.BaseIdentifier.Value))
+                {
+                    return;
+                }
+
                 if (node.Alias == null)
                 {
                     ChildCallback(node);
