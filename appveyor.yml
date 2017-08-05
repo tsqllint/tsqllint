@@ -29,9 +29,6 @@ clone_depth: 5                      # clone entire repository history if not def
 cache:
   - C:\Users\appveyor\AppData\Local\NuGet\Cache
 
-hosts:
-  api.nuget.org: 93.184.221.200
-
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
