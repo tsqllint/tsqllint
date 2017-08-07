@@ -6,10 +6,7 @@
     "TSQL",
     "lint"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tsqllint/tsqllint.git"
-  },
+  "repository": "tsqllint/tsqllint",
   "files": [
     "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
   ],
@@ -20,9 +17,5 @@
     "win32"
   ],
   "author": "Nathan Boyd & Doug Wilson",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tsqllint/tsqllint/issues"
-  },
-  "homepage": "https://github.com/tsqllint/tsqllint#readme"
+  "license": "MIT"
 }
