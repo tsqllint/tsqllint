@@ -27,7 +27,7 @@ clone_depth: 5                      # clone entire repository history if not def
 
 # cache nuget packages
 cache:
-  - C:\Users\appveyor\AppData\Local\NuGet\Cache
+  - packages -> **\packages.config
 
 #---------------------------------#
 #       build configuration       #
