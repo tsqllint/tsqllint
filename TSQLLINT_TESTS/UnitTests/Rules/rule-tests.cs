@@ -325,7 +325,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
             // arrange
             var sqlString = TestHelper.GetTestFile(string.Format("Rules\\{0}\\{1}.sql", rule, testFileName));
 
-            var fragmentVisitor = new SqlRuleVisitor(null);
+            var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();
 
             Action <string, string, int, int> ErrorCallback = delegate (string ruleName, string ruleText, int startLine, int startColumn)

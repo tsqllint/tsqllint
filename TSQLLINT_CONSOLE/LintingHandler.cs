@@ -10,18 +10,18 @@ namespace TSQLLINT_CONSOLE
     public class LintingHandler
     {
         public int LintedFileCount;
-        public List<RuleViolation> RuleViolations = new List<RuleViolation>();
+        public IEnumerable<RuleViolation> RuleViolations = new List<RuleViolation>();
 
         private readonly SqlFileProcessor Parser;
         private readonly ConfigReader ConfigReader;
         private readonly SqlRuleVisitor RuleVisitor;
         private readonly CommandLineOptions CommandLineOptions;
 
-        public LintingHandler(CommandLineOptions commandLineOptions, IBaseReporter reporter)
+        public LintingHandler(CommandLineOptions commandLineOptions, IReporter reporter)
         {
             CommandLineOptions = commandLineOptions;
             ConfigReader = new ConfigReader(CommandLineOptions.ConfigFile);
-            RuleVisitor = new SqlRuleVisitor(ConfigReader);
+            RuleVisitor = new SqlRuleVisitor(ConfigReader, reporter);
             Parser = new SqlFileProcessor(RuleVisitor, reporter);
         }
 

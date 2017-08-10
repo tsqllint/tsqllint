@@ -59,12 +59,12 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             }
         }
 
-        private static readonly List<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>
+        private static readonly IEnumerable<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>
         {
             new RuleViolation(null, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error)
         };
 
-        private static readonly List<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
+        private static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
         {
             new RuleViolation(ruleName: "conditional-begin-end", startLine: 2, startColumn: 1),
             new RuleViolation(ruleName: "data-compression", startLine: 6, startColumn: 1),
@@ -85,13 +85,13 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             new RuleViolation(ruleName: "upper-lower", startLine: 59, startColumn: 8),
         };
 
-        private static readonly List<RuleViolation> TestFileTwoRuleViolations = new List<RuleViolation>
+        private static readonly IEnumerable<RuleViolation> TestFileTwoRuleViolations = new List<RuleViolation>
         {
             new RuleViolation(ruleName: "print-statement", startLine: 5, startColumn: 1),
         };
 
         private static readonly List<RuleViolation> _MultiFileRuleViolations = new List<RuleViolation>();
-        public static List<RuleViolation> MultiFileRuleViolations
+        public static IEnumerable<RuleViolation> MultiFileRuleViolations
         {
             get
             {
@@ -106,7 +106,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         }
 
         private static readonly List<RuleViolation> _AllRuleViolations = new List<RuleViolation>();
-        public static List<RuleViolation> AllRuleViolations
+        public static IEnumerable<RuleViolation> AllRuleViolations
         {
             get
             {
@@ -341,15 +341,20 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             public List<RuleViolation> RuleViolations = new List<RuleViolation>();
             public int FileCount;
 
-            public void ReportResults(List<RuleViolation> ruleViolations, TimeSpan timespan, int fileCount)
+
+            public void ReportResults(TimeSpan timespan, int fileCount)
             {
-                RuleViolations = ruleViolations;
                 FileCount = fileCount;
             }
 
             public void Report(string message)
             {
                 Message = message;
+            }
+
+            public void ReportViolation(RuleViolation violation)
+            {
+                RuleViolations.Add(violation);
             }
         }
     }
