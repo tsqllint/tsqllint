@@ -11,7 +11,7 @@ namespace TSQLLINT_LIB.Rules
         public string RULE_TEXT { get { return "Object name not schema qualified"; } }
         public Action<string, string, int, int> ErrorCallback;
 
-        private List<string> TableAliases = new List<string>
+        private readonly List<string> TableAliases = new List<string>
         {
             "INSERTED",
             "UPDATED",

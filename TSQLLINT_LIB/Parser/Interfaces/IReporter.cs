@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Parser.Interfaces
@@ -11,6 +10,7 @@ namespace TSQLLINT_LIB.Parser.Interfaces
 
     public interface IReporter : IBaseReporter
     {
-        void ReportResults(List<RuleViolation> violations, TimeSpan timespan, int fileCount);
+        void ReportResults(TimeSpan timespan, int fileCount);
+        void ReportViolation(RuleViolation violation);
     }
 }

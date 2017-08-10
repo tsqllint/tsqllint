@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Config.Interfaces;
+using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules;
 using TSQLLINT_LIB.Rules.Interface;
 using TSQLLINT_LIB.Rules.RuleViolations;
@@ -10,6 +11,7 @@ namespace TSQLLINT_LIB.Parser
 {
     public class RuleVisitorBuilder
     {
+        private readonly IReporter Reporter;
         private readonly IConfigReader ConfigReader;
         private readonly List<Type> RuleVisitors = new List<Type>()
         {
@@ -32,8 +34,9 @@ namespace TSQLLINT_LIB.Parser
             typeof(UpperLowerRule)
         };
 
-        public RuleVisitorBuilder(IConfigReader configReader)
+        public RuleVisitorBuilder(IConfigReader configReader, IReporter reporter)
         {
+            Reporter = reporter;
             ConfigReader = configReader;
         }
 
@@ -45,7 +48,7 @@ namespace TSQLLINT_LIB.Parser
                 var visitor = RuleVisitors[index];
                 Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
                 {
-                    violations.Add(new RuleViolation(
+                    Reporter.ReportViolation(new RuleViolation(
                         sqlPath,
                         ruleName,
                         ruleText,

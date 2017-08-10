@@ -12,12 +12,14 @@ namespace TSQLLINT_LIB.Parser
         public List<RuleViolation> Violations { get; set; }
         private readonly TSql120Parser Parser;
         private readonly RuleVisitorBuilder RuleVisitorBuilder;
+        private readonly IReporter Reporter;
 
-        public SqlRuleVisitor(IConfigReader configReader)
+        public SqlRuleVisitor(IConfigReader configReader, IReporter reporter)
         {
             Parser = new TSql120Parser(true);
             Violations = new List<RuleViolation>();
-            RuleVisitorBuilder = new RuleVisitorBuilder(configReader);
+            RuleVisitorBuilder = new RuleVisitorBuilder(configReader, reporter);
+            Reporter = reporter;
         }
 
         public void VisitRules(string sqlPath, TextReader sqlTextReader)
@@ -27,7 +29,7 @@ namespace TSQLLINT_LIB.Parser
 
             if (errors.Count > 0)
             {
-                Violations.Add(new RuleViolation(sqlPath, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error));
+                Reporter.ReportViolation(new RuleViolation(sqlPath, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error));
                 return;
             }
 

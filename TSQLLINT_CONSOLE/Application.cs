@@ -34,7 +34,7 @@ namespace TSQLLINT_CONSOLE
             var lintingHandler = new LintingHandler(commandLineOptions, Reporter);
             lintingHandler.Lint();
 
-            Reporter.ReportResults(lintingHandler.RuleViolations, Timer.stop(), lintingHandler.LintedFileCount);
+            Reporter.ReportResults(Timer.stop(), lintingHandler.LintedFileCount);
         }
     }
 }
