@@ -1,0 +1,11 @@
+#!/bin/sh
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+
+case `uname` in
+    *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
+esac
+
+"$basedir/node_modules/tsqllint/TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe" "$@"
+ret=$?
+
+exit $ret

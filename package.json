@@ -1,21 +1,27 @@
 {
-  "name": "tsqllint",
-  "version": "1.1.1",
-  "description": "Configurable linting for TSQL.",
-  "keywords": [
-    "TSQL",
-    "lint"
-  ],
-  "repository": "tsqllint/tsqllint",
-  "files": [
-    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
-  ],
-  "bin": {
-    "tsqllint": "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
-  },
-  "os": [
-    "win32"
-  ],
-  "author": "Nathan Boyd & Doug Wilson",
-  "license": "MIT"
+    "name": "tsqllint",
+    "version": "1.1.1",
+    "description": "Configurable linting for TSQL.",
+    "keywords": [
+        "TSQL",
+        "lint"
+    ],
+    "scripts": {
+        "postinstall": "node scripts/install/install.js"
+    },
+    "repository":
+        "tsqllint/tsqllint",
+    "files": [
+        "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe",
+        "scripts/install/install.js",
+        "scripts/install/tsqllint"
+    ],
+    "bin": {
+        "tsqllint": "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
+    },
+    "os": [
+        "win32"
+    ],
+    "author": "Nathan Boyd & Doug Wilson",
+    "license": "MIT"
 }
