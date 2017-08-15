@@ -9,6 +9,9 @@ max_jobs: 2
 #    environment configuration    #
 #---------------------------------#
 
+environment:
+  nodejs_version: "6"
+
 # Build worker image (VM template)
 image: Visual Studio 2017
 
@@ -45,11 +48,7 @@ build:
 
 after_build:
   - cmd: ./scripts/cover
+  - cmd: npm pack
 
-#---------------------------------#
-#       tests configuration       #
-#---------------------------------#
-
-#---------------------------------#
-#         notifications           #
-#---------------------------------#
+artifacts:
+  - path: 'tsqllint*.tgz'
