@@ -6,9 +6,14 @@
     "TSQL",
     "lint"
   ],
+  "scripts": {
+    "postinstall": "node scripts/install/install.js"
+  },
   "repository": "tsqllint/tsqllint",
   "files": [
-    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
+    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe",
+    "scripts/install/install.js",
+    "scripts/install/tsqllint"
   ],
   "bin": {
     "tsqllint": "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
