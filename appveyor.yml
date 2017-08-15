@@ -9,15 +9,15 @@ max_jobs: 2
 #    environment configuration    #
 #---------------------------------#
 
+environment:
+  nodejs_version: "6"
+
 # Build worker image (VM template)
 image: Visual Studio 2017
 
 # scripts that are called at very beginning, before repo cloning
 init:
   - git config --global core.autocrlf input
-
-# clone directory
-clone_folder: c:\projects\myproject
 
 # fetch repository as zip archive
 shallow_clone: true                 # default is "false"
@@ -33,23 +33,17 @@ cache:
 #       build configuration       #
 #---------------------------------#
 
-# build platform, i.e. x86, x64, Any CPU. This setting is optional.
-platform: Any CPU
+artifacts:
+  - path: 'tsqllint*.tgz'
 
 before_build:
   - nuget restore
 
-build:
-  parallel: true                  # enable MSBuild parallel builds
-  project: TSQLLINT.sln           # path to Visual Studio solution or project
+build_script:
+  - ./scripts/build.cmd
 
-after_build:
+after_test:
   - cmd: ./scripts/cover
 
-#---------------------------------#
-#       tests configuration       #
-#---------------------------------#
-
-#---------------------------------#
-#         notifications           #
-#---------------------------------#
+after_build:
+  - cmd: npm pack
