@@ -11,9 +11,11 @@
   },
   "repository": "tsqllint/tsqllint",
   "files": [
-    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe",
     "scripts/install/install.js",
-    "scripts/install/tsqllint"
+    "scripts/install/install-dependencies.cmd",
+    "scripts/install/install-dependencies.ps1",
+    "scripts/install/tsqllint",
+    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
   ],
   "bin": {
     "tsqllint": "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
