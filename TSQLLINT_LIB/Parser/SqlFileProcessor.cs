@@ -46,7 +46,7 @@ namespace TSQLLINT_LIB.Parser
                     }
                     else
                     {
-                        Reporter.Report(string.Format("\n{0} is not a valid path.", pathString));
+                        ProcessWildCard(pathString);
                     }
                 }
                 else
@@ -69,11 +69,41 @@ namespace TSQLLINT_LIB.Parser
             for (var index = 0; index < fileEntries.Length; index++)
             {
                 var fileName = fileEntries[index];
-                if (Path.GetExtension(fileName) == ".sql")
-                {
-                    var fileContents = Utility.Utility.GetFileContents(fileName);
-                    ProcessFile(fileContents, fileName);
-                }
+                ProcessIfSqlFile(fileName);
+            }
+        }
+
+        private void ProcessIfSqlFile(string fileName)
+        {
+            if (Path.GetExtension(fileName) == ".sql")
+            {
+                var fileContents = Utility.Utility.GetFileContents(fileName);
+                ProcessFile(fileContents, fileName);
+            }            
+        }
+
+        private void ProcessWildCard(string path)
+        {
+            var containsWildCard = path.Contains("*") || path.Contains("?");
+            if (!containsWildCard)
+            {
+                Reporter.Report(string.Format("\n{0} is not a valid path.", path));
+            }
+
+            var dirPath = Path.GetDirectoryName(path);
+            var searchPattern = path;
+            if (string.IsNullOrEmpty(dirPath))
+            {
+                dirPath = Directory.GetCurrentDirectory();
+            }
+            else
+            {
+                searchPattern = Path.GetFileName(path);
+            }
+            var files = Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
+            foreach (var file in files)
+            {
+                ProcessIfSqlFile(file);
             }
         }
 
