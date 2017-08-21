@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using TSQLLINT_LIB.Parser.Interfaces;
@@ -10,11 +11,11 @@ namespace TSQLLINT_LIB.Parser
         private readonly IRuleVisitor _ruleVisitor;
         private readonly IBaseReporter _reporter;
         private readonly IFileSystem _fileSystem;
-        public int FileCount;
+        private int _fileCount;
 
         public int GetFileCount()
         {
-            return FileCount;
+            return _fileCount;
         }
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter)
@@ -69,24 +70,21 @@ namespace TSQLLINT_LIB.Parser
             var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
             for (var index = 0; index < subdirectoryEntries.Length; index++)
             {
-                var subdirectory = subdirectoryEntries[index];
-                ProcessPath(subdirectory);
+                ProcessPath(subdirectoryEntries[index]);
             }
 
             var fileEntries = _fileSystem.Directory.GetFiles(path);
             for (var index = 0; index < fileEntries.Length; index++)
             {
-                var fileName = fileEntries[index];
-                ProcessIfSqlFile(fileName);
+                ProcessIfSqlFile(fileEntries[index]);
             }
         }
 
         private void ProcessIfSqlFile(string fileName)
         {
-            if (_fileSystem.Path.GetExtension(fileName) == ".sql")
+            if (_fileSystem.Path.GetExtension(fileName).Equals(".sql", StringComparison.InvariantCultureIgnoreCase))
             {
-                var fileContents = GetFileContents(fileName);
-                ProcessFile(fileContents, fileName);
+                ProcessFile(GetFileContents(fileName), fileName);
             }            
         }
 
@@ -121,15 +119,14 @@ namespace TSQLLINT_LIB.Parser
             {
                 _ruleVisitor.VisitRules(filePath, txtRdr);
             }
-            FileCount++;
+            _fileCount++;
         }
 
         public void ProcessList(List<string> paths)
         {
             for (var index = 0; index < paths.Count; index++)
             {
-                var path = paths[index];
-                ProcessPath(path);
+                ProcessPath(paths[index]);
             }
         }
 

@@ -9,9 +9,7 @@ namespace TSQLLINT_LIB.Utility
         public static TextReader CreateTextReaderFromString(string str)
         {
             var bytes = Encoding.UTF8.GetBytes(str);
-            var memoryStream = new MemoryStream(bytes);
-
-            return new StreamReader(memoryStream);
+            return new StreamReader(new MemoryStream(bytes));
         }
 
         public static bool TryParseJson(string jsonString, out JToken token)

@@ -337,7 +337,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
             var textReader = TSQLLINT_LIB.Utility.Utility.CreateTextReaderFromString(sqlString);
 
             // act
-            fragmentVisitor.VisistRule(textReader, visitor);
+            fragmentVisitor.VisitRule(textReader, visitor);
 
             ruleViolations = ruleViolations.OrderBy(o => o.Line).ToList();
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
