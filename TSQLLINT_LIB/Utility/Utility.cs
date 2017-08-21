@@ -14,12 +14,7 @@ namespace TSQLLINT_LIB.Utility
             return new StreamReader(memoryStream);
         }
 
-        public static string GetFileContents(string filePath)
-        {
-            return File.ReadAllText(filePath);
-        }
-
-        public static bool tryParseJson(string jsonString, out JToken token)
+        public static bool TryParseJson(string jsonString, out JToken token)
         {
             try
             {

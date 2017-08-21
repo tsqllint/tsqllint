@@ -13,7 +13,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Utility
         public void InvalidJson(string testString)
         {
             JToken token;
-            Assert.IsFalse(TSQLLINT_LIB.Utility.Utility.tryParseJson(testString, out token));
+            Assert.IsFalse(TSQLLINT_LIB.Utility.Utility.TryParseJson(testString, out token));
             Assert.IsNull(token);
         }
 
@@ -23,7 +23,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Utility
         public void ValidJson(string testString)
         {
             JToken token;
-            Assert.IsTrue(TSQLLINT_LIB.Utility.Utility.tryParseJson(testString, out token));
+            Assert.IsTrue(TSQLLINT_LIB.Utility.Utility.TryParseJson(testString, out token));
             Assert.IsNotNull(token);
         }
     }

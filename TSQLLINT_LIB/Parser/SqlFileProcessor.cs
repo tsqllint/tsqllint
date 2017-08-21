@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Parser
 {
     public class SqlFileProcessor : ISqlFileProcessor
     {
-        private readonly IRuleVisitor RuleVisitor;
-        private readonly IBaseReporter Reporter;
+        private readonly IRuleVisitor _ruleVisitor;
+        private readonly IBaseReporter _reporter;
+        private readonly IFileSystem _fileSystem;
         public int FileCount;
 
         public int GetFileCount()
@@ -16,9 +18,15 @@ namespace TSQLLINT_LIB.Parser
         }
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter)
+            : this(ruleVisitor, reporter, new FileSystem())
         {
-            RuleVisitor = ruleVisitor;
-            Reporter = reporter;
+        }
+
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter, IFileSystem fileSystem)
+        {
+            _ruleVisitor = ruleVisitor;
+            _reporter = reporter;
+            _fileSystem = fileSystem;
         }
 
         public void ProcessPath(string path)
@@ -38,9 +46,9 @@ namespace TSQLLINT_LIB.Parser
             {
                 var pathString = pathStrings[index];
 
-                if (!File.Exists(pathString))
+                if (!_fileSystem.File.Exists(pathString))
                 {
-                    if (Directory.Exists(pathString))
+                    if (_fileSystem.Directory.Exists(pathString))
                     {
                         ProcessDirectory(pathString);
                     }
@@ -51,21 +59,21 @@ namespace TSQLLINT_LIB.Parser
                 }
                 else
                 {
-                    ProcessFile(Utility.Utility.GetFileContents(pathString), pathString);
+                    ProcessFile(GetFileContents(pathString), pathString);
                 }
             }
         }
 
         private void ProcessDirectory(string path)
         {
-            var subdirectoryEntries = Directory.GetDirectories(path);
+            var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
             for (var index = 0; index < subdirectoryEntries.Length; index++)
             {
                 var subdirectory = subdirectoryEntries[index];
                 ProcessPath(subdirectory);
             }
 
-            var fileEntries = Directory.GetFiles(path);
+            var fileEntries = _fileSystem.Directory.GetFiles(path);
             for (var index = 0; index < fileEntries.Length; index++)
             {
                 var fileName = fileEntries[index];
@@ -75,9 +83,9 @@ namespace TSQLLINT_LIB.Parser
 
         private void ProcessIfSqlFile(string fileName)
         {
-            if (Path.GetExtension(fileName) == ".sql")
+            if (_fileSystem.Path.GetExtension(fileName) == ".sql")
             {
-                var fileContents = Utility.Utility.GetFileContents(fileName);
+                var fileContents = GetFileContents(fileName);
                 ProcessFile(fileContents, fileName);
             }            
         }
@@ -87,20 +95,20 @@ namespace TSQLLINT_LIB.Parser
             var containsWildCard = path.Contains("*") || path.Contains("?");
             if (!containsWildCard)
             {
-                Reporter.Report(string.Format("\n{0} is not a valid path.", path));
+                _reporter.Report(string.Format("\n{0} is not a valid path.", path));
             }
 
-            var dirPath = Path.GetDirectoryName(path);
+            var dirPath = _fileSystem.Path.GetDirectoryName(path);
             var searchPattern = path;
             if (string.IsNullOrEmpty(dirPath))
             {
-                dirPath = Directory.GetCurrentDirectory();
+                dirPath = _fileSystem.Directory.GetCurrentDirectory();
             }
             else
             {
-                searchPattern = Path.GetFileName(path);
+                searchPattern = _fileSystem.Path.GetFileName(path);
             }
-            var files = Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
+            var files = _fileSystem.Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
             foreach (var file in files)
             {
                 ProcessIfSqlFile(file);
@@ -109,8 +117,10 @@ namespace TSQLLINT_LIB.Parser
 
         public void ProcessFile(string fileContents, string filePath)
         {
-            var txtRdr = Utility.Utility.CreateTextReaderFromString(fileContents);
-            RuleVisitor.VisitRules(filePath, txtRdr);
+            using (var txtRdr = Utility.Utility.CreateTextReaderFromString(fileContents))
+            {
+                _ruleVisitor.VisitRules(filePath, txtRdr);
+            }
             FileCount++;
         }
 
@@ -121,6 +131,11 @@ namespace TSQLLINT_LIB.Parser
                 var path = paths[index];
                 ProcessPath(path);
             }
+        }
+
+        private string GetFileContents(string filePath)
+        {
+            return _fileSystem.File.ReadAllText(filePath);
         }
     }
 }
