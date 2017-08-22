@@ -35,6 +35,9 @@ $ tsqllint c:\database_scripts
 # lint a list of files and directories, paths with whitespace must be enclosed in quotes
 $ tsqllint file_one.sql file_two.sql "c:\database scripts"
 
+# lint using wild cards
+$ tsqllint c:\database_scripts\file*.sql
+
 # print path to .tsqllintrc config file
 $ tsqllint --print
 
