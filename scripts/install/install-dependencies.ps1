@@ -23,7 +23,7 @@ Catch {
 
 	# copy dll from unzipped package into tsqllint bin directory
 	$dll = $unzip_path + "/lib/" + $package_name + ".dll"
-	$destination = $env:APPDATA + "/npm/node_modules/tsqllint/TSQLLINT_CONSOLE/bin/Release/"
+	$destination = $env:npm_config_prefix + "/node_modules/tsqllint/TSQLLINT_CONSOLE/bin/Release/"
 	Copy-Item $dll -Destination $destination
 
 	# cleanup
