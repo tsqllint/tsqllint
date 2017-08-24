@@ -51,7 +51,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
             if (CommandLineOptions.PrintConfig)
             {
-                HanldePrintConfigOption(configFileExists);
+                HandlePrintConfigOption(configFileExists);
             }
 
             if (PerformLinting && !configFileExists)
@@ -67,7 +67,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             }
         }
 
-        private void HanldePrintConfigOption(bool configFileExists)
+        private void HandlePrintConfigOption(bool configFileExists)
         {
             if (configFileExists)
             {
