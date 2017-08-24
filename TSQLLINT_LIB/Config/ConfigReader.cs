@@ -20,7 +20,7 @@ namespace TSQLLINT_LIB.Config
                 var jsonConfigString = File.ReadAllText(configFilePath);
 
                 JToken token;
-                if (Utility.Utility.tryParseJson(jsonConfigString, out token))
+                if (Utility.Utility.TryParseJson(jsonConfigString, out token))
                 {
                     SetupRules(token);
                 }

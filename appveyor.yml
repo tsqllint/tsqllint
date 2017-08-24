@@ -27,7 +27,7 @@ clone_depth: 5                      # clone entire repository history if not def
 
 # cache nuget packages
 cache:
-  - packages -> **\packages.config
+  #- packages -> **\packages.config
 
 #---------------------------------#
 #       build configuration       #
