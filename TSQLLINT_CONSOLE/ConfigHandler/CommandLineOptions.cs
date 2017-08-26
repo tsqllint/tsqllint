@@ -67,7 +67,15 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         TSQLLINTOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
-        [HelpOption]
+
+        [Option(shortName: 'h',
+            longName: "help",
+            Required = false,
+            HelpText = "Display tsqllint version.")]
+        public bool Help { get; set; }
+
+
+        [HelpVerbOption]
         public string GetUsage()
         {
             var help = new HelpText
@@ -75,7 +83,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 AddDashesToOption = true,
             };
 
-            help.AddPreOptionsLine("tsqllint [options] file.sql | [file.sql] | [dir] | [file.sql | dir]");
+            help.AddPreOptionsLine("tsqllint [options] [file.sql] | [dir] | [file.sql | dir]");
             help.AddOptions(this);
             return help;
         }
