@@ -6,31 +6,39 @@ namespace TSQLLINT_LIB.Rules
 {
     public class SetTransactionIsolationLevelRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "set-transaction-isolation-level"; } }
-        public string RULE_TEXT { get { return "Expected SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED near top of file"; }}
-        public Action<string, string, int, int> ErrorCallback;
-
-        private bool ErrorLogged;
+        private bool _errorLogged;
 
         public SetTransactionIsolationLevelRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
 
+        public string RuleName
+        {
+            get { return "set-transaction-isolation-level"; }
+        }
+
+        public string RuleText
+        {
+            get { return "Expected SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED near top of file"; }
+        }
+
+        public Action<string, string, int, int> ErrorCallback { get; set; }
+
         public override void Visit(TSqlScript node)
         {
             var childTransactionIsolationLevelVisitor = new ChildTransactionIsolationLevelVisitor();
             node.AcceptChildren(childTransactionIsolationLevelVisitor);
-            if (!childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound && !ErrorLogged)
+            if (!childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound && !_errorLogged)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-                ErrorLogged = true;
+                ErrorCallback(RuleName, RuleText, node.StartLine, node.StartColumn);
+                _errorLogged = true;
             }
         }
 
         public class ChildTransactionIsolationLevelVisitor : TSqlFragmentVisitor
         {
-            public bool TransactionIsolationLevelFound;
+            public bool TransactionIsolationLevelFound { get; set; }
 
             public override void Visit(SetTransactionIsolationLevelStatement node)
             {

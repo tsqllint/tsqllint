@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,24 +9,25 @@ using TSQLLINT_CONSOLE.Reporters;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
+using System;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
     public class CommandLineOptionHandlerTest
     {
-        private readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
+        private readonly string _defaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
         [OneTimeSetUp]
         public void Setup()
         {
             var configFileGenerator = new ConfigFileGenerator(new ConsoleReporter());
-            configFileGenerator.WriteConfigFile(DefaultConfigFile);
+            configFileGenerator.WriteConfigFile(_defaultConfigFile);
         }
 
         [OneTimeTearDown]
         public void Teardown()
         {
-            File.Delete(DefaultConfigFile);
+            File.Delete(_defaultConfigFile);
         }
 
         [Test]
@@ -56,7 +56,6 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             Assert.AreEqual(1, configFileGenerator.ConfigFilePaths.Count);
             Assert.AreEqual(configFilePath, configFileGenerator.ConfigFilePaths.First());
         }
-
 
         [Test]
         public void InitOptionsNoForceTest_FileExists()
@@ -175,16 +174,16 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
         private class TestCommandLineOptionHandlerConfigFileFinder : IConfigFileFinder
         {
-            private readonly bool ShouldFindFile;
+            private readonly bool _shouldFindFile;
 
             public TestCommandLineOptionHandlerConfigFileFinder(bool shouldFindFile)
             {
-                ShouldFindFile = shouldFindFile;
+                _shouldFindFile = shouldFindFile;
             }
 
             public bool FindFile(string configFile)
             {
-                return ShouldFindFile;
+                return _shouldFindFile;
             }
         }
 

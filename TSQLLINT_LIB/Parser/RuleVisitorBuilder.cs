@@ -11,9 +11,9 @@ namespace TSQLLINT_LIB.Parser
 {
     public class RuleVisitorBuilder
     {
-        private readonly IReporter Reporter;
-        private readonly IConfigReader ConfigReader;
-        private readonly List<Type> RuleVisitors = new List<Type>()
+        private readonly IReporter reporter;
+        private readonly IConfigReader configReader;
+        private readonly List<Type> ruleVisitors = new List<Type>
         {
             typeof(ConditionalBeginEndRule),
             typeof(DataCompressionOptionRule),
@@ -36,29 +36,29 @@ namespace TSQLLINT_LIB.Parser
 
         public RuleVisitorBuilder(IConfigReader configReader, IReporter reporter)
         {
-            Reporter = reporter;
-            ConfigReader = configReader;
+            this.reporter = reporter;
+            this.configReader = configReader;
         }
 
         public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath, List<RuleViolation> violations)
         {
             var configuredVisitors = new List<TSqlFragmentVisitor>();
-            for (var index = 0; index < RuleVisitors.Count; index++)
+            for (var index = 0; index < this.ruleVisitors.Count; index++)
             {
-                var visitor = RuleVisitors[index];
-                Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
+                var visitor = this.ruleVisitors[index];
+                Action<string, string, int, int> errorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
                 {
-                    Reporter.ReportViolation(new RuleViolation(
+                    this.reporter.ReportViolation(new RuleViolation(
                         sqlPath,
                         ruleName,
                         ruleText,
                         startLne,
                         startColumn,
-                        ConfigReader.GetRuleSeverity(ruleName)));
+                        this.configReader.GetRuleSeverity(ruleName)));
                 };
 
-                var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, ErrorCallback);
-                var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
+                var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, errorCallback);
+                var severity = this.configReader.GetRuleSeverity(visitorInstance.RuleName);
 
                 if (severity == RuleViolationSeverity.Error || severity == RuleViolationSeverity.Warning)
                 {

@@ -5,24 +5,24 @@ namespace TSQLLINT_CONSOLE
 {
     public class Application
     {
-        private readonly string[] Args;
-        private readonly IReporter Reporter;
-        private readonly ConsoleTimer Timer = new ConsoleTimer();
+        private readonly string[] _args;
+        private readonly IReporter _reporter;
+        private readonly ConsoleTimer _timer = new ConsoleTimer();
 
         public Application(string[] args, IReporter reporter)
         {
-            Timer.start();
-            Args = args;
-            Reporter = reporter;
+            _timer.Start();
+            _args = args;
+            _reporter = reporter;
         }
 
         public void Run()
         {
             // parse options
-            var commandLineOptions = new CommandLineOptions(Args);
+            var commandLineOptions = new CommandLineOptions(_args);
 
             // perform non-linting actions
-            var configHandler = new ConfigHandler.ConfigHandler(commandLineOptions, Reporter);
+            var configHandler = new ConfigHandler.ConfigHandler(commandLineOptions, _reporter);
             configHandler.HandleConfigs();
 
             if (!configHandler.PerformLinting)
@@ -31,10 +31,10 @@ namespace TSQLLINT_CONSOLE
             }
 
             // perform lint
-            var lintingHandler = new LintingHandler(commandLineOptions, Reporter);
+            var lintingHandler = new LintingHandler(commandLineOptions, _reporter);
             lintingHandler.Lint();
 
-            Reporter.ReportResults(Timer.stop(), lintingHandler.LintedFileCount);
+            _reporter.ReportResults(_timer.Stop(), lintingHandler.LintedFileCount);
         }
     }
 }

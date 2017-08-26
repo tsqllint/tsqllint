@@ -1,19 +1,27 @@
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Rules.Interface;
 
 namespace TSQLLINT_LIB.Rules
 {
     public class SetNoCountRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "set-nocount"; } }
-        public string RULE_TEXT { get { return "Expected SET NOCOUNT ON near top of file"; } }
-        public Action<string, string, int, int> ErrorCallback;
-
         public SetNoCountRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
+
+        public string RuleName
+        {
+            get { return "set-nocount"; }
+        }
+
+        public string RuleText
+        {
+            get { return "Expected SET NOCOUNT ON near top of file"; }
+        }
+
+        public Action<string, string, int, int> ErrorCallback { get; set; }
 
         public override void Visit(TSqlScript node)
         {
@@ -39,12 +47,12 @@ namespace TSQLLINT_LIB.Rules
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            ErrorCallback(RuleName, RuleText, node.StartLine, node.StartColumn);
         }
 
         public class ChildRowsetVisitor : TSqlFragmentVisitor
         {
-            public bool RowsetActionFound;
+            public bool RowsetActionFound { get; set; }
 
             public override void Visit(SelectStatement node)
             {
@@ -69,7 +77,7 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildDDLStatementFoundVisitor : TSqlFragmentVisitor
         {
-            public bool DDLStatementFound;
+            public bool DDLStatementFound { get; set; }
 
             public override void Visit(CreateTableStatement node)
             {
@@ -94,7 +102,7 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildNoCountVisitor : TSqlFragmentVisitor
         {
-            public bool SetNoCountFound;
+            public bool SetNoCountFound { get; set; }
 
             public override void Visit(SetOnOffStatement node)
             {

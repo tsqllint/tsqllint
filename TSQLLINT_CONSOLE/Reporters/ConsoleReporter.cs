@@ -6,8 +6,8 @@ namespace TSQLLINT_CONSOLE.Reporters
 {
     public class ConsoleReporter : IReporter
     {
-        private int WarningCount;
-        private int ErrorCount;
+        private int _warningCount;
+        private int _errorCount;
 
         public void Report(string message)
         {
@@ -16,7 +16,7 @@ namespace TSQLLINT_CONSOLE.Reporters
 
         public void ReportResults(TimeSpan timespan, int fileCount)
         {
-            Report(string.Format("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings", fileCount, timespan.TotalSeconds, ErrorCount, WarningCount));
+            Report(string.Format("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings", fileCount, timespan.TotalSeconds, _errorCount, _warningCount));
         }
 
         public void ReportViolation(RuleViolation violation)
@@ -24,10 +24,10 @@ namespace TSQLLINT_CONSOLE.Reporters
             switch (violation.Severity)
             {
                 case RuleViolationSeverity.Warning:
-                    WarningCount++;
+                    _warningCount++;
                     break;
                 case RuleViolationSeverity.Error:
-                    ErrorCount++;
+                    _errorCount++;
                     break;
                 case RuleViolationSeverity.Off:
                     break;
