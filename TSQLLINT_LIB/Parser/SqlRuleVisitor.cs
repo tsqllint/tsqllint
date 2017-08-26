@@ -1,6 +1,6 @@
-﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
@@ -9,18 +9,19 @@ namespace TSQLLINT_LIB.Parser
 {
     public class SqlRuleVisitor : IRuleVisitor
     {
-        public List<RuleViolation> Violations { get; set; }
-        private readonly TSql120Parser Parser;
-        private readonly RuleVisitorBuilder RuleVisitorBuilder;
-        private readonly IReporter Reporter;
+        private readonly TSql120Parser parser;
+        private readonly RuleVisitorBuilder ruleVisitorBuilder;
+        private readonly IReporter reporter;
 
         public SqlRuleVisitor(IConfigReader configReader, IReporter reporter)
         {
-            Parser = new TSql120Parser(true);
+            this.parser = new TSql120Parser(true);
             Violations = new List<RuleViolation>();
-            RuleVisitorBuilder = new RuleVisitorBuilder(configReader, reporter);
-            Reporter = reporter;
+            this.ruleVisitorBuilder = new RuleVisitorBuilder(configReader, reporter);
+            this.reporter = reporter;
         }
+
+        public List<RuleViolation> Violations { get; set; }
 
         public void VisitRules(string sqlPath, TextReader sqlTextReader)
         {
@@ -29,13 +30,13 @@ namespace TSQLLINT_LIB.Parser
 
             if (errors.Count > 0)
             {
-                Reporter.ReportViolation(new RuleViolation(sqlPath, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error));
+                this.reporter.ReportViolation(new RuleViolation(sqlPath, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error));
                 return;
             }
 
-            for (var index = 0; index < RuleVisitorBuilder.BuildVisitors(sqlPath, Violations).Count; index++)
+            for (var index = 0; index < this.ruleVisitorBuilder.BuildVisitors(sqlPath, Violations).Count; index++)
             {
-                var visitor = RuleVisitorBuilder.BuildVisitors(sqlPath, Violations)[index];
+                var visitor = this.ruleVisitorBuilder.BuildVisitors(sqlPath, Violations)[index];
                 sqlFragment.Accept(visitor);
             }
         }
@@ -49,7 +50,7 @@ namespace TSQLLINT_LIB.Parser
 
         private TSqlFragment GetFragment(TextReader txtRdr, out IList<ParseError> errors)
         {
-            return Parser.Parse(txtRdr, out errors);
+            return this.parser.Parse(txtRdr, out errors);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TSQLLINT_LIB.Utility
             return File.ReadAllText(filePath);
         }
 
-        public static bool tryParseJson(string jsonString, out JToken token)
+        public static bool TryParseJson(string jsonString, out JToken token)
         {
             try
             {
