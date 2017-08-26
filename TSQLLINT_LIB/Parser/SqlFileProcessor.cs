@@ -1,25 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Parser
 {
     public class SqlFileProcessor : ISqlFileProcessor
     {
-        private readonly IRuleVisitor ruleVisitor;
-        private readonly IBaseReporter reporter;
+        private readonly IRuleVisitor _ruleVisitor;
+        private readonly IBaseReporter _reporter;
+        private readonly IFileSystem _fileSystem;
+        private int _fileCount;
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter)
+            : this(ruleVisitor, reporter, new FileSystem())
         {
-            this.ruleVisitor = ruleVisitor;
-            this.reporter = reporter;
         }
 
-        public int FileCount { get; set; }
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter, IFileSystem fileSystem)
+        {
+            _ruleVisitor = ruleVisitor;
+            _reporter = reporter;
+            _fileSystem = fileSystem;
+        }
 
         public int GetFileCount()
         {
-            return FileCount;
+            return _fileCount;
+        }
+
+        public void ProcessList(List<string> paths)
+        {
+            for (var index = 0; index < paths.Count; index++)
+            {
+                ProcessPath(paths[index]);
+            }
         }
 
         public void ProcessPath(string path)
@@ -39,59 +55,84 @@ namespace TSQLLINT_LIB.Parser
             {
                 var pathString = pathStrings[index];
 
-                if (!File.Exists(pathString))
+                if (!_fileSystem.File.Exists(pathString))
                 {
-                    if (Directory.Exists(pathString))
+                    if (_fileSystem.Directory.Exists(pathString))
                     {
                         ProcessDirectory(pathString);
                     }
                     else
                     {
-                        this.reporter.Report(string.Format("\n{0} is not a valid path.", pathString));
+                        ProcessWildCard(pathString);
                     }
                 }
                 else
                 {
-                    ProcessFile(Utility.Utility.GetFileContents(pathString), pathString);
+                    ProcessFile(GetFileContents(pathString), pathString);
                 }
             }
         }
 
         public void ProcessFile(string fileContents, string filePath)
         {
-            var txtRdr = Utility.Utility.CreateTextReaderFromString(fileContents);
-            this.ruleVisitor.VisitRules(filePath, txtRdr);
-            FileCount++;
-        }
-
-        public void ProcessList(List<string> paths)
-        {
-            for (var index = 0; index < paths.Count; index++)
+            using (var txtRdr = Utility.Utility.CreateTextReaderFromString(fileContents))
             {
-                var path = paths[index];
-                ProcessPath(path);
+                _ruleVisitor.VisitRules(filePath, txtRdr);
             }
+            _fileCount++;
         }
 
         private void ProcessDirectory(string path)
         {
-            var subdirectoryEntries = Directory.GetDirectories(path);
+            var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
             for (var index = 0; index < subdirectoryEntries.Length; index++)
             {
-                var subdirectory = subdirectoryEntries[index];
-                ProcessPath(subdirectory);
+                ProcessPath(subdirectoryEntries[index]);
             }
 
-            var fileEntries = Directory.GetFiles(path);
+            var fileEntries = _fileSystem.Directory.GetFiles(path);
             for (var index = 0; index < fileEntries.Length; index++)
             {
-                var fileName = fileEntries[index];
-                if (Path.GetExtension(fileName) == ".sql")
-                {
-                    var fileContents = Utility.Utility.GetFileContents(fileName);
-                    ProcessFile(fileContents, fileName);
-                }
+                ProcessIfSqlFile(fileEntries[index]);
             }
+        }
+
+        private void ProcessIfSqlFile(string fileName)
+        {
+            if (_fileSystem.Path.GetExtension(fileName).Equals(".sql", StringComparison.InvariantCultureIgnoreCase))
+            {
+                ProcessFile(GetFileContents(fileName), fileName);
+            }
+        }
+
+        private void ProcessWildCard(string path)
+        {
+            var containsWildCard = path.Contains("*") || path.Contains("?");
+            if (!containsWildCard)
+            {
+                _reporter.Report(string.Format("\n{0} is not a valid path.", path));
+            }
+
+            var dirPath = _fileSystem.Path.GetDirectoryName(path);
+            var searchPattern = path;
+            if (string.IsNullOrEmpty(dirPath))
+            {
+                dirPath = _fileSystem.Directory.GetCurrentDirectory();
+            }
+            else
+            {
+                searchPattern = _fileSystem.Path.GetFileName(path);
+            }
+            var files = _fileSystem.Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
+            foreach (var file in files)
+            {
+                ProcessIfSqlFile(file);
+            }
+        }
+
+        private string GetFileContents(string filePath)
+        {
+            return _fileSystem.File.ReadAllText(filePath);
         }
     }
 }

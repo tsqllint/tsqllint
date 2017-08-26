@@ -513,7 +513,6 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
 
         private readonly TestHelper _testHelper = new TestHelper(TestContext.CurrentContext.TestDirectory);
 
-
         [TestCaseSource("ConditionalBeginEnd"), 
          TestCaseSource("DataCompressionNoError"),
          TestCaseSource("DataTypeLength"),
@@ -548,7 +547,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
             var textReader = TSQLLINT_LIB.Utility.Utility.CreateTextReaderFromString(sqlString);
 
             // act
-            fragmentVisitor.VisistRule(textReader, visitor);
+            fragmentVisitor.VisitRule(textReader, visitor);
 
             ruleViolations = ruleViolations.OrderBy(o => o.Line).ToList();
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();

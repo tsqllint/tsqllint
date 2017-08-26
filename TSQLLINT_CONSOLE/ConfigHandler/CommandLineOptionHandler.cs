@@ -15,10 +15,10 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         private readonly IConfigFileGenerator _configFileGenerator;
         private readonly IBaseReporter _reporter;
 
-        public CommandLineOptionHandler(CommandLineOptions commandLineOptions, 
-            IConfigFileFinder configFileFinder, 
-            IConfigFileGenerator configFileGenerator, 
-            IBaseReporter reporter)
+        public CommandLineOptionHandler(CommandLineOptions commandLineOptions,
+                                        IConfigFileFinder configFileFinder,
+                                        IConfigFileGenerator configFileGenerator,
+                                        IBaseReporter reporter)
         {
             PerformLinting = true;
             _commandLineOptions = commandLineOptions;
@@ -100,7 +100,8 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             }
             else
             {
-                _reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite", defaultConfigFile));
+                _reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite",
+                    defaultConfigFile));
             }
         }
 

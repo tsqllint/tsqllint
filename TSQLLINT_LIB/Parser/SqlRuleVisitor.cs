@@ -41,7 +41,7 @@ namespace TSQLLINT_LIB.Parser
             }
         }
 
-        public void VisistRule(TextReader txtRdr, TSqlFragmentVisitor visitor)
+        public void VisitRule(TextReader txtRdr, TSqlFragmentVisitor visitor)
         {
             IList<ParseError> errors;
             var sqlFragment = GetFragment(txtRdr, out errors);

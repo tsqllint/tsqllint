@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,6 +9,7 @@ using TSQLLINT_CONSOLE.Reporters;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
+using System;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
