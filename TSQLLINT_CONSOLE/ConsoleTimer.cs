@@ -5,17 +5,17 @@ namespace TSQLLINT_CONSOLE
 {
     public class ConsoleTimer
     {
-        private readonly Stopwatch StopWatch = new Stopwatch();
+        private readonly Stopwatch _stopWatch = new Stopwatch();
 
-        public void start()
+        public void Start()
         {
-            StopWatch.Start();
+            _stopWatch.Start();
         }
 
-        public TimeSpan stop()
+        public TimeSpan Stop()
         {
-            StopWatch.Stop();
-            return StopWatch.Elapsed; 
+            _stopWatch.Stop();
+            return _stopWatch.Elapsed; 
         }
     }
 }

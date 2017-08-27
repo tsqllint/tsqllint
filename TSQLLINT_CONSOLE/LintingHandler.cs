@@ -9,27 +9,29 @@ namespace TSQLLINT_CONSOLE
 {
     public class LintingHandler
     {
-        public int LintedFileCount;
-        public IEnumerable<RuleViolation> RuleViolations = new List<RuleViolation>();
-
-        private readonly SqlFileProcessor Parser;
-        private readonly ConfigReader ConfigReader;
-        private readonly SqlRuleVisitor RuleVisitor;
-        private readonly CommandLineOptions CommandLineOptions;
+        private readonly SqlFileProcessor _parser;
+        private readonly ConfigReader _configReader;
+        private readonly SqlRuleVisitor _ruleVisitor;
+        private readonly CommandLineOptions _commandLineOptions;
 
         public LintingHandler(CommandLineOptions commandLineOptions, IReporter reporter)
         {
-            CommandLineOptions = commandLineOptions;
-            ConfigReader = new ConfigReader(CommandLineOptions.ConfigFile);
-            RuleVisitor = new SqlRuleVisitor(ConfigReader, reporter);
-            Parser = new SqlFileProcessor(RuleVisitor, reporter);
+            _commandLineOptions = commandLineOptions;
+            RuleViolations = new List<RuleViolation>();
+            _configReader = new ConfigReader(_commandLineOptions.ConfigFile);
+            _ruleVisitor = new SqlRuleVisitor(_configReader, reporter);
+            _parser = new SqlFileProcessor(_ruleVisitor, reporter);
         }
+
+        public int LintedFileCount { get; set; }
+
+        public IEnumerable<RuleViolation> RuleViolations { get; set; }
 
         public void Lint()
         {
-            Parser.ProcessList(CommandLineOptions.LintPath);
-            RuleViolations = RuleVisitor.Violations;
-            LintedFileCount = Parser.GetFileCount();
+            _parser.ProcessList(_commandLineOptions.LintPath);
+            RuleViolations = _ruleVisitor.Violations;
+            LintedFileCount = _parser.GetFileCount();
         }
     }
 }

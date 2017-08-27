@@ -8,7 +8,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class CommandLineOptions
     {
-        public string[] Args;
+        private string _configFile;
 
         public CommandLineOptions(string[] args)
         {
@@ -16,25 +16,26 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             Parser.Default.ParseArgumentsStrict(args, this);
         }
 
-        private string _ConfigFile;
+        public string[] Args { get; set; }
 
         [Option(shortName: 'c',
              longName: "config",
              Required = false,
              HelpText = "Used to specify a .tsqllintrc file path other than the default.")]
-        public string ConfigFile {
+        public string ConfigFile 
+        {
             get
             {
-                if (!string.IsNullOrWhiteSpace(_ConfigFile))
+                if (!string.IsNullOrWhiteSpace(_configFile))
                 {
-                    return _ConfigFile;
+                    return _configFile;
                 }
 
                 var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                _ConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
-                return _ConfigFile;
+                _configFile = Path.Combine(usersDirectory, @".tsqllintrc");
+                return _configFile;
             }
-            set { _ConfigFile = value; }
+            set { _configFile = value; }
         }
 
         [Option(shortName: 'f',
@@ -67,13 +68,11 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         TSQLLINTOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
-
         [Option(shortName: 'h',
             longName: "help",
             Required = false,
             HelpText = "Display tsqllint version.")]
         public bool Help { get; set; }
-
 
         [HelpVerbOption]
         public string GetUsage()
