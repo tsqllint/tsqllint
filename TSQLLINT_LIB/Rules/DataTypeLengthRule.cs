@@ -6,11 +6,8 @@ namespace TSQLLINT_LIB.Rules
 {
     public class DataTypeLengthRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "data-type-length"; } }
-        public string RULE_TEXT { get { return "Date type length not specified"; } }
-        public Action<string, string, int, int> ErrorCallback;
-
-        private readonly SqlDataTypeOption[] TypesThatRequireLength = {
+        private readonly SqlDataTypeOption[] typesThatRequireLength = 
+        {
                 SqlDataTypeOption.Char,
                 SqlDataTypeOption.VarChar,
                 SqlDataTypeOption.NVarChar,
@@ -27,14 +24,26 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
+        public string RuleName
+        {
+            get { return "data-type-length"; }
+        }
+
+        public string RuleText
+        {
+            get { return "Date type length not specified"; }
+        }
+
+        public Action<string, string, int, int> ErrorCallback { get; set; }
+
         public override void Visit(SqlDataTypeReference node)
         {
-            for (var i = 0; i < TypesThatRequireLength.Length; i++)
+            for (var i = 0; i < this.typesThatRequireLength.Length; i++)
             {
-                var option = TypesThatRequireLength[i];
+                var option = this.typesThatRequireLength[i];
                 if (Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1)
                 {
-                    ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + node.FragmentLength);
+                    ErrorCallback(this.RuleName, this.RuleText, node.StartLine, node.StartColumn + node.FragmentLength);
                     break;
                 }
             }

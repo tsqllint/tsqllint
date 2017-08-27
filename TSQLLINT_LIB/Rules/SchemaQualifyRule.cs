@@ -7,11 +7,7 @@ namespace TSQLLINT_LIB.Rules
 {
     public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "schema-qualify"; } }
-        public string RULE_TEXT { get { return "Object name not schema qualified"; } }
-        public Action<string, string, int, int> ErrorCallback;
-
-        private readonly List<string> TableAliases = new List<string>
+        private readonly List<string> _tableAliases = new List<string>
         {
             "INSERTED",
             "UPDATED",
@@ -23,11 +19,23 @@ namespace TSQLLINT_LIB.Rules
             ErrorCallback = errorCallback;
         }
 
+        public string RuleName
+        {
+            get { return "schema-qualify"; }
+        }
+
+        public string RuleText
+        {
+            get { return "Object name not schema qualified"; }
+        }
+
+        public Action<string, string, int, int> ErrorCallback { get; set; }
+
         public override void Visit(TSqlStatement node)
         {
             var childAliasVisitor = new ChildAliasVisitor();
             node.AcceptChildren(childAliasVisitor);
-            TableAliases.AddRange(childAliasVisitor.TableAliases);
+            this._tableAliases.AddRange(childAliasVisitor.TableAliases);
         }
 
         public override void Visit(NamedTableReference node)
@@ -44,17 +52,22 @@ namespace TSQLLINT_LIB.Rules
             }
 
             // don't attempt to enforce schema validation on table aliases
-            if (TableAliases.FindIndex(x => x.Equals(node.SchemaObject.BaseIdentifier.Value, StringComparison.OrdinalIgnoreCase)) != -1)
+            if (this._tableAliases.FindIndex(x => x.Equals(node.SchemaObject.BaseIdentifier.Value, StringComparison.OrdinalIgnoreCase)) != -1)
             {
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            ErrorCallback(RuleName, RuleText, node.StartLine, node.StartColumn);
         }
 
         public class ChildAliasVisitor : TSqlFragmentVisitor
         {
-            public List<string> TableAliases = new List<string>();
+            public ChildAliasVisitor()
+            {
+                TableAliases = new List<string>();
+            }
+
+            public List<string> TableAliases { get; set; }
 
             public override void Visit(TableReferenceWithAlias node)
             {

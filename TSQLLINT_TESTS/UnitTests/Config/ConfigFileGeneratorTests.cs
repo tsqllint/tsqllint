@@ -12,7 +12,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
         private string ConfigFileName
         {
-            get { return (string.IsNullOrWhiteSpace(_configFileName)) ? SetConfigFile() : _configFileName; }
+            get { return string.IsNullOrWhiteSpace(this._configFileName) ? SetConfigFile() : _configFileName; }
         }
 
         public string SetConfigFile()
@@ -45,7 +45,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
         private class TestReporter : IBaseReporter
         {
-            public int MessageCount;
+            public int MessageCount { get; set; }
+
             public void Report(string message)
             {
                 MessageCount++;

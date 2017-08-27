@@ -9,25 +9,16 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
     public class CommandLineParserTest
     {
         private string _configFilePath;
+
         private string ConfigFilePath
         {
-            get { return (string.IsNullOrWhiteSpace(_configFilePath) == false) ? _configFilePath : InitializeConfigFilePath(); }
-        }
-
-        private string InitializeConfigFilePath()
-        {
-            var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
-            var result = testDirectoryInfo.Parent.Parent.FullName;
-            _configFilePath = Path.Combine(result + @"\IntegrationTests\.tsqllintrc");
-
-            return _configFilePath;
+            get { return string.IsNullOrWhiteSpace(this._configFilePath) == false ? _configFilePath : InitializeConfigFilePath(); }
         }
 
         [Test]
         public void NoProblems()
         {
             // arrange
-
             var path = @"c:\database\foo.sql";
 
             var args = new[]
@@ -96,7 +87,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
-            //assert
+            // assert
             Assert.AreEqual(Path.Combine(usersDirectory, @".tsqllintrc"), commandLineParser.ConfigFile);
         }
 
@@ -110,8 +101,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
-            //assert
+            // assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
+        }
+
+        private string InitializeConfigFilePath()
+        {
+            var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
+            var result = testDirectoryInfo.Parent.Parent.FullName;
+            _configFilePath = Path.Combine(result + @"\IntegrationTests\.tsqllintrc");
+
+            return _configFilePath;
         }
     }
 }

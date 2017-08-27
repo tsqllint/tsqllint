@@ -6,18 +6,26 @@ namespace TSQLLINT_LIB.Rules
 {
     public class PrintStatementRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME {get { return "print-statement";}}
-        public string RULE_TEXT { get { return "PRINT statement found"; } }
-        public Action<string, string, int, int> ErrorCallback;
-
         public PrintStatementRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
 
+        public string RuleName
+        {
+            get { return "print-statement"; }
+        }
+
+        public string RuleText
+        {
+            get { return "PRINT statement found"; }
+        }
+
+        public Action<string, string, int, int> ErrorCallback { get; set; }
+
         public override void Visit(PrintStatement node)
         {
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            ErrorCallback(this.RuleName, this.RuleText, node.StartLine, node.StartColumn);
         }
     }
 }
