@@ -6,6 +6,9 @@
     "TSQL",
     "lint"
   ],
+  "engines" : {
+      "node" : ">=4"
+  },
   "scripts": {
     "postinstall": "node scripts/install/install.js"
   },
