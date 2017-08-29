@@ -5,19 +5,14 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class ConfigHandler
     {
-        private readonly CommandLineOptions _commandLineOptions;
         private readonly CommandLineOptionHandler _commandLineOptionHandler;
-        private readonly ConfigFileGenerator _configFileGenerator;
-        private readonly ConfigFileFinder _configFileFinder;
-        private readonly IBaseReporter _reporter;
 
         public ConfigHandler(CommandLineOptions commandLineOptions, IBaseReporter reporter)
         {
-            _reporter = reporter;
-            _commandLineOptions = commandLineOptions;
-            _configFileFinder = new ConfigFileFinder();
-            _configFileGenerator = new ConfigFileGenerator(reporter);
-            _commandLineOptionHandler = new CommandLineOptionHandler(_commandLineOptions, _configFileFinder, _configFileGenerator, _reporter);
+            var configFileFinder = new ConfigFileFinder();
+            commandLineOptions.ConfigFileFinder = configFileFinder;
+            var configFileGenerator = new ConfigFileGenerator(reporter);
+            _commandLineOptionHandler = new CommandLineOptionHandler(commandLineOptions, configFileFinder, configFileGenerator, reporter);
         }
 
         public bool PerformLinting { get; set; }

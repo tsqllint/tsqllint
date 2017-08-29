@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Reflection;
 using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 using TSQLLINT_LIB.Config.Interfaces;
@@ -27,7 +25,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             _reporter = reporter;
         }
 
-        public bool PerformLinting { get; set; }
+        public bool PerformLinting { get; private set; }
 
         public void HandleCommandLineOptions()
         {
@@ -38,27 +36,17 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             }
 
             CheckOptionsForNonLintingActions(_commandLineOptions);
-            var configFileExists = _configFileFinder.FindFile(_commandLineOptions.ConfigFile);
-
-            if (_commandLineOptions.Init)
-            {
-                HandleInitOptions();
-            }
 
             if (_commandLineOptions.Version)
             {
                 ReportVersionInfo(_reporter);
             }
 
+            CheckConfigFile();
+
             if (_commandLineOptions.PrintConfig)
             {
-                HandlePrintConfigOption(configFileExists);
-            }
-
-            if (PerformLinting && !configFileExists)
-            {
-                _reporter.Report("Config file not found. You may generate it with the '--init' option");
-                PerformLinting = false;
+                HandlePrintConfigOption();
             }
 
             if (PerformLinting && _commandLineOptions.LintPath.Count < 1)
@@ -76,35 +64,6 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             reporter.Report(string.Format("v{0}", version));
         }
 
-        private void HandlePrintConfigOption(bool configFileExists)
-        {
-            if (configFileExists)
-            {
-                _reporter.Report(string.Format("Config file found at: {0}", _commandLineOptions.ConfigFile));
-            }
-            else
-            {
-                _reporter.Report("Config file not found. You may generate it with the '--init' option");
-            }
-        }
-
-        private void HandleInitOptions()
-        {
-            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
-            var defaultConfigFileExists = _configFileFinder.FindFile(defaultConfigFile);
-
-            if (!defaultConfigFileExists || _commandLineOptions.Force)
-            {
-                _configFileGenerator.WriteConfigFile(defaultConfigFile);
-            }
-            else
-            {
-                _reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite",
-                    defaultConfigFile));
-            }
-        }
-
         private void CheckOptionsForNonLintingActions(CommandLineOptions commandLineOptions)
         {
             var properties = typeof(CommandLineOptions).GetProperties();
@@ -116,8 +75,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 }
 
                 var propertyValue = prop.GetValue(commandLineOptions);
-                var propertyType = propertyValue.GetType();
-                if (propertyType == typeof(bool))
+                if (propertyValue is bool)
                 {
                     var value = (bool)propertyValue;
 
@@ -140,6 +98,46 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                     }
                 }
             }
+        }
+
+        private void CheckConfigFile()
+        {
+            var configFile = _commandLineOptions.ConfigFile;
+
+            if (string.IsNullOrWhiteSpace(configFile))
+            {
+                _commandLineOptions.ConfigFile = GenerateConfigFile();
+            }
+            else if (_commandLineOptions.Init)
+            {
+                _commandLineOptions.ConfigFile = _configFileFinder.DefaultConfigFileName;
+                CreateConfigFile(_commandLineOptions.ConfigFile);
+            }
+            else if (_commandLineOptions.Force)
+            {
+                CreateConfigFile(_commandLineOptions.ConfigFile);
+            }
+            else if (!_configFileFinder.FindFile(_commandLineOptions.ConfigFile))
+            {
+                _reporter.Report(string.Format("Existing config file not found at: {0} use the '--force' option to overwrite", _commandLineOptions.ConfigFile));
+            }
+        }
+
+        private string GenerateConfigFile()
+        {
+            var defaultConfigFile = _configFileFinder.DefaultConfigFileName;
+            CreateConfigFile(defaultConfigFile);
+            return defaultConfigFile;
+        }
+
+        private void CreateConfigFile(string configFile)
+        {
+            _configFileGenerator.WriteConfigFile(configFile);
+        }
+
+        private void HandlePrintConfigOption()
+        {
+            _reporter.Report(string.Format("Config file found at: {0}", _commandLineOptions.ConfigFile));
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
+using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
 {
@@ -17,6 +16,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         }
 
         public string[] Args { get; set; }
+        public IConfigFileFinder ConfigFileFinder { get; set; }
 
         [Option(shortName: 'c',
              longName: "config",
@@ -30,9 +30,11 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 {
                     return _configFile;
                 }
-
-                var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                _configFile = Path.Combine(usersDirectory, @".tsqllintrc");
+                if (ConfigFileFinder != null)
+                {
+                    _configFile = ConfigFileFinder.DefaultConfigFileName;
+                }
+                
                 return _configFile;
             }
             set { _configFile = value; }
@@ -45,10 +47,10 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         public bool Force { get; set; }
 
         [Option(shortName: 'i',
-            longName: "init",
-            Required = false,
-            HelpText = "Generate default .tsqllintrc config file."),
-        TSQLLINTOption(NonLintingCommand = true)]
+             longName: "init",
+             Required = false,
+             HelpText = "Generate default .tsqllintrc config file."),
+         TSQLLINTOption(NonLintingCommand = true)]
         public bool Init { get; set; }
 
         [ValueList(typeof(List<string>))]
@@ -79,7 +81,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         {
             var help = new HelpText
             {
-                AddDashesToOption = true,
+                AddDashesToOption = true
             };
 
             help.AddPreOptionsLine("tsqllint [options] [file.sql] | [dir] | [file.sql | dir]");
