@@ -106,28 +106,29 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
             if (string.IsNullOrWhiteSpace(configFile))
             {
-                _commandLineOptions.ConfigFile = GenerateConfigFile();
+                _commandLineOptions.ConfigFile = configFile = _configFileFinder.DefaultConfigFileName;
             }
-            else if (_commandLineOptions.Init)
+            else
             {
-                _commandLineOptions.ConfigFile = _configFileFinder.DefaultConfigFileName;
-                CreateConfigFile(_commandLineOptions.ConfigFile);
+                _commandLineOptions.ConfigFile = configFile = configFile.Trim();
+            }
+            if (_commandLineOptions.Init && !FileExists(configFile))
+            {
+                CreateConfigFile(configFile);
             }
             else if (_commandLineOptions.Force)
             {
-                CreateConfigFile(_commandLineOptions.ConfigFile);
+                CreateConfigFile(configFile);
             }
-            else if (!_configFileFinder.FindFile(_commandLineOptions.ConfigFile))
+            else if (!FileExists(configFile))
             {
-                _reporter.Report(string.Format("Existing config file not found at: {0} use the '--force' option to overwrite", _commandLineOptions.ConfigFile));
+                _reporter.Report(string.Format("Existing config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite", configFile));
             }
         }
 
-        private string GenerateConfigFile()
+        private bool FileExists(string path)
         {
-            var defaultConfigFile = _configFileFinder.DefaultConfigFileName;
-            CreateConfigFile(defaultConfigFile);
-            return defaultConfigFile;
+            return _configFileFinder.FindFile(path);
         }
 
         private void CreateConfigFile(string configFile)

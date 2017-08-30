@@ -10,7 +10,6 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         public ConfigHandler(CommandLineOptions commandLineOptions, IBaseReporter reporter)
         {
             var configFileFinder = new ConfigFileFinder();
-            commandLineOptions.ConfigFileFinder = configFileFinder;
             var configFileGenerator = new ConfigFileGenerator(reporter);
             _commandLineOptionHandler = new CommandLineOptionHandler(commandLineOptions, configFileFinder, configFileGenerator, reporter);
         }

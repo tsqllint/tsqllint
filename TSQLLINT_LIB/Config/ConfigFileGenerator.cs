@@ -28,17 +28,17 @@ namespace TSQLLINT_LIB.Config
         ""upper-lower"": ""error""
     }
 }";
-        private readonly IBaseReporter reporter;
+        private readonly IBaseReporter _reporter;
 
         public ConfigFileGenerator(IBaseReporter reporter)
         {
-            this.reporter = reporter;
+            _reporter = reporter;
         }
 
         public void WriteConfigFile(string path)
         {
             File.WriteAllText(path, ConfigString);
-            this.reporter.Report(string.Format("Created default config file {0}", path));
+            _reporter.Report(string.Format("Created default config file {0}", path));
         }
     }
 }

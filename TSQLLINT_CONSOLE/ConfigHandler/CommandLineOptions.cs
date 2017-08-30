@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
-using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class CommandLineOptions
     {
-        private string _configFile;
-
         public CommandLineOptions(string[] args)
         {
             Args = args;
@@ -16,34 +13,17 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         }
 
         public string[] Args { get; set; }
-        public IConfigFileFinder ConfigFileFinder { get; set; }
 
         [Option(shortName: 'c',
              longName: "config",
              Required = false,
              HelpText = "Used to specify a .tsqllintrc file path other than the default.")]
-        public string ConfigFile 
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(_configFile))
-                {
-                    return _configFile;
-                }
-                if (ConfigFileFinder != null)
-                {
-                    _configFile = ConfigFileFinder.DefaultConfigFileName;
-                }
-                
-                return _configFile;
-            }
-            set { _configFile = value; }
-        }
+        public string ConfigFile { get; set; }
 
         [Option(shortName: 'f',
             longName: "force",
             Required = false,
-            HelpText = "Used to force generation of default config file when one already exists")]
+            HelpText = "Used to force generation of config file when one already exists")]
         public bool Force { get; set; }
 
         [Option(shortName: 'i',
@@ -59,7 +39,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'p',
             longName: "print-config",
             Required = false,
-            HelpText = "Print path to default .tsqllintrc config file"),
+            HelpText = "Print path to config file"),
         TSQLLINTOption(NonLintingCommand = true)]
         public bool PrintConfig { get; set; }
 
