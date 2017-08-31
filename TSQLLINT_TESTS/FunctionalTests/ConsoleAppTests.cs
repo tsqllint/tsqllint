@@ -5,28 +5,27 @@ using NUnit.Framework;
 
 namespace TSQLLINT_LIB_TESTS.FunctionalTests
 {
-    delegate void ExitProcess_DEL(object sender, EventArgs args);
-
+    public delegate void ExitProcessDel(object sender, EventArgs args);
 
     [TestFixture]
     public class ConsoleAppTests
     {
-        private string _ApplicationPath;
+        private string _applicationPath;
 
         private string ApplicationPath
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_ApplicationPath))
+                if (string.IsNullOrWhiteSpace(_applicationPath))
                 {
                     var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
-                    _ApplicationPath = string.Format("{0}\\TSQLLINT_CONSOLE.exe", workingDirectory);
+                    _applicationPath = string.Format("{0}\\TSQLLINT_CONSOLE.exe", workingDirectory);
                 }
-                return _ApplicationPath;
+                return _applicationPath;
             }
         }
 
-        public Process GetProcess(string arguments, DataReceivedEventHandler OutputHandler, DataReceivedEventHandler ErrorHandler, EventHandler ExitHandler)
+        public Process GetProcess(string arguments, DataReceivedEventHandler outputHandler, DataReceivedEventHandler errorHandler, EventHandler exitHandler)
         {
             var process = new Process
             {
@@ -42,9 +41,9 @@ namespace TSQLLINT_LIB_TESTS.FunctionalTests
                 }
             };
 
-            process.OutputDataReceived += OutputHandler;
-            process.ErrorDataReceived += ErrorHandler;
-            process.Exited += ExitHandler;
+            process.OutputDataReceived += outputHandler;
+            process.ErrorDataReceived += errorHandler;
+            process.Exited += exitHandler;
             return process;
         }
 
@@ -79,7 +78,7 @@ namespace TSQLLINT_LIB_TESTS.FunctionalTests
 
             EventHandler exitHandler = (sender, args) =>
             {
-                var processExitCode = ((Process) (sender)).ExitCode;
+                var processExitCode = ((Process)sender).ExitCode;
                 Assert.AreEqual(expectedExitCode, processExitCode, "Exit code should be zero when no errors occur");
             };
 

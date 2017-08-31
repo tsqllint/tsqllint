@@ -13,6 +13,8 @@ tsqllint is a tool for describing, identifying, and reporting on undesirable pat
 
 The recommended method of installing tsqllint is to install the tool globally using NPM.
 
+This binary can be installed though [the `npm` registry](https://www.npmjs.com/). First, install [Node.js version 4 or higher](https://nodejs.org/en/download/), and then installation is done using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+
 ```
 $ npm install tsqllint -g
 ```

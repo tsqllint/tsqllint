@@ -52,7 +52,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'h',
             longName: "help",
             Required = false,
-            HelpText = "Display tsqllint version.")]
+            HelpText = "Display tsqllint help.")]
         public bool Help { get; set; }
 
         [HelpVerbOption]
