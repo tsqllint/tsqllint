@@ -29,8 +29,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'i',
              longName: "init",
              Required = false,
-             HelpText = "Generate default .tsqllintrc config file."),
-         TSQLLINTOption(NonLintingCommand = true)]
+             HelpText = "Generate default .tsqllintrc config file.")]
         public bool Init { get; set; }
 
         [ValueList(typeof(List<string>))]

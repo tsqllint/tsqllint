@@ -14,12 +14,9 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             _commandLineOptionHandler = new CommandLineOptionHandler(commandLineOptions, configFileFinder, configFileGenerator, reporter);
         }
 
-        public bool PerformLinting { get; set; }
-
-        public void HandleConfigs()
+        public bool HandleConfigs()
         {
-            _commandLineOptionHandler.HandleCommandLineOptions();
-            PerformLinting = _commandLineOptionHandler.PerformLinting;
+            return _commandLineOptionHandler.HandleCommandLineOptions();
         }
     }
 }

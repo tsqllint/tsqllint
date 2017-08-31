@@ -18,24 +18,23 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                                         IConfigFileGenerator configFileGenerator,
                                         IBaseReporter reporter)
         {
-            PerformLinting = true;
             _commandLineOptions = commandLineOptions;
             _configFileFinder = configFileFinder;
             _configFileGenerator = configFileGenerator;
             _reporter = reporter;
         }
 
-        public bool PerformLinting { get; private set; }
-
-        public void HandleCommandLineOptions()
+        public bool HandleCommandLineOptions()
         {
+            var performLinting = true;
+
             if (_commandLineOptions.Args.Length == 0)
             {
                 _reporter.Report(string.Format(_commandLineOptions.GetUsage()));
-                PerformLinting = false;
+                performLinting = false;
             }
 
-            CheckOptionsForNonLintingActions(_commandLineOptions);
+            performLinting &= CheckOptionsForNonLintingActions(_commandLineOptions);
 
             if (_commandLineOptions.Version)
             {
@@ -49,11 +48,12 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 HandlePrintConfigOption();
             }
 
-            if (PerformLinting && _commandLineOptions.LintPath.Count < 1)
+            if (performLinting && _commandLineOptions.LintPath.Count < 1)
             {
                 _reporter.Report(_commandLineOptions.GetUsage());
-                PerformLinting = false;
+                performLinting = false;
             }
+            return performLinting;
         }
 
         private static void ReportVersionInfo(IBaseReporter reporter)
@@ -64,16 +64,11 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             reporter.Report(string.Format("v{0}", version));
         }
 
-        private void CheckOptionsForNonLintingActions(CommandLineOptions commandLineOptions)
+        private bool CheckOptionsForNonLintingActions(CommandLineOptions commandLineOptions)
         {
             var properties = typeof(CommandLineOptions).GetProperties();
             foreach (var prop in properties)
             {
-                if (!PerformLinting)
-                {
-                    return;
-                }
-
                 var propertyValue = prop.GetValue(commandLineOptions);
                 if (propertyValue is bool)
                 {
@@ -93,26 +88,29 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
                     if (attrib != null && attrib.NonLintingCommand)
                     {
-                        PerformLinting = false;
-                        return;
+                        return false;
                     }
                 }
             }
+            return true;
         }
 
         private void CheckConfigFile()
         {
             var configFile = _commandLineOptions.ConfigFile;
+            var autoCreate = false;
 
             if (string.IsNullOrWhiteSpace(configFile))
             {
                 _commandLineOptions.ConfigFile = configFile = _configFileFinder.DefaultConfigFileName;
+                autoCreate = true;
             }
             else
             {
                 _commandLineOptions.ConfigFile = configFile = configFile.Trim();
             }
-            if (_commandLineOptions.Init && !FileExists(configFile))
+            var configFileExists = FileExists(configFile);
+            if ((_commandLineOptions.Init || autoCreate) && !configFileExists)
             {
                 CreateConfigFile(configFile);
             }
@@ -120,7 +118,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             {
                 CreateConfigFile(configFile);
             }
-            else if (!FileExists(configFile))
+            else if (!configFileExists)
             {
                 _reporter.Report(string.Format("Existing config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite", configFile));
             }

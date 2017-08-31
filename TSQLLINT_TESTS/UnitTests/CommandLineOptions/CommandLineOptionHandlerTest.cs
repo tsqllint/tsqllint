@@ -24,9 +24,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var tsqllintVersion = string.Format("v{0}", version);
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual(1, info.Reporter.Messages.Count);
             Assert.AreEqual(tsqllintVersion, info.Reporter.Messages.First());
         }
@@ -39,26 +40,27 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-p" });
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual(1, info.Reporter.Messages.Count);
             Assert.AreEqual(ExpectedMessage, info.Reporter.Messages.First());
         }
 
         [Test]
-        public void Reports_Error_If_Missing_Config_File_When_None_Passed_And_No_Options()
+        public void Auto_Creates_Config_If_Missing_Config_File_When_None_Passed_And_No_Options()
         {
             // arrange
-            const string ExpectedMessage = "Existing config file not found at: .tsqllintrc use the '--init' option to create if one does not exist or the '--force' option to overwrite";
-            var info = SetupHandler(new[] { "file1.sql" }, shouldFindFile: false);
+            var info = SetupHandler(new List<string>().ToArray(), shouldFindFile: false);
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
-            Assert.AreEqual(1, info.Reporter.Messages.Count);
-            Assert.AreEqual(ExpectedMessage, info.Reporter.Messages.First());            
+            Assert.IsFalse(performLinting);
+            Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
+            Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));         
         }
 
         [Test]
@@ -69,9 +71,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-c", "doesnotexist.config", "file1.sql" }, shouldFindFile: false);
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsTrue(performLinting);
             Assert.AreEqual(1, info.Reporter.Messages.Count);
             Assert.AreEqual(ExpectedMessage, info.Reporter.Messages.First());
         }
@@ -83,9 +86,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-i" }, shouldFindFile: false);
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
         }
@@ -97,9 +101,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-i", "-c", "custom.config" }, shouldFindFile: false);
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual("custom.config", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains("custom.config"));
         }
@@ -111,9 +116,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-i" });
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
             Assert.IsFalse(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
         }
@@ -125,9 +131,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-f" }, shouldFindFile: false);
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
         }
@@ -139,9 +146,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-f", "-c", "custom.config" }, shouldFindFile: false);
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual("custom.config", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains("custom.config"));
         }
@@ -153,9 +161,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-f" });
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
         }
@@ -167,9 +176,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var info = SetupHandler(new[] { "-f", "-c", "custom.config" });
 
             // act
-            info.Handler.HandleCommandLineOptions();
+            var performLinting = info.Handler.HandleCommandLineOptions();
 
             // assert
+            Assert.IsFalse(performLinting);
             Assert.AreEqual("custom.config", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains("custom.config"));
         }
