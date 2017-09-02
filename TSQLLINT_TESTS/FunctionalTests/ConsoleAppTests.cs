@@ -56,15 +56,16 @@ namespace TSQLLINT_LIB_TESTS.FunctionalTests
             process.WaitForExit();
         }
 
-        [TestCase("-i", 0)]
-        [TestCase("-p", 0)]
-        [TestCase("-v", 0)]
-        [TestCase("-h", 0)]
-        [TestCase("-i -f", 0)]
-        [TestCase("-c .tsqllintrc", 0)]
-        [TestCase("-c .tsqllintrc", 0)]
-        [TestCase("foo.sql", 0)]
-        [TestCase("-foo", 1)]
+        [TestCase(@"-i", 0)]
+        [TestCase(@"-p", 0)]
+        [TestCase(@"-v", 0)]
+        [TestCase(@"-h", 0)]
+        [TestCase(@"-i -f", 0)]
+        [TestCase(@"-c .tsqllintrc", 0)]
+        [TestCase(@"-c .tsqllintrc", 0)]
+        [TestCase(@"invalid.sql", 0)]
+        [TestCase(@"c:\foo_invalid.sql", 0)]
+        [TestCase(@"-foo", 1)]
         public void ExitCodeTest(string arguments, int expectedExitCode)
         {
             DataReceivedEventHandler outputHandler = (sender, args) =>
