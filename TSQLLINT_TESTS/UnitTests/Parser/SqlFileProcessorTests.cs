@@ -156,7 +156,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             fileBase.Received().Exists(filePath);
             directoryBase.Received().Exists(filePath);
             ruleVisitor.DidNotReceive().VisitRules(filePath, Arg.Any<TextReader>());
-            reporter.Received().Report(string.Format("\n{0} is not a valid path.", filePath));
+            reporter.Received().Report(string.Format("{0} is not a valid path.", filePath));
             Assert.AreEqual(0, processor.GetFileCount());
         }
 
@@ -243,7 +243,9 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+
             reporter.DidNotReceive().Report(Arg.Any<string>());
+
             Assert.AreEqual(3, processor.GetFileCount());
         }
 
@@ -301,7 +303,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, reporter, fileSystem);
-            // handels quotes, extra spaces, commas, multiple items in the list
+            // handles quotes, extra spaces, commas, multiple items in the list
             processor.ProcessList(new List<string> { "\" c:\\dbscripts\\db2\\sproc , c:\\dbscripts\\db2\\file3.sql \"", @"c:\dbscripts\db1\" });
 
             ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<TextReader>());
@@ -310,6 +312,35 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(3, processor.GetFileCount());            
+        }
+
+        [Test]
+        public void Should_Not_Throw_When_Passed_NonExistant_Path()
+        {
+            const string filePath1 = @"c:\dbscripts\db1\file2.sql";
+            const string filePath2 = @"c:\dbscripts\db1\file3.sql";
+
+            const string invalidFilePath = @"c:\invalid\invalid.sql";
+
+            var ruleVisitor = Substitute.For<IRuleVisitor>();
+            var reporter = Substitute.For<IBaseReporter>();
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {filePath1, new MockFileData("File1SQL")},
+                {filePath2, new MockFileData("File2SQL")},
+            });
+
+            var processor = new SqlFileProcessor(ruleVisitor, reporter, fileSystem);
+
+            processor.ProcessList(new List<string> { invalidFilePath, @"c:\dbscripts\db1\" });
+
+            ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
+
+            reporter.Received().Report(@"Directory doest not exit: c:\invalid");
+
+            Assert.AreEqual(2, processor.GetFileCount());
         }
     }
 }

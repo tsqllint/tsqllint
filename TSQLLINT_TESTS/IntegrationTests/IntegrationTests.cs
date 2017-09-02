@@ -209,11 +209,31 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
           }
         };
 
+        public static readonly object[] FileArgs_InValid_DirectoryNotExist = {
+          new object[]
+          {
+            new List<string> { @"c:\invalid\foo.sql" },
+            @"Directory doest not exit: c:\invalid",
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
+        public static readonly object[] FileArgs_InValid_PathNotExists = {
+          new object[]
+          {
+            new List<string> { @"c:\invalid.sql" },
+            @"c:\invalid.sql is not a valid path.",
+            new List<RuleViolation>(),
+            0
+          }, 
+        };
+
         public static readonly object[] FileArgs_InValid_FileNotExists = {
           new object[]
           {
-            new List<string> { "foo.sql" },
-            "\nfoo.sql is not a valid path.",
+            new List<string> { @"invalid.sql" },
+            @"invalid.sql is not a valid path.",
             new List<RuleViolation>(),
             0
           }, 
@@ -308,6 +328,8 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             TestCaseSource("FileArgs_Valid_LintTwoFiles"),
             TestCaseSource("FileArgs_Valid_LintDirectory"),
             TestCaseSource("FileArgs_InValid_NoFile"),
+            TestCaseSource("FileArgs_InValid_DirectoryNotExist"),
+            TestCaseSource("FileArgs_InValid_PathNotExists"),
             TestCaseSource("FileArgs_InValid_FileNotExists"),
             TestCaseSource("FileArgs_InValid_InvalidSyntax"),
             TestCaseSource("Print_Config_Valid"),
