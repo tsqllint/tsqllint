@@ -42,19 +42,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Abstractions, Version=2.0.0.144, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-      <HintPath>..\packages\System.IO.Abstractions.2.0.0.144\lib\net40\System.IO.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Abstractions.TestingHelpers">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-      <HintPath>..\packages\System.IO.Abstractions.TestingHelpers.2.0.0.143\lib\net40\System.IO.Abstractions.TestingHelpers.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FunctionalTests\ConsoleAppTests.cs" />
     <Compile Include="Helpers\HelperTests.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="IntegrationTests\IntegrationMissingConfigTests.cs" />

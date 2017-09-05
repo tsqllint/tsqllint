@@ -141,11 +141,23 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
                         0)
                     .SetName("File Args Invalid No Files");
                 yield return new TestCaseData(
-                        new List<string> { "foo.sql" },
-                        "\nfoo.sql is not a valid path.",
+                        new List<string> { @"invalid.sql" },
+                        "invalid.sql is not a valid path.",
                         new List<RuleViolation>(),
                         0)
                     .SetName("File Args Invalid File Does Not Exist");
+                yield return new TestCaseData(
+                        new List<string> { @"c:\invalid\foo*.sql" },
+                        @"Directory does not exit: c:\invalid",
+                        new List<RuleViolation>(),
+                        0)
+                    .SetName("File Args Invalid due to Directory Does Not Exist");
+                yield return new TestCaseData(
+                        new List<string> { @"c:\invalid.sql" },
+                        @"c:\invalid.sql is not a valid path.",
+                        new List<RuleViolation>(),
+                        0)
+                    .SetName("File Args Invalid due to Path Does Not Exist");
                 yield return new TestCaseData(
                         new List<string> { TestFileInvalidSyntax },
                         null,

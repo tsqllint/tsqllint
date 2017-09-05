@@ -110,19 +110,23 @@ namespace TSQLLINT_LIB.Parser
             var containsWildCard = path.Contains("*") || path.Contains("?");
             if (!containsWildCard)
             {
-                _reporter.Report(string.Format("\n{0} is not a valid path.", path));
+                _reporter.Report(string.Format("{0} is not a valid path.", path));
+                return;
             }
 
             var dirPath = _fileSystem.Path.GetDirectoryName(path);
-            var searchPattern = path;
             if (string.IsNullOrEmpty(dirPath))
             {
                 dirPath = _fileSystem.Directory.GetCurrentDirectory();
             }
-            else
+
+            if (!_fileSystem.Directory.Exists(dirPath))
             {
-                searchPattern = _fileSystem.Path.GetFileName(path);
+                _reporter.Report(string.Format("Directory does not exit: {0}", dirPath));
+                return;
             }
+
+            var searchPattern = _fileSystem.Path.GetFileName(path);
             var files = _fileSystem.Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
             foreach (var file in files)
             {
