@@ -215,7 +215,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             new object[]
             {
                 new List<string> { "foo.sql" },
-                "\nfoo.sql is not a valid path.",
+                "foo.sql is not a valid path.",
                 new List<RuleViolation>(),
                 0
             }
