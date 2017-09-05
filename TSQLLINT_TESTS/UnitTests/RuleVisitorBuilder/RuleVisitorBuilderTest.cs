@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using NUnit.Framework;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
@@ -12,13 +12,13 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.RuleVisitorBuilder
         public void GetRuleSeverity()
         {
             var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\UnitTests\\RuleVisitorBuilder\\.tsqllintrc");
-            var ConfigReader = new ConfigReader(configfilePath);
-            var RuleVisitorBuilder = new TSQLLINT_LIB.Parser.RuleVisitorBuilder(ConfigReader, null);
+            var configReader = new ConfigReader(configfilePath);
+            var ruleVisitorBuilder = new TSQLLINT_LIB.Parser.RuleVisitorBuilder(configReader, null);
 
-            var violations = new List <RuleViolation> ();
-            var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors("foo", violations);
+            var violations = new List<RuleViolation>();
+            var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors("foo", violations);
 
-            Assert.AreEqual(2, ActiveRuleVisitors.Count);
+            Assert.AreEqual(2, activeRuleVisitors.Count);
         }
     }
 }

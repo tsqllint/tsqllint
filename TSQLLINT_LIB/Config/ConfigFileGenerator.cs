@@ -6,7 +6,6 @@ namespace TSQLLINT_LIB.Config
 {
     public class ConfigFileGenerator : IConfigFileGenerator
     {
-        private readonly IBaseReporter Reporter;
         private const string ConfigString =
 @"{
     ""rules"": {
@@ -29,16 +28,17 @@ namespace TSQLLINT_LIB.Config
         ""upper-lower"": ""error""
     }
 }";
+        private readonly IBaseReporter _reporter;
 
         public ConfigFileGenerator(IBaseReporter reporter)
         {
-            Reporter = reporter;
+            _reporter = reporter;
         }
 
         public void WriteConfigFile(string path)
         {
             File.WriteAllText(path, ConfigString);
-            Reporter.Report(string.Format("Created default config file {0}", path));
+            _reporter.Report(string.Format("Created default config file {0}", path));
         }
     }
 }

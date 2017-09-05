@@ -11,6 +11,7 @@
     <AssemblyName>TSQLLINT_LIB_TESTS</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>f0c8bd82</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,37 +36,22 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NSubstitute">
-      <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Abstractions, Version=2.0.0.144, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-      <HintPath>..\packages\System.IO.Abstractions.2.0.0.144\lib\net40\System.IO.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Abstractions.TestingHelpers">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-      <HintPath>..\packages\System.IO.Abstractions.TestingHelpers.2.0.0.143\lib\net40\System.IO.Abstractions.TestingHelpers.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FunctionalTests\ConsoleAppTests.cs" />
     <Compile Include="Helpers\HelperTests.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="IntegrationTests\IntegrationTests.cs" />
+    <Compile Include="IntegrationTests\IntegrationMissingConfigTests.cs" />
+    <Compile Include="IntegrationTests\IntegrationExistingConfigTests.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineParserTest.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
     <Compile Include="Helpers\RuleViolationCompare.cs" />
-    <Compile Include="UnitTests\Parser\SqlFileProcessorTests.cs" />
     <Compile Include="UnitTests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
     <Compile Include="UnitTests\Config\ConfigReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +149,5 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
