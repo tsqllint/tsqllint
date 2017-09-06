@@ -286,6 +286,23 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
           }}
         };
 
+        public static readonly object[] set_variable = {
+          new object[] {"set-variable", "set-variable-no-error",  typeof(SetVariableRule), new List<RuleViolation>()},
+          new object[] {"set-variable", "set-variable-one-error-mixed-state", typeof(SetVariableRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "set-variable", startLine: 6, startColumn: 1)
+          }},
+          new object[] {"set-variable", "set-variable-one-error", typeof(SetVariableRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "set-variable", startLine: 4, startColumn: 1)
+          }},
+          new object[] {"set-variable", "set-variable-two-errors", typeof(SetVariableRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "set-variable", startLine: 2, startColumn: 1),
+              new RuleViolation(ruleName: "set-variable", startLine: 7, startColumn: 1)
+          }}
+        };
+
         public static readonly object[] upper_lower = {
           new object[] {"upper-lower", "upper-lower-no-error",  typeof(UpperLowerRule), new List<RuleViolation>()},
           new object[] {"upper-lower", "upper-lower-one-error", typeof(UpperLowerRule), new List<RuleViolation>
@@ -319,6 +336,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
                TestCaseSource("set_nocount"),
                TestCaseSource("set_quoted_identifier"),
                TestCaseSource("set_transaction_isolation_level"),
+               TestCaseSource("set_variable"),
                TestCaseSource("upper_lower")]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
