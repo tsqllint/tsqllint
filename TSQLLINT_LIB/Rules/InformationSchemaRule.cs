@@ -6,14 +6,22 @@ namespace TSQLLINT_LIB.Rules
 {
     public class InformationSchemaRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "information-schema"; } }
-        public string RULE_TEXT { get { return "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views"; } }
-        public Action<string, string, int, int> ErrorCallback;
-
         public InformationSchemaRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
         }
+
+        public string RuleName
+        {
+            get { return "information-schema"; }
+        }
+
+        public string RuleText
+        {
+            get { return "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views"; }
+        }
+
+        public Action<string, string, int, int> ErrorCallback { get; set; }
 
         public override void Visit(SchemaObjectName node)
         {
@@ -21,7 +29,7 @@ namespace TSQLLINT_LIB.Rules
 
             if (schemaIdentifier && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                ErrorCallback(RuleName, RuleText, node.StartLine, node.StartColumn);
             }
         }
     }

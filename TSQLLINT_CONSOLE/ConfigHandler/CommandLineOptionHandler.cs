@@ -10,89 +10,61 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class CommandLineOptionHandler
     {
-        public bool PerformLinting = true;
+        private readonly CommandLineOptions _commandLineOptions;
+        private readonly IConfigFileFinder _configFileFinder;
+        private readonly IConfigFileGenerator _configFileGenerator;
+        private readonly IBaseReporter _reporter;
 
-        private readonly CommandLineOptions CommandLineOptions;
-        private readonly IConfigFileFinder ConfigFileFinder;
-        private readonly IConfigFileGenerator ConfigFileGenerator;
-        private readonly IBaseReporter Reporter;
-
-        public CommandLineOptionHandler(CommandLineOptions commandLineOptions, 
-            IConfigFileFinder configFileFinder, 
-            IConfigFileGenerator configFileGenerator, 
-            IBaseReporter reporter)
+        public CommandLineOptionHandler(CommandLineOptions commandLineOptions,
+                                        IConfigFileFinder configFileFinder,
+                                        IConfigFileGenerator configFileGenerator,
+                                        IBaseReporter reporter)
         {
-            CommandLineOptions = commandLineOptions;
-            ConfigFileFinder = configFileFinder;
-            ConfigFileGenerator = configFileGenerator;
-            Reporter = reporter;
+            PerformLinting = true;
+            _commandLineOptions = commandLineOptions;
+            _configFileFinder = configFileFinder;
+            _configFileGenerator = configFileGenerator;
+            _reporter = reporter;
         }
+
+        public bool PerformLinting { get; set; }
 
         public void HandleCommandLineOptions()
         {
-            if (CommandLineOptions.Args.Length == 0)
+            if (_commandLineOptions.Args.Length == 0)
             {
-                Reporter.Report(string.Format(CommandLineOptions.GetUsage()));
+                _reporter.Report(string.Format(_commandLineOptions.GetUsage()));
                 PerformLinting = false;
             }
 
-            CheckOptionsForNonLintingActions(CommandLineOptions);
-            var configFileExists = ConfigFileFinder.FindFile(CommandLineOptions.ConfigFile);
+            CheckOptionsForNonLintingActions(_commandLineOptions);
+            var configFileExists = _configFileFinder.FindFile(_commandLineOptions.ConfigFile);
 
-            if (CommandLineOptions.Init)
+            if (_commandLineOptions.Init)
             {
                 HandleInitOptions();
             }
 
-            if (CommandLineOptions.Version)
+            if (_commandLineOptions.Version)
             {
-                ReportVersionInfo(Reporter);
+                ReportVersionInfo(_reporter);
             }
 
-            if (CommandLineOptions.PrintConfig)
+            if (_commandLineOptions.PrintConfig)
             {
                 HandlePrintConfigOption(configFileExists);
             }
 
             if (PerformLinting && !configFileExists)
             {
-                Reporter.Report("Config file not found. You may generate it with the '--init' option");
+                _reporter.Report("Config file not found. You may generate it with the '--init' option");
                 PerformLinting = false;
             }
 
-            if (PerformLinting && CommandLineOptions.LintPath.Count < 1)
+            if (PerformLinting && _commandLineOptions.LintPath.Count < 1)
             {
-                Reporter.Report(CommandLineOptions.GetUsage());
+                _reporter.Report(_commandLineOptions.GetUsage());
                 PerformLinting = false;
-            }
-        }
-
-        private void HandlePrintConfigOption(bool configFileExists)
-        {
-            if (configFileExists)
-            {
-                Reporter.Report(string.Format("Config file found at: {0}", CommandLineOptions.ConfigFile));
-            }
-            else
-            {
-                Reporter.Report("Config file not found. You may generate it with the '--init' option");
-            }
-        }
-
-        private void HandleInitOptions()
-        {
-            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
-            var defaultConfigFileExists = ConfigFileFinder.FindFile(defaultConfigFile);
-
-            if (!defaultConfigFileExists || CommandLineOptions.Force)
-            {
-                ConfigFileGenerator.WriteConfigFile(defaultConfigFile);
-            }
-            else
-            {
-                Reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite",
-                    defaultConfigFile));
             }
         }
 
@@ -102,6 +74,35 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             var version = fvi.FileVersion;
             reporter.Report(string.Format("v{0}", version));
+        }
+
+        private void HandlePrintConfigOption(bool configFileExists)
+        {
+            if (configFileExists)
+            {
+                _reporter.Report(string.Format("Config file found at: {0}", _commandLineOptions.ConfigFile));
+            }
+            else
+            {
+                _reporter.Report("Config file not found. You may generate it with the '--init' option");
+            }
+        }
+
+        private void HandleInitOptions()
+        {
+            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var defaultConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
+            var defaultConfigFileExists = _configFileFinder.FindFile(defaultConfigFile);
+
+            if (!defaultConfigFileExists || _commandLineOptions.Force)
+            {
+                _configFileGenerator.WriteConfigFile(defaultConfigFile);
+            }
+            else
+            {
+                _reporter.Report(string.Format("Existing config file found at: {0} use the '--force' option to overwrite",
+                    defaultConfigFile));
+            }
         }
 
         private void CheckOptionsForNonLintingActions(CommandLineOptions commandLineOptions)
