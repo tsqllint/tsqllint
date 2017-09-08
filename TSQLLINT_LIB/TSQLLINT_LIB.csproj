@@ -62,6 +62,7 @@
     <Compile Include="Rules\DisallowCursorRule.cs" />
     <Compile Include="Rules\KeywordCapitalizationRule.cs" />
     <Compile Include="Rules\MultiTableAliasRule.cs" />
+    <Compile Include="Rules\SetVariableRule.cs" />
     <Compile Include="Rules\UpperLowerRule.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolation.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolationSeverity.cs" />

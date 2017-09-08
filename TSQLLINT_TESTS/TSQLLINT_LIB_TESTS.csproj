@@ -85,6 +85,10 @@
     <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-no-error.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-one-error-with-tabs.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-multiple-errors-with-tabs.sql" />
+    <Content Include="UnitTests\Rules\set-variable\set-variable-no-error.sql" />
+    <Content Include="UnitTests\Rules\set-variable\set-variable-one-error-mixed-state.sql" />
+    <Content Include="UnitTests\Rules\set-variable\set-variable-one-error.sql" />
+    <Content Include="UnitTests\Rules\set-variable\set-variable-two-errors.sql" />
     <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-multiple-errors-with-tab.sql" />
     <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-try-catch-while.sql" />
     <Content Include="UnitTests\Rules\set-nocount\set-nocount-no-rowset-action.sql" />

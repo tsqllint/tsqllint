@@ -31,6 +31,7 @@ namespace TSQLLINT_LIB.Parser
             typeof(SetNoCountRule),
             typeof(SetQuotedIdentifierRule),
             typeof(SetTransactionIsolationLevelRule),
+            typeof(SetVariableRule),
             typeof(UpperLowerRule)
         };
 

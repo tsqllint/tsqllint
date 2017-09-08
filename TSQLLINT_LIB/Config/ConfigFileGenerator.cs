@@ -25,6 +25,7 @@ namespace TSQLLINT_LIB.Config
         ""set-nocount"": ""error"",
         ""set-quoted-identifier"": ""error"",
         ""set-transaction-isolation-level"": ""error"",
+        ""set-variable"": ""error"",
         ""upper-lower"": ""error""
     }
 }";
