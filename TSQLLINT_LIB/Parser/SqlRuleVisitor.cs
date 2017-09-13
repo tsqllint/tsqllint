@@ -33,9 +33,10 @@ namespace TSQLLINT_LIB.Parser
                 return;
             }
 
-            for (var index = 0; index < RuleVisitorBuilder.BuildVisitors(sqlPath, Violations).Count; index++)
+            var ruleVisitors = RuleVisitorBuilder.BuildVisitors(sqlPath, Violations);
+            for (var index = 0; index < ruleVisitors.Count; index++)
             {
-                var visitor = RuleVisitorBuilder.BuildVisitors(sqlPath, Violations)[index];
+                var visitor = ruleVisitors[index];
                 sqlFragment.Accept(visitor);
             }
         }

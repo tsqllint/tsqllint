@@ -13,7 +13,7 @@ namespace TSQLLINT_LIB.Parser
     {
         private readonly IReporter Reporter;
         private readonly IConfigReader ConfigReader;
-        private readonly List<Type> RuleVisitors = new List<Type>()
+        public readonly List<Type> RuleVisitorTypes = new List<Type>()
         {
             typeof(ConditionalBeginEndRule),
             typeof(DataCompressionOptionRule),
@@ -44,9 +44,9 @@ namespace TSQLLINT_LIB.Parser
         public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath, List<RuleViolation> violations)
         {
             var configuredVisitors = new List<TSqlFragmentVisitor>();
-            for (var index = 0; index < RuleVisitors.Count; index++)
+            for (var index = 0; index < RuleVisitorTypes.Count; index++)
             {
-                var visitor = RuleVisitors[index];
+                var visitor = RuleVisitorTypes[index];
                 Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
                 {
                     Reporter.ReportViolation(new RuleViolation(
