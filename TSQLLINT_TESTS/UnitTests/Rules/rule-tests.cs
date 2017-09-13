@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -226,6 +226,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
           {
               new RuleViolation(ruleName: "semicolon-termination", startLine: 1, startColumn: 18)
           }},
+          new object[] {"semicolon-termination", "semicolon-termination-no-error-create-object", typeof(SemicolonTerminationRule), new List<RuleViolation>{}},
           new object[] {"semicolon-termination", "semicolon-termination-multiple-errors-with-tab", typeof(SemicolonTerminationRule), new List<RuleViolation>
           {
               new RuleViolation(ruleName: "semicolon-termination", startLine: 2, startColumn: 24),

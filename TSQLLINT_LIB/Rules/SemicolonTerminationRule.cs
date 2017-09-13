@@ -28,18 +28,12 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TSqlStatement node)
         {
-            if (TypesToSkip.Contains(node.GetType()))
+            if (TypesToSkip.Contains(node.GetType()) || EndsWithSemicolon(node))
             {
                 return;
             }
 
             var lastToken = node.ScriptTokenStream[node.LastTokenIndex];
-            if (lastToken.TokenType == TSqlTokenType.Semicolon)
-            {
-                return;
-            }
-
-            // get a count of all tabs on the line that occur prior to the last token in this node
             var tabsOnLine = ColumnNumberCounter.CountTabsOnLine(lastToken.Line, node.LastTokenIndex, node.ScriptTokenStream);
             var column = ColumnNumberCounter.GetColumnNumberAfterToken(tabsOnLine, lastToken);
             ErrorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column);
@@ -56,14 +50,22 @@ namespace TSQLLINT_LIB.Rules
                     node.StartColumn + beginTerminator.Column);
             }
 
-            var endTerminator = node.ScriptTokenStream[node.LastTokenIndex];
-            if (endTerminator.TokenType != TSqlTokenType.Semicolon)
+            if (EndsWithSemicolon(node))
             {
-                ErrorCallback(RULE_NAME, 
-                    RULE_TEXT, 
-                    node.ScriptTokenStream[node.LastTokenIndex].Line, 
-                    endTerminator.Column + endTerminator.Text.Length);
+                return;
             }
+
+            var endTerminator = node.ScriptTokenStream[node.LastTokenIndex];
+            ErrorCallback(RULE_NAME,
+                RULE_TEXT,
+                node.ScriptTokenStream[node.LastTokenIndex].Line,
+                endTerminator.Column + endTerminator.Text.Length);
+        }
+
+        private static bool EndsWithSemicolon(TSqlFragment node)
+        {
+            return node.ScriptTokenStream[node.LastTokenIndex].TokenType == TSqlTokenType.Semicolon
+                || node.ScriptTokenStream[node.LastTokenIndex + 1].TokenType == TSqlTokenType.Semicolon;
         }
     }
 }
