@@ -100,6 +100,7 @@
     <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-no-error.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-one-error-with-tabs.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\multi-table-alias-multiple-errors-with-tabs.sql" />
+    <Content Include="UnitTests\Rules\semicolon-termination\semicolon-termination-create-view-no-error.sql" />
     <Content Include="UnitTests\Rules\set-variable\set-variable-no-error.sql" />
     <Content Include="UnitTests\Rules\set-variable\set-variable-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\set-variable\set-variable-one-error.sql" />
