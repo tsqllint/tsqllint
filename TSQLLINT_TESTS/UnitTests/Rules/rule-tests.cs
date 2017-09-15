@@ -221,6 +221,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
         };
 
         public static readonly object[] semicolon_termination = {
+          new object[] {"semicolon-termination", "semicolon-termination-create-view-no-error",  typeof(SemicolonTerminationRule), new List<RuleViolation>()},
           new object[] {"semicolon-termination", "semicolon-termination-no-error",  typeof(SemicolonTerminationRule), new List<RuleViolation>()},
           new object[] {"semicolon-termination", "semicolon-termination-one-error", typeof(SemicolonTerminationRule), new List<RuleViolation>
           {
