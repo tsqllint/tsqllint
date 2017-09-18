@@ -27,7 +27,7 @@ namespace TSQLLINT_LIB.Rules
                     continue;
                 }
 
-                if (IsAllUpper(token.Text))
+                if (IsUpperCase(token.Text))
                 {
                     continue;
                 }
@@ -40,12 +40,14 @@ namespace TSQLLINT_LIB.Rules
             }
         }
 
-        private static bool IsAllUpper(string input)
+        private static bool IsUpperCase(string input)
         {
             for (var i = 0; i < input.Length; i++)
             {
-                if (!char.IsUpper(input[i]))
+                if (char.IsLetter(input[i]) && !char.IsUpper(input[i]))
+                {
                     return false;
+                }
             }
 
             return true;
