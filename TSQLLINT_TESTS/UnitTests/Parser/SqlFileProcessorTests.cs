@@ -338,7 +338,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
 
-            reporter.Received().Report(@"Directory doest not exit: c:\invalid");
+            reporter.Received().Report(@"Directory does not exit: c:\invalid");
 
             Assert.AreEqual(2, processor.GetFileCount());
         }

@@ -104,7 +104,7 @@ namespace TSQLLINT_LIB.Parser
 
             if (!_fileSystem.Directory.Exists(dirPath))
             {
-                _reporter.Report(string.Format("Directory doest not exit: {0}", dirPath));
+                _reporter.Report(string.Format("Directory does not exit: {0}", dirPath));
                 return;
             }
 

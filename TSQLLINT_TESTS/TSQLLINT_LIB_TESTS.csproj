@@ -60,7 +60,9 @@
     <Compile Include="FunctionalTests\ConsoleAppTests.cs" />
     <Compile Include="Helpers\HelperTests.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="IntegrationTests\IntegrationTests.cs" />
+    <Compile Include="IntegrationTests\IntegrationExistingConfigTests.cs" />
+    <Compile Include="IntegrationTests\IntegrationConfigBase.cs" />
+    <Compile Include="IntegrationTests\IntegrationMissingConfigTests.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineParserTest.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />

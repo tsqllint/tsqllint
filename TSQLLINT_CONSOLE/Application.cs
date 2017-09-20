@@ -23,9 +23,7 @@ namespace TSQLLINT_CONSOLE
 
             // perform non-linting actions
             var configHandler = new ConfigHandler.ConfigHandler(commandLineOptions, Reporter);
-            configHandler.HandleConfigs();
-
-            if (!configHandler.PerformLinting)
+            if (!configHandler.HandleConfigs())
             {
                 return;
             }

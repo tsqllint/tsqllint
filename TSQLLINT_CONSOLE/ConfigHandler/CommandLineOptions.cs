@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
 
@@ -8,34 +6,19 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 {
     public class CommandLineOptions
     {
-        public string[] Args;
-
         public CommandLineOptions(string[] args)
         {
             Args = args;
             Parser.Default.ParseArgumentsStrict(args, this);
         }
 
-        private string _ConfigFile;
+        public string[] Args { get; set; }
 
         [Option(shortName: 'c',
              longName: "config",
              Required = false,
              HelpText = "Used to specify a .tsqllintrc file path other than the default.")]
-        public string ConfigFile {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(_ConfigFile))
-                {
-                    return _ConfigFile;
-                }
-
-                var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                _ConfigFile = Path.Combine(usersDirectory, @".tsqllintrc");
-                return _ConfigFile;
-            }
-            set { _ConfigFile = value; }
-        }
+        public string ConfigFile { get; set; }
 
         [Option(shortName: 'f',
             longName: "force",
@@ -46,8 +29,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'i',
             longName: "init",
             Required = false,
-            HelpText = "Generate default .tsqllintrc config file."),
-        TSQLLINTOption(NonLintingCommand = true)]
+            HelpText = "Generate default .tsqllintrc config file.")]
         public bool Init { get; set; }
 
         [ValueList(typeof(List<string>))]
@@ -56,7 +38,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'p',
             longName: "print-config",
             Required = false,
-            HelpText = "Print path to default .tsqllintrc config file"),
+            HelpText = "Print path to config file"),
         TSQLLINTOption(NonLintingCommand = true)]
         public bool PrintConfig { get; set; }
 
@@ -67,13 +49,11 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         TSQLLINTOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
-
         [Option(shortName: 'h',
             longName: "help",
             Required = false,
             HelpText = "Display tsqllint version.")]
         public bool Help { get; set; }
-
 
         [HelpVerbOption]
         public string GetUsage()
