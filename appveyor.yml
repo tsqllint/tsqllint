@@ -39,7 +39,7 @@ build_script:
   - ./scripts/build.cmd
 
 after_test:
-  - cmd: ./scripts/cover
+  - ./scripts/cover.cmd
 
 after_build:
   - cmd: npm pack
