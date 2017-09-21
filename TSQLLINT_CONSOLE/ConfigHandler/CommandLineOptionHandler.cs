@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using TSQLLINT_COMMON;
 using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 using TSQLLINT_LIB.Config.Interfaces;
-using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
 {

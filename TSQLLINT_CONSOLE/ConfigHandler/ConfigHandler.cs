@@ -1,5 +1,5 @@
+using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config;
-using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
 {

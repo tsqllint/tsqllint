@@ -1,4 +1,4 @@
-﻿using TSQLLINT_LIB.Rules.RuleViolations;
+﻿using TSQLLINT_COMMON;
 
 namespace TSQLLINT_LIB.Config.Interfaces
 {

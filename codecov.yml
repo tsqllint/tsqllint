@@ -7,4 +7,3 @@ coverage:
   ignore:
     - "./TSQLLINT_CONSOLE/Program.cs"
     - "./TSQLLINT_CONSOLE/Reporters/ConsoleReporter.cs"
-    - "./TSQLLINT_TESTS"

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using TSQLLINT_COMMON;
 using TSQLLINT_CONSOLE;
 using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_LIB.Config;
-using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 using TSQLLINT_LIB_TESTS.Helpers;
 
@@ -360,7 +361,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         private class TestReporter : IReporter
         {
             public string Message ;
-            public List<RuleViolation> RuleViolations = new List<RuleViolation>();
+            public List<IRuleViolation> RuleViolations = new List<IRuleViolation>();
             public int FileCount;
 
 
@@ -374,9 +375,15 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
                 Message = message;
             }
 
-            public void ReportViolation(RuleViolation violation)
+            public void ReportViolation(IRuleViolation violation)
             {
                 RuleViolations.Add(violation);
+            }
+
+            [ExcludeFromCodeCoverage]
+            public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
+            {
+                throw new NotImplementedException();
             }
         }
     }

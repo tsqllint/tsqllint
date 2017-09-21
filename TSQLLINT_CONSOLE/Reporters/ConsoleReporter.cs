@@ -1,6 +1,6 @@
 ﻿using System;
-using TSQLLINT_LIB.Parser.Interfaces;
-using TSQLLINT_LIB.Rules.RuleViolations;
+using System.Diagnostics.CodeAnalysis;
+using TSQLLINT_COMMON;
 
 namespace TSQLLINT_CONSOLE.Reporters
 {
@@ -9,7 +9,8 @@ namespace TSQLLINT_CONSOLE.Reporters
         private int WarningCount;
         private int ErrorCount;
 
-        public void Report(string message)
+        [ExcludeFromCodeCoverage]
+        public virtual void Report(string message)
         {
             Console.WriteLine("{0}", message);
         }
@@ -19,7 +20,7 @@ namespace TSQLLINT_CONSOLE.Reporters
             Report(string.Format("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings", fileCount, timespan.TotalSeconds, ErrorCount, WarningCount));
         }
 
-        public void ReportViolation(RuleViolation violation)
+        public void ReportViolation(IRuleViolation violation)
         {
             switch (violation.Severity)
             {
@@ -35,13 +36,23 @@ namespace TSQLLINT_CONSOLE.Reporters
                     throw new ArgumentOutOfRangeException();
             }   
 
-            Report(string.Format("{0}({1},{2}): {3} {4} : {5}.",
-                violation.FileName,
-                violation.Line,
-                violation.Column,
+            ReportViolation(violation.FileName,
+                violation.Line.ToString(),
+                violation.Column.ToString(),
                 violation.Severity.ToString().ToLowerInvariant(),
                 violation.RuleName,
-                violation.Text));
+                violation.Text);
+        }
+
+        public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
+        {
+            Report(string.Format("{0}({1},{2}): {3} {4} : {5}.",
+                fileName,
+                line,
+                column,
+                severity,
+                ruleName,
+                violationText));
         }
     }
 }

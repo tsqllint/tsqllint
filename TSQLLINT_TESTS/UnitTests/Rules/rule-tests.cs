@@ -255,15 +255,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
           new object[] {"set-ansi", "set-ansi-one-error", typeof(SetAnsiNullsRule), new List<RuleViolation>
           {
               new RuleViolation(ruleName: "set-ansi", startLine: 1, startColumn: 1)
-          }}
+          }},
+          new object[] {"set-ansi", "set-ansi-on-off-error", typeof(SetAnsiNullsRule), new List<RuleViolation>
+          {
+              new RuleViolation(ruleName: "set-ansi", startLine: 1, startColumn: 1)
+          }},
+          new object[] {"set-ansi", "set-ansi-on-off-no-error",  typeof(SetAnsiNullsRule), new List<RuleViolation>()},
         };
 
         public static readonly object[] set_nocount = {
           new object[] {"set-nocount", "set-nocount-no-error",  typeof(SetNoCountRule), new List<RuleViolation>()},
-          new object[] {"set-nocount", "set-nocount-one-error-ddl", typeof(SetNoCountRule), new List<RuleViolation>
-          {
-              new RuleViolation(ruleName: "set-nocount", startLine: 1, startColumn: 1)
-          }},
+          new object[] {"set-nocount", "set-nocount-no-error-ddl", typeof(SetNoCountRule), new List<RuleViolation>()},
           new object[] {"set-nocount", "set-nocount-one-error-rowset-action", typeof(SetNoCountRule), new List<RuleViolation>
           {
               new RuleViolation(ruleName: "set-nocount", startLine: 1, startColumn: 1)
@@ -342,7 +344,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             // arrange
-            var sqlString = TestHelper.GetTestFile(string.Format("Rules\\{0}\\{1}.sql", rule, testFileName));
+            var sqlString = TestHelper.GetTestFile(string.Format(@"Rules\{0}\{1}.sql", rule, testFileName));
 
             var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();
@@ -355,6 +357,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
             var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, ErrorCallback);
             var textReader = TSQLLINT_LIB.Utility.Utility.CreateTextReaderFromString(sqlString);
 
+            var compareer = new RuleViolationCompare();
+
             // act
             fragmentVisitor.VisitRule(textReader, visitor);
 
@@ -363,8 +367,6 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Rules
 
             // assert
             Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
-
-            var compareer = new RuleViolationCompare();
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
         }
     }

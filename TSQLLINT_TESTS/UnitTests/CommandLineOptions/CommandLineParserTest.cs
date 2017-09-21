@@ -49,7 +49,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         {
             // arrange
             var fileOne = @"c:\database\foo.sql";
-            var fileTwo = @"c:\database\bar.sql";
+            var fileTwo = @"c:\database\ActivatePlugins_ReportViolations_ShouldCallReporter.sql";
 
             var args = new[]
             {
@@ -70,7 +70,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         {
             // arrange
             var fileOne = @"c:\database\foo.sql";
-            var fileTwo = @"c:\database directory\bar.sql";
+            var fileTwo = @"c:\database directory\ActivatePlugins_ReportViolations_ShouldCallReporter.sql";
 
             var args = new[]
             {

@@ -1,2 +1,4 @@
 ﻿-- no rowset actions so nocount not required
-PRINT 'FOO';
+CREATE TABLE [dbo].[MyTable]
+	([ID] INT, 
+	 [Name] nvarchar(64));
