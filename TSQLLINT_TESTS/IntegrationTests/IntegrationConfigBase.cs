@@ -14,12 +14,6 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
     {
         protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            File.Delete(DefaultConfigFile);
-        }
-
         protected static readonly string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\TestFiles");
         protected static readonly string TestFileOne = Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
@@ -66,6 +60,7 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
 
             Assert.AreEqual(expectedFileCount, testReporter.FileCount);
         }
+
         protected class TestReporter : IReporter
         {
             public TestReporter()

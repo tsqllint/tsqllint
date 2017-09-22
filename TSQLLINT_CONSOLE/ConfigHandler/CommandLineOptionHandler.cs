@@ -97,19 +97,25 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         private void CheckConfigFile()
         {
             var configFile = _commandLineOptions.ConfigFile;
-            var autoCreate = false;
+            _commandLineOptions.DefaultConfigRules = null;
+            var useInMemoryRules = false;
 
             if (string.IsNullOrWhiteSpace(configFile))
             {
                 _commandLineOptions.ConfigFile = configFile = _configFileFinder.DefaultConfigFileName;
-                autoCreate = true;
+                useInMemoryRules = !(_commandLineOptions.Init || _commandLineOptions.Force);
             }
             else
             {
                 _commandLineOptions.ConfigFile = configFile = configFile.Trim();
             }
             var configFileExists = FileExists(configFile);
-            if ((_commandLineOptions.Init || autoCreate) && !configFileExists)
+            if (useInMemoryRules && !configFileExists)
+            {
+                _commandLineOptions.DefaultConfigRules = _configFileGenerator.GetDefaultConfigRules();
+                _commandLineOptions.ConfigFile = null;;
+            }
+            else if (_commandLineOptions.Init && !configFileExists)
             {
                 CreateConfigFile(configFile);
             }
@@ -137,7 +143,9 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
 
         private void HandlePrintConfigOption()
         {
-            _reporter.Report(string.Format("Config file found at: {0}", _commandLineOptions.ConfigFile));
+            _reporter.Report(!string.IsNullOrWhiteSpace(_commandLineOptions.DefaultConfigRules)
+                ? "Using default config instead of a file"
+                : string.Format("Config file found at: {0}", _commandLineOptions.ConfigFile));
         }
     }
 }

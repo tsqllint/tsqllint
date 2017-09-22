@@ -22,7 +22,7 @@ $ npm install tsqllint -g
 ## Configuration
 
 ```
-# generate a default .tsqllintrc file using the init flag
+# generate a default .tsqllintrc file using the init flag (optional if just using a default configuration)
 $ tsqllint --init
 ```
 

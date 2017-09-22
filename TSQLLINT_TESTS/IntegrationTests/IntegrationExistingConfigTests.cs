@@ -19,6 +19,12 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             configFileGenerator.WriteConfigFile(DefaultConfigFile);
         }
 
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            File.Delete(DefaultConfigFile);
+        }
+
         private static readonly string InvalidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc-foo");
 
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");

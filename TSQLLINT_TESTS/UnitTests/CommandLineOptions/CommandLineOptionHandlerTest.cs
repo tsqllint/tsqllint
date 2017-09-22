@@ -33,10 +33,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void Prints_Config_Information_When_Requested()
+        public void Prints_Config_Information_When_Requested_For_ConfigFile()
         {
             // arrange
-            const string ExpectedMessage = "Config file found at: .tsqllintrc";
+            const string expectedMessage = "Config file found at: .tsqllintrc";
             var info = SetupHandler(new[] { "-p" });
 
             // act
@@ -45,11 +45,27 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             // assert
             Assert.IsFalse(performLinting);
             Assert.AreEqual(1, info.Reporter.Messages.Count);
-            Assert.AreEqual(ExpectedMessage, info.Reporter.Messages.First());
+            Assert.AreEqual(expectedMessage, info.Reporter.Messages.First());
         }
 
         [Test]
-        public void Auto_Creates_Config_If_Missing_Config_File_When_None_Passed_And_No_Options()
+        public void Prints_Config_Information_When_Requested_For_InMemory()
+        {
+            // arrange
+            const string expectedMessage = "Using default config instead of a file";
+            var info = SetupHandler(new[] { "-p" }, shouldFindFile: false);
+
+            // act
+            var performLinting = info.Handler.HandleCommandLineOptions();
+
+            // assert
+            Assert.IsFalse(performLinting);
+            Assert.AreEqual(1, info.Reporter.Messages.Count);
+            Assert.AreEqual(expectedMessage, info.Reporter.Messages.First());
+        }
+
+        [Test]
+        public void Returns_In_Memory_Config_If_Missing_Config_File_When_None_Passed_And_No_Options()
         {
             // arrange
             var info = SetupHandler(new List<string>().ToArray(), shouldFindFile: false);
@@ -59,15 +75,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 
             // assert
             Assert.IsFalse(performLinting);
-            Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
-            Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
+            Assert.IsNull(info.Options.ConfigFile);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(info.Options.DefaultConfigRules));
+            Assert.AreEqual(1, info.ConfigFileGenerator.DefaultConfigRuleCalledCount);
+            Assert.AreEqual(0, info.ConfigFileGenerator.ConfigFilePathsWritten.Count);
         }
 
         [Test]
         public void Reports_Error_If_Provided_Invalid_Config_File_And_No_Options()
         {
             // arrange
-            const string ExpectedMessage = "Existing config file not found at: doesnotexist.config use the '--init' option to create if one does not exist or the '--force' option to overwrite";
+            const string expectedMessage = "Existing config file not found at: doesnotexist.config use the '--init' option to create if one does not exist or the '--force' option to overwrite";
             var info = SetupHandler(new[] { "-c", "doesnotexist.config", "file1.sql" }, shouldFindFile: false);
 
             // act
@@ -76,7 +94,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             // assert
             Assert.IsTrue(performLinting);
             Assert.AreEqual(1, info.Reporter.Messages.Count);
-            Assert.AreEqual(ExpectedMessage, info.Reporter.Messages.First());
+            Assert.AreEqual(expectedMessage, info.Reporter.Messages.First());
         }
 
         [Test]
@@ -237,6 +255,13 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         private class TestCommandLineOptionHandlerConfigFileGenerator : IConfigFileGenerator
         {
             public readonly List<string> ConfigFilePathsWritten = new List<string>();
+            public int DefaultConfigRuleCalledCount { get; private set; }
+
+            public string GetDefaultConfigRules()
+            {
+                DefaultConfigRuleCalledCount++;
+                return "Some Rules";
+            }
 
             public void WriteConfigFile(string path)
             {
