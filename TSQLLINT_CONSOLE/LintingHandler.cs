@@ -9,27 +9,35 @@ namespace TSQLLINT_CONSOLE
 {
     public class LintingHandler
     {
-        public int LintedFileCount;
-        public IEnumerable<RuleViolation> RuleViolations = new List<RuleViolation>();
+        private readonly SqlFileProcessor _parser;
+        private readonly SqlRuleVisitor _ruleVisitor;
+        private readonly CommandLineOptions _commandLineOptions;
 
-        private readonly SqlFileProcessor Parser;
-        private readonly ConfigReader ConfigReader;
-        private readonly SqlRuleVisitor RuleVisitor;
-        private readonly CommandLineOptions CommandLineOptions;
+        public int LintedFileCount { get; set; }
+        public IEnumerable<RuleViolation> RuleViolations { get; set; }
 
         public LintingHandler(CommandLineOptions commandLineOptions, IReporter reporter)
         {
-            CommandLineOptions = commandLineOptions;
-            ConfigReader = new ConfigReader(CommandLineOptions.ConfigFile);
-            RuleVisitor = new SqlRuleVisitor(ConfigReader, reporter);
-            Parser = new SqlFileProcessor(RuleVisitor, reporter);
+            RuleViolations = new List<RuleViolation>();;
+            _commandLineOptions = commandLineOptions;
+            var configReader = new ConfigReader();
+            if (!string.IsNullOrWhiteSpace(_commandLineOptions.DefaultConfigRules))
+            {
+                configReader.LoadConfigFromRules(_commandLineOptions.DefaultConfigRules);
+            }
+            else
+            {
+                configReader.LoadConfigFromFile(_commandLineOptions.ConfigFile);
+            }
+            _ruleVisitor = new SqlRuleVisitor(configReader, reporter);
+            _parser = new SqlFileProcessor(_ruleVisitor, reporter);
         }
 
         public void Lint()
         {
-            Parser.ProcessList(CommandLineOptions.LintPath);
-            RuleViolations = RuleVisitor.Violations;
-            LintedFileCount = Parser.GetFileCount();
+            _parser.ProcessList(_commandLineOptions.LintPath);
+            RuleViolations = _ruleVisitor.Violations;
+            LintedFileCount = _parser.GetFileCount();
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
@@ -10,20 +10,26 @@ namespace TSQLLINT_LIB.Config
 {
     public class ConfigReader : IConfigReader
     {
+        private readonly Dictionary<string, RuleViolationSeverity> _rules = new Dictionary<string, RuleViolationSeverity>();
         public bool ConfigIsValid { get; protected set; }
-        private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
 
-        public ConfigReader(string configFilePath)
+        public void LoadConfigFromFile(string configFilePath)
         {
-            if (!string.IsNullOrEmpty(configFilePath) && File.Exists(configFilePath))
-            {
-                var jsonConfigString = File.ReadAllText(configFilePath);
+            if (string.IsNullOrEmpty(configFilePath) || !File.Exists(configFilePath)) return;
 
-                JToken token;
-                if (Utility.Utility.TryParseJson(jsonConfigString, out token))
-                {
-                    SetupRules(token);
-                }
+            var jsonConfigString = File.ReadAllText(configFilePath);
+
+            LoadConfigFromRules(jsonConfigString);
+        }
+
+        public void LoadConfigFromRules(string jsonConfigString)
+        {
+            if (string.IsNullOrEmpty(jsonConfigString)) return;
+
+            JToken token;
+            if (Utility.Utility.TryParseJson(jsonConfigString, out token))
+            {
+                SetupRules(token);
             }
         }
 
@@ -45,7 +51,7 @@ namespace TSQLLINT_LIB.Config
                         continue;
                     }
 
-                    Rules.Add(prop.Name, severity);
+                    _rules.Add(prop.Name, severity);
                 }
             }
         }
@@ -53,7 +59,7 @@ namespace TSQLLINT_LIB.Config
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
             RuleViolationSeverity ruleValue;
-            return Rules.TryGetValue(key, out ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return _rules.TryGetValue(key, out ruleValue) ? ruleValue : RuleViolationSeverity.Off;
         }
     }
 }
