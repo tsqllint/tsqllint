@@ -8,31 +8,15 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
     public class CommandLineParserTest
     {
-        private string _configFilePath;
-        private string ConfigFilePath
-        {
-            get { return (string.IsNullOrWhiteSpace(_configFilePath) == false) ? _configFilePath : InitializeConfigFilePath(); }
-        }
-
-        private string InitializeConfigFilePath()
-        {
-            var testDirectoryInfo = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
-            var result = testDirectoryInfo.Parent.Parent.FullName;
-            _configFilePath = Path.Combine(result + @"\IntegrationTests\.tsqllintrc");
-
-            return _configFilePath;
-        }
-
         [Test]
-        public void NoProblems()
+        public void Parses_Single_File()
         {
             // arrange
-
-            var path = @"c:\database\foo.sql";
+            const string path = @"c:\database\foo.sql";
 
             var args = new[]
             {
-                "-c", ConfigFilePath,
+                "-c", "config.file",
                 path
             };
 
@@ -40,7 +24,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var commandLineOptions = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             // assert
-            Assert.AreEqual(ConfigFilePath, commandLineOptions.ConfigFile);
+            Assert.AreEqual("config.file", commandLineOptions.ConfigFile);
             Assert.AreEqual(path, commandLineOptions.LintPath.FirstOrDefault());
         }
 
@@ -48,8 +32,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         public void MultipleFiles()
         {
             // arrange
-            var fileOne = @"c:\database\foo.sql";
-            var fileTwo = @"c:\database\ActivatePlugins_ReportViolations_ShouldCallReporter.sql";
+            const string fileOne = @"c:\database\foo.sql";
+            const string fileTwo = @"c:\database\bar.sql";
 
             var args = new[]
             {
@@ -66,11 +50,11 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void MultipleFilesWithSpaces()
+        public void Parses_Multiple_Files_With_Spaces_In_Directory_Name()
         {
             // arrange
-            var fileOne = @"c:\database\foo.sql";
-            var fileTwo = @"c:\database directory\ActivatePlugins_ReportViolations_ShouldCallReporter.sql";
+            const string fileOne = @"c:\database\foo.sql";
+            const string fileTwo = @"c:\database directory\bar.sql";
 
             var args = new[]
             {
@@ -87,17 +71,16 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void DefaultConfigFile()
+        public void Generates_Usage()
         {
             // arrange
             var args = new string[0];
 
             // act
-            var usersDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
-            //assert
-            Assert.AreEqual(Path.Combine(usersDirectory, @".tsqllintrc"), commandLineParser.ConfigFile);
+            // assert
+            Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
         }
 
         [Test]

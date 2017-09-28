@@ -13,17 +13,23 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
         private string ConfigFileName
         {
-            get { return (string.IsNullOrWhiteSpace(_configFileName)) ? SetConfigFile() : _configFileName; }
+            get { return string.IsNullOrWhiteSpace(_configFileName) ? SetConfigFile() : _configFileName; }
         }
 
-        public string SetConfigFile()
+        [TearDown]
+        public void TearDown()
+        {
+            File.Delete(ConfigFileName);
+        }
+
+        private string SetConfigFile()
         {
             _configFileName = Path.Combine(TestContext.CurrentContext.WorkDirectory, ".tsqllintrc");
             return _configFileName;
         }
 
         [Test]
-        public void WriteConfigFile()
+        public void WriteConfigFile_Writes_To_File()
         {
             // arrange
             var reporter = new TestReporter(); 
@@ -38,10 +44,19 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             Assert.AreEqual(1, reporter.MessageCount);
         }
 
-        [TearDown]
-        public void TearDown()
+        [Test]
+        public void GetDefaultConfigRules_Returns_Default_Rules()
         {
-            File.Delete(ConfigFileName);
+            // arrange
+            var reporter = new TestReporter();
+            var configFileGenerator = new ConfigFileGenerator(reporter);
+
+            // act
+            var defaultRules = configFileGenerator.GetDefaultConfigRules();
+
+            // assert
+            StringAssert.Contains("rules", defaultRules);
+            Assert.AreEqual(1, reporter.MessageCount);
         }
 
         private class TestReporter : IBaseReporter

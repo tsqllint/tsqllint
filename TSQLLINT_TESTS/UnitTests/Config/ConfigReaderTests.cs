@@ -4,7 +4,6 @@ using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config;
-using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 {
@@ -31,10 +30,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             var reporter = Substitute.For<IReporter>();
 
             //act
-            var configReader = new ConfigReader(reporter, fileSystem, configFilePath);
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(configFilePath);
 
             //assert
-            Assert.IsTrue(configReader.ConfigIsValid);
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
         }
@@ -57,8 +56,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             Assert.DoesNotThrow(() =>
             {
                 //act
-                var configReader = new ConfigReader(reporter, fileSystem, configFilePath);
-                Assert.IsTrue(configReader.ConfigIsValid);
+                var configReader = new ConfigReader(reporter, fileSystem);
             });
         }
 
@@ -83,10 +81,9 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             var reporter = Substitute.For<IReporter>();
 
             //act
-            var configReader = new ConfigReader(reporter, fileSystem, configFilePath);
+            var configReader = new ConfigReader(reporter, fileSystem);
 
             //assert
-            Assert.IsTrue(configReader.ConfigIsValid);
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("foo"), "Rules that dont have a validator should be set to off");
         }
 
@@ -109,19 +106,11 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             var reporter = Substitute.For<IReporter>();
 
             //act
-            var configReader = new ConfigReader(reporter, fileSystem, configFilePath);
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(configFilePath);
 
             //assert
-            Assert.IsTrue(configReader.ConfigIsValid);
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"), "Rules that dont have a valid severity should be set to off");
-        }
-
-        [Test]
-        public void ConfigReader_ConfigReadEmptyFile()
-        {
-            var reporter = Substitute.For<IReporter>();
-            var ConfigReader = new ConfigReader(reporter, "");
-            Assert.IsFalse(ConfigReader.ConfigIsValid, "Empty config files should not be flagged as valid");
         }
 
         [Test]
@@ -139,10 +128,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             var reporter = Substitute.For<IReporter>();
 
             //act
-            var configReader = new ConfigReader(reporter, fileSystem, configFilePath);
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(configFilePath);
 
             //assert
-            Assert.IsFalse(configReader.ConfigIsValid, "Invalid Json should be flagged as invalid");
             reporter.Received().Report("Config file is not valid Json.");
         }
 
@@ -167,18 +156,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
                         }
                     }")
                 },
-                {pluginPath, new MockFileData("")}
+                { pluginPath, new MockFileData("") }
             });
 
             var reporter = Substitute.For<IReporter>();
 
             //act
-            var configReader = new ConfigReader(reporter, fileSystem, configFilePath);
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(configFilePath);
             var plugins = configReader.GetPlugins();
 
             //assert
-            Assert.IsTrue(configReader.ConfigIsValid);
-
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
 

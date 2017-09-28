@@ -15,7 +15,8 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.RuleVisitorBuilder
         {
             var reporter = Substitute.For<IReporter>();
             var configfilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "..\\..\\UnitTests\\RuleVisitorBuilder\\.tsqllintrc");
-            var ConfigReader = new ConfigReader(reporter, configfilePath);
+            var ConfigReader = new ConfigReader(reporter);
+            ConfigReader.LoadConfigFromFile(configfilePath);
             var RuleVisitorBuilder = new TSQLLINT_LIB.Parser.RuleVisitorBuilder(ConfigReader, null);
 
             var violations = new List <RuleViolation> ();

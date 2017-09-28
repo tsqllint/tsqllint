@@ -312,7 +312,9 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+
             reporter.DidNotReceive().Report(Arg.Any<string>());
+
             Assert.AreEqual(3, processor.GetFileCount());
         }
 
@@ -428,7 +430,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
-            reporter.Received().Report(@"Directory doest not exit: c:\invalid");
+            reporter.Received().Report(string.Format(@"{0} is not a valid path.", invalidFilePath));
             Assert.AreEqual(2, processor.GetFileCount());
         }
     }

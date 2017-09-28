@@ -100,6 +100,7 @@ namespace TSQLLINT_LIB.Parser
             if (!containsWildCard)
             {
                 _reporter.Report(string.Format("{0} is not a valid path.", path));
+                return;
             }
 
             var dirPath = _fileSystem.Path.GetDirectoryName(path);
@@ -110,7 +111,7 @@ namespace TSQLLINT_LIB.Parser
 
             if (!_fileSystem.Directory.Exists(dirPath))
             {
-                _reporter.Report(string.Format("Directory doest not exit: {0}", dirPath));
+                _reporter.Report(string.Format("Directory does not exit: {0}", dirPath));
                 return;
             }
 

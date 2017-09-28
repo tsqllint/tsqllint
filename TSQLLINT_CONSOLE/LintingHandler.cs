@@ -14,18 +14,28 @@ namespace TSQLLINT_CONSOLE
         public IEnumerable<RuleViolation> RuleViolations = new List<RuleViolation>();
 
         private readonly SqlFileProcessor Parser;
-        private readonly ConfigReader ConfigReader;
         private readonly SqlRuleVisitor RuleVisitor;
         private readonly CommandLineOptions CommandLineOptions;
-        private readonly PluginHandler PluginHandler;
 
         public LintingHandler(CommandLineOptions commandLineOptions, IReporter reporter)
         {
             CommandLineOptions = commandLineOptions;
-            ConfigReader = new ConfigReader(reporter, CommandLineOptions.ConfigFile);
-            PluginHandler = new PluginHandler(reporter, ConfigReader.GetPlugins());
-            RuleVisitor = new SqlRuleVisitor(ConfigReader, reporter);
-            Parser = new SqlFileProcessor(PluginHandler, RuleVisitor, reporter);
+            RuleViolations = new List<RuleViolation>();
+
+            var configReader = new ConfigReader(reporter);
+            var pluginHandler = new PluginHandler(reporter, configReader.GetPlugins());
+
+            if (!string.IsNullOrWhiteSpace(commandLineOptions.DefaultConfigRules))
+            {
+                configReader.LoadConfigFromRules(commandLineOptions.DefaultConfigRules);
+            }
+            else
+            {
+                configReader.LoadConfigFromFile(commandLineOptions.ConfigFile);
+            }
+            
+            RuleVisitor = new SqlRuleVisitor(configReader, reporter);
+            Parser = new SqlFileProcessor(pluginHandler, RuleVisitor, reporter);
         }
 
         public void Lint()
