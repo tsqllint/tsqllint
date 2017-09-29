@@ -1,41 +1,47 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
-using Newtonsoft.Json.Linq;
+using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config.Interfaces;
-using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB.Config
 {
     public class ConfigReader : IConfigReader
     {
-        private readonly Dictionary<string, RuleViolationSeverity> _rules = new Dictionary<string, RuleViolationSeverity>();
-        public bool ConfigIsValid { get; protected set; }
+        private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
+        private readonly Dictionary<string, string> PluginPaths = new Dictionary<string, string>();
 
-        public void LoadConfigFromFile(string configFilePath)
+        private readonly IReporter _reporter;
+        private readonly IFileSystem _fileSystem;
+
+        public ConfigReader(IReporter reporter) : this(reporter, new FileSystem()) {}
+
+        public ConfigReader(IReporter reporter, IFileSystem fileSystem)
         {
-            if (string.IsNullOrEmpty(configFilePath) || !File.Exists(configFilePath)) return;
-
-            var jsonConfigString = File.ReadAllText(configFilePath);
-
-            LoadConfigFromRules(jsonConfigString);
+            _reporter = reporter;
+            _fileSystem = fileSystem;
         }
 
-        public void LoadConfigFromRules(string jsonConfigString)
+        private void SetupPlugins(JToken jsonObject)
         {
-            if (string.IsNullOrEmpty(jsonConfigString)) return;
+            var rules = jsonObject.SelectTokens("..plugins").ToList();
 
-            JToken token;
-            if (Utility.Utility.TryParseJson(jsonConfigString, out token))
+            for (var index = 0; index < rules.Count; index++)
             {
-                SetupRules(token);
+                var rule = rules[index];
+                foreach (var jToken in rule.Children())
+                {
+                    var prop = (JProperty)jToken;
+                    PluginPaths.Add(prop.Name, prop.Value.ToString());
+                }
             }
         }
 
         private void SetupRules(JToken jsonObject)
         {
-            ConfigIsValid = true;
             var rules = jsonObject.SelectTokens("..rules").ToList();
 
             for (var index = 0; index < rules.Count; index++)
@@ -51,7 +57,7 @@ namespace TSQLLINT_LIB.Config
                         continue;
                     }
 
-                    _rules.Add(prop.Name, severity);
+                    Rules.Add(prop.Name, severity);
                 }
             }
         }
@@ -59,7 +65,39 @@ namespace TSQLLINT_LIB.Config
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
             RuleViolationSeverity ruleValue;
-            return _rules.TryGetValue(key, out ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return Rules.TryGetValue(key, out ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+        }
+
+        public Dictionary<string, string> GetPlugins()
+        {
+            return PluginPaths;
+        }
+
+        public void LoadConfigFromFile(string configFilePath)
+        {
+            if (string.IsNullOrEmpty(configFilePath) || !_fileSystem.File.Exists(configFilePath))
+            {
+                return;
+            }
+
+            var jsonConfigString = _fileSystem.File.ReadAllText(configFilePath);
+            LoadConfigFromRules(jsonConfigString);
+        }
+
+        public void LoadConfigFromRules(string jsonConfigString)
+        {
+            if (string.IsNullOrEmpty(jsonConfigString)) return;
+
+            JToken token;
+            if (Utility.Utility.TryParseJson(jsonConfigString, out token))
+            {
+                SetupRules(token);
+                SetupPlugins(token);
+            }
+            else
+            {
+                _reporter.Report("Config file is not valid Json.");
+            }
         }
     }
 }

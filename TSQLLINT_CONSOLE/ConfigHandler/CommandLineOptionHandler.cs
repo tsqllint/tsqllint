@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using TSQLLINT_COMMON;
 using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 using TSQLLINT_LIB.Config.Interfaces;
-using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_CONSOLE.ConfigHandler
 {
@@ -53,6 +53,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 _reporter.Report(_commandLineOptions.GetUsage());
                 performLinting = false;
             }
+
             return performLinting;
         }
 
@@ -109,6 +110,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             {
                 _commandLineOptions.ConfigFile = configFile = configFile.Trim();
             }
+
             var configFileExists = FileExists(configFile);
             if (useInMemoryRules && !configFileExists)
             {

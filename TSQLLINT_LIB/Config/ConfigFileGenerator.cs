@@ -1,6 +1,6 @@
 ﻿using System.IO;
+using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config.Interfaces;
-using TSQLLINT_LIB.Parser.Interfaces;
 
 namespace TSQLLINT_LIB.Config
 {
@@ -38,14 +38,14 @@ namespace TSQLLINT_LIB.Config
 
         public string GetDefaultConfigRules()
         {
-            _reporter.Report("Using the default config instead of a file");
+            _reporter.Report(".tsqllintrc configuration file not found, using defaults.");
             return ConfigString;
         }
 
         public void WriteConfigFile(string path)
         {
             File.WriteAllText(path, ConfigString);
-            _reporter.Report(string.Format("Created default config file {0}", path));
+            _reporter.Report(string.Format("Created default config file {0}.", path));
         }
     }
 }

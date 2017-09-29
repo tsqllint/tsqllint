@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Abstractions;
+using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Parser.Interfaces;
+using TSQLLINT_LIB.Plugins;
 
 namespace TSQLLINT_LIB.Parser
 {
     public class SqlFileProcessor : ISqlFileProcessor
     {
         private readonly IRuleVisitor _ruleVisitor;
-        private readonly IBaseReporter _reporter;
+        private readonly IReporter _reporter;
         private readonly IFileSystem _fileSystem;
+        private readonly IPluginHandler _pluginHandler;
+        
         private int _fileCount;
 
         public int GetFileCount()
@@ -18,14 +23,15 @@ namespace TSQLLINT_LIB.Parser
             return _fileCount;
         }
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter)
-            : this(ruleVisitor, reporter, new FileSystem())
+        public SqlFileProcessor(IPluginHandler pluginHandler, IRuleVisitor ruleVisitor, IReporter reporter)
+            : this(ruleVisitor, pluginHandler, reporter, new FileSystem())
         {
         }
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor, IBaseReporter reporter, IFileSystem fileSystem)
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
             _ruleVisitor = ruleVisitor;
+            _pluginHandler = pluginHandler;
             _reporter = reporter;
             _fileSystem = fileSystem;
         }
@@ -94,6 +100,7 @@ namespace TSQLLINT_LIB.Parser
             if (!containsWildCard)
             {
                 _reporter.Report(string.Format("{0} is not a valid path.", path));
+                return;
             }
 
             var dirPath = _fileSystem.Path.GetDirectoryName(path);
@@ -118,11 +125,27 @@ namespace TSQLLINT_LIB.Parser
 
         public void ProcessFile(string fileContents, string filePath)
         {
-            using (var txtRdr = Utility.Utility.CreateTextReaderFromString(fileContents))
-            {
-                _ruleVisitor.VisitRules(filePath, txtRdr);
-            }
+            ProcessRules(fileContents, filePath);
+            ProcessPlugins(fileContents, filePath);
             _fileCount++;
+        }
+
+        private void ProcessRules(string fileContents, string filePath)
+        {
+            using (var textReader = Utility.Utility.CreateTextReaderFromString(fileContents))
+            {
+                _ruleVisitor.VisitRules(filePath, textReader);
+
+            }
+        }
+
+        private void ProcessPlugins(string fileContents, string filePath)
+        {
+            using (var textReader = Utility.Utility.CreateTextReaderFromString(fileContents))
+            {
+                _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
+
+            }
         }
 
         public void ProcessList(List<string> paths)

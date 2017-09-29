@@ -18,7 +18,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Utility
         }
 
         [TestCase("{}")]
-        [TestCase("{ \"foo\": \"bar\"}")]
+        [TestCase("{ \"foo\": \"ActivatePlugins_ReportViolations_ShouldCallReporter\"}")]
         [TestCase("99")]
         public void ValidJson(string testString)
         {

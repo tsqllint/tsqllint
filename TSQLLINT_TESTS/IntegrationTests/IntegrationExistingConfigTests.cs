@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
+using TSQLLINT_COMMON;
 using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Rules.RuleViolations;

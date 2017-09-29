@@ -1,6 +1,8 @@
-﻿namespace TSQLLINT_LIB.Rules.RuleViolations
+﻿using TSQLLINT_COMMON;
+
+namespace TSQLLINT_LIB.Rules.RuleViolations
 {
-    public class RuleViolation
+    public class RuleViolation : IRuleViolation
     {
         public int Column { get; private set; }
         public string FileName { get; private set; }

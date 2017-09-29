@@ -1,110 +1,180 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.IO.Abstractions.TestingHelpers;
+using NSubstitute;
+using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config;
-using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 {
     public class ConfigReaderTests
     {
-        private string _testDirectory;
-
-        private string TestDirectory
+        [Test]
+        public void ConfigReader_GetRuleSeverity()
         {
-            get
+            //arrange
+            const string configFilePath = @"c:\users\someone\.tsqllintrc";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                if (string.IsNullOrWhiteSpace(_testDirectory))
                 {
-                    _testDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\UnitTests\Config");
-                }
-                return _testDirectory;
-            }
-        }
+                    configFilePath, new MockFileData(@"
+                    {
+                        'rules': {
+                            'select-star': 'error',
+                            'statement-semicolon-termination': 'warning'
+                        }
+                    }")
+                },
+            });
 
-        [Test]
-        public void LoadConfigFromFile_Does_Not_Throw_Error_When_ConfigFile_Parameter_Is_Missing()
-        {
-            var configReader = new ConfigReader();
-            configReader.LoadConfigFromFile(string.Empty);
-            Assert.IsFalse(configReader.ConfigIsValid);
-        }
+            var reporter = Substitute.For<IReporter>();
 
-        [Test]
-        public void LoadConfigFromFile_Does_Not_Throw_Error_When_ConfigFile_Does_Not_Exist()
-        {
-            var configReader = new ConfigReader();
-            configReader.LoadConfigFromFile(".tsqllintrc-doesnot_exist");
-            Assert.IsFalse(configReader.ConfigIsValid);
-        }
-
-        [Test]
-        public void LoadConfigFromFile_Does_Not_Throw_Error_When_ConfigFile_Is_Invalid_Json()
-        {
-            var configFilePath = Path.Combine(TestDirectory, ".tsqllintrc-bad-json");
-            var configReader = new ConfigReader();
+            //act
+            var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfigFromFile(configFilePath);
-            Assert.IsFalse(configReader.ConfigIsValid);
-        }
 
-        [Test]
-        public void LoadConfigFromFile_Does_Not_Throw_Error_When_ConfigFile_Has_No_Rules()
-        {
-            var configFilePath = Path.Combine(TestDirectory, ".tsqllintrc-missing-rules");
-            var configReader = new ConfigReader();
-            Assert.DoesNotThrow(() => { configReader.LoadConfigFromFile(configFilePath); });
-            Assert.IsTrue(configReader.ConfigIsValid);
-        }
-
-        [Test]
-        public void LoadConfigFromRules_Does_Not_Throw_Error_When_ConfigFile_Parameter_Is_Missing()
-        {
-            var configReader = new ConfigReader();
-            configReader.LoadConfigFromRules(string.Empty);
-            Assert.IsFalse(configReader.ConfigIsValid);
-        }
-
-        [Test]
-        public void LoadConfigFromRules_Does_Not_Throw_Error_When_ConfigFile_Is_Invalid_Json()
-        {
-            var configReader = new ConfigReader();
-            configReader.LoadConfigFromRules("{");
-            Assert.IsFalse(configReader.ConfigIsValid);
-        }
-
-        [Test]
-        public void LoadConfigFromRules_Does_Not_Throw_Error_When_ConfigFile_Has_No_Rules()
-        {
-            var configReader = new ConfigReader();
-            Assert.DoesNotThrow(() => { configReader.LoadConfigFromRules("{}"); });
-            Assert.IsTrue(configReader.ConfigIsValid);
-        }
-
-        [Test]
-        public void GetRuleSeverity_Returns_Correct_Severity_From_ConfigFile()
-        {
-            var configFilePath = Path.Combine(TestDirectory, ".tsqllintrc");
-            var configReader = new ConfigReader();
-            configReader.LoadConfigFromFile(configFilePath);
+            //assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
         }
 
         [Test]
-        public void GetRuleSeverity_Returns_Correct_No_Severity_When_Passed_Unknown_Rule()
+        public void ConfigReader_NoRulesNoThrow()
         {
-            var configFilePath = Path.Combine(TestDirectory, ".tsqllintrc");
-            var configReader = new ConfigReader();
-            configReader.LoadConfigFromFile(configFilePath);
-            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("foo"));
+            //arrange
+            const string configFilePath = @"c:\users\someone\.tsqllintrc-missing-rules";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"{}")
+                },
+            });
+
+            var reporter = Substitute.For<IReporter>();
+
+            //assert
+            Assert.DoesNotThrow(() =>
+            {
+                //act
+                var configReader = new ConfigReader(reporter, fileSystem);
+            });
         }
 
         [Test]
-        public void GetRuleSeverity_Returns_Correct_No_Severity_When_Severity_Value_Is_Invalid()
+        public void ConfigReader_ReadBadRuleName()
         {
-            var configFilePath = Path.Combine(TestDirectory, ".tsqllintrc-bad-severity");
-            var configReader = new ConfigReader();
+            //arrange
+            const string configFilePath = @"c:\users\someone\.tsqllintrc";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'rules': {
+                            'select-star': 'error',
+                            'statement-semicolon-termination': 'warning'
+                        }
+                    }")
+                },
+            });
+
+            var reporter = Substitute.For<IReporter>();
+
+            //act
+            var configReader = new ConfigReader(reporter, fileSystem);
+
+            //assert
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("foo"), "Rules that dont have a validator should be set to off");
+        }
+
+        [Test]
+        public void ConfigReader_ConfigReadBadRuleSeverity()
+        {
+            //arrange
+            const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-severity";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'rules': {
+                            'select-star': 'foo'
+                        }
+                    }")
+                },
+            });
+            var reporter = Substitute.For<IReporter>();
+
+            //act
+            var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfigFromFile(configFilePath);
-            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
+
+            //assert
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"), "Rules that dont have a valid severity should be set to off");
+        }
+
+        [Test]
+        public void ConfigReader_ConfigReadInvalidJson()
+        {
+            //arrange
+            const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-json";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"{")
+                },
+            });
+
+            var reporter = Substitute.For<IReporter>();
+
+            //act
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(configFilePath);
+
+            //assert
+            reporter.Received().Report("Config file is not valid Json.");
+        }
+
+        [Test]
+        public void ConfigReader_SetupPlugins()
+        {
+            //arrange
+            const string configFilePath = @"c:\users\someone\.tsqllintrc";
+            const string pluginPath = @"c:\users\someone\my-plugins\foo.dll";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'rules': {
+                            'select-star': 'error',
+                            'statement-semicolon-termination': 'warning'
+                        },
+                        'plugins': {
+                            'my-first-plugin': 'c:/users/someone/my-plugins/my-first-plugin.dll',
+                            'my-second-plugin': 'c:/users/someone/my-plugins/my-second-plugin.dll'
+                        }
+                    }")
+                },
+                { pluginPath, new MockFileData("") }
+            });
+
+            var reporter = Substitute.For<IReporter>();
+
+            //act
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(configFilePath);
+            var plugins = configReader.GetPlugins();
+
+            //assert
+            Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
+            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+
+            Assert.AreEqual(true, plugins.ContainsKey("my-first-plugin"));
+            Assert.AreEqual(true, plugins.ContainsKey("my-second-plugin"));
+
+            Assert.AreEqual("c:/users/someone/my-plugins/my-first-plugin.dll", plugins["my-first-plugin"]);
+            Assert.AreEqual("c:/users/someone/my-plugins/my-second-plugin.dll", plugins["my-second-plugin"]);
         }
     }
 }

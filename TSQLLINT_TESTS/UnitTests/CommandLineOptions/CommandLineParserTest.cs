@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using NUnit.Framework;
+using TSQLLINT_CONSOLE.ConfigHandler;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
 {
@@ -26,7 +29,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void Parses_Multiple_Files()
+        public void MultipleFiles()
         {
             // arrange
             const string fileOne = @"c:\database\foo.sql";
@@ -77,6 +80,20 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
             // assert
+            Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
+        }
+
+        [Test]
+        public void GetUsage()
+        {
+            // arrange
+            var args = new string[0];
+
+            // act
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
+
+            //assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
         }
     }

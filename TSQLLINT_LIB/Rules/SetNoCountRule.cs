@@ -19,7 +19,7 @@ namespace TSQLLINT_LIB.Rules
         {
             var childNoCountVisitor = new ChildNoCountVisitor();
             node.AcceptChildren(childNoCountVisitor);
-            if (childNoCountVisitor.SetNoCountFound)
+            if (childNoCountVisitor.NoCountIsOn)
             {
                 return;
             }
@@ -32,9 +32,7 @@ namespace TSQLLINT_LIB.Rules
             var childDDLStatementFoundVisitor = new ChildDDLStatementFoundVisitor();
             node.AcceptChildren(childDDLStatementFoundVisitor);
 
-            if (!childNoCountVisitor.SetNoCountFound && 
-                !childDDLStatementFoundVisitor.DDLStatementFound && 
-                !childRowsetVisitor.RowsetActionFound)
+            if (childDDLStatementFoundVisitor.DDLStatementFound && !childRowsetVisitor.RowsetActionFound)
             {
                 return;
             }
@@ -94,14 +92,13 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildNoCountVisitor : TSqlFragmentVisitor
         {
-            public bool SetNoCountFound;
+            public bool NoCountIsOn;
 
-            public override void Visit(SetOnOffStatement node)
+            public override void Visit(PredicateSetStatement node)
             {
-                var typedNode = node as PredicateSetStatement;
-                if (typedNode != null && typedNode.Options == SetOptions.NoCount)
+                if (node.Options == SetOptions.NoCount)
                 {
-                    SetNoCountFound = true;
+                    NoCountIsOn = node.IsOn;
                 }
             }
         }

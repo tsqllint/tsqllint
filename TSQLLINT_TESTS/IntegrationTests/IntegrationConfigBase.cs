@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using TSQLLINT_COMMON;
 using TSQLLINT_CONSOLE;
-using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;
 using TSQLLINT_LIB_TESTS.Helpers;
 
@@ -65,12 +66,12 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
         {
             public TestReporter()
             {
-                RuleViolations = new List<RuleViolation>();
+                RuleViolations = new List<IRuleViolation>();
                 Messages = new List<string>();
             }
 
             public List<string> Messages { get; private set; }
-            public List<RuleViolation> RuleViolations { get; private set; }
+            public List<IRuleViolation> RuleViolations { get; private set; }
             public int FileCount { get; private set; }
 
             public void ReportResults(TimeSpan timespan, int fileCount)
@@ -83,9 +84,15 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
                 Messages.Add(message);
             }
 
-            public void ReportViolation(RuleViolation violation)
+            public void ReportViolation(IRuleViolation violation)
             {
                 RuleViolations.Add(violation);
+            }
+
+            [ExcludeFromCodeCoverage]
+            public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
+            {
+                throw new NotImplementedException();
             }
         }
     }

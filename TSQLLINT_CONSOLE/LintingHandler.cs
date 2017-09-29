@@ -1,43 +1,48 @@
 ﻿using System.Collections.Generic;
+using TSQLLINT_COMMON;
 using TSQLLINT_CONSOLE.ConfigHandler;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Parser;
-using TSQLLINT_LIB.Parser.Interfaces;
+using TSQLLINT_LIB.Plugins;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_CONSOLE
 {
     public class LintingHandler
     {
-        private readonly SqlFileProcessor _parser;
-        private readonly SqlRuleVisitor _ruleVisitor;
-        private readonly CommandLineOptions _commandLineOptions;
+        public int LintedFileCount;
+        public IEnumerable<RuleViolation> RuleViolations = new List<RuleViolation>();
 
-        public int LintedFileCount { get; set; }
-        public IEnumerable<RuleViolation> RuleViolations { get; set; }
+        private readonly SqlFileProcessor Parser;
+        private readonly SqlRuleVisitor RuleVisitor;
+        private readonly CommandLineOptions CommandLineOptions;
 
         public LintingHandler(CommandLineOptions commandLineOptions, IReporter reporter)
         {
-            RuleViolations = new List<RuleViolation>();;
-            _commandLineOptions = commandLineOptions;
-            var configReader = new ConfigReader();
-            if (!string.IsNullOrWhiteSpace(_commandLineOptions.DefaultConfigRules))
+            CommandLineOptions = commandLineOptions;
+            RuleViolations = new List<RuleViolation>();
+
+            var configReader = new ConfigReader(reporter);
+            var pluginHandler = new PluginHandler(reporter, configReader.GetPlugins());
+
+            if (!string.IsNullOrWhiteSpace(commandLineOptions.DefaultConfigRules))
             {
-                configReader.LoadConfigFromRules(_commandLineOptions.DefaultConfigRules);
+                configReader.LoadConfigFromRules(commandLineOptions.DefaultConfigRules);
             }
             else
             {
-                configReader.LoadConfigFromFile(_commandLineOptions.ConfigFile);
+                configReader.LoadConfigFromFile(commandLineOptions.ConfigFile);
             }
-            _ruleVisitor = new SqlRuleVisitor(configReader, reporter);
-            _parser = new SqlFileProcessor(_ruleVisitor, reporter);
+            
+            RuleVisitor = new SqlRuleVisitor(configReader, reporter);
+            Parser = new SqlFileProcessor(pluginHandler, RuleVisitor, reporter);
         }
 
         public void Lint()
         {
-            _parser.ProcessList(_commandLineOptions.LintPath);
-            RuleViolations = _ruleVisitor.Violations;
-            LintedFileCount = _parser.GetFileCount();
+            Parser.ProcessList(CommandLineOptions.LintPath);
+            RuleViolations = RuleVisitor.Violations;
+            LintedFileCount = Parser.GetFileCount();
         }
     }
 }

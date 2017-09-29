@@ -11,6 +11,7 @@
     <AssemblyName>TSQLLINT_LIB</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,18 +41,26 @@
     <Reference Include="System.IO.Abstractions">
       <HintPath>..\packages\System.IO.Abstractions.2.0.0.144\lib\net40\System.IO.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="TSQLLINT_COMMON, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TSQLLINT_COMMON.1.0.6\lib\net452\TSQLLINT_COMMON.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\ConfigFileGenerator.cs" />
     <Compile Include="Config\Interfaces\IConfigFileGenerator.cs" />
     <Compile Include="Config\Interfaces\IConfigReader.cs" />
     <Compile Include="Config\ConfigReader.cs" />
-    <Compile Include="Parser\Interfaces\IReporter.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />
     <Compile Include="Parser\RuleVisitorBuilder.cs" />
     <Compile Include="Parser\SqlFileProcessor.cs" />
     <Compile Include="Parser\SqlRuleVisitor.cs" />
+    <Compile Include="Plugins\AssemblyWrapper.cs" />
+    <Compile Include="Parser\Interfaces\IAssemblyWrapper.cs" />
+    <Compile Include="Plugins\PluginContext.cs" />
+    <Compile Include="Plugins\Interfaces\IPluginHandler.cs" />
+    <Compile Include="Plugins\PluginHandler.cs" />
     <Compile Include="Rules\Common\Constants.cs" />
     <Compile Include="Rules\Common\ColumnNumberCounter.cs" />
     <Compile Include="Rules\DataTypeLengthRule.cs" />
@@ -64,7 +73,6 @@
     <Compile Include="Rules\SetVariableRule.cs" />
     <Compile Include="Rules\UpperLowerRule.cs" />
     <Compile Include="Rules\RuleViolations\RuleViolation.cs" />
-    <Compile Include="Rules\RuleViolations\RuleViolationSeverity.cs" />
     <Compile Include="Rules\SchemaQualifyRule.cs" />
     <Compile Include="Rules\InformationSchemaRule.cs" />
     <Compile Include="Rules\ObjectPropertyRule.cs" />

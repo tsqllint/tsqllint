@@ -1,6 +1,7 @@
 ﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System.Collections.Generic;
 using System.IO;
+using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Rules.RuleViolations;

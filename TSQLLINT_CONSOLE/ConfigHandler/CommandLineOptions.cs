@@ -17,7 +17,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'c',
              longName: "config",
              Required = false,
-             HelpText = "Used to specify a .tsqllintrc file path other than the default.")]
+             HelpText = "Used to specify a .tsqllintrc file path other than the default")]
         public string ConfigFile { get; set; }
 
         public string DefaultConfigRules { get; set; }
@@ -31,7 +31,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'i',
             longName: "init",
             Required = false,
-            HelpText = "Generate default .tsqllintrc config file.")]
+            HelpText = "Generate default .tsqllintrc config file")]
         public bool Init { get; set; }
 
         [ValueList(typeof(List<string>))]
@@ -47,14 +47,14 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         [Option(shortName: 'v',
             longName: "version",
             Required = false,
-            HelpText = "Display tsqllint version."),
+            HelpText = "Display tsqllint version"),
         TSQLLINTOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
         [Option(shortName: 'h',
             longName: "help",
             Required = false,
-            HelpText = "Display tsqllint version.")]
+            HelpText = "Display this help dialog")]
         public bool Help { get; set; }
 
         [HelpVerbOption]

@@ -21,7 +21,7 @@ namespace TSQLLINT_LIB.Rules
         {
             var childAnsiNullsVisitor = new ChildAnsiNullsVisitor();
             node.AcceptChildren(childAnsiNullsVisitor);
-            if (!childAnsiNullsVisitor.SetAnsiNullsFound && !ErrorLogged)
+            if (!childAnsiNullsVisitor.SetAnsiIsOn && !ErrorLogged)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
                 ErrorLogged = true;
@@ -30,14 +30,13 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildAnsiNullsVisitor : TSqlFragmentVisitor
         {
-            public bool SetAnsiNullsFound;
+            public bool SetAnsiIsOn;
 
-            public override void Visit(SetOnOffStatement node)
+            public override void Visit(PredicateSetStatement node)
             {
-                var typedNode = node as PredicateSetStatement;
-                if (typedNode != null && typedNode.Options == SetOptions.AnsiNulls)
+                if (node.Options == SetOptions.AnsiNulls)
                 {
-                    SetAnsiNullsFound = true;
+                    SetAnsiIsOn = node.IsOn;
                 }
             }
         }
