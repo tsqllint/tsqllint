@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler

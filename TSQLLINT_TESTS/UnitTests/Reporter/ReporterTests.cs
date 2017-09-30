@@ -1,7 +1,7 @@
 ﻿using System;
 using NSubstitute;
 using NUnit.Framework;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_CONSOLE.Reporters;
 using TSQLLINT_LIB.Rules.RuleViolations;
 

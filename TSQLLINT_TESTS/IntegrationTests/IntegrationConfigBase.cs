@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_CONSOLE;
 using TSQLLINT_LIB.Rules.RuleViolations;
 using TSQLLINT_LIB_TESTS.Helpers;

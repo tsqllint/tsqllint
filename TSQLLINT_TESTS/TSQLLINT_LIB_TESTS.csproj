@@ -58,9 +58,8 @@
       <Private>True</Private>
       <HintPath>..\packages\System.IO.Abstractions.TestingHelpers.2.0.0.143\lib\net40\System.IO.Abstractions.TestingHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="TSQLLINT_COMMON, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TSQLLINT_COMMON.1.0.6\lib\net452\TSQLLINT_COMMON.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="TSQLLint.Common">
+      <HintPath>..\packages\TSQLLint.Common.1.0.12\lib\net452\TSQLLint.Common.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

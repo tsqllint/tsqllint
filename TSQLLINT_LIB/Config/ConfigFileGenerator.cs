@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_LIB.Config.Interfaces;
 
 namespace TSQLLINT_LIB.Config

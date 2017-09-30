@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using NSubstitute;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_LIB.Config;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.Config

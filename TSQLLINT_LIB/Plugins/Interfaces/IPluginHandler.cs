@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 
 namespace TSQLLINT_LIB.Plugins
 {

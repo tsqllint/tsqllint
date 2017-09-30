@@ -2,7 +2,7 @@
 using System.IO;
 using NUnit.Framework;
 using NSubstitute;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_LIB.Config;
 using TSQLLINT_LIB.Rules.RuleViolations;
 

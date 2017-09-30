@@ -4,7 +4,7 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Reflection;
 using NSubstitute;
 using NUnit.Framework;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_LIB.Plugins;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler

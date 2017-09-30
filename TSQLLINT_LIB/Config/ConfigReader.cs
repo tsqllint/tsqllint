@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_LIB.Config.Interfaces;
 
 namespace TSQLLINT_LIB.Config

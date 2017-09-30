@@ -4,7 +4,7 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_LIB.Parser;
 using TSQLLINT_LIB.Parser.Interfaces;
 using TSQLLINT_LIB.Plugins;

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 using TSQLLINT_CONSOLE.ConfigHandler.Interfaces;
 using TSQLLINT_LIB.Config.Interfaces;
 

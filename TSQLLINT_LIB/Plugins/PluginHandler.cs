@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 
 namespace TSQLLINT_LIB.Plugins
 {

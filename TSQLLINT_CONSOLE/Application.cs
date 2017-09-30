@@ -1,4 +1,4 @@
-﻿using TSQLLINT_COMMON;
+﻿using TSQLLint.Common;
 using TSQLLINT_CONSOLE.ConfigHandler;
 
 namespace TSQLLINT_CONSOLE

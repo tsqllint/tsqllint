@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using TSQLLINT_COMMON;
+using TSQLLint.Common;
 
 namespace TSQLLINT_CONSOLE.Reporters
 {
