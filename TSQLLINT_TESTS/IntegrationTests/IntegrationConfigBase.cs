@@ -71,7 +71,9 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             }
 
             public List<string> Messages { get; private set; }
+
             public List<IRuleViolation> RuleViolations { get; private set; }
+
             public int FileCount { get; private set; }
 
             public void ReportResults(TimeSpan timespan, int fileCount)

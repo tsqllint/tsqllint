@@ -11,7 +11,7 @@ namespace TSQLLINT_CONSOLE
 
         public Application(string[] args, IReporter reporter)
         {
-            _timer.start();
+            _timer.Start();
             _args = args;
             _reporter = reporter;
         }
@@ -32,7 +32,7 @@ namespace TSQLLINT_CONSOLE
             var lintingHandler = new LintingHandler(commandLineOptions, _reporter);
             lintingHandler.Lint();
 
-            _reporter.ReportResults(_timer.stop(), lintingHandler.LintedFileCount);
+            _reporter.ReportResults(_timer.Stop(), lintingHandler.LintedFileCount);
         }
     }
 }

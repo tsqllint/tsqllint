@@ -5,8 +5,7 @@ using NUnit.Framework;
 
 namespace TSQLLINT_LIB_TESTS.FunctionalTests
 {
-    delegate void ExitProcess_DEL(object sender, EventArgs args);
-
+    internal delegate void ExitProcess_DEL(object sender, EventArgs args);
 
     [TestFixture]
     public class ConsoleAppTests
@@ -22,6 +21,7 @@ namespace TSQLLINT_LIB_TESTS.FunctionalTests
                     var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
                     _ApplicationPath = string.Format("{0}\\TSQLLINT_CONSOLE.exe", workingDirectory);
                 }
+
                 return _ApplicationPath;
             }
         }
@@ -80,7 +80,7 @@ namespace TSQLLINT_LIB_TESTS.FunctionalTests
 
             EventHandler exitHandler = (sender, args) =>
             {
-                var processExitCode = ((Process) (sender)).ExitCode;
+                var processExitCode = ((Process)sender).ExitCode;
                 Assert.AreEqual(expectedExitCode, processExitCode, "Exit code should be zero when no errors occur");
             };
 

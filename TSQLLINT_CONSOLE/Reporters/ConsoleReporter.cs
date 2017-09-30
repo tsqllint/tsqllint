@@ -34,9 +34,10 @@ namespace TSQLLINT_CONSOLE.Reporters
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }   
+            }
 
-            ReportViolation(violation.FileName,
+            ReportViolation(
+                violation.FileName,
                 violation.Line.ToString(),
                 violation.Column.ToString(),
                 violation.Severity.ToString().ToLowerInvariant(),
@@ -46,13 +47,15 @@ namespace TSQLLINT_CONSOLE.Reporters
 
         public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
         {
-            Report(string.Format("{0}({1},{2}): {3} {4} : {5}.",
-                fileName,
-                line,
-                column,
-                severity,
-                ruleName,
-                violationText));
+            Report(
+                string.Format(
+                    "{0}({1},{2}): {3} {4} : {5}.",
+                    fileName,
+                    line,
+                    column,
+                    severity,
+                    ruleName,
+                    violationText));
         }
     }
 }

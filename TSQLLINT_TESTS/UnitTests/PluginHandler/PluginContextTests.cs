@@ -5,19 +5,19 @@ using TSQLLINT_LIB.Plugins;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
 {
-    class PluginContextTests
+    public class PluginContextTests
     {
         [Test]
         public void Properties_ShouldReturnInitializedValues()
         {
-            //arrange
+            // arrange
             var path = @"c:\foo\foo.sql";
             var foo = Substitute.For<TextReader>();
 
-            //act
+            // act
             var pluginContext = new PluginContext(path, foo);
 
-            //assert
+            // assert
             Assert.AreEqual(path, pluginContext.FilePath);
             Assert.AreEqual(foo, pluginContext.FileContents);
         }

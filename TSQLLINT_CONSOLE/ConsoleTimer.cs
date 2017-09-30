@@ -7,12 +7,12 @@ namespace TSQLLINT_CONSOLE
     {
         private readonly Stopwatch StopWatch = new Stopwatch();
 
-        public void start()
+        public void Start()
         {
             StopWatch.Start();
         }
 
-        public TimeSpan stop()
+        public TimeSpan Stop()
         {
             StopWatch.Stop();
             return StopWatch.Elapsed; 

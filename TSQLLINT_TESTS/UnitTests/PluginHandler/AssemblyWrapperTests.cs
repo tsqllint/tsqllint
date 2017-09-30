@@ -5,7 +5,7 @@ using TSQLLINT_LIB.Plugins;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
 {
-    class AssemblyWrapperTests
+    public class AssemblyWrapperTests
     {
         public static string AssemblyPath
         {
@@ -23,7 +23,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
             var assemblyWrapper = new AssemblyWrapper();
             var loadedAssembly = assemblyWrapper.LoadFile(AssemblyPath);
 
-            Assert.AreEqual("TSQLLINT_LIB_TESTS.dll", (loadedAssembly.ManifestModule).ScopeName);
+            Assert.AreEqual("TSQLLINT_LIB_TESTS.dll", loadedAssembly.ManifestModule.ScopeName);
         }
 
         [Test]

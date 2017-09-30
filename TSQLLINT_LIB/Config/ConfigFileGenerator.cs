@@ -29,6 +29,7 @@ namespace TSQLLINT_LIB.Config
         ""upper-lower"": ""error""
     }
 }";
+
         private readonly IBaseReporter _reporter;
 
         public ConfigFileGenerator(IBaseReporter reporter)

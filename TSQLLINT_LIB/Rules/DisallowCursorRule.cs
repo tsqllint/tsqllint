@@ -6,9 +6,23 @@ namespace TSQLLINT_LIB.Rules
 {
     public class DisallowCursorRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME {get { return "disallow-cursors";}}
-        public string RULE_TEXT { get { return "Found use of CURSOR statement"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "disallow-cursors";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Found use of CURSOR statement";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         public DisallowCursorRule(Action<string, string, int, int> errorCallback)
         {

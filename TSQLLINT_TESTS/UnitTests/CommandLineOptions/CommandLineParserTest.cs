@@ -93,7 +93,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var commandLineParser = new TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions(args);
 
-            //assert
+            // assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
         }
     }

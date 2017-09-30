@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.IO.Abstractions.TestingHelpers;
+using System.Collections.Generic;
 using NUnit.Framework;
-using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config;
@@ -12,7 +12,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         [Test]
         public void ConfigReader_GetRuleSeverity()
         {
-            //arrange
+            // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -29,11 +29,11 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
             var reporter = Substitute.For<IReporter>();
 
-            //act
+            // act
             var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfigFromFile(configFilePath);
 
-            //assert
+            // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
         }
@@ -41,7 +41,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         [Test]
         public void ConfigReader_NoRulesNoThrow()
         {
-            //arrange
+            // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc-missing-rules";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -52,10 +52,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
             var reporter = Substitute.For<IReporter>();
 
-            //assert
+            // assert
             Assert.DoesNotThrow(() =>
             {
-                //act
+                // act
                 var configReader = new ConfigReader(reporter, fileSystem);
             });
         }
@@ -63,7 +63,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
         [Test]
         public void ConfigReader_ReadBadRuleName()
         {
-            //arrange
+            // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -80,17 +80,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
             var reporter = Substitute.For<IReporter>();
 
-            //act
+            // act
             var configReader = new ConfigReader(reporter, fileSystem);
 
-            //assert
+            // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("foo"), "Rules that dont have a validator should be set to off");
         }
 
         [Test]
         public void ConfigReader_ConfigReadBadRuleSeverity()
         {
-            //arrange
+            // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-severity";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -105,18 +105,18 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
             });
             var reporter = Substitute.For<IReporter>();
 
-            //act
+            // act
             var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfigFromFile(configFilePath);
 
-            //assert
+            // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"), "Rules that dont have a valid severity should be set to off");
         }
 
         [Test]
         public void ConfigReader_ConfigReadInvalidJson()
         {
-            //arrange
+            // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-json";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -127,18 +127,18 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
             var reporter = Substitute.For<IReporter>();
 
-            //act
+            // act
             var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfigFromFile(configFilePath);
 
-            //assert
+            // assert
             reporter.Received().Report("Config file is not valid Json.");
         }
 
         [Test]
         public void ConfigReader_SetupPlugins()
         {
-            //arrange
+            // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc";
             const string pluginPath = @"c:\users\someone\my-plugins\foo.dll";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
@@ -161,12 +161,12 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
             var reporter = Substitute.For<IReporter>();
 
-            //act
+            // act
             var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfigFromFile(configFilePath);
             var plugins = configReader.GetPlugins();
 
-            //assert
+            // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
 

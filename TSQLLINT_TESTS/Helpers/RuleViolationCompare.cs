@@ -26,10 +26,12 @@ namespace TSQLLINT_LIB_TESTS.Helpers
             {
                 return -1;
             }
+
             if (x.Column != y.Column)
             {
                 return -1;
             }
+
             if (x.RuleName != y.RuleName)
             {
                 return -1;
