@@ -13,7 +13,8 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
         private readonly IConfigFileGenerator _configFileGenerator;
         private readonly IBaseReporter _reporter;
 
-        public CommandLineOptionHandler(CommandLineOptions commandLineOptions,
+        public CommandLineOptionHandler(
+            CommandLineOptions commandLineOptions,
             IConfigFileFinder configFileFinder,
             IConfigFileGenerator configFileGenerator,
             IBaseReporter reporter)
@@ -73,7 +74,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                 var propertyValue = prop.GetValue(commandLineOptions);
                 if (propertyValue is bool)
                 {
-                    var value = (bool) propertyValue;
+                    var value = (bool)propertyValue;
 
                     if (!value)
                     {
@@ -92,6 +93,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
                     }
                 }
             }
+
             return true;
         }
 
@@ -115,7 +117,7 @@ namespace TSQLLINT_CONSOLE.ConfigHandler
             if (useInMemoryRules && !configFileExists)
             {
                 _commandLineOptions.DefaultConfigRules = _configFileGenerator.GetDefaultConfigRules();
-                _commandLineOptions.ConfigFile = null;;
+                _commandLineOptions.ConfigFile = null;
             }
             else if (_commandLineOptions.Init && !configFileExists)
             {

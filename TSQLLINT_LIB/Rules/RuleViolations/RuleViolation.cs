@@ -4,12 +4,17 @@ namespace TSQLLINT_LIB.Rules.RuleViolations
 {
     public class RuleViolation : IRuleViolation
     {
-        public int Column { get; private set; }
-        public string FileName { get; private set; }
-        public int Line { get; private set; }
-        public string RuleName { get; private set; }
-        public RuleViolationSeverity Severity { get; private set; }
-        public string Text { get; private set; }
+        public int Column { get; set; }
+
+        public string FileName { get; set; }
+
+        public int Line { get; set; }
+
+        public string RuleName { get; set; }
+
+        public RuleViolationSeverity Severity { get; set; }
+
+        public string Text { get; set; }
 
         public RuleViolation(string fileName, string ruleName, string text, int startLine, int startColumn, RuleViolationSeverity severity)
         {

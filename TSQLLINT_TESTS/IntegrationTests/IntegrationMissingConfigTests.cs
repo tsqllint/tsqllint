@@ -22,7 +22,10 @@ namespace TSQLLINT_LIB_TESTS.IntegrationTests
             get
             {
                 yield return new TestCaseData(
-                        new List<string> {"-i", TestFileOne},
+                        new List<string>
+                        {
+                            "-i", TestFileOne
+                        },
                         null,
                         TestFileOneRuleViolations,
                         1)

@@ -6,9 +6,23 @@ namespace TSQLLINT_LIB.Rules
 {
     public class SetVariableRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "set-variable"; } }
-        public string RULE_TEXT { get { return "Expected variable to be set using SELECT statement"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "set-variable";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Expected variable to be set using SELECT statement";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         public SetVariableRule(Action<string, string, int, int> errorCallback)
         {

@@ -8,8 +8,21 @@ namespace TSQLLINT_LIB.Plugins
         private readonly string _filePath;
         private readonly TextReader _fileContents;
 
-        public string FilePath { get { return _filePath; } }
-        public TextReader FileContents { get {return _fileContents; } }
+        public string FilePath
+        {
+            get
+            {
+                return _filePath;
+            }
+        }
+
+        public TextReader FileContents
+        {
+            get
+            {
+                return _fileContents;
+            }
+        }
 
         public PluginContext(string filePath, TextReader fileContents)
         {

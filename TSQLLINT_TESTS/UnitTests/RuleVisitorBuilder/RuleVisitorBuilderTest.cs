@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using NUnit.Framework;
 using NSubstitute;
 using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config;
@@ -19,7 +19,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.RuleVisitorBuilder
             ConfigReader.LoadConfigFromFile(configfilePath);
             var RuleVisitorBuilder = new TSQLLINT_LIB.Parser.RuleVisitorBuilder(ConfigReader, null);
 
-            var violations = new List <RuleViolation> ();
+            var violations = new List<RuleViolation>();
             var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors("foo", violations);
 
             Assert.AreEqual(2, ActiveRuleVisitors.Count);

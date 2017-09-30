@@ -66,6 +66,7 @@ namespace TSQLLINT_LIB.Parser
                     configuredVisitors.Add((TSqlFragmentVisitor)visitorInstance);
                 }
             }
+
             return configuredVisitors;
         }
     }

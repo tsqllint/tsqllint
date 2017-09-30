@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config.Interfaces;
 
@@ -12,12 +11,16 @@ namespace TSQLLINT_LIB.Config
     public class ConfigReader : IConfigReader
     {
         private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
+
         private readonly Dictionary<string, string> PluginPaths = new Dictionary<string, string>();
 
         private readonly IReporter _reporter;
+
         private readonly IFileSystem _fileSystem;
 
-        public ConfigReader(IReporter reporter) : this(reporter, new FileSystem()) {}
+        public ConfigReader(IReporter reporter) : this(reporter, new FileSystem())
+        {
+        }
 
         public ConfigReader(IReporter reporter, IFileSystem fileSystem)
         {
@@ -49,7 +52,7 @@ namespace TSQLLINT_LIB.Config
                 var rule = rules[index];
                 foreach (var jToken in rule.Children())
                 {
-                    var prop = (JProperty) jToken;
+                    var prop = (JProperty)jToken;
 
                     RuleViolationSeverity severity;
                     if (!Enum.TryParse(prop.Value.ToString(), true, out severity))
@@ -86,7 +89,10 @@ namespace TSQLLINT_LIB.Config
 
         public void LoadConfigFromRules(string jsonConfigString)
         {
-            if (string.IsNullOrEmpty(jsonConfigString)) return;
+            if (string.IsNullOrEmpty(jsonConfigString))
+            {
+                return;
+            }
 
             JToken token;
             if (Utility.Utility.TryParseJson(jsonConfigString, out token))

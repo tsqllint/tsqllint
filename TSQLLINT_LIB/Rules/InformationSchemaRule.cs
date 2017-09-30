@@ -6,9 +6,23 @@ namespace TSQLLINT_LIB.Rules
 {
     public class InformationSchemaRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "information-schema"; } }
-        public string RULE_TEXT { get { return "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "information-schema";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         public InformationSchemaRule(Action<string, string, int, int> errorCallback)
         {

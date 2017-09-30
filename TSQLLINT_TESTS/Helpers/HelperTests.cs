@@ -9,22 +9,32 @@ namespace TSQLLINT_LIB_TESTS.Helpers
     {
         private readonly RuleViolationCompare RuleViolationCompare = new RuleViolationCompare();
 
-        public static readonly object[] LineComparison = {
-          new object[] {new List<RuleViolation>
+        public static readonly object[] LineComparison = 
+        {
+          new object[] 
+              {
+                  new List<RuleViolation>
+                  {
+                      new RuleViolation(ruleName: "some-rule", startLine: 99, startColumn: 0),
+                      new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 0)
+                  }
+          },
+          new object[] 
           {
-              new RuleViolation(ruleName: "some-rule", startLine: 99, startColumn: 0),
-              new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 0)
-          }},
-          new object[] {new List<RuleViolation>
+              new List<RuleViolation>
+              {
+                  new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 99),
+                  new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 0)
+              }
+          },
+          new object[] 
           {
-              new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 99),
-              new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 0)
-          }},
-          new object[] {new List<RuleViolation>
-          {
-              new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 0),
-              new RuleViolation(ruleName: "foo", startLine: 0, startColumn: 0)
-          }}
+              new List<RuleViolation>
+              {
+                  new RuleViolation(ruleName: "some-rule", startLine: 0, startColumn: 0),
+                  new RuleViolation(ruleName: "foo", startLine: 0, startColumn: 0)
+              }
+          }
         };
 
         [Test, TestCaseSource("LineComparison")]
@@ -36,9 +46,7 @@ namespace TSQLLINT_LIB_TESTS.Helpers
         [Test]
         public void RuleCompareShouldThrow()
         {
-            var ex = Assert.Throws<InvalidOperationException>(() => 
-                RuleViolationCompare.Compare(new object(), new object())
-            );
+            var ex = Assert.Throws<InvalidOperationException>(() => RuleViolationCompare.Compare(new object(), new object()));
 
             Assert.That(ex.Message, Is.EqualTo("cannot compare null object"));
         }

@@ -8,12 +8,27 @@ namespace TSQLLINT_LIB.Rules
 {
     public class SemicolonTerminationRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME {get { return "semicolon-termination";}}
-        public string RULE_TEXT { get { return "Statement not terminated with semicolon"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "semicolon-termination";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Statement not terminated with semicolon";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         // don't enforce semicolon termination on these statements
-        private readonly Type[] TypesToSkip = {
+        private readonly Type[] TypesToSkip = 
+        {
             typeof(BeginEndBlockStatement),
             typeof(IfStatement),
             typeof(IndexDefinition),
@@ -44,7 +59,8 @@ namespace TSQLLINT_LIB.Rules
             var beginTerminator = node.ScriptTokenStream[node.FirstTokenIndex + 1];
             if (beginTerminator.TokenType != TSqlTokenType.Semicolon)
             {
-                ErrorCallback(RULE_NAME, 
+                ErrorCallback(
+                    RULE_NAME, 
                     RULE_TEXT, 
                     node.ScriptTokenStream[node.FirstTokenIndex].Line, 
                     node.StartColumn + beginTerminator.Column);
@@ -56,7 +72,8 @@ namespace TSQLLINT_LIB.Rules
             }
 
             var endTerminator = node.ScriptTokenStream[node.LastTokenIndex];
-            ErrorCallback(RULE_NAME,
+            ErrorCallback(
+                RULE_NAME,
                 RULE_TEXT,
                 node.ScriptTokenStream[node.LastTokenIndex].Line,
                 endTerminator.Column + endTerminator.Text.Length);

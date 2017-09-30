@@ -6,9 +6,23 @@ namespace TSQLLINT_LIB.Rules
 {
     public class SelectStarRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "select-star"; } }
-        public string RULE_TEXT { get { return "Expected column names in SELECT"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "select-star";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Expected column names in SELECT";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         private int expressionCounter;
 
@@ -38,7 +52,21 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildVisitor : TSqlFragmentVisitor
         {
-            public int SelectStarExpressionCount = 0;
+            private int _SelectStarExpressionCount = 0;
+
+            public int SelectStarExpressionCount
+            {
+                get
+                {
+                    return _SelectStarExpressionCount;
+                }
+
+                set
+                {
+                    _SelectStarExpressionCount = value;
+                }
+            }
+
             public override void Visit(SelectStarExpression node)
             {
                 SelectStarExpressionCount++;

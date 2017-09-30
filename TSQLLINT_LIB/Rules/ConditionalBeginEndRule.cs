@@ -6,9 +6,23 @@ namespace TSQLLINT_LIB.Rules
 {
     public class ConditionalBeginEndRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME {get { return "conditional-begin-end";}}
-        public string RULE_TEXT { get { return "Expected BEGIN and END statement within conditional logic block"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "conditional-begin-end";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Expected BEGIN and END statement within conditional logic block";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         public ConditionalBeginEndRule(Action<string, string, int, int> errorCallback)
         {
@@ -30,7 +44,11 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildBeginEndVisitor : TSqlFragmentVisitor
         {
-            public bool BeginEndBlockFound;
+            public bool BeginEndBlockFound
+            {
+                get;
+                private set;
+            }
 
             public override void Visit(BeginEndBlockStatement node)
             {

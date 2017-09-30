@@ -8,11 +8,25 @@ namespace TSQLLINT_LIB.Rules
 {
     public class MultiTableAliasRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "multi-table-alias"; } }
-        public string RULE_TEXT { get { return "Unaliased table found in multi table joins"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "multi-table-alias";
+            }
+        }
 
-        public HashSet<string> CteNames = new HashSet<string>();
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Unaliased table found in multi table joins";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
+
+        private HashSet<string> CteNames = new HashSet<string>();
 
         public MultiTableAliasRule(Action<string, string, int, int> errorCallback)
         {
@@ -28,8 +42,8 @@ namespace TSQLLINT_LIB.Rules
 
         public override void Visit(TableReference node)
         {
-            Action<TSqlFragment> ChildCallback = delegate (TSqlFragment childNode) {
-
+            Action<TSqlFragment> ChildCallback = delegate(TSqlFragment childNode) 
+            {
                 var tabsOnLine = ColumnNumberCounter.CountTabsOnLine(childNode.StartLine, childNode.LastTokenIndex, childNode.ScriptTokenStream);
                 var column = ColumnNumberCounter.GetColumnNumberBeforeToken(tabsOnLine, childNode.ScriptTokenStream[childNode.FirstTokenIndex]);
                 ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column);
@@ -49,17 +63,38 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildCommonTableExpressionVisitor : TSqlFragmentVisitor
         {
-            public HashSet<string> CommonTableExpressionIdentifiers = new HashSet<string>();
+            private readonly HashSet<string> _CommonTableExpressionIdentifiers = new HashSet<string>();
+
+            public HashSet<string> CommonTableExpressionIdentifiers
+            {
+                get
+                {
+                    return _CommonTableExpressionIdentifiers;
+                }
+            }
 
             public override void Visit(CommonTableExpression node)
             {
-                CommonTableExpressionIdentifiers.Add(node.ExpressionName.Value);
+                _CommonTableExpressionIdentifiers.Add(node.ExpressionName.Value);
             }
         }
 
         public class ChildTableJoinVisitor : TSqlFragmentVisitor
         {
-            public bool TableJoined;
+            private bool _TableJoined;
+
+            public bool TableJoined
+            {
+                get
+                {
+                    return _TableJoined;
+                }
+
+                private set
+                {
+                    _TableJoined = value;
+                }
+            }
 
             public override void Visit(JoinTableReference node)
             {
@@ -69,8 +104,22 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildTableAliasVisitor : TSqlFragmentVisitor
         {
-            public Action<TSqlFragment> ChildCallback;
-            public HashSet<string> CteNames;
+            private readonly Action<TSqlFragment> ChildCallback;
+
+            private HashSet<string> _CteNames;
+
+            public HashSet<string> CteNames
+            {
+                get
+                {
+                    return _CteNames;
+                }
+
+                private set
+                {
+                    _CteNames = value;
+                }
+            }
 
             public ChildTableAliasVisitor(Action<TSqlFragment> errorCallback, HashSet<string> cteNames)
             {
@@ -80,7 +129,7 @@ namespace TSQLLINT_LIB.Rules
 
             public override void Visit(NamedTableReference node)
             {
-                if(CteNames.Contains(node.SchemaObject.BaseIdentifier.Value))
+                if (CteNames.Contains(node.SchemaObject.BaseIdentifier.Value))
                 {
                     return;
                 }

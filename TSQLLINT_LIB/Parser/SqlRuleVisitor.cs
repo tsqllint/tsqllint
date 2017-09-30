@@ -1,6 +1,6 @@
-﻿using Microsoft.SqlServer.TransactSql.ScriptDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Config.Interfaces;
 using TSQLLINT_LIB.Parser.Interfaces;
@@ -11,8 +11,11 @@ namespace TSQLLINT_LIB.Parser
     public class SqlRuleVisitor : IRuleVisitor
     {
         public List<RuleViolation> Violations { get; set; }
+
         private readonly TSql120Parser Parser;
+
         private readonly RuleVisitorBuilder RuleVisitorBuilder;
+
         private readonly IReporter Reporter;
 
         public SqlRuleVisitor(IConfigReader configReader, IReporter reporter)

@@ -6,16 +6,15 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLINT_COMMON;
 using TSQLLINT_LIB.Plugins;
-using TSQLLINT_LIB.Rules.RuleViolations;
 
 namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
 {
-    class PluginHandlerTests
+    public class PluginHandlerTests
     {
         [Test]
         public void LoadPlugins_ShouldLoadIPluginsFromPathAndFile()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
             const string filePath2 = @"c:\pluginDirectory\plugin_two.dll";
             const string filePath3 = @"c:\pluginDirectory\plugin_three.dll";
@@ -24,11 +23,21 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData(string.Empty)},
-                {filePath2, new MockFileData(string.Empty)},
-                {filePath3, new MockFileData(string.Empty)},
-                {filePath4, new MockFileData("foo")},
-                {filePath5, new MockFileData("bar")},
+                {
+                    filePath1, new MockFileData(string.Empty)
+                },
+                {
+                    filePath2, new MockFileData(string.Empty)
+                },
+                {
+                    filePath3, new MockFileData(string.Empty)
+                },
+                {
+                    filePath4, new MockFileData("foo")
+                },
+                {
+                    filePath5, new MockFileData("bar")
+                },
             });
 
             var assembly = Assembly.GetExecutingAssembly();
@@ -40,32 +49,37 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
                 {
                     typeof(TestPlugin),
                     typeof(string)
-                }
-            );
+                });
 
             var reporter = Substitute.For<IReporter>();
 
             var pluginPaths = new Dictionary<string, string>
             {
-                { "my-first-plugin", @"c:\pluginDirectory\" },
-                { "my-second-plugin", @"c:\pluginDirectory\plugin_one.dll" }
+                {
+                    "my-first-plugin", @"c:\pluginDirectory\"
+                },
+                {
+                    "my-second-plugin", @"c:\pluginDirectory\plugin_one.dll"
+                }
             };
 
-            //act
+            // act
             var pluginHandler = new TSQLLINT_LIB.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
 
-            //assert
+            // assert
             Assert.AreEqual(4, pluginHandler.Plugins.Count);
         }
 
         [Test]
         public void ActivatePlugins_PluginRuleViolations_ShouldCallReporter()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData(string.Empty)}
+                {
+                    filePath1, new MockFileData(string.Empty)
+                }
             });
 
             var assembly = Assembly.GetExecutingAssembly();
@@ -77,22 +91,23 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
                 {
                     typeof(TestPlugin),
                     typeof(string)
-                }
-            );
+                });
 
             var pluginPaths = new Dictionary<string, string>
             {
-                {"my-plugin", filePath1}
+                {
+                    "my-plugin", filePath1
+                }
             };
 
             var reporter = Substitute.For<IReporter>();
             var textReader = TSQLLINT_LIB.Utility.Utility.CreateTextReaderFromString("\tSELECT * FROM FOO");
             var context = new PluginContext(@"c:\scripts\foo.sql", textReader);
 
-            //act
+            // act
             var pluginHandler = new TSQLLINT_LIB.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
 
-            //assert
+            // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
             Assert.DoesNotThrow(() => pluginHandler.ActivatePlugins(context));
             reporter.Received().ReportViolation(Arg.Is<IRuleViolation>(x => 
@@ -101,18 +116,19 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
                 && x.Text == "Should use spaces rather than tabs"
                 && x.Line == 1
                 && x.Column == 0
-                && x.Severity == RuleViolationSeverity.Warning
-            ));
+                && x.Severity == RuleViolationSeverity.Warning));
         }
 
         [Test]
         public void ActivatePlugins_ThrowErrors_ShouldCatch_ShouldReport()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData(string.Empty)}
+                {
+                    filePath1, new MockFileData(string.Empty)
+                }
             });
 
             var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
@@ -122,24 +138,28 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.PluginHandler
                 new[]
                 {
                     typeof(TestPlugin_ThrowsException)
-                }
-            );
+                });
 
             var pluginPaths = new Dictionary<string, string>    
             {
-                { "my-plugin", filePath1 },
-                { "my-plugin-directories", @"c:\pluginDirectory" },
-                { "my-plugin-invalid-path", @"c:\doesnt-exist" },
-
+                {
+                    "my-plugin", filePath1
+                },
+                {
+                    "my-plugin-directories", @"c:\pluginDirectory"
+                },
+                {
+                    "my-plugin-invalid-path", @"c:\doesnt-exist"
+                },
             };
 
             var reporter = Substitute.For<IReporter>();
             var context = Substitute.For<IPluginContext>();
 
-            //act
+            // act
             var pluginHandler = new TSQLLINT_LIB.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
 
-            //assert
+            // assert
             Assert.AreEqual(2, pluginHandler.Plugins.Count);
             Assert.Throws<NotImplementedException>(() => pluginHandler.ActivatePlugins(context));
             reporter.Received().Report(Arg.Any<string>());

@@ -7,9 +7,23 @@ namespace TSQLLINT_LIB.Rules
 {
     public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "schema-qualify"; } }
-        public string RULE_TEXT { get { return "Object name not schema qualified"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "schema-qualify";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Object name not schema qualified";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         private readonly List<string> TableAliases = new List<string>
         {
@@ -54,7 +68,15 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildAliasVisitor : TSqlFragmentVisitor
         {
-            public List<string> TableAliases = new List<string>();
+            private readonly List<string> _TableAliases = new List<string>();
+
+            public List<string> TableAliases
+            {
+                get
+                {
+                    return _TableAliases;
+                }
+            }
 
             public override void Visit(TableReferenceWithAlias node)
             {

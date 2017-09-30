@@ -17,7 +17,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessFile_Processes_Rules_For_Content_And_Increments_FileCount()
         {
-            //arrange
+            // arrange
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var fileSystem = Substitute.For<IFileSystem>();
@@ -35,10 +35,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             const string fileContents = "MyFileContents";
             const string filePath = "PathToFile.sql";
 
-            //act
+            // act
             processor.ProcessFile(fileContents, filePath);
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.Received().VisitRules(filePath, Arg.Any<TextReader>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
@@ -48,7 +48,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Processes_Single_File_When_It_Exists()
         {
-            //arrange
+            // arrange
             const string filePath = "c:\\dbscripts\\myfile.sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
@@ -62,10 +62,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             fileBase.ReadAllText(filePath).Returns("Some Sql To Parse");
             fileSystem.File.Returns(fileBase);
 
-            //act
+            // act
             processor.ProcessPath("\" " + filePath + " \""); // Also testing removal of quotes and leading/trailing spaces
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             fileBase.Received().Exists(filePath);
             fileBase.Received().ReadAllText(filePath);
@@ -77,7 +77,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Processes_Directory_Of_Only_Of_Mixed_Files()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
             const string filePath2 = @"c:\dbscripts\file2.txt";
             const string filePath3 = @"c:\dbscripts\file3.sql";
@@ -89,18 +89,26 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")},
-                {filePath3, new MockFileData("File3SQL")},
-                {filePath4, new MockFileData("File4SQL")}
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                },
+                {
+                    filePath3, new MockFileData("File3SQL")
+                },
+                {
+                    filePath4, new MockFileData("File4SQL")
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath("\" " + @"c:\DBScripts" + " \""); // Also testing removal of quotes and leading/trailing spaces
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
@@ -113,7 +121,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Processes_Directory_Directories()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\db1\file1.SQL";
             const string filePath2 = @"c:\dbscripts\db1\file2.sQL";
 
@@ -123,16 +131,20 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")}
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath(@"c:\DBScripts");
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
@@ -143,7 +155,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Processes_Directory_Of_Files_And_Directories()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
             const string filePath2 = @"c:\dbscripts\db1\file2.sql";
             const string filePath3 = @"c:\dbscripts\db2\file3.sql";
@@ -155,18 +167,26 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")},
-                {filePath3, new MockFileData("File3SQL")},
-                {filePath4, new MockFileData("File4SQL")}
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                },
+                {
+                    filePath3, new MockFileData("File3SQL")
+                },
+                {
+                    filePath4, new MockFileData("File4SQL")
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath(@"c:\DBScripts");
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
@@ -179,7 +199,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Does_Not_Process_When_Not_File_Directory_Or_Wildcard()
         {
-            //arrange
+            // arrange
             const string filePath = "This doesnt exist";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
@@ -196,10 +216,10 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath(filePath);
 
-            //assert
+            // assert
             pluginHandler.DidNotReceive().ActivatePlugins(Arg.Any<IPluginContext>());
             fileBase.Received().Exists(filePath);
             directoryBase.Received().Exists(filePath);
@@ -211,7 +231,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Processes_WildCard_With_QuestionMark()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
             const string filePath2 = @"c:\dbscripts\file2.txt";
             const string filePath3 = @"c:\dbscripts\file3.sql";
@@ -223,18 +243,26 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")},
-                {filePath3, new MockFileData("File3SQL")},
-                {filePath4, new MockFileData("File4SQL")}
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                },
+                {
+                    filePath3, new MockFileData("File3SQL")
+                },
+                {
+                    filePath4, new MockFileData("File4SQL")
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath(@"c:\DBScripts\file?.sql");
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
@@ -247,7 +275,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Processes_WildCard_With_Asterix()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
             const string filePath2 = @"c:\dbscripts\file2.txt";
             const string filePath3 = @"c:\dbscripts\file3.sql";
@@ -259,18 +287,26 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")},
-                {filePath3, new MockFileData("File3SQL")},
-                {filePath4, new MockFileData("File4SQL")}
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                },
+                {
+                    filePath3, new MockFileData("File3SQL")
+                },
+                {
+                    filePath4, new MockFileData("File4SQL")
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath(@"c:\DBScripts\file*.*");
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
@@ -283,7 +319,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Processes_WildCard_When_It_Needs_To_Use_CurrentDirectory_Path()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
             const string filePath2 = @"c:\dbscripts\file2.txt";
             const string filePath3 = @"c:\dbscripts\file3.sql";
@@ -293,20 +329,30 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
-            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
-            {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")},
-                {filePath3, new MockFileData("File3SQL")},
-                {filePath4, new MockFileData("File4SQL")}
-            }, @"c:\dbscripts"); // Set current directory
+            var fileSystem = new MockFileSystem(
+                new Dictionary<string, MockFileData>
+                {
+                    {
+                        filePath1, new MockFileData("File1SQL")
+                    },
+                    {
+                        filePath2, new MockFileData("File2SQL")
+                    },
+                    {
+                        filePath3, new MockFileData("File3SQL")
+                    },
+                    {
+                        filePath4, new MockFileData("File4SQL")
+                    }
+                }, 
+                @"c:\dbscripts");
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath(@"file*.*");
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
@@ -321,7 +367,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessPath_Does_Not_Process_Files_When_WildCard_Does_Not_Find_Anything()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\file1.txt";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
@@ -330,15 +376,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")}
+                {
+                    filePath1, new MockFileData("File1SQL")
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessPath(@"c:\DBScripts\oops*.*");
 
-            //assert
+            // assert
             pluginHandler.DidNotReceive().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<TextReader>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
@@ -348,17 +396,17 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessList_Does_Not_Process_Any_Files_For_Empty_List()
         {
-            //arrange
+            // arrange
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var fileSystem = Substitute.For<IFileSystem>();
             var pluginHandler = Substitute.For<IPluginHandler>();
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessList(new List<string>());
 
-            //assert
+            // assert
             pluginHandler.DidNotReceive().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.DidNotReceive().VisitRules(Arg.Any<string>(), Arg.Any<TextReader>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
@@ -368,7 +416,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void ProcessList_Processes_List_Of_Items()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
             const string filePath2 = @"c:\dbscripts\db1\file2.sql";
             const string filePath3 = @"c:\dbscripts\db2\file3.sql";
@@ -380,18 +428,26 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")},
-                {filePath3, new MockFileData("File3SQL")},
-                {filePath4, new MockFileData("File4SQL")}
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                },
+                {
+                    filePath3, new MockFileData("File3SQL")
+                },
+                {
+                    filePath4, new MockFileData("File4SQL")
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessList(new List<string> { "\" c:\\dbscripts\\db2\\sproc , c:\\dbscripts\\db2\\file3.sql \"", @"c:\dbscripts\db1\" });             // tests quotes, extra spaces, commas, multiple items in the list
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
@@ -404,7 +460,7 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
         [Test]
         public void Should_Not_Throw_When_Passed_NonExistant_Path()
         {
-            //arrange
+            // arrange
             const string filePath1 = @"c:\dbscripts\db1\file2.sql";
             const string filePath2 = @"c:\dbscripts\db1\file3.sql";
 
@@ -416,16 +472,20 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Parser
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                {filePath1, new MockFileData("File1SQL")},
-                {filePath2, new MockFileData("File2SQL")},
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                },
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
-            //act
+            // act
             processor.ProcessList(new List<string> { invalidFilePath, @"c:\dbscripts\db1\" });
 
-            //assert
+            // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());

@@ -61,7 +61,11 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.Config
 
         private class TestReporter : IBaseReporter
         {
-            public int MessageCount;
+            public int MessageCount
+            {
+                get; private set;
+            }
+
             public void Report(string message)
             {
                 MessageCount++;

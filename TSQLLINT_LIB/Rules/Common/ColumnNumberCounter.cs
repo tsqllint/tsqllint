@@ -25,6 +25,7 @@ namespace TSQLLINT_LIB.Rules.Common
                     }
                 }
             }
+
             return tabCount;
         }
 

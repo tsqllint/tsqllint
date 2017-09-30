@@ -1,14 +1,28 @@
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using TSQLLINT_LIB.Rules.Interface;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLINT_LIB.Rules
 {
     public class SetNoCountRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "set-nocount"; } }
-        public string RULE_TEXT { get { return "Expected SET NOCOUNT ON near top of file"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "set-nocount";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Expected SET NOCOUNT ON near top of file";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         public SetNoCountRule(Action<string, string, int, int> errorCallback)
         {
@@ -42,7 +56,7 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildRowsetVisitor : TSqlFragmentVisitor
         {
-            public bool RowsetActionFound;
+            public bool RowsetActionFound { get; set; }
 
             public override void Visit(SelectStatement node)
             {
@@ -67,7 +81,7 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildDDLStatementFoundVisitor : TSqlFragmentVisitor
         {
-            public bool DDLStatementFound;
+            public bool DDLStatementFound { get; set; }
 
             public override void Visit(CreateTableStatement node)
             {
@@ -92,7 +106,7 @@ namespace TSQLLINT_LIB.Rules
 
         public class ChildNoCountVisitor : TSqlFragmentVisitor
         {
-            public bool NoCountIsOn;
+            public bool NoCountIsOn { get; private set; }
 
             public override void Visit(PredicateSetStatement node)
             {

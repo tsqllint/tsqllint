@@ -6,9 +6,23 @@ namespace TSQLLINT_LIB.Rules
 {
     public class ObjectPropertyRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "object-property"; } }
-        public string RULE_TEXT { get { return "Expected use of SYS.COLUMNS rather than ObjectProperty function"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "object-property";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Expected use of SYS.COLUMNS rather than ObjectProperty function";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
 
         public ObjectPropertyRule(Action<string, string, int, int> errorCallback)
         {

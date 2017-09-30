@@ -135,7 +135,6 @@ namespace TSQLLINT_LIB.Parser
             using (var textReader = Utility.Utility.CreateTextReaderFromString(fileContents))
             {
                 _ruleVisitor.VisitRules(filePath, textReader);
-
             }
         }
 
@@ -144,7 +143,6 @@ namespace TSQLLINT_LIB.Parser
             using (var textReader = Utility.Utility.CreateTextReaderFromString(fileContents))
             {
                 _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
-
             }
         }
 

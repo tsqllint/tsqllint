@@ -219,9 +219,13 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         private class TestObjects
         {
             public TSQLLINT_CONSOLE.ConfigHandler.CommandLineOptions Options { get; set; }
+
             public TestCommandLineOptionHandlerReporter Reporter { get; set; }
+
             public TestCommandLineOptionHandlerConfigFileGenerator ConfigFileGenerator { get; set; }
+
             public TestCommandLineOptionHandlerConfigFileFinder ConfigFileFinder { get; set; }
+
             public CommandLineOptionHandler Handler { get; set; }
         }
 
@@ -256,7 +260,11 @@ namespace TSQLLINT_LIB_TESTS.UnitTests.CommandLineOptions
         private class TestCommandLineOptionHandlerConfigFileGenerator : IConfigFileGenerator
         {
             public readonly List<string> ConfigFilePathsWritten = new List<string>();
-            public int DefaultConfigRuleCalledCount { get; private set; }
+
+            public int DefaultConfigRuleCalledCount
+            {
+                get; private set;
+            }
 
             public string GetDefaultConfigRules()
             {

@@ -6,11 +6,26 @@ namespace TSQLLINT_LIB.Rules
 {
     public class DataTypeLengthRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME { get { return "data-type-length"; } }
-        public string RULE_TEXT { get { return "Date type length not specified"; } }
-        public Action<string, string, int, int> ErrorCallback;
+        public string RULE_NAME
+        {
+            get
+            {
+                return "data-type-length";
+            }
+        }
 
-        private readonly SqlDataTypeOption[] TypesThatRequireLength = {
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "Date type length not specified";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
+
+        private readonly SqlDataTypeOption[] TypesThatRequireLength = 
+        {
                 SqlDataTypeOption.Char,
                 SqlDataTypeOption.VarChar,
                 SqlDataTypeOption.NVarChar,
