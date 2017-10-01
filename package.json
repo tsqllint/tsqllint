@@ -18,10 +18,10 @@
     "scripts/install/install-dependencies.cmd",
     "scripts/install/install-dependencies.ps1",
     "scripts/install/tsqllint",
-    "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
+    "TSQLLint.Console/bin/Release/TSQLLint.Console.exe"
   ],
   "bin": {
-    "tsqllint": "TSQLLINT_CONSOLE/bin/Release/TSQLLINT_CONSOLE.exe"
+    "tsqllint": "TSQLLint.Console/bin/Release/TSQLLint.Console.exe"
   },
   "os": [
     "win32"

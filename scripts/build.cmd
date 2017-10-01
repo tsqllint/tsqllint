@@ -1,5 +1,5 @@
 REM install nuget packages
-nuget restore "TSQLLINT.sln"
+nuget restore "TSQLLint.sln"
 
 REM build release
-MsBuild.exe "TSQLLINT.sln" /t:Clean;Build /p:Configuration=Release /p:TargetFramework=v4.5.2
+MsBuild.exe "TSQLLint.sln" /t:Clean;Build /p:Configuration=Release /p:TargetFramework=v4.5.2
