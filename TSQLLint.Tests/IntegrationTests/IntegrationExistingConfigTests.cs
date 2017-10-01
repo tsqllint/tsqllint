@@ -203,7 +203,7 @@ namespace TSQLLint.Tests.IntegrationTests
         [TestCaseSource("ExistingConfigTestCases")]
         public void RunExistingConfigTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
-            PerformTest(argumentsUnderTest, expectedMessage, expectedRuleViolations, expectedFileCount);
+            PerformApplicationTest(argumentsUnderTest, expectedMessage, expectedRuleViolations, expectedFileCount);
         }
     }
 }

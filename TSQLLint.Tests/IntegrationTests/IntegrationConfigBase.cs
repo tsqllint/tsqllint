@@ -41,7 +41,7 @@ namespace TSQLLint.Tests.IntegrationTests
 
         private readonly RuleViolationCompare _comparer = new RuleViolationCompare();
 
-        protected void PerformTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
+        protected void PerformApplicationTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
             // arrange
             var appArgs = argumentsUnderTest.ToArray();

@@ -18,9 +18,7 @@ namespace TSQLLint.Lib.Config
 
         private readonly IFileSystem _fileSystem;
 
-        public ConfigReader(IReporter reporter) : this(reporter, new FileSystem())
-        {
-        }
+        public ConfigReader(IReporter reporter) : this(reporter, new FileSystem()) { }
 
         public ConfigReader(IReporter reporter, IFileSystem fileSystem)
         {
@@ -76,6 +74,18 @@ namespace TSQLLint.Lib.Config
             return PluginPaths;
         }
 
+        public void LoadConfig(string configFile, string defaultConfigRules)
+        {
+            if (!string.IsNullOrWhiteSpace(defaultConfigRules))
+            {
+                LoadConfigFromRules(defaultConfigRules);
+            }
+            else
+            {
+                LoadConfigFromFile(configFile);
+            }
+        }
+
         public void LoadConfigFromFile(string configFilePath)
         {
             if (string.IsNullOrEmpty(configFilePath) || !_fileSystem.File.Exists(configFilePath))
@@ -89,11 +99,6 @@ namespace TSQLLint.Lib.Config
 
         public void LoadConfigFromRules(string jsonConfigString)
         {
-            if (string.IsNullOrEmpty(jsonConfigString))
-            {
-                return;
-            }
-
             JToken token;
             if (Utility.Utility.TryParseJson(jsonConfigString, out token))
             {

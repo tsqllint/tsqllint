@@ -10,6 +10,30 @@ namespace TSQLLint.Tests.UnitTests.Config
     public class ConfigReaderTests
     {
         [Test]
+        public void ConfigReader_InMemoryConfig()
+        {
+            // arrange
+            var fileSystem = new MockFileSystem();
+            var reporter = Substitute.For<IReporter>();
+
+            var defaultConfigFile = @"
+            {
+                'rules': {
+                    'select-star': 'error',
+                    'statement-semicolon-termination': 'warning'
+                }
+            }";
+
+            // act
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfig(null, defaultConfigFile);
+
+            // assert
+            Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
+            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+        }
+
+        [Test]
         public void ConfigReader_GetRuleSeverity()
         {
             // arrange

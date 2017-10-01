@@ -26,17 +26,10 @@ namespace TSQLLint.Console
             RuleViolations = new List<RuleViolation>();
 
             var configReader = new ConfigReader(reporter);
+            configReader.LoadConfig(commandLineOptions.ConfigFile, commandLineOptions.DefaultConfigRules);
+
             var pluginHandler = new PluginHandler(reporter, configReader.GetPlugins());
 
-            if (!string.IsNullOrWhiteSpace(commandLineOptions.DefaultConfigRules))
-            {
-                configReader.LoadConfigFromRules(commandLineOptions.DefaultConfigRules);
-            }
-            else
-            {
-                configReader.LoadConfigFromFile(commandLineOptions.ConfigFile);
-            }
-            
             RuleVisitor = new SqlRuleVisitor(configReader, reporter);
             Parser = new SqlFileProcessor(pluginHandler, RuleVisitor, reporter);
         }

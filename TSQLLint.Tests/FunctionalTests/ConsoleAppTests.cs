@@ -6,8 +6,6 @@ using TSQLLint.Tests.Helpers;
 
 namespace TSQLLint.Tests.FunctionalTests
 {
-    internal delegate void ExitProcess_DEL(object sender, EventArgs args);
-
     [TestFixture]
     public class ConsoleAppTests
     {
@@ -43,19 +41,13 @@ namespace TSQLLint.Tests.FunctionalTests
 
             DataReceivedEventHandler outputHandler = (sender, args) =>
             {
-                if (args.Data.Contains("Linted 1 files in"))
+                if (args.Data != null && args.Data.Contains("Linted 1 files in"))
                 {
                     fileLinted = true;
                 }
             };
 
-            DataReceivedEventHandler errorHandler = (sender, args) =>
-            {
-                if (args.Data != null)
-                {
-                    throw new Exception(args.Data);
-                }
-            };
+            DataReceivedEventHandler errorHandler = (sender, args) => { };
 
             EventHandler exitHandler = (sender, args) =>
             {

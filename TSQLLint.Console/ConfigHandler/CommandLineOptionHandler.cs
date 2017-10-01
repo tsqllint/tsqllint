@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using TSQLLint.Common;
-using TSQLLint.Console.ConfigHandler;
 using TSQLLint.Console.ConfigHandler.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
@@ -32,7 +31,7 @@ namespace TSQLLint.Console.ConfigHandler
 
             if (_commandLineOptions.Args.Length == 0)
             {
-                _reporter.Report(string.Format(_commandLineOptions.GetUsage()));
+                ReportUsage();
                 performLinting = false;
             }
 
@@ -52,11 +51,16 @@ namespace TSQLLint.Console.ConfigHandler
 
             if (performLinting && _commandLineOptions.LintPath.Count < 1)
             {
-                _reporter.Report(_commandLineOptions.GetUsage());
+                ReportUsage();
                 performLinting = false;
             }
 
             return performLinting;
+        }
+
+        private void ReportUsage()
+        {
+            _reporter.Report(string.Format(_commandLineOptions.GetUsage()));
         }
 
         private static void ReportVersionInfo(IBaseReporter reporter)
