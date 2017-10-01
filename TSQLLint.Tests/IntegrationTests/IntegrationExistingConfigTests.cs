@@ -31,8 +31,8 @@ namespace TSQLLint.Tests.IntegrationTests
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
         private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory\integration-test-two.sql");
         private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
-        private static readonly List<RuleViolation> _AllRuleViolations = new List<RuleViolation>();
-        private static readonly List<RuleViolation> _MultiFileRuleViolations = new List<RuleViolation>();
+        private static List<RuleViolation> _AllRuleViolations;
+        private static List<RuleViolation> _MultiFileRuleViolations;
 
         private static string UsageString
         {
@@ -66,8 +66,9 @@ namespace TSQLLint.Tests.IntegrationTests
         {
             get
             {
-                if (_MultiFileRuleViolations.Count == 0)
+                if (_MultiFileRuleViolations == null)
                 {
+                    _MultiFileRuleViolations = new List<RuleViolation>();
                     _MultiFileRuleViolations.AddRange(TestFileOneRuleViolations);
                     _MultiFileRuleViolations.AddRange(TestFileTwoRuleViolations);
                 }
@@ -80,12 +81,11 @@ namespace TSQLLint.Tests.IntegrationTests
         {
             get
             {
-                if (_AllRuleViolations.Count == 0)
-                {
-                    _AllRuleViolations.AddRange(TestFileOneRuleViolations);
-                    _AllRuleViolations.AddRange(TestFileTwoRuleViolations);
-                    _AllRuleViolations.AddRange(TestFileInvalidSyntaxRuleViolations);
-                }
+                // change if used more than once
+                _AllRuleViolations = new List<RuleViolation>();
+                _AllRuleViolations.AddRange(TestFileOneRuleViolations);
+                _AllRuleViolations.AddRange(TestFileTwoRuleViolations);
+                _AllRuleViolations.AddRange(TestFileInvalidSyntaxRuleViolations);
 
                 return _AllRuleViolations;
             }
@@ -131,6 +131,12 @@ namespace TSQLLint.Tests.IntegrationTests
                         MultiFileRuleViolations,
                         2)
                     .SetName("File Args Valid Lint Two Files");
+                yield return new TestCaseData(
+                        new List<string> { TestFileTwo, TestFileOne },
+                        null,
+                        MultiFileRuleViolations,
+                        2)
+                    .SetName("File Args Valid Lint Two Files, Changed Order");
                 yield return new TestCaseData(
                         new List<string> { TestFileDirectory },
                         null,

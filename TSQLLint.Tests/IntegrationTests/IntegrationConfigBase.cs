@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -91,11 +90,7 @@ namespace TSQLLint.Tests.IntegrationTests
                 RuleViolations.Add(violation);
             }
 
-            [ExcludeFromCodeCoverage]
-            public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
-            {
-                throw new NotImplementedException();
-            }
+            public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText) { }
         }
     }
 }
