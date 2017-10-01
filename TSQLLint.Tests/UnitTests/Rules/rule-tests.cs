@@ -577,7 +577,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             // arrange
-            var sqlString = TestHelper.GetTestFile(string.Format(@"Rules\{0}\{1}.sql", rule, testFileName));
+            var sqlString = TestHelper.GetUnitTestFile(string.Format(@"Rules\{0}\{1}.sql", rule, testFileName));
 
             var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();

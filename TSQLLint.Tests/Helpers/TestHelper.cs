@@ -11,9 +11,15 @@ namespace TSQLLint.Tests.Helpers
             WorkingDirectory = workingDirectory;
         }
 
-        public string GetTestFile(string testFilePath)
+        public string GetUnitTestFile(string testFilePath)
         {
-            var path = Path.GetFullPath(Path.Combine(WorkingDirectory, string.Format("..\\..\\UnitTests\\{0}", testFilePath)));
+            var path = Path.GetFullPath(Path.Combine(WorkingDirectory, string.Format(@"..\..\UnitTests\{0}", testFilePath)));
+            return File.ReadAllText(path);
+        }
+
+        public string GetIntegrationTestFile(string testFilePath)
+        {
+            var path = Path.GetFullPath(Path.Combine(WorkingDirectory, string.Format(@"..\..\IntegrationTests\{0}", testFilePath)));
             return File.ReadAllText(path);
         }
     }

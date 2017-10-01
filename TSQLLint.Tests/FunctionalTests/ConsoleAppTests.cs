@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
+using TSQLLint.Tests.Helpers;
 
 namespace TSQLLint.Tests.FunctionalTests
 {
@@ -10,52 +11,6 @@ namespace TSQLLint.Tests.FunctionalTests
     [TestFixture]
     public class ConsoleAppTests
     {
-        private string _ApplicationPath;
-
-        private string ApplicationPath
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_ApplicationPath))
-                {
-                    var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
-                    _ApplicationPath = string.Format("{0}\\TSQLLint.Console.exe", workingDirectory);
-                }
-
-                return _ApplicationPath;
-            }
-        }
-
-        public Process GetProcess(string arguments, DataReceivedEventHandler OutputHandler, DataReceivedEventHandler ErrorHandler, EventHandler ExitHandler)
-        {
-            var process = new Process
-            {
-                EnableRaisingEvents = true,
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = ApplicationPath,
-                    Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardError = true,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
-                }
-            };
-
-            process.OutputDataReceived += OutputHandler;
-            process.ErrorDataReceived += ErrorHandler;
-            process.Exited += ExitHandler;
-            return process;
-        }
-
-        public void RunApplication(Process process)
-        {
-            process.Start();
-            process.BeginErrorReadLine();
-            process.BeginOutputReadLine();
-            process.WaitForExit();
-        }
-
         [TestCase(@"-i", 0)]
         [TestCase(@"-p", 0)]
         [TestCase(@"-v", 0)]
@@ -68,24 +23,52 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"-foo", 1)]
         public void ExitCodeTest(string arguments, int expectedExitCode)
         {
+            DataReceivedEventHandler outputHandler = (sender, args) => { };
+            DataReceivedEventHandler errorHandler = (sender, args) => { };
+
+            EventHandler exitHandler = (sender, args) =>
+            {
+                var processExitCode = ((Process)sender).ExitCode;
+                Assert.AreEqual(expectedExitCode, processExitCode, string.Format("Exit code should be {0}", expectedExitCode));
+            };
+
+            var process = ConsoleAppTestHelper.GetProcess(arguments, outputHandler, errorHandler, exitHandler);
+            ConsoleAppTestHelper.RunApplication(process);
+        }
+
+        [TestCase(@"\TestFiles\integration-test-one.sql", 0)]
+        public void FileLintingTest(string testFile, int expectedExitCode)
+        {
+            var fileLinted = false;
+
             DataReceivedEventHandler outputHandler = (sender, args) =>
             {
-                System.Console.WriteLine(args.Data);
+                if (args.Data.Contains("Linted 1 files in"))
+                {
+                    fileLinted = true;
+                }
             };
 
             DataReceivedEventHandler errorHandler = (sender, args) =>
             {
-                System.Console.WriteLine(args.Data);
+                if (args.Data != null)
+                {
+                    throw new Exception(args.Data);
+                }
             };
 
             EventHandler exitHandler = (sender, args) =>
             {
                 var processExitCode = ((Process)sender).ExitCode;
-                Assert.AreEqual(expectedExitCode, processExitCode, "Exit code should be zero when no errors occur");
+                Assert.AreEqual(expectedExitCode, processExitCode, string.Format("Exit code should be {0}", expectedExitCode));
             };
 
-            var process = GetProcess(arguments, outputHandler, errorHandler, exitHandler);
-            RunApplication(process);
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, string.Format(@"..\..\IntegrationTests\{0}", testFile)));
+
+            var process = ConsoleAppTestHelper.GetProcess(path, outputHandler, errorHandler, exitHandler);
+            ConsoleAppTestHelper.RunApplication(process);
+
+            Assert.IsTrue(fileLinted);
         }
     }
 }

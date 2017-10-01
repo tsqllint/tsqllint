@@ -201,9 +201,9 @@ namespace TSQLLint.Tests.IntegrationTests
         }
 
         [TestCaseSource("ExistingConfigTestCases")]
-        public void RunExistingConfigTest(List<string> args, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
+        public void RunExistingConfigTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
-            PerformTest(args, expectedMessage, expectedRuleViolations, expectedFileCount);
+            PerformTest(argumentsUnderTest, expectedMessage, expectedRuleViolations, expectedFileCount);
         }
     }
 }

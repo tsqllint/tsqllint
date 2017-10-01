@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ConsoleAppTestHelper.cs" />
     <Compile Include="FunctionalTests\ConsoleAppTests.cs" />
     <Compile Include="Helpers\HelperTests.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
