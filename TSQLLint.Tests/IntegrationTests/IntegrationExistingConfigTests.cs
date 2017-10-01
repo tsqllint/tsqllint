@@ -103,13 +103,13 @@ namespace TSQLLint.Tests.IntegrationTests
                     .SetName("Config Args Valid No Lint Path");
                 yield return new TestCaseData(
                         new List<string> { "-c", InvalidConfigFile },
-                        string.Format("Existing config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite", InvalidConfigFile),
+                        string.Format("Config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite", InvalidConfigFile),
                         new List<RuleViolation>(),
                         0)
                     .SetName("Config Args Invalid No Lint Path");
                 yield return new TestCaseData(
                         new List<string> { "-c", InvalidConfigFile, TestFileOne },
-                        string.Format("Existing config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite", InvalidConfigFile),
+                        string.Format("Config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite", InvalidConfigFile),
                         new List<RuleViolation>(),
                         1)
                     .SetName("Config Args Invalid Lint Path");

@@ -85,7 +85,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         public void Reports_Error_If_Provided_Invalid_Config_File_And_No_Options()
         {
             // arrange
-            const string expectedMessage = "Existing config file not found at: doesnotexist.config use the '--init' option to create if one does not exist or the '--force' option to overwrite";
+            const string expectedMessage = "Config file not found at: doesnotexist.config use the '--init' option to create if one does not exist or the '--force' option to overwrite";
             var info = SetupHandler(new[] { "-c", "doesnotexist.config", "file1.sql" }, shouldFindFile: false);
 
             // act

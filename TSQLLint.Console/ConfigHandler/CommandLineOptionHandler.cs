@@ -135,7 +135,7 @@ namespace TSQLLint.Console.ConfigHandler
             else if (!configFileExists)
             {
                 _reporter.Report(string.Format(
-                    "Existing config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite",
+                    "Config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite",
                     configFile));
             }
         }

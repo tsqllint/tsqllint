@@ -34,6 +34,40 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
+        public void ConfigReader_EmptyConfigFile()
+        {
+            // arrange
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
+
+            var reporter = Substitute.For<IReporter>();
+
+            // act
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(string.Empty);
+
+            // assert
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("statement-semicolon-termination"));
+        }
+
+        [Test]
+        public void ConfigReader_ConfigFileDoesntExist()
+        {
+            // arrange
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
+
+            var reporter = Substitute.For<IReporter>();
+
+            // act
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfigFromFile(@"c:\users\someone\.tsqllintrc");
+
+            // assert
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("statement-semicolon-termination"));
+        }
+
+        [Test]
         public void ConfigReader_GetRuleSeverity()
         {
             // arrange
