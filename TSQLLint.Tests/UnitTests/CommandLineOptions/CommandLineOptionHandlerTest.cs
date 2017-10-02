@@ -76,9 +76,6 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             // assert
             Assert.IsFalse(performLinting);
             Assert.IsNull(info.Options.ConfigFile);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(info.Options.DefaultConfigRules));
-            Assert.AreEqual(1, info.ConfigFileGenerator.DefaultConfigRuleCalledCount);
-            Assert.AreEqual(0, info.ConfigFileGenerator.ConfigFilePathsWritten.Count);
         }
 
         [Test]
