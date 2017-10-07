@@ -77,3 +77,73 @@ Rules may be set to off, warning, or error.
     }
 }
 ```
+
+## Plugins
+
+You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are .Net assemblies that implement the IPlugin interface from TSQLLint.Common.
+
+Once you complete your plugin, update your .tsqllintrc file to point to your assembly.
+
+```
+{
+    'rules': {
+        "upper-lower": "error"
+    },
+    'plugins': {
+        'my-first-plugin': 'c:/users/someone/my-plugins/my-first-plugin.dll',
+        'my-second-plugin': 'c:/users/someone/my-plugins/my-second-plugin.dll'
+    }
+}
+```
+
+This sample plugin notifies users that spaces should be used rather than tabs.
+
+```
+using System;
+using TSQLLint.Common;
+
+namespace TSQLLint.Tests.UnitTests.PluginHandler
+{
+    public class SamplePlugin : IPlugin
+    {
+        public void PerformAction(IPluginContext context, IReporter reporter)
+        {
+            string line;
+            var lineNumber = 0;
+
+            while ((line = context.FileContents.ReadLine()) != null)
+            {
+                lineNumber++;
+                var column = line.IndexOf("\t", StringComparison.Ordinal);
+                reporter.ReportViolation(new SampleRuleViolation(
+                    context.FilePath,
+                    "prefer-tabs",
+                    "Should use spaces rather than tabs",
+                    lineNumber,
+                    column,
+                    RuleViolationSeverity.Warning));
+            }
+        }
+    }
+
+    class SampleRuleViolation : IRuleViolation
+    {
+        public int Column { get; private set; }
+        public string FileName { get; private set; }
+        public int Line { get; private set; }
+        public string RuleName { get; private set; }
+        public RuleViolationSeverity Severity { get; private set; }
+        public string Text { get; private set; }
+
+        public TestRuleViolation(string fileName, string ruleName, string text, int lineNumber, int column, RuleViolationSeverity ruleViolationSeverity)
+        {
+            FileName = fileName;
+            RuleName = ruleName;
+            Text = text;
+            Line = lineNumber;
+            Column = column;
+            Severity = ruleViolationSeverity;
+        }
+    }
+}
+```

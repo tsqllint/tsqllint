@@ -79,6 +79,7 @@
     <Compile Include="UnitTests\PluginHandler\PluginContextTests.cs" />
     <Compile Include="UnitTests\PluginHandler\PluginHandlerTests.cs" />
     <Compile Include="UnitTests\PluginHandler\TestPlugin.cs" />
+    <Compile Include="UnitTests\PluginHandler\TestRuleViolation.cs" />
     <Compile Include="UnitTests\Reporter\ReporterTests.cs" />
     <Compile Include="UnitTests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
     <Compile Include="UnitTests\Config\ConfigReaderTests.cs" />

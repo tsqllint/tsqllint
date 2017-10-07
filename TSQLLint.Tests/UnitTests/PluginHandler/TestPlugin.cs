@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Common;
-using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
@@ -17,7 +16,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             {
                 lineNumber++;
                 var column = line.IndexOf("\t", StringComparison.Ordinal);
-                reporter.ReportViolation(new RuleViolation(
+                reporter.ReportViolation(new TestRuleViolation(
                     context.FilePath,
                     "prefer-tabs",
                     "Should use spaces rather than tabs",

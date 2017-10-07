@@ -101,11 +101,11 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             var reporter = Substitute.For<IReporter>();
-            var textReader = TSQLLint.Lib.Utility.Utility.CreateTextReaderFromString("\tSELECT * FROM FOO");
+            var textReader = Lib.Utility.Utility.CreateTextReaderFromString("\tSELECT * FROM FOO");
             var context = new PluginContext(@"c:\scripts\foo.sql", textReader);
 
             // act
-            var pluginHandler = new TSQLLint.Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
@@ -157,7 +157,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var context = Substitute.For<IPluginContext>();
 
             // act
-            var pluginHandler = new TSQLLint.Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
 
             // assert
             Assert.AreEqual(2, pluginHandler.Plugins.Count);
