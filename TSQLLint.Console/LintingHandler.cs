@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Diagnostics;
 using TSQLLint.Common;
 using TSQLLint.Console.ConfigHandler;
 using TSQLLint.Lib.Config;
@@ -18,12 +19,9 @@ namespace TSQLLint.Console
 
         public int LintedFileCount { get; private set; }
 
-        public IEnumerable<RuleViolation> RuleViolations { get; private set; }
-
         public LintingHandler(CommandLineOptions commandLineOptions, IReporter reporter)
         {
             CommandLineOptions = commandLineOptions;
-            RuleViolations = new List<RuleViolation>();
 
             var configReader = new ConfigReader(reporter);
             configReader.LoadConfig(commandLineOptions.ConfigFile, commandLineOptions.DefaultConfigRules);
@@ -37,7 +35,6 @@ namespace TSQLLint.Console
         public void Lint()
         {
             Parser.ProcessList(CommandLineOptions.LintPath);
-            RuleViolations = RuleVisitor.Violations;
             LintedFileCount = Parser.GetFileCount();
         }
     }

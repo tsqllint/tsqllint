@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace TSQLLint.Lib.Plugins
 {
     public class PluginHandler : IPluginHandler
     {
+        private readonly IReporter _reporter;
         private readonly IAssemblyWrapper _assemblyWrapper;
         private readonly IFileSystem _fileSystem;
         private List<IPlugin> _plugins;
-        private IReporter _reporter;
 
         public IList<IPlugin> Plugins
         {
@@ -84,6 +85,8 @@ namespace TSQLLint.Lib.Plugins
 
                 // todo dont allow duplicates
                 Plugins.Add((IPlugin)Activator.CreateInstance(type));
+
+                _reporter.Report(string.Format("\nLoaded plugin {0}\n", type.FullName));
             }
         }
 

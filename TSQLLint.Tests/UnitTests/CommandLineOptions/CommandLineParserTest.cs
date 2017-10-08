@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using NUnit.Framework;
 
@@ -82,10 +82,27 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void GetUsage()
+        public void ImplicitGetUsage()
         {
             // arrange
             var args = new string[0];
+
+            // act
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var commandLineParser = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args);
+
+            // assert
+            Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
+        }
+
+        [Test]
+        public void ExplicitGetUsage()
+        {
+            // arrange
+            var args = new[]
+            {
+                "-h"
+            };
 
             // act
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
