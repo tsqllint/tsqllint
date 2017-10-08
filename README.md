@@ -19,13 +19,6 @@ This binary can be installed though [the `npm` registry](https://www.npmjs.com/)
 $ npm install tsqllint -g
 ```
 
-## Configuration
-
-```
-# generate a default .tsqllintrc file using the init flag (optional if just using a default configuration)
-$ tsqllint --init
-```
-
 ## Usage
 ```
 # lint a single file
@@ -47,11 +40,24 @@ $ tsqllint --print
 $ tsqllint --help
 ```
 
+## Integrating TSQLLint with other Tools
+
+TSQLLint uses a common message format that allows for integration into off the shelf tools. SQL Server Management Studio can use TSQLLint using SSMS's external tools feature.
+
+![SSMS Integration Image](documentation/SSMSIntegrationScreenshot.PNG)
+
+## Configuration
+
+```
+# generate a default .tsqllintrc file using the init flag (optional if just using a default configuration)
+$ tsqllint --init
+```
+
 ## Creating custom configurations
 
 Configure tsqllint by editing its config file, which is called .tsqllintrc, you can find its location with the "--print-confg" or "-p" option.  
 
-Rules may be set to off, warning, or error.
+Rules may be set to "off", "warning", or "error".
 
 ```
 {
