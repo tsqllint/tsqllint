@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
@@ -21,7 +21,6 @@ namespace TSQLLint.Lib.Parser
         public SqlRuleVisitor(IConfigReader configReader, IReporter reporter)
         {
             Parser = new TSql120Parser(true);
-            Violations = new List<RuleViolation>();
             RuleVisitorBuilder = new RuleVisitorBuilder(configReader, reporter);
             Reporter = reporter;
         }
@@ -37,7 +36,7 @@ namespace TSQLLint.Lib.Parser
                 return;
             }
 
-            var ruleVisitors = RuleVisitorBuilder.BuildVisitors(sqlPath, Violations);
+            var ruleVisitors = RuleVisitorBuilder.BuildVisitors(sqlPath);
             for (var index = 0; index < ruleVisitors.Count; index++)
             {
                 var visitor = ruleVisitors[index];

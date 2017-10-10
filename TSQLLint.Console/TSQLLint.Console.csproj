@@ -83,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="ConfigHandler\TSQLLINTOption.cs" />
+    <Compile Include="ConfigHandler\TSQLLintOption.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

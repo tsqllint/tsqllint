@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
@@ -34,7 +34,7 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(process);
         }
 
-        [TestCase(@"\TestFiles\integration-test-one.sql", 0)]
+        [TestCase(@"\TestFiles\integration-test-one.sql", 1)]
         public void FileLintingTest(string testFile, int expectedExitCode)
         {
             var fileLinted = false;

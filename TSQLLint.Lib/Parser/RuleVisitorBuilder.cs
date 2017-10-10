@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
@@ -41,7 +41,7 @@ namespace TSQLLint.Lib.Parser
             ConfigReader = configReader;
         }
 
-        public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath, List<RuleViolation> violations)
+        public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath)
         {
             var configuredVisitors = new List<TSqlFragmentVisitor>();
             for (var index = 0; index < RuleVisitorTypes.Count; index++)

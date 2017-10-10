@@ -41,14 +41,14 @@ namespace TSQLLint.Console.ConfigHandler
             longName: "print-config",
             Required = false,
             HelpText = "Print path to config file"),
-        TSQLLINTOption(NonLintingCommand = true)]
+        TSQLLintOption(NonLintingCommand = true)]
         public bool PrintConfig { get; set; }
 
         [Option(shortName: 'v',
             longName: "version",
             Required = false,
             HelpText = "Display tsqllint version"),
-        TSQLLINTOption(NonLintingCommand = true)]
+        TSQLLintOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
         [Option(shortName: 'h',
