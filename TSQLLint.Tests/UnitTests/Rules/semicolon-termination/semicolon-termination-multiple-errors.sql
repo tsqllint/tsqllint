@@ -1,4 +1,4 @@
-﻿SELECT FOO FROM BAR --violation
+SELECT FOO FROM BAR --violation
 
 BEGIN TRY;
     SELECT 1 --violation
@@ -13,7 +13,6 @@ CREATE TABLE t1 (
 
 CREATE INDEX i1 ON t1 (col1) --violation
 
-
 IF NOT EXISTS(SELECT * FROM SYS.INDEXES	WHERE OBJECT_ID = OBJECT_ID('dbo.Foo') AND [name] = 'IX_FooIndex')
 BEGIN;
     CREATE UNIQUE NONCLUSTERED INDEX IX_FooIndex ON dbo.Foo(Name)
@@ -22,7 +21,7 @@ END;
 GO
 
 IF NOT EXISTS(SELECT * FROM SYS.INDEXES	WHERE OBJECT_ID = OBJECT_ID('dbo.Foo'))
-BEGIN -- violation
+BEGIN
     SELECT 1;
 END -- violation
 GO

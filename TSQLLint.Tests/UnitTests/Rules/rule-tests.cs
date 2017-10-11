@@ -399,9 +399,8 @@ namespace TSQLLint.Tests.UnitTests.Rules
                   new RuleViolation(ruleName: "semicolon-termination", startLine: 4, startColumn: 13),
                   new RuleViolation(ruleName: "semicolon-termination", startLine: 12, startColumn: 47),
                   new RuleViolation(ruleName: "semicolon-termination", startLine: 14, startColumn: 29),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 20, startColumn: 47),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 25, startColumn: 7),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 27, startColumn: 4)
+                  new RuleViolation(ruleName: "semicolon-termination", startLine: 19, startColumn: 47),
+                  new RuleViolation(ruleName: "semicolon-termination", startLine: 26, startColumn: 4)
               }
           },
           new object[] 

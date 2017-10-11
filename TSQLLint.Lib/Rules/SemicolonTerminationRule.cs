@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Common;
@@ -56,16 +56,6 @@ namespace TSQLLint.Lib.Rules
 
         public override void Visit(BeginEndBlockStatement node)
         {
-            var beginTerminator = node.ScriptTokenStream[node.FirstTokenIndex + 1];
-            if (beginTerminator.TokenType != TSqlTokenType.Semicolon)
-            {
-                ErrorCallback(
-                    RULE_NAME, 
-                    RULE_TEXT, 
-                    node.ScriptTokenStream[node.FirstTokenIndex].Line, 
-                    node.StartColumn + beginTerminator.Column);
-            }
-
             if (EndsWithSemicolon(node))
             {
                 return;
