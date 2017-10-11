@@ -10,8 +10,6 @@ namespace TSQLLint.Lib.Parser
 {
     public class SqlRuleVisitor : IRuleVisitor
     {
-        public List<RuleViolation> Violations { get; set; }
-
         private readonly TSql120Parser Parser;
 
         private readonly RuleVisitorBuilder RuleVisitorBuilder;
