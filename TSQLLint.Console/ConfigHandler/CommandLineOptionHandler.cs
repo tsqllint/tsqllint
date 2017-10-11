@@ -44,7 +44,7 @@ namespace TSQLLint.Console.ConfigHandler
 
         private bool HandleConfigOptions()
         {
-            HandleConfig();
+            SetupConfig();
 
             if (_commandLineOptions.PrintConfig)
             {
@@ -61,7 +61,7 @@ namespace TSQLLint.Console.ConfigHandler
             return true;
         }
 
-        private void HandleConfig()
+        private void SetupConfig()
         {
             var useInMemoryRules = false;
             var configFile = _commandLineOptions.ConfigFile;
@@ -76,10 +76,10 @@ namespace TSQLLint.Console.ConfigHandler
                 _commandLineOptions.ConfigFile = configFile = configFile.Trim();
             }
 
-            SetupConfig(configFile, useInMemoryRules);
+            LoadConfig(configFile, useInMemoryRules);
         }
 
-        private void SetupConfig(string configFile, bool useInMemoryRules)
+        private void LoadConfig(string configFile, bool useInMemoryRules)
         {
             var configFileExists = FileExists(configFile);
             if (useInMemoryRules && !configFileExists)
