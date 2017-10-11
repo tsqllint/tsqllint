@@ -35,6 +35,8 @@ namespace TSQLLint.Lib.Parser
             typeof(UpperLowerRule)
         };
 
+        private bool ErrorLogged;
+
         public RuleVisitorBuilder(IConfigReader configReader, IReporter reporter)
         {
             Reporter = reporter;
@@ -49,13 +51,21 @@ namespace TSQLLint.Lib.Parser
                 var visitor = RuleVisitorTypes[index];
                 Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
                 {
+                    var ruleSeverity = ConfigReader.GetRuleSeverity(ruleName);
+
+                    if (!ErrorLogged && ruleSeverity == RuleViolationSeverity.Error)
+                    {
+                        ErrorLogged = true;
+                        Environment.ExitCode = 1;
+                    }
+
                     Reporter.ReportViolation(new RuleViolation(
                         sqlPath,
                         ruleName,
                         ruleText,
                         startLne,
                         startColumn,
-                        ConfigReader.GetRuleSeverity(ruleName)));
+                        ruleSeverity));
                 };
 
                 var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, ErrorCallback);

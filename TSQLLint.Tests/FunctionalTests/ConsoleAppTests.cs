@@ -34,7 +34,9 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(process);
         }
 
-        [TestCase(@"\TestFiles\integration-test-one.sql", 1)]
+        [TestCase(@"\TestFiles\no-errors.sql", 0)]
+        [TestCase(@"\TestFiles\with-warnings.sql", 0)]
+        [TestCase(@"\TestFiles\with-errors.sql", 1)]
         public void FileLintingTest(string testFile, int expectedExitCode)
         {
             var fileLinted = false;
@@ -55,9 +57,10 @@ namespace TSQLLint.Tests.FunctionalTests
                 Assert.AreEqual(expectedExitCode, processExitCode, string.Format("Exit code should be {0}", expectedExitCode));
             };
 
-            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, string.Format(@"..\..\IntegrationTests\{0}", testFile)));
-
-            var process = ConsoleAppTestHelper.GetProcess(path, outputHandler, errorHandler, exitHandler);
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, string.Format(@"..\..\FunctionalTests\{0}", testFile)));
+            var configFilePath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\FunctionalTests\.tsqllintrc"));
+            
+            var process = ConsoleAppTestHelper.GetProcess(string.Format("-c {0} {1}", configFilePath, path), outputHandler, errorHandler, exitHandler);
             ConsoleAppTestHelper.RunApplication(process);
 
             Assert.IsTrue(fileLinted);
