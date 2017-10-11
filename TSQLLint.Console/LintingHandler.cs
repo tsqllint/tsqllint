@@ -1,11 +1,8 @@
-using System.Collections.Generic;
-using System.Diagnostics;
 using TSQLLint.Common;
 using TSQLLint.Console.ConfigHandler;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Plugins;
-using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Console
 {
