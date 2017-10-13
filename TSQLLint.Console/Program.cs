@@ -15,7 +15,7 @@ namespace TSQLLint.Console
             {
                 application.Run();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 System.Console.WriteLine("TSQLLint encountered a problem.");
             }

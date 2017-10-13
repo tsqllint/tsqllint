@@ -1,0 +1,48 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+var ClassName = "Foo";
+var RuleName = "foo-bar";
+var RuleText = "some user friendly string";
+#>
+using System;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
+using TSQLLint.Lib.Rules.Interface;
+
+namespace TSQLLint.Lib.Rules
+{
+    public class <#= ClassName #> : TSqlFragmentVisitor, ISqlRule
+    {
+        public string RULE_NAME
+        {
+            get
+            {
+                return "<#= RuleName #>";
+            }
+        }
+
+        public string RULE_TEXT
+        {
+            get
+            {
+                return "<#= RuleText #>";
+            }
+        }
+
+        private readonly Action<string, string, int, int> ErrorCallback;
+
+        public <#= ClassName #>(Action<string, string, int, int> errorCallback)
+        {
+            ErrorCallback = errorCallback;
+        }
+
+        public override void Visit(FunctionCall node)
+        {
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+        }
+    }
+}
