@@ -27,7 +27,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
             };
 
             var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, ErrorCallback);
-            var textReader = TSQLLint.Lib.Utility.Utility.CreateTextReaderFromString(sqlString);
+            var textReader = Lib.Utility.Utility.CreateTextReaderFromString(sqlString);
 
             var compareer = new RuleViolationCompare();
 

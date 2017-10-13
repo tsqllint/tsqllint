@@ -5,9 +5,9 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 <#
-var ClassName = "Foo";
-var RuleName = "foo-bar";
-var RuleText = "some user friendly string";
+var ClassName = "LinkedServerRule";
+var RuleName = "linked-server";
+var RuleText = "Linked server calls can cause locking, and are discouraged";
 #>
 using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;

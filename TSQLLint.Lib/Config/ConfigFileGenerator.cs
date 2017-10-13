@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
 
@@ -15,6 +15,7 @@ namespace TSQLLint.Lib.Config
         ""disallow-cursors"": ""error"",
         ""information-schema"": ""error"",
         ""keyword-capitalization"": ""error"",
+        ""linked-server"": ""error"",
         ""multi-table-alias"": ""error"",
         ""object-property"": ""error"",
         ""print-statement"": ""error"",

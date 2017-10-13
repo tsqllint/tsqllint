@@ -1,4 +1,4 @@
-﻿-- conditional-begin-end
+-- conditional-begin-end
 IF(1 = 1)
 	SELECT 1 FROM DBO.FOO;
 
@@ -17,7 +17,7 @@ WITH (DATA_COMPRESSION = ROW);
 OPEN some_cursor;
 
 -- information-schema
-SELECT TABLE_CATALOG FROM dbo.SomeDatabase.INFORMATION_SCHEMA.COLUMNS;
+SELECT TABLE_CATALOG FROM INFORMATION_SCHEMA.COLUMNS;
 
 -- keyword-capitalization
 select Name FROM dbo.foo;

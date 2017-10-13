@@ -98,6 +98,7 @@
     <Compile Include="UnitTests\Rules\set-quoted-identifier\set-quoted-identifier-tests.cs" />
     <Compile Include="UnitTests\Rules\set-transaction-isolation-level\set-transaction-isolation-level-tests.cs" />
     <Compile Include="UnitTests\Rules\set-variable\set-variable-tests.cs" />
+    <Compile Include="UnitTests\Rules\linked-server\linked-server-tests.cs" />
     <Compile Include="UnitTests\Rules\upper-lower\upper-lower-tests.cs" />
     <Compile Include="UnitTests\Rules\RulesTestHelper.cs" />
     <Compile Include="UnitTests\RuleVisitorBuilder\RuleVisitorBuilderTest.cs" />
@@ -115,6 +116,7 @@
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-two-errors.sql" />
+    <Content Include="UnitTests\Rules\linked-server\test-files\linked-server-one-error.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-spaces.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-spaces.sql" />
     <Content Include="UnitTests\Rules\print-statement\test-files\print-statement-no-error.sql" />
@@ -147,6 +149,7 @@
     <Content Include="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-try-catch-while.sql" />
     <Content Include="UnitTests\Rules\set-nocount\test-files\set-nocount-no-rowset-action.sql" />
     <Content Include="UnitTests\Rules\set-nocount\test-files\set-nocount-one-error-rowset-action.sql" />
+    <Content Include="UnitTests\Rules\linked-server\test-files\linked-server-no-error.sql" />
     <Content Include="UnitTests\Rules\upper-lower\test-files\upper-lower-no-error.sql" />
     <Content Include="UnitTests\Rules\upper-lower\test-files\upper-lower-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\upper-lower\test-files\upper-lower-one-error.sql" />
