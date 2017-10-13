@@ -10,6 +10,7 @@ namespace TSQLLint.Lib.Config
 @"{
     ""rules"": {
         ""conditional-begin-end"": ""error"",
+        ""cross-database"": ""error"",
         ""data-compression"": ""error"",
         ""data-type-length"": ""error"",
         ""disallow-cursors"": ""error"",

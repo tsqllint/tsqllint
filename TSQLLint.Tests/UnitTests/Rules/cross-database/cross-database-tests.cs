@@ -6,20 +6,23 @@ using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.Rules
 {
-    public class LinkedServerRuleTest
+    public class CrossDatabaseRuleTests
     {
-        private static readonly object[] testCases = 
+        private static readonly object[] testCases =
         {
             new object[]
             {
-                "linked-server", "linked-server-one-error", typeof(LinkedServerRule), new List<RuleViolation>
-                {
-                    new RuleViolation(ruleName: "linked-server", startLine: 1, startColumn: 17),
-                }
+                "cross-database", "cross-database-no-error",  typeof(CrossDatabaseRule), new List<RuleViolation>()
             },
-            new object[] { "linked-server", "linked-server-no-error", typeof(LinkedServerRule), new List<RuleViolation>() }
+            new object[]
+            {
+                "cross-database", "cross-database-one-error",  typeof(CrossDatabaseRule), new List<RuleViolation>()
+                {
+                    new RuleViolation(ruleName: "cross-database", startLine: 1, startColumn: 17)
+                }
+            }
         };
-        
+
         [Test, TestCaseSource("testCases")]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {

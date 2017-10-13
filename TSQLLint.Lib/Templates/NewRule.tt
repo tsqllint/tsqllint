@@ -5,9 +5,9 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 <#
-var ClassName = "LinkedServerRule";
-var RuleName = "linked-server";
-var RuleText = "Linked server calls can cause locking, and are discouraged";
+var ClassName = "CrossDatabaseRule";
+var RuleName = "cross-database";
+var RuleText = "Cross database queries can cause performance problems, and are discouraged";
 #>
 using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -43,6 +43,33 @@ namespace TSQLLint.Lib.Rules
         public override void Visit(FunctionCall node)
         {
             ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+        }
+    }
+}
+
+namespace TSQLLint.Tests.UnitTests.Rules
+{
+    public class <#= ClassName #>RuleTests
+    {
+        private static readonly object[] testCases =
+        {
+            new object[]
+            {
+                "<#= RuleName #>", "<#= RuleName #>-no-error",  typeof(CrossDatabaseRule), new List<RuleViolation>()
+            },
+            new object[]
+            {
+                "<#= RuleName #>", "<#= RuleName #>-one-error",  typeof(CrossDatabaseRule), new List<RuleViolation>()
+                {
+                    new RuleViolation(ruleName: "<#= RuleName #>", startLine: 1, startColumn: 17)
+                }
+            }
+        };
+
+        [Test, TestCaseSource("testCases")]
+        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
         }
     }
 }

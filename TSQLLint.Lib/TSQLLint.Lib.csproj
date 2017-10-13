@@ -63,6 +63,7 @@
     <Compile Include="Plugins\PluginContext.cs" />
     <Compile Include="Plugins\Interfaces\IPluginHandler.cs" />
     <Compile Include="Plugins\PluginHandler.cs" />
+    <Compile Include="Rules\CrossDatabaseRule.cs" />
     <Compile Include="Rules\Common\Constants.cs" />
     <Compile Include="Rules\Common\ColumnNumberCounter.cs" />
     <Compile Include="Rules\DataTypeLengthRule.cs" />

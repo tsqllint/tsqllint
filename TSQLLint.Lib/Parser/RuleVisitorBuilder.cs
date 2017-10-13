@@ -16,6 +16,7 @@ namespace TSQLLint.Lib.Parser
         public readonly List<Type> RuleVisitorTypes = new List<Type>()
         {
             typeof(ConditionalBeginEndRule),
+            typeof(CrossDatabaseRule),
             typeof(DataCompressionOptionRule),
             typeof(DataTypeLengthRule),
             typeof(DisallowCursorRule),

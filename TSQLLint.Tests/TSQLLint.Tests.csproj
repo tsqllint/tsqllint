@@ -81,6 +81,7 @@
     <Compile Include="UnitTests\PluginHandler\TestPlugin.cs" />
     <Compile Include="UnitTests\PluginHandler\TestRuleViolation.cs" />
     <Compile Include="UnitTests\Reporter\ReporterTests.cs" />
+    <Compile Include="UnitTests\Rules\cross-database\cross-database-tests.cs" />
     <Compile Include="UnitTests\Rules\conditional-begin-end\conditional-begin-end-tests.cs" />
     <Compile Include="UnitTests\Rules\data-compression\data-compression-tests.cs" />
     <Compile Include="UnitTests\Rules\data-type-length\data-type-length-tests.cs" />
@@ -111,6 +112,8 @@
     <Content Include="IntegrationTests\TestFiles\integration-test-one.sql" />
     <Content Include="IntegrationTests\TestFiles\invalid-syntax.sql" />
     <Content Include="IntegrationTests\TestFiles\TestFileSubDirectory\integration-test-two.sql" />
+    <Content Include="UnitTests\Rules\cross-database\test-files\cross-database-one-error.sql" />
+    <Content Include="UnitTests\Rules\cross-database\test-files\cross-database-no-error.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-all-errors.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-no-error.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error-mixed-state.sql" />
