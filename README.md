@@ -63,11 +63,13 @@ Rules may be set to "off", "warning", or "error".
 {
     "rules": {
         "conditional-begin-end": "error",
+        "cross-database": "error",
         "data-compression": "error",
         "data-type-length": "error",
         "disallow-cursors": "error",
         "information-schema": "error",
         "keyword-capitalization": "error",
+        "linked-server": "error",
         "multi-table-alias": "error",
         "object-property": "error",
         "print-statement": "error",
