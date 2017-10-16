@@ -21,7 +21,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             var assembly = Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             var version = fvi.FileVersion;
-            var tsqllintVersion = string.Format("v{0}", version);
+            var tsqllintVersion = $"v{version}";
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -53,7 +53,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         {
             // arrange
             const string expectedMessage = "Using default config instead of a file";
-            var info = SetupHandler(new[] { "-p" }, shouldFindFile: false);
+            var info = SetupHandler(new[] { "-p" }, false);
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -68,7 +68,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         public void Returns_In_Memory_Config_If_Missing_Config_File_When_None_Passed_And_No_Options()
         {
             // arrange
-            var info = SetupHandler(new List<string>().ToArray(), shouldFindFile: false);
+            var info = SetupHandler(new List<string>().ToArray(), false);
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -83,7 +83,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         {
             // arrange
             const string expectedMessage = "Config file not found at: doesnotexist.config use the '--init' option to create if one does not exist or the '--force' option to overwrite";
-            var info = SetupHandler(new[] { "-c", "doesnotexist.config", "file1.sql" }, shouldFindFile: false);
+            var info = SetupHandler(new[] { "-c", "doesnotexist.config", "file1.sql" }, false);
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -98,7 +98,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         public void Creates_Default_Config_File_If_Does_Not_Exist_And_Init_Option_Is_Used_And_No_Config_Option_Is_Used()
         {
             // arrange
-            var info = SetupHandler(new[] { "-i" }, shouldFindFile: false);
+            var info = SetupHandler(new[] { "-i" }, false);
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -113,7 +113,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         public void Creates_Specified_Config_File_If_Does_Not_Exist_And_Init_Option_Is_Used_And_Config_Option_Is_Used()
         {
             // arrange
-            var info = SetupHandler(new[] { "-i", "-c", "custom.config" }, shouldFindFile: false);
+            var info = SetupHandler(new[] { "-i", "-c", "custom.config" }, false);
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -143,7 +143,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         public void Creates_Default_Config_File_When_Using_Force_Option_And_Config_Does_Not_Exist()
         {
             // arrange
-            var info = SetupHandler(new[] { "-f" }, shouldFindFile: false);
+            var info = SetupHandler(new[] { "-f" }, false);
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -158,7 +158,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         public void Creates_Specified_Config_File_When_Using_Force_Option_And_Config_Option_And_Config_Does_Not_Exist()
         {
             // arrange
-            var info = SetupHandler(new[] { "-f", "-c", "custom.config" }, shouldFindFile: false);
+            var info = SetupHandler(new[] { "-f", "-c", "custom.config" }, false);
 
             // act
             var performLinting = info.Handler.HandleCommandLineOptions();
@@ -203,7 +203,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         {
             var info = new TestObjects
             {
-                Options = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args),
+                Options = new Console.ConfigHandler.CommandLineOptions(args),
                 Reporter = new TestCommandLineOptionHandlerReporter(),
                 ConfigFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator(),
                 ConfigFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(shouldFindFile, defaultConfigFile)
@@ -214,7 +214,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
         private class TestObjects
         {
-            public TSQLLint.Console.ConfigHandler.CommandLineOptions Options { get; set; }
+            public Console.ConfigHandler.CommandLineOptions Options { get; set; }
 
             public TestCommandLineOptionHandlerReporter Reporter { get; set; }
 
@@ -245,7 +245,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
                 DefaultConfigFileName = defaultConfigFileName;
             }
 
-            public string DefaultConfigFileName { get; private set; }
+            public string DefaultConfigFileName { get; }
 
             public bool FindFile(string configFile)
             {
@@ -257,9 +257,10 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         {
             public readonly List<string> ConfigFilePathsWritten = new List<string>();
 
-            public int DefaultConfigRuleCalledCount
+            private int DefaultConfigRuleCalledCount
             {
-                get; private set;
+                get;
+                set;
             }
 
             public string GetDefaultConfigRules()

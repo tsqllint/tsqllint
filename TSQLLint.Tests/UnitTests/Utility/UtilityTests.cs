@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace TSQLLint.Tests.UnitTests.Utility
@@ -12,8 +11,7 @@ namespace TSQLLint.Tests.UnitTests.Utility
         [TestCase("Foo")]
         public void InvalidJson(string testString)
         {
-            JToken token;
-            Assert.IsFalse(TSQLLint.Lib.Utility.Utility.TryParseJson(testString, out token));
+            Assert.IsFalse(Lib.Utility.Utility.TryParseJson(testString, out var token));
             Assert.IsNull(token);
         }
 
@@ -22,8 +20,7 @@ namespace TSQLLint.Tests.UnitTests.Utility
         [TestCase("99")]
         public void ValidJson(string testString)
         {
-            JToken token;
-            Assert.IsTrue(TSQLLint.Lib.Utility.Utility.TryParseJson(testString, out token));
+            Assert.IsTrue(Lib.Utility.Utility.TryParseJson(testString, out var token));
             Assert.IsNotNull(token);
         }
     }

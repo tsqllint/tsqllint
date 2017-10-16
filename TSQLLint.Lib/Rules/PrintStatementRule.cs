@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class PrintStatementRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "print-statement";
-            }
-        }
+        public string RULE_NAME => "print-statement";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "PRINT statement found";
-            }
-        }
+        public string RULE_TEXT => "PRINT statement found";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

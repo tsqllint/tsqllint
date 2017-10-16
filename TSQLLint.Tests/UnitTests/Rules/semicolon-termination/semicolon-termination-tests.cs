@@ -18,7 +18,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
           {
               "semicolon-termination", "semicolon-termination-one-error", typeof(SemicolonTerminationRule), new List<RuleViolation>
               {
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 1, startColumn: 18)
+                  new RuleViolation("semicolon-termination", 1, 18)
               }
           },
           new object[]
@@ -29,37 +29,37 @@ namespace TSQLLint.Tests.UnitTests.Rules
           {
               "semicolon-termination", "semicolon-termination-multiple-errors-with-tab", typeof(SemicolonTerminationRule), new List<RuleViolation>
               {
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 2, startColumn: 24),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 3, startColumn: 28),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 4, startColumn: 36)
+                  new RuleViolation("semicolon-termination", 2, 24),
+                  new RuleViolation("semicolon-termination", 3, 28),
+                  new RuleViolation("semicolon-termination", 4, 36)
               }
           },
           new object[]
           {
               "semicolon-termination", "semicolon-termination-multiple-errors", typeof(SemicolonTerminationRule), new List<RuleViolation>
               {
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 1, startColumn: 20),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 4, startColumn: 13),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 12, startColumn: 47),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 14, startColumn: 29),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 19, startColumn: 47),
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 26, startColumn: 4)
+                  new RuleViolation("semicolon-termination", 1, 20),
+                  new RuleViolation("semicolon-termination", 4, 13),
+                  new RuleViolation("semicolon-termination", 12, 47),
+                  new RuleViolation("semicolon-termination", 14, 29),
+                  new RuleViolation("semicolon-termination", 19, 47),
+                  new RuleViolation("semicolon-termination", 26, 4)
               }
           },
           new object[]
           {
               "semicolon-termination", "semicolon-termination-one-error-mixed-state", typeof(SemicolonTerminationRule), new List<RuleViolation>
               {
-                  new RuleViolation(ruleName: "semicolon-termination", startLine: 1, startColumn: 20)
+                  new RuleViolation("semicolon-termination", 1, 20)
               }
           },
           new object[]
           {
               "semicolon-termination", "semicolon-termination-try-catch-while",  typeof(SemicolonTerminationRule), new List<RuleViolation>()
-          },
+          }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

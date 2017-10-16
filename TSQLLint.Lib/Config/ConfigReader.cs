@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
@@ -30,9 +30,8 @@ namespace TSQLLint.Lib.Config
         {
             var rules = jsonObject.SelectTokens("..plugins").ToList();
 
-            for (var index = 0; index < rules.Count; index++)
+            foreach (var rule in rules)
             {
-                var rule = rules[index];
                 foreach (var jToken in rule.Children())
                 {
                     var prop = (JProperty)jToken;
@@ -45,15 +44,13 @@ namespace TSQLLint.Lib.Config
         {
             var rules = jsonObject.SelectTokens("..rules").ToList();
 
-            for (var index = 0; index < rules.Count; index++)
+            foreach (var rule in rules)
             {
-                var rule = rules[index];
                 foreach (var jToken in rule.Children())
                 {
                     var prop = (JProperty)jToken;
 
-                    RuleViolationSeverity severity;
-                    if (!Enum.TryParse(prop.Value.ToString(), true, out severity))
+                    if (!Enum.TryParse(prop.Value.ToString(), true, out RuleViolationSeverity severity))
                     {
                         continue;
                     }
@@ -65,8 +62,7 @@ namespace TSQLLint.Lib.Config
 
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
-            RuleViolationSeverity ruleValue;
-            return Rules.TryGetValue(key, out ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return Rules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
         }
 
         public Dictionary<string, string> GetPlugins()
@@ -99,8 +95,7 @@ namespace TSQLLint.Lib.Config
 
         public void LoadConfigFromRules(string jsonConfigString)
         {
-            JToken token;
-            if (Utility.Utility.TryParseJson(jsonConfigString, out token))
+            if (Utility.Utility.TryParseJson(jsonConfigString, out var token))
             {
                 SetupRules(token);
                 SetupPlugins(token);

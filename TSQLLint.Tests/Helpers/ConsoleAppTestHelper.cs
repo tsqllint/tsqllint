@@ -13,11 +13,13 @@ namespace TSQLLint.Tests.Helpers
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_ApplicationPath))
+                if (!string.IsNullOrWhiteSpace(_ApplicationPath))
                 {
-                    var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
-                    _ApplicationPath = string.Format(@"{0}\TSQLLint.Console.exe", workingDirectory);
+                    return _ApplicationPath;
                 }
+                
+                var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
+                _ApplicationPath = $@"{workingDirectory}\TSQLLint.Console.exe";
 
                 return _ApplicationPath;
             }

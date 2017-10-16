@@ -5,6 +5,7 @@ using System.IO.Abstractions;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins;
+using TSQLLint.Lib.Plugins.Interfaces;
 
 namespace TSQLLint.Lib.Parser
 {
@@ -48,10 +49,8 @@ namespace TSQLLint.Lib.Parser
                 pathStrings[index] = pathStrings[index].Trim();
             }
 
-            for (var index = 0; index < pathStrings.Length; index++)
+            foreach (var pathString in pathStrings)
             {
-                var pathString = pathStrings[index];
-
                 if (!_fileSystem.File.Exists(pathString))
                 {
                     if (_fileSystem.Directory.Exists(pathString))
@@ -73,15 +72,15 @@ namespace TSQLLint.Lib.Parser
         private void ProcessDirectory(string path)
         {
             var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
-            for (var index = 0; index < subdirectoryEntries.Length; index++)
+            foreach (var t in subdirectoryEntries)
             {
-                ProcessPath(subdirectoryEntries[index]);
+                ProcessPath(t);
             }
 
             var fileEntries = _fileSystem.Directory.GetFiles(path);
-            for (var index = 0; index < fileEntries.Length; index++)
+            foreach (var t in fileEntries)
             {
-                ProcessIfSqlFile(fileEntries[index]);
+                ProcessIfSqlFile(t);
             }
         }
 
@@ -98,7 +97,7 @@ namespace TSQLLint.Lib.Parser
             var containsWildCard = path.Contains("*") || path.Contains("?");
             if (!containsWildCard)
             {
-                _reporter.Report(string.Format("{0} is not a valid path.", path));
+                _reporter.Report($"{path} is not a valid path.");
                 return;
             }
 
@@ -110,7 +109,7 @@ namespace TSQLLint.Lib.Parser
 
             if (!_fileSystem.Directory.Exists(dirPath))
             {
-                _reporter.Report(string.Format("Directory does not exit: {0}", dirPath));
+                _reporter.Report($"Directory does not exit: {dirPath}");
                 return;
             }
 
@@ -147,9 +146,9 @@ namespace TSQLLint.Lib.Parser
 
         public void ProcessList(List<string> paths)
         {
-            for (var index = 0; index < paths.Count; index++)
+            foreach (var t in paths)
             {
-                ProcessPath(paths[index]);
+                ProcessPath(t);
             }
         }
 

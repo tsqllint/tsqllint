@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
@@ -7,21 +7,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "schema-qualify";
-            }
-        }
+        public string RULE_NAME => "schema-qualify";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Object name not schema qualified";
-            }
-        }
+        public string RULE_TEXT => "Object name not schema qualified";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -68,15 +56,7 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildAliasVisitor : TSqlFragmentVisitor
         {
-            private readonly List<string> _TableAliases = new List<string>();
-
-            public List<string> TableAliases
-            {
-                get
-                {
-                    return _TableAliases;
-                }
-            }
+            public List<string> TableAliases { get; } = new List<string>();
 
             public override void Visit(TableReferenceWithAlias node)
             {

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Reflection;
 using TSQLLint.Common;
 using TSQLLint.Console.ConfigHandler.Interfaces;
@@ -33,13 +33,13 @@ namespace TSQLLint.Console.ConfigHandler
                 return false;
             }
 
-            if (_commandLineOptions.Version)
+            if (!_commandLineOptions.Version)
             {
-                ReportVersionInfo(_reporter);
-                return false;
+                return HandleConfigOptions();
             }
-
-            return HandleConfigOptions();
+            
+            ReportVersionInfo(_reporter);
+            return false;
         }
 
         private bool HandleConfigOptions()
@@ -52,13 +52,13 @@ namespace TSQLLint.Console.ConfigHandler
                 return false;
             }
 
-            if (_commandLineOptions.LintPath.Count < 1)
+            if (_commandLineOptions.LintPath.Count >= 1)
             {
-                ReportUsage();
-                return false;
+                return true;
             }
-
-            return true;
+            
+            ReportUsage();
+            return false;
         }
 
         private void SetupConfig()
@@ -87,15 +87,13 @@ namespace TSQLLint.Console.ConfigHandler
                 _commandLineOptions.DefaultConfigRules = _configFileGenerator.GetDefaultConfigRules();
                 _commandLineOptions.ConfigFile = null;
             }
-            else if ((_commandLineOptions.Init && !configFileExists) || _commandLineOptions.Force)
+            else if (_commandLineOptions.Init && !configFileExists || _commandLineOptions.Force)
             {
                 CreateConfigFile(configFile);
             }
             else if (!configFileExists)
             {
-                _reporter.Report(string.Format(
-                    "Config file not found at: {0} use the '--init' option to create if one does not exist or the '--force' option to overwrite",
-                    configFile));
+                _reporter.Report($"Config file not found at: {configFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite");
             }
         }
 
@@ -109,7 +107,7 @@ namespace TSQLLint.Console.ConfigHandler
             var assembly = Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             var version = fvi.FileVersion;
-            reporter.Report(string.Format("v{0}", version));
+            reporter.Report($"v{version}");
         }
 
         private void ReportUsage()
@@ -126,7 +124,7 @@ namespace TSQLLint.Console.ConfigHandler
         {
             _reporter.Report(!string.IsNullOrWhiteSpace(_commandLineOptions.DefaultConfigRules)
                 ? "Using default config instead of a file"
-                : string.Format("Config file found at: {0}", _commandLineOptions.ConfigFile));
+                : $"Config file found at: {_commandLineOptions.ConfigFile}");
         }
     }
 }

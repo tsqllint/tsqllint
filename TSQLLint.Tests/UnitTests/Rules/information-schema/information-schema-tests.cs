@@ -18,27 +18,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "information-schema", "information-schema-one-error", typeof(InformationSchemaRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "information-schema", startLine: 2, startColumn: 27)
+                    new RuleViolation("information-schema", 2, 27)
                 }
             },
             new object[]
             {
                 "information-schema", "information-schema-two-errors", typeof(InformationSchemaRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "information-schema", startLine: 5, startColumn: 26),
-                    new RuleViolation(ruleName: "information-schema", startLine: 2, startColumn: 27)
+                    new RuleViolation("information-schema", 5, 26),
+                    new RuleViolation("information-schema", 2, 27)
                 }
             },
             new object[]
             {
                 "information-schema", "information-schema-one-error-mixed-state", typeof(InformationSchemaRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "information-schema", startLine: 2, startColumn: 27)
+                    new RuleViolation("information-schema", 2, 27)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

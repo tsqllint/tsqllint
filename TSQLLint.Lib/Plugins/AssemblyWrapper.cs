@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Reflection;
+using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Lib.Plugins
 {

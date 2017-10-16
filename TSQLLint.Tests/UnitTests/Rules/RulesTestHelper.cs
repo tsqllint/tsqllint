@@ -16,20 +16,22 @@ namespace TSQLLint.Tests.UnitTests.Rules
         public static void RunRulesTest(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             // arrange
-            var sqlString = TestHelper.GetUnitTestFile(string.Format(@"Rules\{0}\test-files\{1}.sql", rule, testFileName));
+            var sqlString = TestHelper.GetUnitTestFile($@"Rules\{rule}\test-files\{testFileName}.sql");
 
             var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();
 
-            Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLine, int startColumn)
-            {
-                ruleViolations.Add(new RuleViolation(ruleName, startLine, startColumn));
-            };
+            var violations = ruleViolations;
 
-            var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, ErrorCallback);
+            void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
+            {
+                violations.Add(new RuleViolation(ruleName, startLine, startColumn));
+            }
+
+            var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, args: (Action<string, string, int, int>)ErrorCallback);
             var textReader = Lib.Utility.Utility.CreateTextReaderFromString(sqlString);
 
-            var compareer = new RuleViolationCompare();
+            var compareer = new RuleViolationComparer();
 
             // act
             fragmentVisitor.VisitRule(textReader, visitor);

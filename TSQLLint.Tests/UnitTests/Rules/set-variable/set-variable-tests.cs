@@ -18,27 +18,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "set-variable", "set-variable-one-error-mixed-state", typeof(SetVariableRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "set-variable", startLine: 6, startColumn: 1)
+                    new RuleViolation("set-variable", 6, 1)
                 }
             },
             new object[]
             {
                 "set-variable", "set-variable-one-error", typeof(SetVariableRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "set-variable", startLine: 4, startColumn: 1)
+                    new RuleViolation("set-variable", 4, 1)
                 }
             },
             new object[]
             {
                 "set-variable", "set-variable-two-errors", typeof(SetVariableRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "set-variable", startLine: 2, startColumn: 1),
-                    new RuleViolation(ruleName: "set-variable", startLine: 7, startColumn: 1)
+                    new RuleViolation("set-variable", 2, 1),
+                    new RuleViolation("set-variable", 7, 1)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

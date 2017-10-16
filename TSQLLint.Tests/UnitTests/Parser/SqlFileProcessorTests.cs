@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
@@ -7,7 +7,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Plugins;
+using TSQLLint.Lib.Plugins.Interfaces;
 
 namespace TSQLLint.Tests.UnitTests.Parser
 {
@@ -27,7 +27,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             pluginHandler.Plugins.Returns(
                 new List<IPlugin>
                 {
-                    Substitute.For<IPlugin>(),
+                    Substitute.For<IPlugin>()
                 });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
@@ -224,7 +224,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             fileBase.Received().Exists(filePath);
             directoryBase.Received().Exists(filePath);
             ruleVisitor.DidNotReceive().VisitRules(filePath, Arg.Any<TextReader>());
-            reporter.Received().Report(string.Format("{0} is not a valid path.", filePath));
+            reporter.Received().Report($"{filePath} is not a valid path.");
             Assert.AreEqual(0, processor.GetFileCount());
         }
 
@@ -477,7 +477,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 },
                 {
                     filePath2, new MockFileData("File2SQL")
-                },
+                }
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
@@ -490,7 +490,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
-            reporter.Received().Report(string.Format(@"{0} is not a valid path.", invalidFilePath));
+            reporter.Received().Report($@"{invalidFilePath} is not a valid path.");
             Assert.AreEqual(2, processor.GetFileCount());
         }
     }

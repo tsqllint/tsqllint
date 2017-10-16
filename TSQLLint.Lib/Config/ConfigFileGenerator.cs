@@ -48,7 +48,7 @@ namespace TSQLLint.Lib.Config
         public void WriteConfigFile(string path)
         {
             File.WriteAllText(path, ConfigString);
-            _reporter.Report(string.Format("Created default config file {0}.", path));
+            _reporter.Report($"Created default config file {path}.");
         }
     }
 }

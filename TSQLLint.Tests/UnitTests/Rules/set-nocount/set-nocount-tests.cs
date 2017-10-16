@@ -22,16 +22,16 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "set-nocount", "set-nocount-one-error-rowset-action", typeof(SetNoCountRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "set-nocount", startLine: 1, startColumn: 1)
+                    new RuleViolation("set-nocount", 1, 1)
                 }
             },
             new object[]
             {
                 "set-nocount", "set-nocount-no-rowset-action",  typeof(SetNoCountRule), new List<RuleViolation>()
-            },
+            }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

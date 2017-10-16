@@ -25,8 +25,7 @@ namespace TSQLLint.Lib.Parser
 
         public void VisitRules(string sqlPath, TextReader sqlTextReader)
         {
-            IList<ParseError> errors;
-            var sqlFragment = GetFragment(sqlTextReader, out errors);
+            var sqlFragment = GetFragment(sqlTextReader, out var errors);
 
             if (errors.Count > 0)
             {
@@ -35,17 +34,15 @@ namespace TSQLLint.Lib.Parser
             }
 
             var ruleVisitors = RuleVisitorBuilder.BuildVisitors(sqlPath);
-            for (var index = 0; index < ruleVisitors.Count; index++)
+            foreach (var visitor in ruleVisitors)
             {
-                var visitor = ruleVisitors[index];
                 sqlFragment.Accept(visitor);
             }
         }
 
         public void VisitRule(TextReader txtRdr, TSqlFragmentVisitor visitor)
         {
-            IList<ParseError> errors;
-            var sqlFragment = GetFragment(txtRdr, out errors);
+            var sqlFragment = GetFragment(txtRdr, out _);
             sqlFragment.Accept(visitor);
         }
 

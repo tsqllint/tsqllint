@@ -18,12 +18,12 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "set-quoted-identifier", "set-quoted-identifier-one-error", typeof(SetQuotedIdentifierRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "set-quoted-identifier", startLine: 1, startColumn: 1)
+                    new RuleViolation("set-quoted-identifier", 1, 1)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

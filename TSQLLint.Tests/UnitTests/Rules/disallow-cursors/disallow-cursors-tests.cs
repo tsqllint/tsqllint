@@ -18,27 +18,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "disallow-cursors", "disallow-cursors-one-error", typeof(DisallowCursorRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "disallow-cursors", startLine: 3, startColumn: 1)
+                    new RuleViolation("disallow-cursors", 3, 1)
                 }
             },
             new object[]
             {
                 "disallow-cursors", "disallow-cursors-two-errors", typeof(DisallowCursorRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "disallow-cursors", startLine: 3, startColumn: 1),
-                    new RuleViolation(ruleName: "disallow-cursors", startLine: 4, startColumn: 1)
+                    new RuleViolation("disallow-cursors", 3, 1),
+                    new RuleViolation("disallow-cursors", 4, 1)
                 }
             },
             new object[]
             {
                 "disallow-cursors", "disallow-cursors-one-error-mixed-state", typeof(DisallowCursorRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "disallow-cursors", startLine: 4, startColumn: 1)
+                    new RuleViolation("disallow-cursors", 4, 1)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

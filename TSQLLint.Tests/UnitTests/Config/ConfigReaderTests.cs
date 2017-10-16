@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
@@ -16,7 +16,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             var fileSystem = new MockFileSystem();
             var reporter = Substitute.For<IReporter>();
 
-            var defaultConfigFile = @"
+            const string defaultConfigFile = @"
             {
                 'rules': {
                     'select-star': 'error',
@@ -82,7 +82,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                             'statement-semicolon-termination': 'warning'
                         }
                     }")
-                },
+                }
             });
 
             var reporter = Substitute.For<IReporter>();
@@ -105,7 +105,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             {
                 {
                     configFilePath, new MockFileData(@"{}")
-                },
+                }
             });
 
             var reporter = Substitute.For<IReporter>();
@@ -115,6 +115,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             {
                 // act
                 var configReader = new ConfigReader(reporter, fileSystem);
+                Assert.IsNotNull(configReader);
             });
         }
 
@@ -133,7 +134,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                             'statement-semicolon-termination': 'warning'
                         }
                     }")
-                },
+                }
             });
 
             var reporter = Substitute.For<IReporter>();
@@ -159,7 +160,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                             'select-star': 'foo'
                         }
                     }")
-                },
+                }
             });
             var reporter = Substitute.For<IReporter>();
 
@@ -180,7 +181,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             {
                 {
                     configFilePath, new MockFileData(@"{")
-                },
+                }
             });
 
             var reporter = Substitute.For<IReporter>();

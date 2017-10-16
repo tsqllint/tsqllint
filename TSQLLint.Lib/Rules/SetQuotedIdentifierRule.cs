@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SetQuotedIdentifierRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "set-quoted-identifier";
-            }
-        }
+        public string RULE_NAME => "set-quoted-identifier";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected SET QUOTED_IDENTIFIER ON near top of file";
-            }
-        }
+        public string RULE_TEXT => "Expected SET QUOTED_IDENTIFIER ON near top of file";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -35,11 +23,14 @@ namespace TSQLLint.Lib.Rules
         {
             var childQuotedidentifierVisitor = new ChildQuotedidentifierVisitor();
             node.AcceptChildren(childQuotedidentifierVisitor);
-            if (!childQuotedidentifierVisitor.QuotedIdentifierFound && !ErrorLogged)
+            
+            if (childQuotedidentifierVisitor.QuotedIdentifierFound || ErrorLogged)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-                ErrorLogged = true;
+                return;
             }
+            
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            ErrorLogged = true;
         }
 
         public class ChildQuotedidentifierVisitor : TSqlFragmentVisitor

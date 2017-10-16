@@ -18,27 +18,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "upper-lower", "upper-lower-one-error", typeof(UpperLowerRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "upper-lower", startLine: 1, startColumn: 8)
+                    new RuleViolation("upper-lower", 1, 8)
                 }
             },
             new object[]
             {
                 "upper-lower", "upper-lower-two-errors", typeof(UpperLowerRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "upper-lower", startLine: 1, startColumn: 8),
-                    new RuleViolation(ruleName: "upper-lower", startLine: 2, startColumn: 8)
+                    new RuleViolation("upper-lower", 1, 8),
+                    new RuleViolation("upper-lower", 2, 8)
                 }
             },
             new object[]
             {
                 "upper-lower", "upper-lower-one-error-mixed-state", typeof(UpperLowerRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "upper-lower", startLine: 3, startColumn: 8)
+                    new RuleViolation("upper-lower", 3, 8)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

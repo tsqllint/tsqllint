@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using TSQLLint.Lib.Rules.Common;
 using TSQLLint.Lib.Rules.Interface;
@@ -8,21 +8,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class KeywordCapitalizationRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "keyword-capitalization";
-            }
-        }
+        public string RULE_NAME => "keyword-capitalization";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected TSQL Keyword to be capitalized";
-            }
-        }
+        public string RULE_TEXT => "Expected TSQL Keyword to be capitalized";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -56,15 +44,7 @@ namespace TSQLLint.Lib.Rules
 
         private static bool IsUpperCase(string input)
         {
-            for (var i = 0; i < input.Length; i++)
-            {
-                if (char.IsLetter(input[i]) && !char.IsUpper(input[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return input.All(t => !char.IsLetter(t) || char.IsUpper(t));
         }
     }
 }

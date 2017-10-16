@@ -13,7 +13,7 @@ namespace TSQLLint.Tests.Helpers
 
         public string GetUnitTestFile(string testFilePath)
         {
-            var path = Path.GetFullPath(Path.Combine(WorkingDirectory, string.Format(@"..\..\UnitTests\{0}", testFilePath)));
+            var path = Path.GetFullPath(Path.Combine(WorkingDirectory, $@"..\..\UnitTests\{testFilePath}"));
             return File.ReadAllText(path);
         }
     }

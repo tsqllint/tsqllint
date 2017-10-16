@@ -4,6 +4,8 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using TSQLLint.Common;
+using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Plugins.Interfaces;
 
 namespace TSQLLint.Lib.Plugins
 {
@@ -14,13 +16,7 @@ namespace TSQLLint.Lib.Plugins
         private readonly IFileSystem _fileSystem;
         private List<IPlugin> _plugins;
 
-        public IList<IPlugin> Plugins
-        {
-            get
-            {
-                return _plugins ?? (_plugins = new List<IPlugin>());
-            }
-        }
+        public IList<IPlugin> Plugins => _plugins ?? (_plugins = new List<IPlugin>());
 
         public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths) : this(reporter, pluginPaths, new FileSystem(), new AssemblyWrapper())
         {
@@ -59,15 +55,15 @@ namespace TSQLLint.Lib.Plugins
         public void LoadPluginDirectory(string path)
         {
             var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
-            for (var index = 0; index < subdirectoryEntries.Length; index++)
+            foreach (var t in subdirectoryEntries)
             {
-                ProcessPath(subdirectoryEntries[index]);
+                ProcessPath(t);
             }
 
             var fileEntries = _fileSystem.Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
-            for (var index = 0; index < fileEntries.Length; index++)
+            foreach (var t in fileEntries)
             {
-                LoadPlugin(fileEntries[index]);
+                LoadPlugin(t);
             }
         }
 
@@ -85,21 +81,21 @@ namespace TSQLLint.Lib.Plugins
                 // todo dont allow duplicates
                 Plugins.Add((IPlugin)Activator.CreateInstance(type));
 
-                _reporter.Report(string.Format("\nLoaded plugin {0}\n", type.FullName));
+                _reporter.Report($"\nLoaded plugin {type.FullName}\n");
             }
         }
 
         public void ActivatePlugins(IPluginContext pluginContext)
         {
-            for (var index = 0; index < Plugins.Count; index++)
+            foreach (var t in Plugins)
             {
                 try
                 {
-                    Plugins[index].PerformAction(pluginContext, _reporter);
+                    t.PerformAction(pluginContext, _reporter);
                 }
                 catch (Exception e)
                 {
-                    _reporter.Report(String.Format("\nThere was a problem with plugin: {0}\n\n{1}", Plugins[index].GetType(), e));
+                    _reporter.Report($"\nThere was a problem with plugin: {t.GetType()}\n\n{e}");
                     throw;
                 }
             }

@@ -2,13 +2,7 @@ namespace TSQLLint.Lib.Rules.Common
 {
     public static class Constants
     {
-        public static int TabWidth
-        {
-            get
-            {
-                return 4;
-            }
-        }
+        public static int TabWidth => 4;
 
         public static readonly string[] TSqlKeywords = 
         {
@@ -196,7 +190,7 @@ namespace TSQLLint.Lib.Rules.Common
             "WHILE",
             "WITH",
             "WITHIN GROUP",
-            "WRITETEXT",
+            "WRITETEXT"
         };
     }
 }

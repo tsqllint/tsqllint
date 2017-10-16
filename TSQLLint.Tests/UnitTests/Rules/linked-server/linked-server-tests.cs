@@ -14,13 +14,13 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "linked-server", "linked-server-one-error", typeof(LinkedServerRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "linked-server", startLine: 1, startColumn: 17),
+                    new RuleViolation("linked-server", 1, 17)
                 }
             },
             new object[] { "linked-server", "linked-server-no-error", typeof(LinkedServerRule), new List<RuleViolation>() }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

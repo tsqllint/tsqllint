@@ -67,13 +67,12 @@
     <Compile Include="FunctionalTests\ConsoleAppTests.cs" />
     <Compile Include="Helpers\HelperTests.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="IntegrationTests\IntegrationExistingConfigTests.cs" />
-    <Compile Include="IntegrationTests\IntegrationConfigBase.cs" />
-    <Compile Include="IntegrationTests\IntegrationMissingConfigTests.cs" />
+    <Compile Include="IntegrationTests\ExistingConfigTests.cs" />
+    <Compile Include="IntegrationTests\IntegrationBaseTest.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineParserTest.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
-    <Compile Include="Helpers\RuleViolationCompare.cs" />
+    <Compile Include="Helpers\RuleViolationComparer.cs" />
     <Compile Include="UnitTests\Parser\SqlFileProcessorTests.cs" />
     <Compile Include="UnitTests\PluginHandler\AssemblyWrapperTests.cs" />
     <Compile Include="UnitTests\PluginHandler\PluginContextTests.cs" />

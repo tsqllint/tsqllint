@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SelectStarRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "select-star";
-            }
-        }
+        public string RULE_NAME => "select-star";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected column names in SELECT";
-            }
-        }
+        public string RULE_TEXT => "Expected column names in SELECT";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -52,20 +40,7 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildVisitor : TSqlFragmentVisitor
         {
-            private int _SelectStarExpressionCount = 0;
-
-            public int SelectStarExpressionCount
-            {
-                get
-                {
-                    return _SelectStarExpressionCount;
-                }
-
-                set
-                {
-                    _SelectStarExpressionCount = value;
-                }
-            }
+            public int SelectStarExpressionCount { get; set; }
 
             public override void Visit(SelectStarExpression node)
             {

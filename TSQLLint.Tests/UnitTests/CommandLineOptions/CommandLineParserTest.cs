@@ -19,7 +19,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             };
 
             // act
-            var commandLineOptions = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args);
+            var commandLineOptions = new Console.ConfigHandler.CommandLineOptions(args);
 
             // assert
             Assert.AreEqual("config.file", commandLineOptions.ConfigFile);
@@ -40,7 +40,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             };
 
             // act
-            var commandLineOptions = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args);
+            var commandLineOptions = new Console.ConfigHandler.CommandLineOptions(args);
 
             // assert
             Assert.AreEqual(fileOne, commandLineOptions.LintPath[0]);
@@ -61,7 +61,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             };
 
             // act
-            var commandLineOptions = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args);
+            var commandLineOptions = new Console.ConfigHandler.CommandLineOptions(args);
 
             // assert
             Assert.AreEqual(fileOne, commandLineOptions.LintPath[0]);
@@ -75,7 +75,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             var args = new string[0];
 
             // act
-            var commandLineParser = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args);
+            var commandLineParser = new Console.ConfigHandler.CommandLineOptions(args);
 
             // assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
@@ -89,7 +89,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
             // act
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var commandLineParser = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args);
+            var commandLineParser = new Console.ConfigHandler.CommandLineOptions(args);
 
             // assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
@@ -106,7 +106,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
             // act
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var commandLineParser = new TSQLLint.Console.ConfigHandler.CommandLineOptions(args);
+            var commandLineParser = new Console.ConfigHandler.CommandLineOptions(args);
 
             // assert
             Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));

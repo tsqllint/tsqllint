@@ -16,14 +16,14 @@ namespace TSQLLint.Tests.UnitTests.Rules
             },
             new object[]
             {
-                "cross-database", "cross-database-one-error",  typeof(CrossDatabaseRule), new List<RuleViolation>()
+                "cross-database", "cross-database-one-error",  typeof(CrossDatabaseRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "cross-database", startLine: 1, startColumn: 17)
+                    new RuleViolation("cross-database", 1, 17)
                 }
             }
         };
 
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

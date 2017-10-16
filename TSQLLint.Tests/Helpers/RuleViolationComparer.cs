@@ -1,18 +1,15 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.Helpers
 {
-    public class RuleViolationCompare : IComparer, IComparer<RuleViolation>
+    public class RuleViolationComparer : IComparer, IComparer<RuleViolation>
     {
         public int Compare(object x, object y)
         {
-            var lhs = x as RuleViolation;
-            var rhs = y as RuleViolation;
-
-            if (lhs == null || rhs == null)
+            if (!(x is RuleViolation lhs) || !(y is RuleViolation rhs))
             {
                 throw new InvalidOperationException("cannot compare null object");
             }
@@ -22,17 +19,17 @@ namespace TSQLLint.Tests.Helpers
 
         public int Compare(RuleViolation x, RuleViolation y)
         {
-            if (x.Line != y.Line)
+            if (y != null && x != null && x.Line != y.Line)
             {
                 return -1;
             }
 
-            if (x.Column != y.Column)
+            if (y != null && x != null && x.Column != y.Column)
             {
                 return -1;
             }
 
-            if (x.RuleName != y.RuleName)
+            if (y != null && x != null && x.RuleName != y.RuleName)
             {
                 return -1;
             }

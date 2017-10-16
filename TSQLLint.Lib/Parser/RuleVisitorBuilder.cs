@@ -13,7 +13,7 @@ namespace TSQLLint.Lib.Parser
     {
         private readonly IReporter Reporter;
         private readonly IConfigReader ConfigReader;
-        public readonly List<Type> RuleVisitorTypes = new List<Type>()
+        public readonly List<Type> RuleVisitorTypes = new List<Type>
         {
             typeof(ConditionalBeginEndRule),
             typeof(CrossDatabaseRule),
@@ -48,10 +48,9 @@ namespace TSQLLint.Lib.Parser
         public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath)
         {
             var configuredVisitors = new List<TSqlFragmentVisitor>();
-            for (var index = 0; index < RuleVisitorTypes.Count; index++)
+            foreach (var visitor in RuleVisitorTypes)
             {
-                var visitor = RuleVisitorTypes[index];
-                Action<string, string, int, int> ErrorCallback = delegate(string ruleName, string ruleText, int startLne, int startColumn)
+                void ErrorCallback(string ruleName, string ruleText, int startLne, int startColumn)
                 {
                     var ruleSeverity = ConfigReader.GetRuleSeverity(ruleName);
 
@@ -61,16 +60,10 @@ namespace TSQLLint.Lib.Parser
                         Environment.ExitCode = 1;
                     }
 
-                    Reporter.ReportViolation(new RuleViolation(
-                        sqlPath,
-                        ruleName,
-                        ruleText,
-                        startLne,
-                        startColumn,
-                        ruleSeverity));
-                };
+                    Reporter.ReportViolation(new RuleViolation(sqlPath, ruleName, ruleText, startLne, startColumn, ruleSeverity));
+                }
 
-                var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, ErrorCallback);
+                var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, (Action<string, string, int, int>)ErrorCallback);
                 var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
 
                 if (severity == RuleViolationSeverity.Error || severity == RuleViolationSeverity.Warning)

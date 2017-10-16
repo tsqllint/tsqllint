@@ -1,4 +1,4 @@
-﻿using TSQLLint.Common;
+using TSQLLint.Common;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
@@ -14,16 +14,16 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             Severity = ruleViolationSeverity;
         }
 
-        public int Column { get; private set; }
+        public int Column { get; }
 
-        public string FileName { get; private set; }
+        public string FileName { get; }
 
-        public int Line { get; private set; }
+        public int Line { get; }
 
-        public string RuleName { get; private set; }
+        public string RuleName { get; }
 
-        public RuleViolationSeverity Severity { get; private set; }
+        public RuleViolationSeverity Severity { get; }
 
-        public string Text { get; private set; }
+        public string Text { get; }
     }
 }

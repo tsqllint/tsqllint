@@ -18,7 +18,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "data-type-length", "data-type-length-one-error", typeof(DataTypeLengthRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "data-type-length", startLine: 3, startColumn: 19)
+                    new RuleViolation("data-type-length", 3, 19)
                 }
             },
 
@@ -26,27 +26,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "data-type-length", "data-type-length-one-error-mixed-state", typeof(DataTypeLengthRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "data-type-length", startLine: 7, startColumn: 15)
+                    new RuleViolation("data-type-length", 7, 15)
                 }
             },
             new object[]
             {
                 "data-type-length", "data-type-length-all-errors", typeof(DataTypeLengthRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "data-type-length", startLine: 2,  startColumn: 17),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 3,  startColumn: 20),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 4,  startColumn: 23),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 5,  startColumn: 19),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 6,  startColumn: 20),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 7,  startColumn: 22),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 8,  startColumn: 22),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 9,  startColumn: 22),
-                    new RuleViolation(ruleName: "data-type-length", startLine: 10, startColumn: 19),
+                    new RuleViolation("data-type-length", 2,  17),
+                    new RuleViolation("data-type-length", 3,  20),
+                    new RuleViolation("data-type-length", 4,  23),
+                    new RuleViolation("data-type-length", 5,  19),
+                    new RuleViolation("data-type-length", 6,  20),
+                    new RuleViolation("data-type-length", 7,  22),
+                    new RuleViolation("data-type-length", 8,  22),
+                    new RuleViolation("data-type-length", 9,  22),
+                    new RuleViolation("data-type-length", 10, 19)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using NUnit.Framework;
 using TSQLLint.Lib.Plugins;
@@ -11,8 +11,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         {
             get
             {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
+                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                var uri = new UriBuilder(codeBase);
                 return Uri.UnescapeDataString(uri.Path);
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLint.Lib.Rules.Common
@@ -17,13 +18,7 @@ namespace TSQLLint.Lib.Rules.Common
                     continue;
                 }
 
-                for (var charIndex = 0; charIndex < token.Text.Length; charIndex++)
-                {
-                    if (token.Text[charIndex] == '\t')
-                    {
-                        tabCount++;
-                    }
-                }
+                tabCount += token.Text.Count(t => t == '\t');
             }
 
             return tabCount;
@@ -31,12 +26,12 @@ namespace TSQLLint.Lib.Rules.Common
 
         public static int GetColumnNumberBeforeToken(int tabsOnLine, TSqlParserToken token)
         {
-            return token.Column + ((tabsOnLine * Constants.TabWidth) - tabsOnLine);
+            return token.Column + (tabsOnLine * Constants.TabWidth - tabsOnLine);
         }
 
         public static int GetColumnNumberAfterToken(int tabsOnLine, TSqlParserToken token)
         {
-            return token.Column + token.Text.Length + ((tabsOnLine * Constants.TabWidth) - tabsOnLine);
+            return token.Column + token.Text.Length + (tabsOnLine * Constants.TabWidth - tabsOnLine);
         }
     }
 }

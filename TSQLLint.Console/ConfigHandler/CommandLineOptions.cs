@@ -14,7 +14,7 @@ namespace TSQLLint.Console.ConfigHandler
 
         public string[] Args { get; set; }
 
-        [Option(shortName: 'c',
+        [Option('c',
              longName: "config",
              Required = false,
              HelpText = "Used to specify a .tsqllintrc file path other than the default")]
@@ -22,13 +22,13 @@ namespace TSQLLint.Console.ConfigHandler
 
         public string DefaultConfigRules { get; set; }
 
-        [Option(shortName: 'f',
+        [Option('f',
             longName: "force",
             Required = false,
             HelpText = "Used to force generation of default config file when one already exists")]
         public bool Force { get; set; }
 
-        [Option(shortName: 'i',
+        [Option('i',
             longName: "init",
             Required = false,
             HelpText = "Generate default .tsqllintrc config file")]
@@ -37,21 +37,21 @@ namespace TSQLLint.Console.ConfigHandler
         [ValueList(typeof(List<string>))]
         public List<string> LintPath { get; set; }
 
-        [Option(shortName: 'p',
+        [Option('p',
             longName: "print-config",
             Required = false,
             HelpText = "Print path to config file"),
         TSQLLintOption(NonLintingCommand = true)]
         public bool PrintConfig { get; set; }
 
-        [Option(shortName: 'v',
+        [Option('v',
             longName: "version",
             Required = false,
             HelpText = "Display tsqllint version"),
         TSQLLintOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
-        [Option(shortName: 'h',
+        [Option('h',
             longName: "help",
             Required = false,
             HelpText = "Display this help dialog")]
@@ -62,7 +62,7 @@ namespace TSQLLint.Console.ConfigHandler
         {
             var help = new HelpText
             {
-                AddDashesToOption = true,
+                AddDashesToOption = true
             };
 
             help.AddPreOptionsLine("tsqllint [options] [file.sql] | [dir] | [file.sql | dir]");

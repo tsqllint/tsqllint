@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class ConditionalBeginEndRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "conditional-begin-end";
-            }
-        }
+        public string RULE_NAME => "conditional-begin-end";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected BEGIN and END statement within conditional logic block";
-            }
-        }
+        public string RULE_TEXT => "Expected BEGIN and END statement within conditional logic block";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

@@ -18,27 +18,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "data-compression", "data-compression-one-error", typeof(DataCompressionOptionRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "data-compression", startLine: 1, startColumn: 1)
+                    new RuleViolation("data-compression", 1, 1)
                 }
             },
             new object[]
             {
                 "data-compression", "data-compression-two-errors", typeof(DataCompressionOptionRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "data-compression", startLine: 1, startColumn: 1),
-                    new RuleViolation(ruleName: "data-compression", startLine: 5, startColumn: 1)
+                    new RuleViolation("data-compression", 1, 1),
+                    new RuleViolation("data-compression", 5, 1)
                 }
             },
             new object[]
             {
                 "data-compression", "data-compression-one-error-mixed-state", typeof(DataCompressionOptionRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "data-compression", startLine: 6, startColumn: 1)
+                    new RuleViolation("data-compression", 6, 1)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

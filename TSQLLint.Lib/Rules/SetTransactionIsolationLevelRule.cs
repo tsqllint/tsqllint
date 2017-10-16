@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SetTransactionIsolationLevelRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "set-transaction-isolation-level";
-            }
-        }
+        public string RULE_NAME => "set-transaction-isolation-level";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED near top of file";
-            }
-        }
+        public string RULE_TEXT => "Expected SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED near top of file";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -35,11 +23,14 @@ namespace TSQLLint.Lib.Rules
         {
             var childTransactionIsolationLevelVisitor = new ChildTransactionIsolationLevelVisitor();
             node.AcceptChildren(childTransactionIsolationLevelVisitor);
-            if (!childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound && !ErrorLogged)
+            
+            if (childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound || ErrorLogged)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-                ErrorLogged = true;
+                return;
             }
+            
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            ErrorLogged = true;
         }
 
         public class ChildTransactionIsolationLevelVisitor : TSqlFragmentVisitor

@@ -8,21 +8,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SemicolonTerminationRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "semicolon-termination";
-            }
-        }
+        public string RULE_NAME => "semicolon-termination";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Statement not terminated with semicolon";
-            }
-        }
+        public string RULE_TEXT => "Statement not terminated with semicolon";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

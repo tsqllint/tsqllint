@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class ObjectPropertyRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "object-property";
-            }
-        }
+        public string RULE_NAME => "object-property";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected use of SYS.COLUMNS rather than ObjectProperty function";
-            }
-        }
+        public string RULE_TEXT => "Expected use of SYS.COLUMNS rather than ObjectProperty function";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

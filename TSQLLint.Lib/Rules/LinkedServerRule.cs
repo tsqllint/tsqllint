@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class LinkedServerRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "linked-server";
-            }
-        }
+        public string RULE_NAME => "linked-server";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Linked server queries can cause table locking and are discouraged";
-            }
-        }
+        public string RULE_TEXT => "Linked server queries can cause table locking and are discouraged";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

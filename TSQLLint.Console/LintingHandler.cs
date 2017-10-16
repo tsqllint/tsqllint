@@ -10,8 +10,6 @@ namespace TSQLLint.Console
     {
         private readonly SqlFileProcessor Parser;
 
-        private readonly SqlRuleVisitor RuleVisitor;
-
         private readonly CommandLineOptions CommandLineOptions;
 
         public int LintedFileCount { get; private set; }
@@ -25,8 +23,8 @@ namespace TSQLLint.Console
 
             var pluginHandler = new PluginHandler(reporter, configReader.GetPlugins());
 
-            RuleVisitor = new SqlRuleVisitor(configReader, reporter);
-            Parser = new SqlFileProcessor(pluginHandler, RuleVisitor, reporter);
+            var ruleVisitor = new SqlRuleVisitor(configReader, reporter);
+            Parser = new SqlFileProcessor(pluginHandler, ruleVisitor, reporter);
         }
 
         public void Lint()

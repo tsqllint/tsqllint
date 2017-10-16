@@ -17,7 +17,8 @@ namespace TSQLLint.Console.Reporters
 
         public void ReportResults(TimeSpan timespan, int fileCount)
         {
-            Report(string.Format("\nLinted {0} files in {1} seconds\n\n{2} Errors.\n{3} Warnings", fileCount, timespan.TotalSeconds, ErrorCount, WarningCount));
+            Report(
+                $"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{ErrorCount} Errors.\n{WarningCount} Warnings");
         }
 
         public void ReportViolation(IRuleViolation violation)
@@ -48,14 +49,7 @@ namespace TSQLLint.Console.Reporters
         public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
         {
             Report(
-                string.Format(
-                    "{0}({1},{2}): {3} {4} : {5}.",
-                    fileName,
-                    line,
-                    column,
-                    severity,
-                    ruleName,
-                    violationText));
+                $"{fileName}({line},{column}): {severity} {ruleName} : {violationText}.");
         }
     }
 }

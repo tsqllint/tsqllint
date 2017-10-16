@@ -11,7 +11,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void Properties_ShouldReturnInitializedValues()
         {
             // arrange
-            var path = @"c:\foo\foo.sql";
+            const string path = @"c:\foo\foo.sql";
             var foo = Substitute.For<TextReader>();
 
             // act

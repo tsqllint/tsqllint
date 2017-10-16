@@ -21,16 +21,21 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"-foo", 1)]
         public void ExitCodeTest(string arguments, int expectedExitCode)
         {
-            DataReceivedEventHandler outputHandler = (sender, args) => { };
-            DataReceivedEventHandler errorHandler = (sender, args) => { };
+            void OutputHandler(object sender, DataReceivedEventArgs args)
+            {
+            }
 
-            EventHandler exitHandler = (sender, args) =>
+            void ErrorHandler(object sender, DataReceivedEventArgs args)
+            {
+            }
+
+            void ExitHandler(object sender, EventArgs args)
             {
                 var processExitCode = ((Process)sender).ExitCode;
-                Assert.AreEqual(expectedExitCode, processExitCode, string.Format("Exit code should be {0}", expectedExitCode));
-            };
+                Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
+            }
 
-            var process = ConsoleAppTestHelper.GetProcess(arguments, outputHandler, errorHandler, exitHandler);
+            var process = ConsoleAppTestHelper.GetProcess(arguments, OutputHandler, ErrorHandler, ExitHandler);
             ConsoleAppTestHelper.RunApplication(process);
         }
 
@@ -41,26 +46,28 @@ namespace TSQLLint.Tests.FunctionalTests
         {
             var fileLinted = false;
 
-            DataReceivedEventHandler outputHandler = (sender, args) =>
+            void OutputHandler(object sender, DataReceivedEventArgs args)
             {
                 if (args.Data != null && args.Data.Contains("Linted 1 files in"))
                 {
                     fileLinted = true;
                 }
-            };
+            }
 
-            DataReceivedEventHandler errorHandler = (sender, args) => { };
+            void ErrorHandler(object sender, DataReceivedEventArgs args)
+            {
+            }
 
-            EventHandler exitHandler = (sender, args) =>
+            void ExitHandler(object sender, EventArgs args)
             {
                 var processExitCode = ((Process)sender).ExitCode;
-                Assert.AreEqual(expectedExitCode, processExitCode, string.Format("Exit code should be {0}", expectedExitCode));
-            };
+                Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
+            }
 
-            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, string.Format(@"..\..\FunctionalTests\{0}", testFile)));
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"..\..\FunctionalTests\{testFile}"));
             var configFilePath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\FunctionalTests\.tsqllintrc"));
             
-            var process = ConsoleAppTestHelper.GetProcess(string.Format("-c {0} {1}", configFilePath, path), outputHandler, errorHandler, exitHandler);
+            var process = ConsoleAppTestHelper.GetProcess($"-c {configFilePath} {path}", OutputHandler, ErrorHandler, ExitHandler);
             ConsoleAppTestHelper.RunApplication(process);
 
             Assert.IsTrue(fileLinted);

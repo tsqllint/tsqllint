@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +7,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class DataTypeLengthRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "data-type-length";
-            }
-        }
+        public string RULE_NAME => "data-type-length";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Date type length not specified";
-            }
-        }
+        public string RULE_TEXT => "Date type length not specified";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -44,14 +33,9 @@ namespace TSQLLint.Lib.Rules
 
         public override void Visit(SqlDataTypeReference node)
         {
-            for (var i = 0; i < TypesThatRequireLength.Length; i++)
+            if (TypesThatRequireLength.Any(option => Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1))
             {
-                var option = TypesThatRequireLength[i];
-                if (Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1)
-                {
-                    ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + node.FragmentLength);
-                    break;
-                }
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + node.FragmentLength);
             }
         }
     }

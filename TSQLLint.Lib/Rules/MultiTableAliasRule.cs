@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Common;
@@ -8,21 +8,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class MultiTableAliasRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "multi-table-alias";
-            }
-        }
+        public string RULE_NAME => "multi-table-alias";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Unaliased table found in multi table joins";
-            }
-        }
+        public string RULE_TEXT => "Unaliased table found in multi table joins";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -42,12 +30,12 @@ namespace TSQLLint.Lib.Rules
 
         public override void Visit(TableReference node)
         {
-            Action<TSqlFragment> ChildCallback = delegate(TSqlFragment childNode) 
+            void ChildCallback(TSqlFragment childNode)
             {
                 var tabsOnLine = ColumnNumberCounter.CountTabsOnLine(childNode.StartLine, childNode.LastTokenIndex, childNode.ScriptTokenStream);
                 var column = ColumnNumberCounter.GetColumnNumberBeforeToken(tabsOnLine, childNode.ScriptTokenStream[childNode.FirstTokenIndex]);
                 ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column);
-            };
+            }
 
             var childTableJoinVisitor = new ChildTableJoinVisitor();
             node.AcceptChildren(childTableJoinVisitor);
@@ -63,38 +51,17 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildCommonTableExpressionVisitor : TSqlFragmentVisitor
         {
-            private readonly HashSet<string> _CommonTableExpressionIdentifiers = new HashSet<string>();
-
-            public HashSet<string> CommonTableExpressionIdentifiers
-            {
-                get
-                {
-                    return _CommonTableExpressionIdentifiers;
-                }
-            }
+            public HashSet<string> CommonTableExpressionIdentifiers { get; } = new HashSet<string>();
 
             public override void Visit(CommonTableExpression node)
             {
-                _CommonTableExpressionIdentifiers.Add(node.ExpressionName.Value);
+                CommonTableExpressionIdentifiers.Add(node.ExpressionName.Value);
             }
         }
 
         public class ChildTableJoinVisitor : TSqlFragmentVisitor
         {
-            private bool _TableJoined;
-
-            public bool TableJoined
-            {
-                get
-                {
-                    return _TableJoined;
-                }
-
-                private set
-                {
-                    _TableJoined = value;
-                }
-            }
+            public bool TableJoined { get; private set; }
 
             public override void Visit(JoinTableReference node)
             {
@@ -106,20 +73,7 @@ namespace TSQLLint.Lib.Rules
         {
             private readonly Action<TSqlFragment> ChildCallback;
 
-            private HashSet<string> _CteNames;
-
-            public HashSet<string> CteNames
-            {
-                get
-                {
-                    return _CteNames;
-                }
-
-                private set
-                {
-                    _CteNames = value;
-                }
-            }
+            public HashSet<string> CteNames { get; }
 
             public ChildTableAliasVisitor(Action<TSqlFragment> errorCallback, HashSet<string> cteNames)
             {

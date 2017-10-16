@@ -18,27 +18,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "schema-qualify", "schema-qualify-one-error", typeof(SchemaQualifyRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "schema-qualify", startLine: 1, startColumn: 17)
+                    new RuleViolation("schema-qualify", 1, 17)
                 }
             },
             new object[]
             {
                 "schema-qualify", "schema-qualify-two-errors", typeof(SchemaQualifyRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "schema-qualify", startLine: 1, startColumn: 17),
-                    new RuleViolation(ruleName: "schema-qualify", startLine: 2, startColumn: 17)
+                    new RuleViolation("schema-qualify", 1, 17),
+                    new RuleViolation("schema-qualify", 2, 17)
                 }
             },
             new object[]
             {
                 "schema-qualify", "schema-qualify-one-error-mixed-state", typeof(SchemaQualifyRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "schema-qualify", startLine: 3, startColumn: 21)
+                    new RuleViolation("schema-qualify", 3, 21)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

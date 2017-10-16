@@ -1,4 +1,6 @@
-﻿using System.IO;
+using System.Collections.Generic;
+using System.IO;
+using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Console.ConfigHandler;
@@ -10,10 +12,7 @@ namespace TSQLLint.Tests.UnitTests.Config
     {
         private string _configFileName;
 
-        private string ConfigFileName
-        {
-            get { return string.IsNullOrWhiteSpace(_configFileName) ? SetConfigFile() : _configFileName; }
-        }
+        private string ConfigFileName => string.IsNullOrWhiteSpace(_configFileName) ? SetConfigFile() : _configFileName;
 
         [TearDown]
         public void TearDown()
@@ -31,8 +30,12 @@ namespace TSQLLint.Tests.UnitTests.Config
         public void WriteConfigFile_Writes_To_File()
         {
             // arrange
-            var reporter = new TestReporter(); 
-            var configFileGenerator = new ConfigFileGenerator(reporter);
+            var mockReporter = Substitute.For<IReporter>();
+
+            var reportedMessages = new List<string>();
+            mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
+            
+            var configFileGenerator = new ConfigFileGenerator(mockReporter);
             var configFileFinder = new ConfigFileFinder();
 
             // act
@@ -40,35 +43,26 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // assert
             Assert.IsTrue(configFileFinder.FindFile(ConfigFileName));
-            Assert.AreEqual(1, reporter.MessageCount);
+            Assert.AreEqual(1, reportedMessages.Count);
         }
 
         [Test]
         public void GetDefaultConfigRules_Returns_Default_Rules()
         {
             // arrange
-            var reporter = new TestReporter();
-            var configFileGenerator = new ConfigFileGenerator(reporter);
+            var testReporter = Substitute.For<IReporter>();
+
+            var reportedMessages = new List<string>();
+            testReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
+            
+            var configFileGenerator = new ConfigFileGenerator(testReporter);
 
             // act
             var defaultRules = configFileGenerator.GetDefaultConfigRules();
 
             // assert
             StringAssert.Contains("rules", defaultRules);
-            Assert.AreEqual(1, reporter.MessageCount);
-        }
-
-        private class TestReporter : IBaseReporter
-        {
-            public int MessageCount
-            {
-                get; private set;
-            }
-
-            public void Report(string message)
-            {
-                MessageCount++;
-            }
+            Assert.AreEqual(1, reportedMessages.Count);
         }
     }
 }

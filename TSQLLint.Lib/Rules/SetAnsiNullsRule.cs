@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SetAnsiNullsRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "set-ansi";
-            }
-        }
+        public string RULE_NAME => "set-ansi";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected SET ANSI_NULLS ON near top of file";
-            }
-        }
+        public string RULE_TEXT => "Expected SET ANSI_NULLS ON near top of file";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -35,11 +23,14 @@ namespace TSQLLint.Lib.Rules
         {
             var childAnsiNullsVisitor = new ChildAnsiNullsVisitor();
             node.AcceptChildren(childAnsiNullsVisitor);
-            if (!childAnsiNullsVisitor.SetAnsiIsOn && !ErrorLogged)
+            
+            if (childAnsiNullsVisitor.SetAnsiIsOn || ErrorLogged)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-                ErrorLogged = true;
+                return;
             }
+            
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            ErrorLogged = true;
         }
 
         public class ChildAnsiNullsVisitor : TSqlFragmentVisitor

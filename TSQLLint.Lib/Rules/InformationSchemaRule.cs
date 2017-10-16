@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class InformationSchemaRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "information-schema";
-            }
-        }
+        public string RULE_NAME => "information-schema";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views";
-            }
-        }
+        public string RULE_TEXT => "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -31,7 +19,7 @@ namespace TSQLLint.Lib.Rules
 
         public override void Visit(SchemaObjectName node)
         {
-            var schemaIdentifier = node.SchemaIdentifier != null && node.SchemaIdentifier.Value != null;
+            var schemaIdentifier = node.SchemaIdentifier?.Value != null;
 
             if (schemaIdentifier && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
             {

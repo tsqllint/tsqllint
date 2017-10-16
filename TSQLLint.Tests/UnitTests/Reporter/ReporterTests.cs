@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
@@ -36,7 +36,7 @@ namespace TSQLLint.Tests.UnitTests.Reporter
             var reporter = Substitute.ForPartsOf<ConsoleReporter>();
             reporter.When(x => x.Report(Arg.Any<string>())).DoNotCallBase(); // suppress console output
 
-            RuleViolationSeverity invalidSeverity = (RuleViolationSeverity)99;
+            const RuleViolationSeverity invalidSeverity = (RuleViolationSeverity)99;
 
             // assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>

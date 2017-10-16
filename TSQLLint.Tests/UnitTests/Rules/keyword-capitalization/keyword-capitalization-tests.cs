@@ -18,29 +18,29 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "keyword-capitalization", "keyword-capitalization-one-error", typeof(KeywordCapitalizationRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "keyword-capitalization", startLine: 1, startColumn: 1)
+                    new RuleViolation("keyword-capitalization", 1, 1)
                 }
             },
             new object[]
             {
                 "keyword-capitalization", "keyword-capitalization-multiple-errors-tabs", typeof(KeywordCapitalizationRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "keyword-capitalization", startLine: 1, startColumn: 1),
-                    new RuleViolation(ruleName: "keyword-capitalization", startLine: 1, startColumn: 8),
-                    new RuleViolation(ruleName: "keyword-capitalization", startLine: 3, startColumn: 20),
-                    new RuleViolation(ruleName: "keyword-capitalization", startLine: 3, startColumn: 24)
+                    new RuleViolation("keyword-capitalization", 1, 1),
+                    new RuleViolation("keyword-capitalization", 1, 8),
+                    new RuleViolation("keyword-capitalization", 3, 20),
+                    new RuleViolation("keyword-capitalization", 3, 24)
                 }
             },
             new object[]
             {
                 "keyword-capitalization", "keyword-capitalization-one-error-mixed-state", typeof(KeywordCapitalizationRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "keyword-capitalization", startLine: 2, startColumn: 10)
+                    new RuleViolation("keyword-capitalization", 2, 10)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

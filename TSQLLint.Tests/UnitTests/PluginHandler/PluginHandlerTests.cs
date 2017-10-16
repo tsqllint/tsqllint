@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using System.Reflection;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
+using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
@@ -37,7 +38,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 },
                 {
                     filePath5, new MockFileData("bar")
-                },
+                }
             });
 
             var assembly = Assembly.GetExecutingAssembly();
@@ -64,7 +65,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new TSQLLint.Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
 
             // assert
             Assert.AreEqual(4, pluginHandler.Plugins.Count);
@@ -110,6 +111,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
             Assert.DoesNotThrow(() => pluginHandler.ActivatePlugins(context));
+
             reporter.Received().ReportViolation(Arg.Is<IRuleViolation>(x => 
                 x.FileName == context.FilePath 
                 && x.RuleName == "prefer-tabs"
@@ -150,7 +152,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 },
                 {
                     "my-plugin-invalid-path", @"c:\doesnt-exist"
-                },
+                }
             };
 
             var reporter = Substitute.For<IReporter>();

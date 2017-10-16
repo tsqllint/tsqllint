@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class UpperLowerRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "upper-lower";
-            }
-        }
+        public string RULE_NAME => "upper-lower";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Use of the UPPER or LOWER functions is not required when running database in case insensitive mode";
-            }
-        }
+        public string RULE_TEXT => "Use of the UPPER or LOWER functions is not required when running database in case insensitive mode";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

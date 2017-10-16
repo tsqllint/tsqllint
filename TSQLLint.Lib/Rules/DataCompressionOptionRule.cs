@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Interface;
 
@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class DataCompressionOptionRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "data-compression";
-            }
-        }
+        public string RULE_NAME => "data-compression";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected table to use data compression";
-            }
-        }
+        public string RULE_TEXT => "Expected table to use data compression";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

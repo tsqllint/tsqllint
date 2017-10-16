@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SetNoCountRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "set-nocount";
-            }
-        }
+        public string RULE_NAME => "set-nocount";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Expected SET NOCOUNT ON near top of file";
-            }
-        }
+        public string RULE_TEXT => "Expected SET NOCOUNT ON near top of file";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

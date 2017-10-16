@@ -6,21 +6,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class CrossDatabaseRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME
-        {
-            get
-            {
-                return "cross-database";
-            }
-        }
+        public string RULE_NAME => "cross-database";
 
-        public string RULE_TEXT
-        {
-            get
-            {
-                return "Cross database queries can cause performance problems and are discouraged";
-            }
-        }
+        public string RULE_TEXT => "Cross database queries can cause performance problems and are discouraged";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 

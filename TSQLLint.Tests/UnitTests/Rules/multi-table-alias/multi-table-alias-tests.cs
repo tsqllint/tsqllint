@@ -18,38 +18,38 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "multi-table-alias", "multi-table-alias-one-error-with-tabs", typeof(MultiTableAliasRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 10)
+                    new RuleViolation("multi-table-alias", 2, 10)
                 }
             },
             new object[]
             {
                 "multi-table-alias", "multi-table-alias-one-error-with-spaces", typeof(MultiTableAliasRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 10)
+                    new RuleViolation("multi-table-alias", 2, 10)
                 }
             },
             new object[]
             {
                 "multi-table-alias", "multi-table-alias-multiple-errors-with-tabs", typeof(MultiTableAliasRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 6),
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 3, startColumn: 6),
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 5, startColumn: 6),
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 14, startColumn: 6)
+                    new RuleViolation("multi-table-alias", 2, 6),
+                    new RuleViolation("multi-table-alias", 3, 6),
+                    new RuleViolation("multi-table-alias", 5, 6),
+                    new RuleViolation("multi-table-alias", 14, 6)
                 }
             },
             new object[]
             {
                 "multi-table-alias", "multi-table-alias-multiple-errors-with-spaces", typeof(MultiTableAliasRule), new List<RuleViolation>
                 {
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 2, startColumn: 6),
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 3, startColumn: 6),
-                    new RuleViolation(ruleName: "multi-table-alias", startLine: 5, startColumn: 6)
+                    new RuleViolation("multi-table-alias", 2, 6),
+                    new RuleViolation("multi-table-alias", 3, 6),
+                    new RuleViolation("multi-table-alias", 5, 6)
                 }
             }
         };
         
-        [Test, TestCaseSource("testCases")]
+        [Test, TestCaseSource(nameof(testCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
