@@ -1,1 +1,1 @@
-SELECT Foo FROM MyServer.MyDatabase.dbo.Bar;
+SELECT Foo FROM MyServer.MyDatabase.MySchema.MyTable;

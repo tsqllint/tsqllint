@@ -31,7 +31,7 @@ namespace TSQLLint.Lib.Rules
 
         public override void Visit(NamedTableReference node)
         {
-            if (node.SchemaObject.DatabaseIdentifier == null)
+            if (node.SchemaObject.DatabaseIdentifier == null || node.SchemaObject.ServerIdentifier != null)
             {
                 return;
             }
