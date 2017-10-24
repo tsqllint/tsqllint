@@ -23,8 +23,8 @@ namespace TSQLLint.Tests.Helpers
           {
               new List<RuleViolation>
               {
-                  new RuleViolation("some-rule", 0, 99),
-                  new RuleViolation("some-rule", 0, 0)
+                  new RuleViolation("some-rule", 0, 0),
+                  new RuleViolation("some-rule", 0, 99)
               }
           },
           new object[] 

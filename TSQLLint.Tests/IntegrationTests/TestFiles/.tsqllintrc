@@ -7,6 +7,7 @@
         "information-schema": "error",
         "keyword-capitalization": "error",
         "multi-table-alias": "error",
+        "non-sargable": "error",
         "object-property": "error",
         "print-statement": "error",
         "schema-qualify": "error",

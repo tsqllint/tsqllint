@@ -1,4 +1,4 @@
-﻿create table #foo
+create table #foo
 ( 
 	ID varchar(64) not null
 	, Name varchar(128) NOT NULL

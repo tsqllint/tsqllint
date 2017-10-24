@@ -1,0 +1,1 @@
+SELECT * FROM Foo WHERE UPPER(Foo.name) = 'FOO';

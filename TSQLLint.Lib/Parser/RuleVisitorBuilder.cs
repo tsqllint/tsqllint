@@ -23,6 +23,7 @@ namespace TSQLLint.Lib.Parser
             typeof(InformationSchemaRule),
             typeof(KeywordCapitalizationRule),
             typeof(LinkedServerRule),
+            typeof(NonSargableRule),
             typeof(MultiTableAliasRule),
             typeof(ObjectPropertyRule),
             typeof(PrintStatementRule),

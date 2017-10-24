@@ -18,6 +18,7 @@ namespace TSQLLint.Lib.Config
         ""keyword-capitalization"": ""error"",
         ""linked-server"": ""error"",
         ""multi-table-alias"": ""error"",
+        ""non-sargable"": ""error"",
         ""object-property"": ""error"",
         ""print-statement"": ""error"",
         ""schema-qualify"": ""error"",

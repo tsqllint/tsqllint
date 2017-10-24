@@ -40,8 +40,8 @@ namespace TSQLLint.Tests.UnitTests.Rules
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
 
             // assert
-            Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
+            Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
         }
     }
 }

@@ -17,19 +17,19 @@ namespace TSQLLint.Tests.Helpers
             return Compare(lhs, rhs);
         }
 
-        public int Compare(RuleViolation x, RuleViolation y)
+        public int Compare(RuleViolation left, RuleViolation right)
         {
-            if (y != null && x != null && x.Line != y.Line)
+            if (right != null && left != null && left.Line != right.Line)
             {
                 return -1;
             }
 
-            if (y != null && x != null && x.Column != y.Column)
+            if (right != null && left != null && left.Column != right.Column)
             {
                 return -1;
             }
 
-            if (y != null && x != null && x.RuleName != y.RuleName)
+            if (right != null && left != null && left.RuleName != right.RuleName)
             {
                 return -1;
             }

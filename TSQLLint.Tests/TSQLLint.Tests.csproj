@@ -80,6 +80,7 @@
     <Compile Include="UnitTests\PluginHandler\TestPlugin.cs" />
     <Compile Include="UnitTests\PluginHandler\TestRuleViolation.cs" />
     <Compile Include="UnitTests\Reporter\ReporterTests.cs" />
+    <Compile Include="UnitTests\Rules\non-sargable\NonSargableRuleTests.cs" />
     <Compile Include="UnitTests\Rules\cross-database\cross-database-tests.cs" />
     <Compile Include="UnitTests\Rules\conditional-begin-end\conditional-begin-end-tests.cs" />
     <Compile Include="UnitTests\Rules\data-compression\data-compression-tests.cs" />
@@ -118,6 +119,9 @@
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-two-errors.sql" />
+    <Content Include="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error.sql" />
+    <Content Include="UnitTests\Rules\non-sargable\test-files\non-sargable-multi-error.sql" />
+    <Content Include="UnitTests\Rules\non-sargable\test-files\non-sargable-no-error.sql" />
     <Content Include="UnitTests\Rules\linked-server\test-files\linked-server-one-error.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-spaces.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-spaces.sql" />

@@ -25,6 +25,7 @@ namespace TSQLLint.Tests.IntegrationTests
             new RuleViolation("data-type-length", 13, 16),
             new RuleViolation("disallow-cursors", 17, 1),
             new RuleViolation("information-schema", 20, 27),
+            new RuleViolation("non-sargable", 38, 7),
             new RuleViolation("keyword-capitalization", 23, 1),
             new RuleViolation("multi-table-alias", 27, 10),
             new RuleViolation("object-property", 38, 7),
