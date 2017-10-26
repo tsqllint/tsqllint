@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.Helpers
 {
+    [ExcludeFromCodeCoverage]
     public class RuleViolationComparer : IComparer, IComparer<RuleViolation>
     {
         public int Compare(object x, object y)
