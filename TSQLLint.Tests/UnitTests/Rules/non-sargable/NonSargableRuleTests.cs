@@ -39,7 +39,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
                     new RuleViolation(ruleName: "non-sargable", startLine: 21, startColumn: 28),
                     new RuleViolation(ruleName: "non-sargable", startLine: 29, startColumn: 12),
                     new RuleViolation(ruleName: "non-sargable", startLine: 37, startColumn: 11),
-                    new RuleViolation(ruleName: "non-sargable", startLine: 45, startColumn: 14),
+                    new RuleViolation(ruleName: "non-sargable", startLine: 45, startColumn: 13),
                     new RuleViolation(ruleName: "non-sargable", startLine: 54, startColumn: 13)
                 }
             }

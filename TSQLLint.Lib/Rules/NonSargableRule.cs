@@ -29,12 +29,7 @@ namespace TSQLLint.Lib.Rules
             }
             
             ErrorsReported.Add(childNode);
-
-            var token = childNode.ScriptTokenStream[childNode.FirstTokenIndex];
-            var tabsOnLine = ColumnNumberCounter.CountTabsOnLine(token.Line, childNode.FirstTokenIndex, childNode.ScriptTokenStream);
-            var column = ColumnNumberCounter.GetColumnNumberBeforeToken(tabsOnLine, token);
-
-            ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column);
+            ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCounter.GetNodeColumnPosition(childNode));
         }
 
         public override void Visit(JoinTableReference node)

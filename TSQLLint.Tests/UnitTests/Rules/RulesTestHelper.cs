@@ -21,6 +21,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
             var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();
 
+            // todo fix
             var violations = ruleViolations;
 
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
