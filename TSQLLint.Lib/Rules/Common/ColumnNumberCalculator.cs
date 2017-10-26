@@ -5,7 +5,7 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLint.Lib.Rules.Common
 {
-    public static class ColumnNumberCounter
+    public static class ColumnNumberCalculator
     {
         public static int GetNodeColumnPosition(TSqlFragment node)
         {
@@ -39,7 +39,7 @@ namespace TSQLLint.Lib.Rules.Common
         }
 
         // count all tabs on a line up to the last token index
-        public static int CountTabsOnLine(int lastTokenLine, int lastTokenIndex, IList<TSqlParserToken> tokens)
+        public static int CountTabsBeforeToken(int lastTokenLine, int lastTokenIndex, IList<TSqlParserToken> tokens)
         {
             var tabCount = 0;
             for (var tokenIndex = 0; tokenIndex < lastTokenIndex; tokenIndex++)

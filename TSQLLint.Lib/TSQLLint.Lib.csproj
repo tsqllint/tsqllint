@@ -65,7 +65,7 @@
     <Compile Include="Plugins\PluginHandler.cs" />
     <Compile Include="Rules\CrossDatabaseRule.cs" />
     <Compile Include="Rules\Common\Constants.cs" />
-    <Compile Include="Rules\Common\ColumnNumberCounter.cs" />
+    <Compile Include="Rules\Common\ColumnNumberCalculator.cs" />
     <Compile Include="Rules\DataTypeLengthRule.cs" />
     <Compile Include="Rules\Interface\ISqlRule.cs" />
     <Compile Include="Rules\LinkedServerRule.cs" />

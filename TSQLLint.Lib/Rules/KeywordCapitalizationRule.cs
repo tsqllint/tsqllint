@@ -35,8 +35,8 @@ namespace TSQLLint.Lib.Rules
                 }
 
                 // get a count of all tabs on the line that occur prior to the last token in this node
-                var tabsOnLine = ColumnNumberCounter.CountTabsOnLine(token.Line, index, node.ScriptTokenStream);
-                var column = ColumnNumberCounter.GetColumnNumberBeforeToken(tabsOnLine, token);
+                var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(token.Line, index, node.ScriptTokenStream);
+                var column = ColumnNumberCalculator.GetColumnNumberBeforeToken(tabsOnLine, token);
 
                 ErrorCallback(RULE_NAME, RULE_TEXT, token.Line, column);
             }

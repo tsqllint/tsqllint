@@ -71,7 +71,7 @@ Rules may be set to "off", "warning", or "error".
         "keyword-capitalization": "error",
         "linked-server": "error",
         "multi-table-alias": "error",
-	"non-sargable": "error",
+        "non-sargable": "error",
         "object-property": "error",
         "print-statement": "error",
         "schema-qualify": "error",

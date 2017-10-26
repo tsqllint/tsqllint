@@ -37,8 +37,8 @@ namespace TSQLLint.Lib.Rules
             }
 
             var lastToken = node.ScriptTokenStream[node.LastTokenIndex];
-            var tabsOnLine = ColumnNumberCounter.CountTabsOnLine(lastToken.Line, node.LastTokenIndex, node.ScriptTokenStream);
-            var column = ColumnNumberCounter.GetColumnNumberAfterToken(tabsOnLine, lastToken);
+            var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(lastToken.Line, node.LastTokenIndex, node.ScriptTokenStream);
+            var column = ColumnNumberCalculator.GetColumnNumberAfterToken(tabsOnLine, lastToken);
             ErrorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column);
         }
 

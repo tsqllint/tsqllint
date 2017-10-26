@@ -32,8 +32,8 @@ namespace TSQLLint.Lib.Rules
         {
             void ChildCallback(TSqlFragment childNode)
             {
-                var tabsOnLine = ColumnNumberCounter.CountTabsOnLine(childNode.StartLine, childNode.LastTokenIndex, childNode.ScriptTokenStream);
-                var column = ColumnNumberCounter.GetColumnNumberBeforeToken(tabsOnLine, childNode.ScriptTokenStream[childNode.FirstTokenIndex]);
+                var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(childNode.StartLine, childNode.LastTokenIndex, childNode.ScriptTokenStream);
+                var column = ColumnNumberCalculator.GetColumnNumberBeforeToken(tabsOnLine, childNode.ScriptTokenStream[childNode.FirstTokenIndex]);
                 ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column);
             }
 

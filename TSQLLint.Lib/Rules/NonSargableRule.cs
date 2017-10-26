@@ -29,7 +29,7 @@ namespace TSQLLint.Lib.Rules
             }
             
             ErrorsReported.Add(childNode);
-            ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCounter.GetNodeColumnPosition(childNode));
+            ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode));
         }
 
         public override void Visit(JoinTableReference node)
