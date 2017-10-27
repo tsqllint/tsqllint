@@ -48,29 +48,31 @@ namespace TSQLLint.Lib.Parser
 
         public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath)
         {
+            void ErrorCallback(string ruleName, string ruleText, int startLne, int startColumn)
+            {
+                var ruleSeverity = ConfigReader.GetRuleSeverity(ruleName);
+
+                if (ruleSeverity == RuleViolationSeverity.Error && !ErrorLogged)
+                {
+                    ErrorLogged = true;
+                    Environment.ExitCode = 1;
+                }
+
+                Reporter.ReportViolation(new RuleViolation(sqlPath, ruleName, ruleText, startLne, startColumn, ruleSeverity));
+            }
+            
             var configuredVisitors = new List<TSqlFragmentVisitor>();
             foreach (var visitor in RuleVisitorTypes)
             {
-                void ErrorCallback(string ruleName, string ruleText, int startLne, int startColumn)
-                {
-                    var ruleSeverity = ConfigReader.GetRuleSeverity(ruleName);
-
-                    if (!ErrorLogged && ruleSeverity == RuleViolationSeverity.Error)
-                    {
-                        ErrorLogged = true;
-                        Environment.ExitCode = 1;
-                    }
-
-                    Reporter.ReportViolation(new RuleViolation(sqlPath, ruleName, ruleText, startLne, startColumn, ruleSeverity));
-                }
-
                 var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, (Action<string, string, int, int>)ErrorCallback);
                 var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
 
-                if (severity == RuleViolationSeverity.Error || severity == RuleViolationSeverity.Warning)
+                if (severity == RuleViolationSeverity.Off)
                 {
-                    configuredVisitors.Add((TSqlFragmentVisitor)visitorInstance);
+                    continue;
                 }
+
+                configuredVisitors.Add((TSqlFragmentVisitor)visitorInstance);
             }
 
             return configuredVisitors;

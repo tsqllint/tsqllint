@@ -30,7 +30,7 @@ namespace TSQLLint.Console
         public void Lint()
         {
             Parser.ProcessList(CommandLineOptions.LintPath);
-            LintedFileCount = Parser.GetFileCount();
+            LintedFileCount = Parser.FileCount;
         }
     }
 }

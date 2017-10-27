@@ -16,12 +16,7 @@ namespace TSQLLint.Lib.Parser
         private readonly IFileSystem _fileSystem;
         private readonly IPluginHandler _pluginHandler;
         
-        private int _fileCount;
-
-        public int GetFileCount()
-        {
-            return _fileCount;
-        }
+        public int FileCount { get; private set; }
 
         public SqlFileProcessor(IPluginHandler pluginHandler, IRuleVisitor ruleVisitor, IReporter reporter)
             : this(ruleVisitor, pluginHandler, reporter, new FileSystem())
@@ -125,7 +120,7 @@ namespace TSQLLint.Lib.Parser
         {
             ProcessRules(fileContents, filePath);
             ProcessPlugins(fileContents, filePath);
-            _fileCount++;
+            FileCount++;
         }
 
         private void ProcessRules(string fileContents, string filePath)

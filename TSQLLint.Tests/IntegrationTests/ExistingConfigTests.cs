@@ -70,7 +70,7 @@ namespace TSQLLint.Tests.IntegrationTests
             get
             {
                 // no args
-                yield return new TestCaseData(new List<string> { }, UsageString, new List<RuleViolation>(), 0).SetName("Invalid No Args");
+                yield return new TestCaseData(new List<string>(), UsageString, new List<RuleViolation>(), 0).SetName("Invalid No Args");
                 yield return new TestCaseData(new List<string> { string.Empty }, UsageString, new List<RuleViolation>(), 0).SetName("File Args Invalid No Files");
 
                 // args and lintging targets
