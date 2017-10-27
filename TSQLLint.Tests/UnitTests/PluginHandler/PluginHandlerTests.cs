@@ -102,7 +102,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             var reporter = Substitute.For<IReporter>();
-            var textReader = Lib.Utility.Utility.CreateTextReaderFromString("\tSELECT * FROM FOO");
+            var textReader = Lib.Utility.ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
             var context = new PluginContext(@"c:\scripts\foo.sql", textReader);
 
             // act

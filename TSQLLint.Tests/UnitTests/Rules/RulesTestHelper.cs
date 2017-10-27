@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NUnit.Framework;
@@ -11,12 +12,11 @@ namespace TSQLLint.Tests.UnitTests.Rules
 {
     public static class RulesTestHelper
     {
-        private static readonly TestHelper TestHelper = new TestHelper(TestContext.CurrentContext.TestDirectory);
-
         public static void RunRulesTest(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             // arrange
-            var sqlString = TestHelper.GetUnitTestFile($@"Rules\{rule}\test-files\{testFileName}.sql");
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"..\..\UnitTests\Rules\{rule}\test-files\{testFileName}.sql"));
+            var sqlString = File.ReadAllText(path);
 
             var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();
@@ -30,7 +30,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
             }
 
             var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, args: (Action<string, string, int, int>)ErrorCallback);
-            var textReader = Lib.Utility.Utility.CreateTextReaderFromString(sqlString);
+            var textReader = Lib.Utility.ParsingUtility.CreateTextReaderFromString(sqlString);
 
             var compareer = new RuleViolationComparer();
 

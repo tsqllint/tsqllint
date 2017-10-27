@@ -10,16 +10,15 @@ namespace TSQLLint.Tests.FunctionalTests
     public class ConsoleAppTests
     {
         [TestCase(@"-i", 0)]
+        [TestCase(@"-i -f", 0)]
         [TestCase(@"-p", 0)]
         [TestCase(@"-v", 0)]
         [TestCase(@"-h", 0)]
-        [TestCase(@"-i -f", 0)]
         [TestCase(@"-c .tsqllintrc", 0)]
-        [TestCase(@"-c .tsqllintrc", 0)]
-        [TestCase(@"invalid.sql", 0)]
+        [TestCase(@"invalid", 0)]
         [TestCase(@"c:\foo_invalid.sql", 0)]
         [TestCase(@"-foo", 1)]
-        public void ExitCodeTest(string arguments, int expectedExitCode)
+        public void NoLintingExitCodeTest(string arguments, int expectedExitCode)
         {
             void OutputHandler(object sender, DataReceivedEventArgs args)
             {
@@ -42,7 +41,7 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"\TestFiles\no-errors.sql", 0)]
         [TestCase(@"\TestFiles\with-warnings.sql", 0)]
         [TestCase(@"\TestFiles\with-errors.sql", 1)]
-        public void FileLintingTest(string testFile, int expectedExitCode)
+        public void LintingExitCodeTest(string testFile, int expectedExitCode)
         {
             var fileLinted = false;
 

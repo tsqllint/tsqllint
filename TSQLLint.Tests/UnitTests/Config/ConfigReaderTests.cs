@@ -10,7 +10,7 @@ namespace TSQLLint.Tests.UnitTests.Config
     public class ConfigReaderTests
     {
         [Test]
-        public void ConfigReader_InMemoryConfig()
+        public void ConfigReaderInMemoryConfig()
         {
             // arrange
             var fileSystem = new MockFileSystem();
@@ -34,7 +34,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_EmptyConfigFile()
+        public void ConfigReaderEmptyConfigFile()
         {
             // arrange
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
@@ -51,7 +51,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_ConfigFileDoesntExist()
+        public void ConfigReaderConfigFileDoesntExist()
         {
             // arrange
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
@@ -68,7 +68,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_GetRuleSeverity()
+        public void ConfigReaderGetRuleSeverity()
         {
             // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc";
@@ -97,7 +97,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_NoRulesNoThrow()
+        public void ConfigReaderNoRulesNoThrow()
         {
             // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc-missing-rules";
@@ -120,7 +120,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_ReadBadRuleName()
+        public void ConfigReaderReadBadRuleName()
         {
             // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc";
@@ -147,7 +147,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_ConfigReadBadRuleSeverity()
+        public void ConfigReaderConfigReadBadRuleSeverity()
         {
             // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-severity";
@@ -173,7 +173,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_ConfigReadInvalidJson()
+        public void ConfigReaderConfigReadInvalidJson()
         {
             // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-json";
@@ -195,7 +195,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void ConfigReader_SetupPlugins()
+        public void ConfigReaderSetupPlugins()
         {
             // arrange
             const string configFilePath = @"c:\users\someone\.tsqllintrc";

@@ -1,10 +1,10 @@
-﻿using System.IO;
+using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
 namespace TSQLLint.Lib.Utility
 {
-    public static class Utility
+    public static class ParsingUtility
     {
         public static TextReader CreateTextReaderFromString(string str)
         {

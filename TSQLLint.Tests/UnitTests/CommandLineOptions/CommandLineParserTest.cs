@@ -7,7 +7,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
     public class CommandLineParserTest
     {
         [Test]
-        public void Parses_Single_File()
+        public void ParsesSingleFile()
         {
             // arrange
             const string path = @"c:\database\foo.sql";
@@ -27,7 +27,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void MultipleFiles()
+        public void ParsesMultipleFiles()
         {
             // arrange
             const string fileOne = @"c:\database\foo.sql";
@@ -48,7 +48,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void Parses_Multiple_Files_With_Spaces_In_Directory_Name()
+        public void ParsesMultipleFilesWithSpacesInDirectoryName()
         {
             // arrange
             const string fileOne = @"c:\database\foo.sql";
@@ -69,7 +69,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         }
 
         [Test]
-        public void Generates_Usage()
+        public void GeneratesUsage()
         {
             // arrange
             var args = new string[0];

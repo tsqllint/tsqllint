@@ -130,7 +130,7 @@ namespace TSQLLint.Lib.Parser
 
         private void ProcessRules(string fileContents, string filePath)
         {
-            using (var textReader = Utility.Utility.CreateTextReaderFromString(fileContents))
+            using (var textReader = Utility.ParsingUtility.CreateTextReaderFromString(fileContents))
             {
                 _ruleVisitor.VisitRules(filePath, textReader);
             }
@@ -138,7 +138,7 @@ namespace TSQLLint.Lib.Parser
 
         private void ProcessPlugins(string fileContents, string filePath)
         {
-            using (var textReader = Utility.Utility.CreateTextReaderFromString(fileContents))
+            using (var textReader = Utility.ParsingUtility.CreateTextReaderFromString(fileContents))
             {
                 _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
             }

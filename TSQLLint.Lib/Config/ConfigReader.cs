@@ -95,7 +95,7 @@ namespace TSQLLint.Lib.Config
 
         public void LoadConfigFromRules(string jsonConfigString)
         {
-            if (Utility.Utility.TryParseJson(jsonConfigString, out var token))
+            if (Utility.ParsingUtility.TryParseJson(jsonConfigString, out var token))
             {
                 SetupRules(token);
                 SetupPlugins(token);

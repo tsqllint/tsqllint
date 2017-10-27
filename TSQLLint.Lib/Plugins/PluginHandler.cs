@@ -87,15 +87,15 @@ namespace TSQLLint.Lib.Plugins
 
         public void ActivatePlugins(IPluginContext pluginContext)
         {
-            foreach (var t in Plugins)
+            foreach (var plugin in Plugins)
             {
                 try
                 {
-                    t.PerformAction(pluginContext, _reporter);
+                    plugin.PerformAction(pluginContext, _reporter);
                 }
                 catch (Exception e)
                 {
-                    _reporter.Report($"\nThere was a problem with plugin: {t.GetType()}\n\n{e}");
+                    _reporter.Report($"\nThere was a problem with plugin: {plugin.GetType()}\n\n{e}");
                     throw;
                 }
             }

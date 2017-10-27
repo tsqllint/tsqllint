@@ -15,7 +15,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
     public class SqlFileProcessorTests
     {
         [Test]
-        public void ProcessFile_Processes_Rules_For_Content_And_Increments_FileCount()
+        public void ProcessFileProcessesRulesForContentAndIncrementsFileCount()
         {
             // arrange
             var ruleVisitor = Substitute.For<IRuleVisitor>();
@@ -46,7 +46,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Processes_Single_File_When_It_Exists()
+        public void ProcessPathProcessesSingleFileWhenItExists()
         {
             // arrange
             const string filePath = "c:\\dbscripts\\myfile.sql";
@@ -75,7 +75,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Processes_Directory_Of_Only_Of_Mixed_Files()
+        public void ProcessPathProcessesDirectoryOfOnlyOfMixedFiles()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
@@ -119,7 +119,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Processes_Directory_Directories()
+        public void ProcessPathProcessesDirectoryDirectories()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\db1\file1.SQL";
@@ -153,7 +153,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Processes_Directory_Of_Files_And_Directories()
+        public void ProcessPathProcessesDirectoryOfFilesAndDirectories()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
@@ -197,7 +197,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Does_Not_Process_When_Not_File_Directory_Or_Wildcard()
+        public void ProcessPathDoesNotProcessWhenNotFileDirectoryOrWildcard()
         {
             // arrange
             const string filePath = "This doesnt exist";
@@ -229,7 +229,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Processes_WildCard_With_QuestionMark()
+        public void ProcessPathProcessesWildCardWithQuestionMark()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
@@ -273,7 +273,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Processes_WildCard_With_Asterix()
+        public void ProcessPathProcessesWildCardWithAsterix()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
@@ -317,7 +317,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Processes_WildCard_When_It_Needs_To_Use_CurrentDirectory_Path()
+        public void ProcessPathProcessesWildCardWhenItNeedsToUseCurrentDirectoryPath()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
@@ -365,7 +365,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessPath_Does_Not_Process_Files_When_WildCard_Does_Not_Find_Anything()
+        public void ProcessPathDoesNotProcessFilesWhenWildCardDoesNotFindAnything()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\file1.txt";
@@ -394,7 +394,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessList_Does_Not_Process_Any_Files_For_Empty_List()
+        public void ProcessListDoesNotProcessAnyFilesForEmptyList()
         {
             // arrange
             var ruleVisitor = Substitute.For<IRuleVisitor>();
@@ -414,7 +414,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ProcessList_Processes_List_Of_Items()
+        public void ProcessListProcessesListOfItems()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\file1.SQL";
@@ -458,7 +458,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void Should_Not_Throw_When_Passed_NonExistant_Path()
+        public void ShouldNotThrowWhenPassedNonExistantPath()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\db1\file2.sql";

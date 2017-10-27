@@ -11,7 +11,7 @@ namespace TSQLLint.Tests.UnitTests.Utility
         [TestCase("Foo")]
         public void InvalidJson(string testString)
         {
-            Assert.IsFalse(Lib.Utility.Utility.TryParseJson(testString, out var token));
+            Assert.IsFalse(Lib.Utility.ParsingUtility.TryParseJson(testString, out var token));
             Assert.IsNull(token);
         }
 
@@ -20,7 +20,7 @@ namespace TSQLLint.Tests.UnitTests.Utility
         [TestCase("99")]
         public void ValidJson(string testString)
         {
-            Assert.IsTrue(Lib.Utility.Utility.TryParseJson(testString, out var token));
+            Assert.IsTrue(Lib.Utility.ParsingUtility.TryParseJson(testString, out var token));
             Assert.IsNotNull(token);
         }
     }

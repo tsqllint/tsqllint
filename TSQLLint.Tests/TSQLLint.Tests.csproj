@@ -65,8 +65,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ConsoleAppTestHelper.cs" />
     <Compile Include="FunctionalTests\ConsoleAppTests.cs" />
-    <Compile Include="Helpers\HelperTests.cs" />
-    <Compile Include="Helpers\TestHelper.cs" />
+    <Compile Include="Helpers\HelperTests\RuleViolationCompareTests.cs" />
     <Compile Include="IntegrationTests\ExistingConfigTests.cs" />
     <Compile Include="IntegrationTests\IntegrationBaseTest.cs" />
     <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />

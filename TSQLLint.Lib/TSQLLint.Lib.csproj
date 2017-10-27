@@ -89,7 +89,7 @@
     <Compile Include="Rules\SetTransactionIsolationLevelRule.cs" />
     <Compile Include="Rules\SemicolonTerminationRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility\Utility.cs" />
+    <Compile Include="Utility\ParsingUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

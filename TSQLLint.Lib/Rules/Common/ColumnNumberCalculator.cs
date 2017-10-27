@@ -10,13 +10,13 @@ namespace TSQLLint.Lib.Rules.Common
         public static int GetNodeColumnPosition(TSqlFragment node)
         {
             var line = string.Empty;
-            var firstLine = node.StartLine;
-            var lastLine = node.ScriptTokenStream[node.LastTokenIndex].Line;
+            var nodeStartLine = node.StartLine;
+            var nodeLastLine = node.ScriptTokenStream[node.LastTokenIndex].Line;
 
             for (var tokenIndex = 0; tokenIndex <= node.LastTokenIndex; tokenIndex++)
             {
                 var token = node.ScriptTokenStream[tokenIndex];
-                if (token.Line >= firstLine && token.Line <= lastLine)
+                if (token.Line >= nodeStartLine && token.Line <= nodeLastLine)
                 {
                     line += token.Text;
                 }

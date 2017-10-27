@@ -27,7 +27,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void WriteConfigFile_Writes_To_File()
+        public void WriteConfigFileWritesToFile()
         {
             // arrange
             var mockReporter = Substitute.For<IReporter>();
@@ -47,7 +47,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
-        public void GetDefaultConfigRules_Returns_Default_Rules()
+        public void GetDefaultConfigRulesReturnsDefaultRules()
         {
             // arrange
             var testReporter = Substitute.For<IReporter>();
