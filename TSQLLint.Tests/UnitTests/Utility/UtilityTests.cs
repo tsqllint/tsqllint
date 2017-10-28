@@ -8,7 +8,7 @@ namespace TSQLLint.Tests.UnitTests.Utility
         [TestCase("}")]
         [TestCase("")]
         [TestCase("{{}")]
-        [TestCase("Foo")]
+        [TestCase("ShouldLogWhenLoggingEnables")]
         public void InvalidJson(string testString)
         {
             Assert.IsFalse(Lib.Utility.ParsingUtility.TryParseJson(testString, out var token));

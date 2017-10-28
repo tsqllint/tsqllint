@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("TSQLLINT")]
@@ -9,10 +9,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("© 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 [assembly: ComVisible(false)]
-
 [assembly: Guid("5292f15d-1f0a-47ce-928f-9fdc1929792b")]
-
 [assembly: AssemblyVersion("1.4.1")]
 [assembly: AssemblyFileVersion("1.4.1")]
+
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]

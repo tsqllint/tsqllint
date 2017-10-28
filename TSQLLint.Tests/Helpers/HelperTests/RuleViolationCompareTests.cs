@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
 using TSQLLint.Lib.Rules.RuleViolations;
 
@@ -62,12 +63,12 @@ namespace TSQLLint.Tests.Helpers.HelperTests
         }
 
         [Test]
+        [ExcludeFromCodeCoverage]
         public void CompareRulesShouldThrow()
         {
             var ex = Assert.Throws<InvalidOperationException>(() =>
             {
-                var result = _ruleViolationComparer.Compare(new object(), new object());
-                Assert.IsNull(result);
+                _ruleViolationComparer.Compare(new object(), new object());
             });
 
             Assert.That(ex.Message, Is.EqualTo("cannot compare null object"));

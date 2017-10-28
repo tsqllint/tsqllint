@@ -18,10 +18,12 @@
     "scripts/install/install-dependencies.cmd",
     "scripts/install/install-dependencies.ps1",
     "scripts/install/tsqllint",
-    "TSQLLint.Console/bin/Release/TSQLLint.Console.exe"
+    "TSQLLint.Console.exe",
+    "TSQLLint.Console.exe.config",
+    "log4net.config"
   ],
   "bin": {
-    "tsqllint": "TSQLLint.Console/bin/Release/TSQLLint.Console.exe"
+    "tsqllint": "TSQLLint.Console.exe"
   },
   "os": [
     "win32"

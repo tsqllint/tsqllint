@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
@@ -93,9 +94,10 @@ namespace TSQLLint.Lib.Plugins
                 {
                     plugin.PerformAction(pluginContext, _reporter);
                 }
-                catch (Exception e)
+                catch (Exception exception)
                 {
-                    _reporter.Report($"\nThere was a problem with plugin: {plugin.GetType()}\n\n{e}");
+                    _reporter.Report($"\nThere was a problem with plugin: {plugin.GetType()}\n\n{exception}");
+                    Trace.WriteLine(exception);
                     throw;
                 }
             }

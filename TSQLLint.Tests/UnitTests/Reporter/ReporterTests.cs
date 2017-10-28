@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
@@ -30,6 +31,7 @@ namespace TSQLLint.Tests.UnitTests.Reporter
         }
 
         [Test]
+        [ExcludeFromCodeCoverage]
         public void ConsoleReporter_InvalidSeverity_ShouldThrow()
         {
             // arrange

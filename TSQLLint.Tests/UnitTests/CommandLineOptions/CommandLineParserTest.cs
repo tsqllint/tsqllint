@@ -109,7 +109,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             var commandLineParser = new Console.ConfigHandler.CommandLineOptions(args);
 
             // assert
-            Assert.IsTrue(commandLineParser.GetUsage().Contains("tsqllint [options]"));
+            Assert.IsTrue(commandLineParser.Help);
         }
     }
 }

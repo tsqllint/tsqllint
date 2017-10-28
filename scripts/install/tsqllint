@@ -5,7 +5,7 @@ case `uname` in
     *CYGWIN*) basedir=`cygpath -w "$basedir"`;;
 esac
 
-"$basedir/node_modules/tsqllint/TSQLLint.Console/bin/Release/TSQLLint.Console.exe" "$@"
+"$basedir/node_modules/tsqllint/TSQLLint.Console.exe" "$@"
 ret=$?
 
 exit $ret
