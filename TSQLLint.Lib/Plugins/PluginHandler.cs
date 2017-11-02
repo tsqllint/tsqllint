@@ -46,6 +46,10 @@ namespace TSQLLint.Lib.Plugins
                 {
                     LoadPluginDirectory(path);
                 }
+                else
+                {
+                    _reporter.Report($"\nFailed to load plugin(s) defined by '{path}'. No file or directory found by that name.\n");
+                }
             }
             else
             {
