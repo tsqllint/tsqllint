@@ -35,7 +35,8 @@ namespace TSQLLint.Lib.Parser
             typeof(SetQuotedIdentifierRule),
             typeof(SetTransactionIsolationLevelRule),
             typeof(SetVariableRule),
-            typeof(UpperLowerRule)
+            typeof(UpperLowerRule),
+            typeof(PredicateIsAlwaysTrue)
         };
 
         private bool ErrorLogged;

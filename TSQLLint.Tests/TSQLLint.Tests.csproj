@@ -92,6 +92,7 @@
     <Compile Include="UnitTests\Rules\keyword-capitalization\keyword-capitalization-tests.cs" />
     <Compile Include="UnitTests\Rules\multi-table-alias\multi-table-alias-tests.cs" />
     <Compile Include="UnitTests\Rules\object-property\object-property-tests.cs" />
+    <Compile Include="UnitTests\Rules\predicate-is-always-true\Test.cs" />
     <Compile Include="UnitTests\Rules\print-statement\print-statement-tests.cs" />
     <Compile Include="UnitTests\Rules\schema-qualify\schema-qualify-tests.cs" />
     <Compile Include="UnitTests\Rules\select-star\select-star-tests.cs" />
@@ -128,6 +129,11 @@
     <Content Include="UnitTests\Rules\linked-server\test-files\linked-server-one-error.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-spaces.sql" />
     <Content Include="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-spaces.sql" />
+    <Content Include="UnitTests\Rules\predicate-is-always-true\test-files\predicate-always-true-same-columns.sql" />
+    <Content Include="UnitTests\Rules\predicate-is-always-true\test-files\predicate-always-true-same-columns-with-alias.sql" />
+    <Content Include="UnitTests\Rules\predicate-is-always-true\test-files\predicate-always-true-join-same-constants.sql" />
+    <Content Include="UnitTests\Rules\predicate-is-always-true\test-files\predicate-always-true-same-constants.sql" />
+    <Content Include="UnitTests\Rules\predicate-is-always-true\test-files\predicate-always-true-no-error.sql" />
     <Content Include="UnitTests\Rules\print-statement\test-files\print-statement-no-error.sql" />
     <Content Include="UnitTests\Rules\print-statement\test-files\print-statement-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\print-statement\test-files\print-statement-one-error.sql" />

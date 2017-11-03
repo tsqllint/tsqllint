@@ -1,0 +1,1 @@
+SELECT * FROM xxx x WHERE x.col1 = x.col1

@@ -1,0 +1,1 @@
+SELECT * FROM xxx INNER JOIN yyy ON 1=1
