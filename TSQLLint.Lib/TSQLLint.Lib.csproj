@@ -70,9 +70,11 @@
     <Compile Include="Rules\Common\Constants.cs" />
     <Compile Include="Rules\Common\ColumnNumberCalculator.cs" />
     <Compile Include="Rules\DataTypeLengthRule.cs" />
+    <Compile Include="Rules\FunctionInPredicateTest.cs" />
     <Compile Include="Rules\Interface\ISqlRule.cs" />
     <Compile Include="Rules\LinkedServerRule.cs" />
     <Compile Include="Rules\NonSargableRule.cs" />
+    <Compile Include="Rules\PredicateIsAlwaysTrue.cs" />
     <Compile Include="Rules\PrintStatementRule.cs" />
     <Compile Include="Rules\ConditionalBeginEndRule.cs" />
     <Compile Include="Rules\DisallowCursorRule.cs" />
