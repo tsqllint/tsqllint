@@ -25,7 +25,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "predicate-is-always-true", "predicate-always-true-same-columns-with-alias",  typeof(PredicateIsAlwaysTrue), new List<RuleViolation>()
                 {
-                    new RuleViolation("predicate-is-always-true", 1, 25)
+                    new RuleViolation("predicate-is-always-true", 1, 27)
                 }
             },
             new object[]
