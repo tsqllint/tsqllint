@@ -17,11 +17,6 @@ namespace TSQLLint.Lib.Rules
         {
             ErrorCallback = errorCallback;
         }
-
-        public override void Visit(WhereClause node)
-        {
-            base.Visit(node);
-        }
         
         public override void Visit(BooleanComparisonExpression node)
         {
@@ -54,12 +49,5 @@ namespace TSQLLint.Lib.Rules
                 }
             }
         }
-        //public override void Visit(TSqlParserToken node)
-        //{
-        //    //var f = node.FirstExpression;
-        //    //var s = node.SecondExpression;
-
-        //    ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-        //}
     }
 }
