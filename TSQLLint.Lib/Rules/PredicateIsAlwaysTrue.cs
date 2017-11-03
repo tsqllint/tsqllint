@@ -24,10 +24,10 @@ namespace TSQLLint.Lib.Rules
             var secondLiteral = node.SecondExpression as Literal;
 
             if (firstLiteral != null && secondLiteral != null && string.Equals(firstLiteral.Value, secondLiteral.Value))
-	    {
-	        ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            {
+                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
                 return;
-	    }
+            }
 
             var first = node.FirstExpression as ColumnReferenceExpression;
             var second = node.SecondExpression as ColumnReferenceExpression;
