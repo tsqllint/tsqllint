@@ -20,10 +20,10 @@ namespace TSQLLint.Lib.Rules
         
         public override void Visit(BooleanComparisonExpression node)
         {
-            var first = node.FirstExpression as Literal;
-            var second = node.SecondExpression as Literal;
+            var firstLiteral = node.FirstExpression as Literal;
+            var secondLiteral = node.SecondExpression as Literal;
 
-            if (first != null && second != null && string.Equals(first.Value, second.Value))
+            if (firstLiteral != null && secondLiteral != null && string.Equals(firstLiteral.Value, secondLiteral.Value))
 	    {
 	        ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
                 return;
