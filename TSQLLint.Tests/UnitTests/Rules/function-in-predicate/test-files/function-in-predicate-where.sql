@@ -1,0 +1,1 @@
+SELECT * FROM xxx WHERE ISNULL(col, 0)=1

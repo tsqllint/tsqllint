@@ -1,0 +1,1 @@
+UPDATE xxx set col = CASE WHEN ISNULL(col1, 0) = 0 THEN 1 ELSE 0 END

@@ -1,0 +1,1 @@
+SELECT * FROM xxx INNER JOIN yyy ON ISNULL(col1, 0) = 0

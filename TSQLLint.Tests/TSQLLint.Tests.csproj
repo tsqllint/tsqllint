@@ -82,6 +82,7 @@
     <Compile Include="UnitTests\PluginHandler\TestPlugin.cs" />
     <Compile Include="UnitTests\PluginHandler\TestRuleViolation.cs" />
     <Compile Include="UnitTests\Reporter\ReporterTests.cs" />
+    <Compile Include="UnitTests\Rules\function-in-predicate\Test.cs" />
     <Compile Include="UnitTests\Rules\non-sargable\NonSargableRuleTests.cs" />
     <Compile Include="UnitTests\Rules\cross-database\cross-database-tests.cs" />
     <Compile Include="UnitTests\Rules\conditional-begin-end\conditional-begin-end-tests.cs" />
@@ -123,6 +124,11 @@
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error-mixed-state.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error.sql" />
     <Content Include="UnitTests\Rules\data-type-length\test-files\data-type-length-two-errors.sql" />
+    <Content Include="UnitTests\Rules\function-in-predicate\test-files\function-in-predicate-check-constraint.sql" />
+    <Content Include="UnitTests\Rules\function-in-predicate\test-files\function-in-predicate-update.sql" />
+    <Content Include="UnitTests\Rules\function-in-predicate\test-files\function-in-predicate-from.sql" />
+    <Content Include="UnitTests\Rules\function-in-predicate\test-files\function-in-predicate-select.sql" />
+    <Content Include="UnitTests\Rules\function-in-predicate\test-files\function-in-predicate-where.sql" />
     <Content Include="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error.sql" />
     <Content Include="UnitTests\Rules\non-sargable\test-files\non-sargable-multi-error.sql" />
     <Content Include="UnitTests\Rules\non-sargable\test-files\non-sargable-no-error.sql" />
