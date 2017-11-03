@@ -9,7 +9,7 @@ namespace TSQLLint.Lib.Rules
     {
         public string RULE_NAME => "predicate-is-always-true";
 
-        public string RULE_TEXT => "Found the same on the left and the right side of a Predicate";
+        public string RULE_TEXT => "Predicate is always true";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -20,32 +20,26 @@ namespace TSQLLint.Lib.Rules
         
         public override void Visit(BooleanComparisonExpression node)
         {
+            var first = node.FirstExpression as Literal;
+            var second = node.SecondExpression as Literal;
+
+            if (first != null && second != null && string.Equals(first.Value, second.Value))
+	    {
+	        ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                return;
+	    }
+
+            var first = node.FirstExpression as ColumnReferenceExpression;
+            var second = node.SecondExpression as ColumnReferenceExpression;
+
+            if (first != null && second != null)
             {
-                var first = node.FirstExpression as Literal;
-                var second = node.SecondExpression as Literal;
+                var firstCol = first.MultiPartIdentifier.Identifiers.Select(x => x.Value);
+                var secondCol = second.MultiPartIdentifier.Identifiers.Select(x => x.Value);
 
-                if (first != null && second != null)
+                if (firstCol.SequenceEqual(secondCol))
                 {
-                    if (string.Equals(first.Value, second.Value))
-                    {
-                        ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-                    }
-                }
-            }
-            
-            {
-                var first = node.FirstExpression as ColumnReferenceExpression;
-                var second = node.SecondExpression as ColumnReferenceExpression;
-
-                if (first != null && second != null)
-                {
-                    var firstCol = first.MultiPartIdentifier.Identifiers.Select(x => x.Value);
-                    var secondCol = second.MultiPartIdentifier.Identifiers.Select(x => x.Value);
-
-                    if (firstCol.SequenceEqual(secondCol))
-                    {
-                        ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-                    }
+                    ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
                 }
             }
         }
