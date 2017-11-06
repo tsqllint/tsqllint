@@ -16,11 +16,12 @@ namespace TSQLLint.Tests.IntegrationTests
         private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory\integration-test-two.sql");
         private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
 
-        private static readonly string _ConfigNotFoundMessage = $"Config file not found at: {InvalidConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite";
-        private static readonly string _ConfigFoundMessage = $"Config file found at: {Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\.tsqllintrc";
+        private static readonly string ConfigNotFoundMessage = $"Config file not found at: {InvalidConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite";
+        private static readonly string ConfigFoundMessage = $"Config file found at: {Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\.tsqllintrc";
+        private static readonly string NoPluginsFound = "Did not find any plugins";
 
-        private static List<RuleViolation> _AllRuleViolations;
-        private static List<RuleViolation> _MultiFileRuleViolations;
+        private static List<RuleViolation> _allRuleViolations;
+        private static List<RuleViolation> _multiFileRuleViolations;
             
         private static string UsageString => new CommandLineOptions(new string[0]).GetUsage();
 
@@ -38,16 +39,16 @@ namespace TSQLLint.Tests.IntegrationTests
         {
             get
             {
-                if (_MultiFileRuleViolations != null)
+                if (_multiFileRuleViolations != null)
                 {
-                    return _MultiFileRuleViolations;
+                    return _multiFileRuleViolations;
                 }
                 
-                _MultiFileRuleViolations = new List<RuleViolation>();
-                _MultiFileRuleViolations.AddRange(TestFileOneRuleViolations);
-                _MultiFileRuleViolations.AddRange(TestFileTwoRuleViolations);
+                _multiFileRuleViolations = new List<RuleViolation>();
+                _multiFileRuleViolations.AddRange(TestFileOneRuleViolations);
+                _multiFileRuleViolations.AddRange(TestFileTwoRuleViolations);
 
-                return _MultiFileRuleViolations;
+                return _multiFileRuleViolations;
             }
         }
 
@@ -56,12 +57,12 @@ namespace TSQLLint.Tests.IntegrationTests
             get
             {
                 // change if used more than once
-                _AllRuleViolations = new List<RuleViolation>();
-                _AllRuleViolations.AddRange(TestFileOneRuleViolations);
-                _AllRuleViolations.AddRange(TestFileTwoRuleViolations);
-                _AllRuleViolations.AddRange(TestFileInvalidSyntaxRuleViolations);
+                _allRuleViolations = new List<RuleViolation>();
+                _allRuleViolations.AddRange(TestFileOneRuleViolations);
+                _allRuleViolations.AddRange(TestFileTwoRuleViolations);
+                _allRuleViolations.AddRange(TestFileInvalidSyntaxRuleViolations);
 
-                return _AllRuleViolations;
+                return _allRuleViolations;
             }
         }
 
@@ -73,12 +74,13 @@ namespace TSQLLint.Tests.IntegrationTests
                 yield return new TestCaseData(new List<string>(), UsageString, new List<RuleViolation>(), 0).SetName("Invalid No Args");
                 yield return new TestCaseData(new List<string> { string.Empty }, UsageString, new List<RuleViolation>(), 0).SetName("File Args Invalid No Files");
 
-                // args and lintging targets
+                // args and linting targets
                 yield return new TestCaseData(new List<string> { "-c", ValidConfigFile }, UsageString, new List<RuleViolation>(), 0).SetName("Config Args Valid No Lint Path");
-                yield return new TestCaseData(new List<string> { "-c", InvalidConfigFile }, _ConfigNotFoundMessage, new List<RuleViolation>(), 0).SetName("Config Args Invalid No Lint Path");
-                yield return new TestCaseData(new List<string> { "-c", InvalidConfigFile, TestFileOne }, _ConfigNotFoundMessage, new List<RuleViolation>(), 1).SetName("Config Args Invalid Lint Path");
+                yield return new TestCaseData(new List<string> { "-c", InvalidConfigFile }, ConfigNotFoundMessage, new List<RuleViolation>(), 0).SetName("Config Args Invalid No Lint Path");
+                yield return new TestCaseData(new List<string> { "-c", InvalidConfigFile, TestFileOne }, ConfigNotFoundMessage, new List<RuleViolation>(), 1).SetName("Config Args Invalid Lint Path");
                 yield return new TestCaseData(new List<string> { "-c", Path.Combine(TestFileDirectory, @".tsqllintrc"), TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("Config Args Valid Lint One File");
-                yield return new TestCaseData(new List<string> { "-p" }, _ConfigFoundMessage, new List<RuleViolation>(), 0).SetName("Print Config Valid");
+                yield return new TestCaseData(new List<string> { "-p" }, ConfigFoundMessage, new List<RuleViolation>(), 0).SetName("Print Config Valid");
+                yield return new TestCaseData(new List<string> { "-l" }, NoPluginsFound, new List<RuleViolation>(), 0).SetName("List Plugins Valid");
                 yield return new TestCaseData(new List<string> { "-v" }, $"v{TSqllVersion}", new List<RuleViolation>(), 0).SetName("Print Version Valid");
                 yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("Init Args Valid Missing Config File");
                 yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("Init Args Valid Existing Config File");

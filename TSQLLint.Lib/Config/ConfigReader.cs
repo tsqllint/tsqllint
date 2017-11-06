@@ -10,9 +10,9 @@ namespace TSQLLint.Lib.Config
 {
     public class ConfigReader : IConfigReader
     {
-        private readonly Dictionary<string, RuleViolationSeverity> Rules = new Dictionary<string, RuleViolationSeverity>();
+        private readonly Dictionary<string, RuleViolationSeverity> _rules = new Dictionary<string, RuleViolationSeverity>();
 
-        private readonly Dictionary<string, string> PluginPaths = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _pluginPaths = new Dictionary<string, string>();
 
         private readonly IReporter _reporter;
 
@@ -26,16 +26,18 @@ namespace TSQLLint.Lib.Config
             _fileSystem = fileSystem;
         }
 
+        public bool IsConfigLoaded { get; private set; }
+
         private void SetupPlugins(JToken jsonObject)
         {
-            var rules = jsonObject.SelectTokens("..plugins").ToList();
+            var plugins = jsonObject.SelectTokens("..plugins").ToList();
 
-            foreach (var rule in rules)
+            foreach (var plugin in plugins)
             {
-                foreach (var jToken in rule.Children())
+                foreach (var jToken in plugin.Children())
                 {
                     var prop = (JProperty)jToken;
-                    PluginPaths.Add(prop.Name, prop.Value.ToString());
+                    _pluginPaths.Add(prop.Name, prop.Value.ToString());
                 }
             }
         }
@@ -55,19 +57,19 @@ namespace TSQLLint.Lib.Config
                         continue;
                     }
 
-                    Rules.Add(prop.Name, severity);
+                    _rules.Add(prop.Name, severity);
                 }
             }
         }
 
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
-            return Rules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return _rules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
         }
 
         public Dictionary<string, string> GetPlugins()
         {
-            return PluginPaths;
+            return _pluginPaths;
         }
 
         public void LoadConfig(string configFile, string defaultConfigRules)
@@ -99,10 +101,28 @@ namespace TSQLLint.Lib.Config
             {
                 SetupRules(token);
                 SetupPlugins(token);
+                IsConfigLoaded = true;
             }
             else
             {
                 _reporter.Report("Config file is not valid Json.");
+            }
+        }
+
+        public void ListPlugins()
+        {
+            var havePlugins = IsConfigLoaded && _pluginPaths.Count > 0;
+            if (havePlugins)
+            {
+                _reporter.Report("Found the following plugins:");
+                foreach (var plugin in _pluginPaths)
+                {
+                    _reporter.Report($"Plugin Name '{plugin.Key}' loaded from path '{plugin.Value}'");
+                }
+            }
+            else
+            {
+                _reporter.Report("Did not find any plugins");
             }
         }
     }

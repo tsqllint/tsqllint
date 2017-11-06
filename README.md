@@ -34,7 +34,7 @@ $ tsqllint file_one.sql file_two.sql "c:\database scripts"
 $ tsqllint c:\database_scripts\file*.sql
 
 # print path to .tsqllintrc config file
-$ tsqllint --print
+$ tsqllint --print-config
 
 # display usage info
 $ tsqllint --help
@@ -104,6 +104,9 @@ Once you complete your plugin, update your .tsqllintrc file to point to your ass
     }
 }
 ```
+
+# list the plugins loaded
+$ tsqllint --list-plugins
 
 This sample plugin notifies users that spaces should be used rather than tabs.
 
