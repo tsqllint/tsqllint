@@ -44,7 +44,7 @@ namespace TSQLLint.Console.ConfigHandler
 
         private bool HandleConfigOptions()
         {
-            SetupConfig();
+            var createdConfig = CheckOptionsForConfigFile();
 
             if (_commandLineOptions.PrintConfig)
             {
@@ -56,47 +56,71 @@ namespace TSQLLint.Console.ConfigHandler
             {
                 return true;
             }
-            
-            ReportUsage();
+
+            if (!createdConfig)
+            {
+                ReportUsage();
+            }
+
             return false;
         }
 
-        private void SetupConfig()
+        private bool CheckOptionsForConfigFile()
         {
-            var useInMemoryRules = false;
+            var allowInMemoryRules = false;
             var configFile = _commandLineOptions.ConfigFile;
 
             if (string.IsNullOrWhiteSpace(configFile))
             {
                 _commandLineOptions.ConfigFile = configFile = _configFileFinder.DefaultConfigFileName;
-                useInMemoryRules = !(_commandLineOptions.Init || _commandLineOptions.Force);
+                allowInMemoryRules = !(_commandLineOptions.Init || _commandLineOptions.Force);
             }
             else
             {
                 _commandLineOptions.ConfigFile = configFile = configFile.Trim();
             }
 
-            LoadConfig(configFile, useInMemoryRules);
-        }
-
-        private void LoadConfig(string configFile, bool useInMemoryRules)
-        {
             var configFileExists = FileExists(configFile);
-            if (useInMemoryRules && !configFileExists)
+            var createdConfigFile = false;
+            if (UseInMemoryRules(configFileExists, allowInMemoryRules))
             {
-                _commandLineOptions.DefaultConfigRules = _configFileGenerator.GetDefaultConfigRules();
-                _commandLineOptions.ConfigFile = null;
+                // Did not create config file
             }
-            else if (_commandLineOptions.Init && !configFileExists || _commandLineOptions.Force)
+            else if (CreatedConfigFile(configFileExists, configFile))
             {
-                CreateConfigFile(configFile);
+                createdConfigFile = true;
             }
             else if (!configFileExists)
             {
                 _reporter.Report($"Config file not found at: {configFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite");
             }
+
+            return createdConfigFile;
         }
 
+        private bool UseInMemoryRules(bool configFileExists, bool allowInMemoryRules)
+        {
+            if (!allowInMemoryRules || configFileExists)
+            {
+                return false;
+            }
+
+            _commandLineOptions.DefaultConfigRules = _configFileGenerator.GetDefaultConfigRules();
+            _commandLineOptions.ConfigFile = null;
+            return true;
+        }
+
+        private bool CreatedConfigFile(bool configFileExists, string configFile)
+        {
+            if (_commandLineOptions.Init && !configFileExists || _commandLineOptions.Force)
+            {
+                CreateConfigFile(configFile);
+                return true;
+            }
+
+            return false;
+        }
+        
         private bool FileExists(string path)
         {
             return _configFileFinder.FindFile(path);
