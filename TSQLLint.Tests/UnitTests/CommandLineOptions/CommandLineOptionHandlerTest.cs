@@ -121,6 +121,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             Assert.IsFalse(performLinting);
             Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
+            Assert.AreEqual(0, info.Reporter.Messages.Count);
         }
 
         [Test]
@@ -136,6 +137,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             Assert.IsFalse(performLinting);
             Assert.AreEqual("custom.config", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains("custom.config"));
+            Assert.AreEqual(0, info.Reporter.Messages.Count);
         }
 
         [Test]
@@ -166,6 +168,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             Assert.IsFalse(performLinting);
             Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
+            Assert.AreEqual(0, info.Reporter.Messages.Count);
         }
 
         [Test]
@@ -181,6 +184,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             Assert.IsFalse(performLinting);
             Assert.AreEqual("custom.config", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains("custom.config"));
+            Assert.AreEqual(0, info.Reporter.Messages.Count);
         }
 
         [Test]
@@ -196,6 +200,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             Assert.IsFalse(performLinting);
             Assert.AreEqual(".tsqllintrc", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains(".tsqllintrc"));
+            Assert.AreEqual(0, info.Reporter.Messages.Count);
         }
 
         [Test]
@@ -211,6 +216,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             Assert.IsFalse(performLinting);
             Assert.AreEqual("custom.config", info.Options.ConfigFile);
             Assert.IsTrue(info.ConfigFileGenerator.ConfigFilePathsWritten.Contains("custom.config"));
+            Assert.AreEqual(0, info.Reporter.Messages.Count);
         }
 
         private static TestObjects SetupHandler(string[] args, bool shouldFindFile = true, string defaultConfigFile = ".tsqllintrc")
