@@ -38,6 +38,9 @@ $ tsqllint --print-config
 
 # display usage info
 $ tsqllint --help
+
+# list the plugins loaded
+$ tsqllint --list-plugins
 ```
 
 ## Integrating TSQLLint with other Tools
@@ -104,9 +107,6 @@ Once you complete your plugin, update your .tsqllintrc file to point to your ass
     }
 }
 ```
-
-# list the plugins loaded
-$ tsqllint --list-plugins
 
 This sample plugin notifies users that spaces should be used rather than tabs.
 
