@@ -1,3 +1,4 @@
+using System;
 using TSQLLint.Common;
 using TSQLLint.Console.ConfigHandler;
 using TSQLLint.Lib.Config;
@@ -8,29 +9,26 @@ namespace TSQLLint.Console
 {
     public class LintingHandler
     {
-        private readonly SqlFileProcessor Parser;
+        private readonly SqlFileProcessor _parser;
 
-        private readonly CommandLineOptions CommandLineOptions;
+        private readonly CommandLineOptions _commandLineOptions;
 
         public int LintedFileCount { get; private set; }
 
-        public LintingHandler(CommandLineOptions commandLineOptions, IReporter reporter)
+        public LintingHandler(CommandLineOptions commandLineOptions, ConfigReader configReader, IReporter reporter)
         {
-            CommandLineOptions = commandLineOptions;
-
-            var configReader = new ConfigReader(reporter);
-            configReader.LoadConfig(commandLineOptions.ConfigFile, commandLineOptions.DefaultConfigRules);
+            _commandLineOptions = commandLineOptions;
 
             var pluginHandler = new PluginHandler(reporter, configReader.GetPlugins());
 
             var ruleVisitor = new SqlRuleVisitor(configReader, reporter);
-            Parser = new SqlFileProcessor(pluginHandler, ruleVisitor, reporter);
+            _parser = new SqlFileProcessor(pluginHandler, ruleVisitor, reporter);
         }
 
         public void Lint()
         {
-            Parser.ProcessList(CommandLineOptions.LintPath);
-            LintedFileCount = Parser.FileCount;
+            _parser.ProcessList(_commandLineOptions.LintPath);
+            LintedFileCount = _parser.FileCount;
         }
     }
 }

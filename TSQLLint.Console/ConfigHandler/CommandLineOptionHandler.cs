@@ -52,7 +52,7 @@ namespace TSQLLint.Console.ConfigHandler
                 return false;
             }
 
-            if (_commandLineOptions.LintPath.Count >= 1)
+            if (_commandLineOptions.LintPath.Count >= 1 || _commandLineOptions.ListPlugins)
             {
                 return true;
             }

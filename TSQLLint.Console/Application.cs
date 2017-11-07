@@ -1,5 +1,6 @@
 using TSQLLint.Common;
 using TSQLLint.Console.ConfigHandler;
+using TSQLLint.Lib.Config;
 
 namespace TSQLLint.Console
 {
@@ -28,8 +29,19 @@ namespace TSQLLint.Console
                 return;
             }
 
+            // read config
+            var configReader = new ConfigReader(_reporter);
+            configReader.LoadConfig(commandLineOptions.ConfigFile, commandLineOptions.DefaultConfigRules);
+
+            // display list of plugins
+            if (commandLineOptions.ListPlugins)
+            {
+                configReader.ListPlugins();
+                return;
+            }
+
             // perform lint
-            var lintingHandler = new LintingHandler(commandLineOptions, _reporter);
+            var lintingHandler = new LintingHandler(commandLineOptions, configReader, _reporter);
             lintingHandler.Lint();
 
             _reporter.ReportResults(_timer.Stop(), lintingHandler.LintedFileCount);

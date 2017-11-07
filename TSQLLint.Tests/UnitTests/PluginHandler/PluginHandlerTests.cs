@@ -13,7 +13,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
     public class PluginHandlerTests
     {
         [Test]
-        public void LoadPlugins_ShouldLoadIPluginsFromPathAndFile()
+        public void LoadPlugins_ShouldLoadPluginsFromPathAndFile()
         {
             // arrange
             const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
@@ -139,7 +139,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             assemblyWrapper.GetExportedTypes(assembly).Returns(
                 new[]
                 {
-                    typeof(TestPlugin_ThrowsException)
+                    typeof(TestPluginThrowsException)
                 });
 
             var pluginPaths = new Dictionary<string, string>    
@@ -167,7 +167,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             reporter.Received().Report(Arg.Any<string>());
         }
 
-        public class TestPlugin_ThrowsException : IPlugin
+        public class TestPluginThrowsException : IPlugin
         {
             public void PerformAction(IPluginContext context, IReporter reporter)
             {

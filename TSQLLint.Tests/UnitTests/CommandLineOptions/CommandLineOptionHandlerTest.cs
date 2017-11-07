@@ -65,6 +65,20 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         }
 
         [Test]
+        public void Passes_Handle_Config_Options_If_Listing_Plugins()
+        {
+            // arrange
+            var info = SetupHandler(new[] { "-l" });
+            
+            // act
+            var performLinting = info.Handler.HandleCommandLineOptions();
+
+            // assert
+            Assert.IsTrue(performLinting);
+            Assert.AreEqual(0, info.Reporter.Messages.Count);
+        }
+
+        [Test]
         public void Returns_In_Memory_Config_If_Missing_Config_File_When_None_Passed_And_No_Options()
         {
             // arrange

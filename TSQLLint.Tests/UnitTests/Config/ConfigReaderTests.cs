@@ -27,10 +27,13 @@ namespace TSQLLint.Tests.UnitTests.Config
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfig(null, defaultConfigFile);
+            configReader.ListPlugins();
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            reporter.Received().Report("Did not find any plugins");
         }
 
         [Test]
@@ -48,6 +51,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsFalse(configReader.IsConfigLoaded);
         }
 
         [Test]
@@ -65,6 +69,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsFalse(configReader.IsConfigLoaded);
         }
 
         [Test]
@@ -94,6 +99,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsTrue(configReader.IsConfigLoaded);
         }
 
         [Test]
@@ -116,6 +122,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                 // act
                 var configReader = new ConfigReader(reporter, fileSystem);
                 Assert.IsNotNull(configReader);
+                Assert.IsFalse(configReader.IsConfigLoaded);
             });
         }
 
@@ -144,6 +151,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("foo"), "Rules that dont have a validator should be set to off");
+            Assert.IsFalse(configReader.IsConfigLoaded);
         }
 
         [Test]
@@ -170,6 +178,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"), "Rules that dont have a valid severity should be set to off");
+            Assert.IsTrue(configReader.IsConfigLoaded);
         }
 
         [Test]
@@ -192,6 +201,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // assert
             reporter.Received().Report("Config file is not valid Json.");
+            Assert.IsFalse(configReader.IsConfigLoaded);
         }
 
         [Test]
@@ -224,16 +234,22 @@ namespace TSQLLint.Tests.UnitTests.Config
             var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfigFromFile(configFilePath);
             var plugins = configReader.GetPlugins();
+            configReader.ListPlugins();
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsTrue(configReader.IsConfigLoaded);
 
             Assert.AreEqual(true, plugins.ContainsKey("my-first-plugin"));
             Assert.AreEqual(true, plugins.ContainsKey("my-second-plugin"));
 
             Assert.AreEqual("c:/users/someone/my-plugins/my-first-plugin.dll", plugins["my-first-plugin"]);
             Assert.AreEqual("c:/users/someone/my-plugins/my-second-plugin.dll", plugins["my-second-plugin"]);
+
+            reporter.Received().Report("Found the following plugins:");
+            reporter.Received().Report("Plugin Name 'my-first-plugin' loaded from path 'c:/users/someone/my-plugins/my-first-plugin.dll'");
+            reporter.Received().Report("Plugin Name 'my-second-plugin' loaded from path 'c:/users/someone/my-plugins/my-second-plugin.dll'");
         }
     }
 }

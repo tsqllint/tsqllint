@@ -44,6 +44,13 @@ namespace TSQLLint.Console.ConfigHandler
         TSQLLintOption(NonLintingCommand = true)]
         public bool PrintConfig { get; set; }
 
+        [Option('l',
+             longName: "list-plugins",
+             Required = false,
+             HelpText = "List the loaded plugins"),
+         TSQLLintOption(NonLintingCommand = true)]
+        public bool ListPlugins { get; set; }
+
         [Option('v',
             longName: "version",
             Required = false,
