@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.IO;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config;
+using TSQLLint.Lib.Parser;
 
 namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 {
@@ -16,8 +18,9 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
             var ConfigReader = new ConfigReader(reporter);
             ConfigReader.LoadConfigFromFile(configfilePath);
             var RuleVisitorBuilder = new Lib.Parser.RuleVisitorBuilder(ConfigReader, null);
-            var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors("foo");
 
+            var ignoredRuleList = new List<IRuleException>();
+            var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors("foo.sql", ignoredRuleList);
             Assert.AreEqual(2, ActiveRuleVisitors.Count);
         }
     }

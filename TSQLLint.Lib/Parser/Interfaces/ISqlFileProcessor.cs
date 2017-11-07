@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 
 namespace TSQLLint.Lib.Parser.Interfaces
 {
@@ -8,7 +9,7 @@ namespace TSQLLint.Lib.Parser.Interfaces
 
         void ProcessPath(string path);
 
-        void ProcessFile(string fileContents, string filePath);
+        void ProcessFile(Stream fileStream, string filePath);
 
         int FileCount { get; }
     }

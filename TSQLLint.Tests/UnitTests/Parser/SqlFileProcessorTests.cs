@@ -8,6 +8,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins.Interfaces;
+using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Tests.UnitTests.Parser
 {
@@ -36,11 +37,11 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath = "PathToFile.sql";
 
             // act
-            processor.ProcessFile(fileContents, filePath);
+            processor.ProcessFile(ParsingUtility.GenerateStreamFromString(fileContents), filePath);
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.Received().VisitRules(filePath, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(1, processor.FileCount);
         }
@@ -59,7 +60,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             fileBase.Exists(filePath).Returns(true);
-            fileBase.ReadAllText(filePath).Returns("Some Sql To Parse");
+            fileBase.OpenRead(filePath).Returns(ParsingUtility.GenerateStreamFromString("Some Sql To Parse"));
             fileSystem.File.Returns(fileBase);
 
             // act
@@ -68,8 +69,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             fileBase.Received().Exists(filePath);
-            fileBase.Received().ReadAllText(filePath);
-            ruleVisitor.Received().VisitRules(filePath, Arg.Any<TextReader>());
+            fileBase.Received().OpenRead(filePath);
+            ruleVisitor.Received().VisitRules(filePath, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(1, processor.FileCount);
         }
@@ -110,10 +111,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(3, processor.FileCount);
         }
@@ -146,8 +147,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(2, processor.FileCount);
         }
@@ -188,10 +189,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(4, processor.FileCount);
         }
@@ -223,7 +224,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             pluginHandler.DidNotReceive().ActivatePlugins(Arg.Any<IPluginContext>());
             fileBase.Received().Exists(filePath);
             directoryBase.Received().Exists(filePath);
-            ruleVisitor.DidNotReceive().VisitRules(filePath, Arg.Any<TextReader>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath, Arg.Any<Stream>());
             reporter.Received().Report($"{filePath} is not a valid path.");
             Assert.AreEqual(0, processor.FileCount);
         }
@@ -264,10 +265,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(3, processor.FileCount);            
         }
@@ -308,10 +309,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(3, processor.FileCount);
         }
@@ -354,10 +355,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
 
             reporter.DidNotReceive().Report(Arg.Any<string>());
 
@@ -388,7 +389,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.DidNotReceive().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<TextReader>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(0, processor.FileCount);
         }
@@ -408,7 +409,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.DidNotReceive().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.DidNotReceive().VisitRules(Arg.Any<string>(), Arg.Any<TextReader>());
+            ruleVisitor.DidNotReceive().VisitRules(Arg.Any<string>(), Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(0, processor.FileCount);
         }
@@ -449,10 +450,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<TextReader>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(3, processor.FileCount);            
         }
@@ -487,9 +488,9 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
-            ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<TextReader>());
-            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<TextReader>());
+            ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
             reporter.Received().Report($@"{invalidFilePath} is not a valid path.");
             Assert.AreEqual(2, processor.FileCount);
         }

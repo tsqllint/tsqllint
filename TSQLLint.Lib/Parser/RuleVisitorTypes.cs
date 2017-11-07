@@ -11,7 +11,7 @@ namespace TSQLLint.Lib.Parser
     public static class RuleVisitorTypes
     {
         // a list of all classes that implement ISqlRule
-        public static readonly List<Type> TypeList = new List<Type>
+        public static readonly List<Type> List = new List<Type>
         {
             typeof(TSQLLint.Lib.Rules.ConditionalBeginEndRule),
             typeof(TSQLLint.Lib.Rules.CrossDatabaseRule),

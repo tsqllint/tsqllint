@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
@@ -16,15 +18,19 @@ namespace TSQLLint.Lib.Parser
 
         private readonly IReporter Reporter;
 
+        private readonly RuleExceptionFinder RuleExceptionFinder;
+
         public SqlRuleVisitor(IConfigReader configReader, IReporter reporter)
         {
             Parser = new TSql120Parser(true);
             RuleVisitorBuilder = new RuleVisitorBuilder(configReader, reporter);
             Reporter = reporter;
+            RuleExceptionFinder = new RuleExceptionFinder();
         }
 
-        public void VisitRules(string sqlPath, TextReader sqlTextReader)
+        public void VisitRules(string sqlPath, Stream sqlFileStream)
         {
+            TextReader sqlTextReader = new StreamReader(sqlFileStream);
             var sqlFragment = GetFragment(sqlTextReader, out var errors);
 
             if (errors.Count > 0)
@@ -33,16 +39,20 @@ namespace TSQLLint.Lib.Parser
                 return;
             }
 
-            var ruleVisitors = RuleVisitorBuilder.BuildVisitors(sqlPath);
+            sqlFileStream.Seek(0, SeekOrigin.Begin);
+            var IgnoredRules = RuleExceptionFinder.GetIgnoredRuleList(sqlFileStream).ToList();
+            
+            var ruleVisitors = RuleVisitorBuilder.BuildVisitors(sqlPath, IgnoredRules);
             foreach (var visitor in ruleVisitors)
             {
                 sqlFragment.Accept(visitor);
             }
         }
 
-        public void VisitRule(TextReader txtRdr, TSqlFragmentVisitor visitor)
+        public void VisitRule(Stream fileStream, TSqlFragmentVisitor visitor)
         {
-            var sqlFragment = GetFragment(txtRdr, out _);
+            var textReader = new StreamReader(fileStream);
+            var sqlFragment = GetFragment(textReader, out _);
             sqlFragment.Accept(visitor);
         }
 
