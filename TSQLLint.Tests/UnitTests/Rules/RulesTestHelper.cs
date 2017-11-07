@@ -21,12 +21,9 @@ namespace TSQLLint.Tests.UnitTests.Rules
             var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();
 
-            // todo fix
-            var violations = ruleViolations;
-
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
             {
-                violations.Add(new RuleViolation(ruleName, startLine, startColumn));
+                ruleViolations.Add(new RuleViolation(ruleName, startLine, startColumn));
             }
 
             var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, args: (Action<string, string, int, int>)ErrorCallback);
