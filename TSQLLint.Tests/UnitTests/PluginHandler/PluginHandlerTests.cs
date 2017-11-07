@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Reflection;
 using NSubstitute;
@@ -69,6 +70,100 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             // assert
             Assert.AreEqual(4, pluginHandler.Plugins.Count);
+        }
+
+        [Test]
+        public void LoadPlugins_ShouldLoadPluginsFilesWithRelativePaths()
+        {
+            // arrange
+            var currentDirectory = Directory.GetParent(Assembly.GetExecutingAssembly().Location);
+            var executingLocationParentFolder = currentDirectory.Parent.FullName;
+
+            var filePath1 = Path.Combine(executingLocationParentFolder, "plugin_one.dll");
+            var filePath2 = Path.Combine(executingLocationParentFolder, "plugin_two.dll");
+
+            var fileSystem = new MockFileSystem(
+                new Dictionary<string, MockFileData>
+                {
+                    {
+                        filePath1, new MockFileData(string.Empty)
+                    },
+                    {
+                        filePath2, new MockFileData(string.Empty)
+                    }
+                },
+                currentDirectory.FullName);
+
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
+            assemblyWrapper.LoadFile(Arg.Any<string>()).Returns(assembly);
+            assemblyWrapper.GetExportedTypes(assembly).Returns(
+                new[]
+                {
+                    typeof(TestPlugin),
+                    typeof(string)
+                });
+
+            var reporter = Substitute.For<IReporter>();
+
+            var pluginPaths = new Dictionary<string, string>
+            {
+                {
+                    "my-second-plugin", @"..\plugin_one.dll"
+                }
+            };
+
+            // act
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+
+            // assert
+            Assert.AreEqual(1, pluginHandler.Plugins.Count);
+        }
+
+        [Test]
+        public void LoadPlugins_ShouldLoadPluginsDirectoriesWithRelativePaths()
+        {
+            // arrange
+            var currentDirectory = Directory.GetParent(Assembly.GetExecutingAssembly().Location);
+            var executingLocationParentFolder = currentDirectory.Parent.FullName;
+
+            var filePath1 = Path.Combine(executingLocationParentFolder, "subDirectory", "plugin_one.dll");
+
+            var fileSystem = new MockFileSystem(
+                new Dictionary<string, MockFileData>
+                {
+                    {
+                        filePath1, new MockFileData(string.Empty)
+                    }
+                },
+                currentDirectory.FullName);
+
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
+            assemblyWrapper.LoadFile(Arg.Any<string>()).Returns(assembly);
+            assemblyWrapper.GetExportedTypes(assembly).Returns(
+                new[]
+                {
+                    typeof(TestPlugin),
+                    typeof(string)
+                });
+
+            var reporter = Substitute.For<IReporter>();
+
+            var pluginPaths = new Dictionary<string, string>
+            {
+                {
+                    "my-first-plugin", @"..\subDirectory\"
+                }
+            };
+
+            // act
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+
+            // assert
+            Assert.AreEqual(1, pluginHandler.Plugins.Count);
         }
 
         [Test]
@@ -166,6 +261,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             Assert.Throws<NotImplementedException>(() => pluginHandler.ActivatePlugins(context));
             reporter.Received().Report(Arg.Any<string>());
         }
+
+        //TODO: Add test for relative dir and relative files
 
         public class TestPluginThrowsException : IPlugin
         {
