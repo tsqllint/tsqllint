@@ -59,6 +59,11 @@
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />
     <Compile Include="Parser\RuleVisitorBuilder.cs" />
+    <Compile Include="Parser\RuleVisitorTypes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RuleVisitorTypes.tt</DependentUpon>
+    </Compile>
     <Compile Include="Parser\SqlFileProcessor.cs" />
     <Compile Include="Parser\SqlRuleVisitor.cs" />
     <Compile Include="Plugins\AssemblyWrapper.cs" />
@@ -97,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Parser\RuleVisitorTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RuleVisitorTypes.cs</LastGenOutput>
+      <TransformOnBuild>True</TransformOnBuild>
+      <FormatOutput>True</FormatOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Templates\NewRule.tt">

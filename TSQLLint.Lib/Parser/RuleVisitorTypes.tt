@@ -1,0 +1,38 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(TargetDir)TSQLLint.Lib.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="TSQLLint.Lib.Rules.Interface"#>
+<#@ output extension=".cs" #>
+/*
+  This file is auto-generated and should not be edited directly.
+  All changes should be made to the accompanying template.
+*/
+
+using System;
+using System.Collections.Generic;
+
+namespace TSQLLint.Lib.Parser
+{
+    public static class RuleVisitorTypes
+    {
+        // a list of all classes that implement ISqlRule
+        public static readonly List<Type> TypeList = new List<Type>
+        {
+<#
+            var type = typeof(ISqlRule);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+              .SelectMany(s => s.GetTypes())
+              .Where(p => type.IsAssignableFrom(p) && p.IsClass);
+            types = types.OrderBy(o => o.Name).ToList();
+            foreach (var ruleType in types)
+            {
+#>
+            typeof(<#= ruleType #>),
+<#
+            }#>
+        };
+    }
+}
