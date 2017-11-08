@@ -262,8 +262,6 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             reporter.Received().Report(Arg.Any<string>());
         }
 
-        //TODO: Add test for relative dir and relative files
-
         public class TestPluginThrowsException : IPlugin
         {
             public void PerformAction(IPluginContext context, IReporter reporter)
