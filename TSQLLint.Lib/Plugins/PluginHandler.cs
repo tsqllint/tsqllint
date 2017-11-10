@@ -60,30 +60,31 @@ namespace TSQLLint.Lib.Plugins
         public void LoadPluginDirectory(string path)
         {
             var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
-            foreach (var t in subdirectoryEntries)
+            foreach (var entry in subdirectoryEntries)
             {
-                ProcessPath(t);
+                ProcessPath(entry);
             }
 
             var fileEntries = _fileSystem.Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
-            foreach (var t in fileEntries)
+            foreach (var entry in fileEntries)
             {
-                LoadPlugin(t);
+                LoadPlugin(entry);
             }
         }
 
         public void LoadPlugin(string assemblyPath)
         {
-            var DLL = _assemblyWrapper.LoadFile(assemblyPath);
+            var path = _fileSystem.Path.GetFullPath(assemblyPath);
+            var dll = _assemblyWrapper.LoadFile(path);
 
-            foreach (var type in _assemblyWrapper.GetExportedTypes(DLL))
+            foreach (var type in _assemblyWrapper.GetExportedTypes(dll))
             {
                 if (!type.GetInterfaces().Contains(typeof(IPlugin)))
                 {
                     continue;
                 }
 
-                // todo dont allow duplicates
+                //TODO: don't allow duplicates
                 Plugins.Add((IPlugin)Activator.CreateInstance(type));
 
                 _reporter.Report($"\nLoaded plugin {type.FullName}\n");

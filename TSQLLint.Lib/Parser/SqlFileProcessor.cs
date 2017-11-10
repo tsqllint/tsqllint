@@ -130,6 +130,7 @@ namespace TSQLLint.Lib.Parser
 
         private void ProcessPlugins(Stream fileStream, string filePath)
         {
+            fileStream.Seek(0, SeekOrigin.Begin);
             TextReader textReader = new StreamReader(fileStream);
             _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
         }
