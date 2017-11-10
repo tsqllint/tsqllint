@@ -79,6 +79,7 @@
     <Compile Include="CommandLineOptions\CommandLineOptionHandler.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptions.cs" />
     <Compile Include="CommandLineOptions\ConfigFileFinder.cs" />
+    <Compile Include="CommandLineOptions\ICommandLineOptionHandler.cs" />
     <Compile Include="CommandLineOptions\Interfaces\IConfigFileFinder.cs" />
     <Compile Include="CommandLineOptions\ConfigHandler.cs" />
     <Compile Include="Reporters\ConsoleTimer.cs" />

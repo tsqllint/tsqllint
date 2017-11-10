@@ -6,7 +6,7 @@ using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions
 {
-    public class CommandLineOptionHandler
+    public class CommandLineOptionHandler : ICommandLineOptionHandler
     {
         private readonly CommandLineOptions _commandLineOptions;
         private readonly IConfigFileFinder _configFileFinder;
