@@ -24,7 +24,7 @@ function Update-SourceVersion
         (Get-Content $o.FullName) | ForEach-Object  { 
            % {$_ -replace $assemblyVersionPattern, $assemblyVersion } |
            % {$_ -replace $fileVersionPattern, $fileVersion }
-        } | Out-File $o.FullName -encoding UTF8 -force
+        } | Out-File $o.FullName -force
     }
 }
 function Update-AllAssemblyInfoFiles ( $version )
