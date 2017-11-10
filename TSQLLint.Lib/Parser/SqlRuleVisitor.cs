@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
-using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Rules.RuleViolations;
 

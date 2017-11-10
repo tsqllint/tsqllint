@@ -53,8 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\ConfigFileGenerator.cs" />
-    <Compile Include="Config\Interfaces\IConfigFileGenerator.cs" />
     <Compile Include="Config\Interfaces\IConfigReader.cs" />
+    <Compile Include="Config\Interfaces\IConfigFileGenerator.cs" />
     <Compile Include="Config\ConfigReader.cs" />
     <Content Include="Parser\RuleVisitorTypeFriendlyNameMap.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
