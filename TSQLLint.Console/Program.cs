@@ -14,8 +14,6 @@ namespace TSQLLint.Console
             var logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             Trace.Listeners.Add(new Log4netTraceListener(logger, new BooleanSwitch("Logging", "Entire application").Enabled));
             
-            Trace.WriteLine("FOOOOOOOOOOOOOOO");
-            
             var application = new Application(args, new ConsoleReporter());
             
             try

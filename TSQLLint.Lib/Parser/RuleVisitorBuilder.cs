@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
@@ -20,12 +21,16 @@ namespace TSQLLint.Lib.Parser
             ConfigReader = configReader;
         }
 
-        public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath)
+        public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath, List<IRuleException> ignoredRules)
         {
             void ErrorCallback(string ruleName, string ruleText, int startLne, int startColumn)
             {
-                var ruleSeverity = ConfigReader.GetRuleSeverity(ruleName);
+                if (ignoredRules.Any() && IsRuleIgnored(ignoredRules, ruleName, startLne))
+                {
+                    return;
+                }
 
+                var ruleSeverity = ConfigReader.GetRuleSeverity(ruleName);
                 if (ruleSeverity == RuleViolationSeverity.Error && !ErrorLogged)
                 {
                     ErrorLogged = true;
@@ -36,7 +41,7 @@ namespace TSQLLint.Lib.Parser
             }
             
             var configuredVisitors = new List<TSqlFragmentVisitor>();
-            foreach (var visitor in RuleVisitorTypes.TypeList)
+            foreach (var visitor in RuleVisitorTypes.List)
             {
                 var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, (Action<string, string, int, int>)ErrorCallback);
                 var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
@@ -50,6 +55,23 @@ namespace TSQLLint.Lib.Parser
             }
 
             return configuredVisitors;
+        }
+
+        private static bool IsRuleIgnored(List<IRuleException> ignoredRules, string ruleName, int startLne)
+        {
+            var friendlyNameToType = RuleVisitorFriendlyNameTypeMap.List.Where(x => x.Key == ruleName);
+            var ruleType = friendlyNameToType.FirstOrDefault().Value;
+            
+            var rulesOnLine = ignoredRules.OfType<RuleException>().Where(
+                x => x.RuleType.Name == ruleType.Name
+                     && startLne >= x.StartLine
+                     && startLne <= x.EndLine);
+
+            var globalRulesOnLine = ignoredRules.OfType<GlobalRuleException>().Where(
+                x => startLne >= x.StartLine
+                     && startLne <= x.EndLine);
+
+            return rulesOnLine.Any() || globalRulesOnLine.Any();
         }
     }
 }

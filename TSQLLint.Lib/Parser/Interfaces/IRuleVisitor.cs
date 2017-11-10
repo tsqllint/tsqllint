@@ -5,8 +5,8 @@ namespace TSQLLint.Lib.Parser.Interfaces
 {
     public interface IRuleVisitor
     {
-        void VisitRule(TextReader txtRdr, TSqlFragmentVisitor visitor);
+        void VisitRule(Stream fileStream, TSqlFragmentVisitor visitor);
 
-        void VisitRules(string path, TextReader txtRdr);
+        void VisitRules(string path, Stream sqlFileStream);
     }
 }

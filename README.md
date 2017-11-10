@@ -5,9 +5,9 @@
 [![npm](https://img.shields.io/npm/dt/tsqllint.svg)](https://www.npmjs.com/package/tsqllint)
 [![Gitter chat](https://img.shields.io/gitter/room/badges/shields.svg)](https://gitter.im/TSQLLint/Lobby)
 
-# tsqllint
+# TSQLLint
 
-tsqllint is a tool for describing, identifying, and reporting on undesirable patterns in TSQL scripts
+TSQLLint is a tool for describing, identifying, and reporting on undesirable patterns in TSQL scripts
 
 ## Installation
 
@@ -88,6 +88,44 @@ Rules may be set to "off", "warning", or "error".
         "upper-lower": "error"
     }
 }
+```
+
+## Disabling Rules with Inline Comments
+
+To temporarily disable rule warnings in a script, use comments in the following format:
+
+```
+/* tsqllint-disable */
+
+SELECT * FROM FOO;
+
+/* tsqllint-enable */
+```
+
+You can also disable or enable warnings for specific rules:
+
+```
+/* tsqllint-disable select-star */
+
+SELECT * FROM FOO;
+
+/* tsqllint-enable select-star */
+```
+
+To disable warnings for the entire script, place a /* tsqllint-disable */ comment at the top of the file:
+
+```
+/* tsqllint-disable */
+
+SELECT * FROM FOO;
+```
+
+To disable specific rule warnings for the entire script place a comment similar to the following at the top of the file:
+
+```
+/* tsqllint-disable select-star */
+
+SELECT * FROM FOO;
 ```
 
 ## Plugins

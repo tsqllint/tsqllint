@@ -56,9 +56,22 @@
     <Compile Include="Config\Interfaces\IConfigFileGenerator.cs" />
     <Compile Include="Config\Interfaces\IConfigReader.cs" />
     <Compile Include="Config\ConfigReader.cs" />
+    <Content Include="Parser\RuleVisitorTypeFriendlyNameMap.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RuleVisitorTypeFriendlyNameMap.cs</LastGenOutput>
+    </Content>
+    <Compile Include="Parser\GlobalRuleException.cs" />
+    <Compile Include="Parser\Interfaces\IRuleException.cs" />
+    <Compile Include="Parser\RuleException.cs" />
+    <Compile Include="Parser\RuleExceptionFinder.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />
     <Compile Include="Parser\RuleVisitorBuilder.cs" />
+    <Compile Include="Parser\RuleVisitorTypeFriendlyNameMap.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RuleVisitorTypeFriendlyNameMap.tt</DependentUpon>
+    </Compile>
     <Compile Include="Parser\RuleVisitorTypes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

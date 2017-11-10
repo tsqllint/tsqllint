@@ -15,7 +15,7 @@ namespace TSQLLint.Tests.IntegrationTests
     {
         protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
-        protected static readonly string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\TestFiles");
+        protected static readonly string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\Configuration\TestFiles");
         protected static readonly string TestFileOne = Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
         protected static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
@@ -61,8 +61,7 @@ namespace TSQLLint.Tests.IntegrationTests
             var mockReporter = Substitute.For<IReporter>();
 
             var reportedViolations = new List<IRuleViolation>();
-            var violations = reportedViolations;
-            mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => violations.Add(x.Arg<IRuleViolation>()));
+            mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => reportedViolations.Add(x.Arg<IRuleViolation>()));
 
             var reportedMessages = new List<string>();
             mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));

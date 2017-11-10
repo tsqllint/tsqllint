@@ -116,27 +116,22 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
-        public void ProcessFile(string fileContents, string filePath)
+        public void ProcessFile(Stream fileStream, string filePath)
         {
-            ProcessRules(fileContents, filePath);
-            ProcessPlugins(fileContents, filePath);
+            ProcessRules(fileStream, filePath);
+            ProcessPlugins(fileStream, filePath);
             FileCount++;
         }
 
-        private void ProcessRules(string fileContents, string filePath)
+        private void ProcessRules(Stream fileStream, string filePath)
         {
-            using (var textReader = Utility.ParsingUtility.CreateTextReaderFromString(fileContents))
-            {
-                _ruleVisitor.VisitRules(filePath, textReader);
-            }
+            _ruleVisitor.VisitRules(filePath, fileStream);
         }
 
-        private void ProcessPlugins(string fileContents, string filePath)
+        private void ProcessPlugins(Stream fileStream, string filePath)
         {
-            using (var textReader = Utility.ParsingUtility.CreateTextReaderFromString(fileContents))
-            {
-                _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
-            }
+            TextReader textReader = new StreamReader(fileStream);
+            _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
         }
 
         public void ProcessList(List<string> paths)
@@ -147,9 +142,9 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
-        private string GetFileContents(string filePath)
+        private Stream GetFileContents(string filePath)
         {
-            return _fileSystem.File.ReadAllText(filePath);
+            return _fileSystem.File.OpenRead(filePath);
         }
     }
 }
