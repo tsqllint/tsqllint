@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Console.ConfigHandler;
-using TSQLLint.Console.ConfigHandler.Interfaces;
+using TSQLLint.Console.CommandLineOptions;
+using TSQLLint.Console.CommandLineOptions.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Tests.UnitTests.CommandLineOptions
@@ -223,7 +223,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         {
             var info = new TestObjects
             {
-                Options = new Console.ConfigHandler.CommandLineOptions(args),
+                Options = new Console.CommandLineOptions.CommandLineOptions(args),
                 Reporter = new TestCommandLineOptionHandlerReporter(),
                 ConfigFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator(),
                 ConfigFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(shouldFindFile, defaultConfigFile)
@@ -234,7 +234,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
         private class TestObjects
         {
-            public Console.ConfigHandler.CommandLineOptions Options { get; set; }
+            public Console.CommandLineOptions.CommandLineOptions Options { get; set; }
 
             public TestCommandLineOptionHandlerReporter Reporter { get; set; }
 

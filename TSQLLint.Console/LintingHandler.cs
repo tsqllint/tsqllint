@@ -1,6 +1,4 @@
-using System;
 using TSQLLint.Common;
-using TSQLLint.Console.ConfigHandler;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Plugins;
@@ -11,11 +9,11 @@ namespace TSQLLint.Console
     {
         private readonly SqlFileProcessor _parser;
 
-        private readonly CommandLineOptions _commandLineOptions;
+        private readonly CommandLineOptions.CommandLineOptions _commandLineOptions;
 
         public int LintedFileCount { get; private set; }
 
-        public LintingHandler(CommandLineOptions commandLineOptions, ConfigReader configReader, IReporter reporter)
+        public LintingHandler(CommandLineOptions.CommandLineOptions commandLineOptions, ConfigReader configReader, IReporter reporter)
         {
             _commandLineOptions = commandLineOptions;
 

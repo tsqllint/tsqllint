@@ -1,5 +1,6 @@
 using TSQLLint.Common;
-using TSQLLint.Console.ConfigHandler;
+using TSQLLint.Console.CommandLineOptions;
+using TSQLLint.Console.Reporters;
 using TSQLLint.Lib.Config;
 
 namespace TSQLLint.Console
@@ -20,10 +21,10 @@ namespace TSQLLint.Console
         public void Run()
         {
             // parse options
-            var commandLineOptions = new CommandLineOptions(_args);
+            var commandLineOptions = new CommandLineOptions.CommandLineOptions(_args);
 
             // perform non-linting actions
-            var configHandler = new ConfigHandler.ConfigHandler(commandLineOptions, _reporter);
+            var configHandler = new ConfigHandler(commandLineOptions, _reporter);
             if (!configHandler.HandleConfigs())
             {
                 return;

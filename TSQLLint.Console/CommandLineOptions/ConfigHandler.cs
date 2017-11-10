@@ -1,7 +1,7 @@
 using TSQLLint.Common;
 using TSQLLint.Lib.Config;
 
-namespace TSQLLint.Console.ConfigHandler
+namespace TSQLLint.Console.CommandLineOptions
 {
     public class ConfigHandler
     {

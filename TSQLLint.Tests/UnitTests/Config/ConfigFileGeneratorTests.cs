@@ -3,7 +3,7 @@ using System.IO;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Console.ConfigHandler;
+using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Lib.Config;
 
 namespace TSQLLint.Tests.UnitTests.Config
