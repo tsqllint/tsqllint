@@ -4,6 +4,10 @@ using TSQLLint.Console.CommandLineOptions.Interfaces;
 using TSQLLint.Console.Reporters;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Lib.Parser;
+using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Plugins;
+using TSQLLint.Lib.Plugins.Interfaces;
 
 namespace TSQLLint.Console
 {
@@ -18,6 +22,10 @@ namespace TSQLLint.Console
         private readonly ICommandLineOptionHandler _commandLineOptionHandler;
         private readonly ConsoleTimer _timer = new ConsoleTimer();
 
+        private readonly IPluginHandler _pluginHandler;
+        private readonly IRuleVisitor _ruleVisitor;
+        private readonly ISqlFileProcessor _fileProcessor;
+
         public Application(string[] args, IReporter reporter)
         {
             _timer.Start();
@@ -28,6 +36,9 @@ namespace TSQLLint.Console
             _configFileGenerator = new ConfigFileGenerator(_reporter);
             _commandLineOptions = new CommandLineOptions.CommandLineOptions(_args);
             _commandLineOptionHandler = new CommandLineOptionHandler(_commandLineOptions, _configFileFinder, _configFileGenerator, _reporter);
+            _ruleVisitor = new SqlRuleVisitor(_configReader, _reporter);
+            _pluginHandler = new PluginHandler(_reporter, _configReader.GetPlugins());
+            _fileProcessor = new SqlFileProcessor(_pluginHandler, _ruleVisitor, _reporter);
         }
 
         public void Run()
@@ -49,10 +60,8 @@ namespace TSQLLint.Console
             }
 
             // perform lint
-            var lintingHandler = new LintingHandler(_commandLineOptions, _configReader, _reporter);
-            lintingHandler.Lint();
-
-            _reporter.ReportResults(_timer.Stop(), lintingHandler.LintedFileCount);
+            _fileProcessor.ProcessList(_commandLineOptions.LintPath);
+            _reporter.ReportResults(_timer.Stop(), _fileProcessor.FileCount);
         }
     }
 }

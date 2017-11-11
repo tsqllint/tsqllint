@@ -83,7 +83,6 @@
     <Compile Include="CommandLineOptions\Interfaces\IConfigFileFinder.cs" />
     <Compile Include="CommandLineOptions\ConfigHandler.cs" />
     <Compile Include="Reporters\ConsoleTimer.cs" />
-    <Compile Include="LintingHandler.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
