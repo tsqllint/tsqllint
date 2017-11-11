@@ -73,7 +73,6 @@
     <Compile Include="IntegrationTests\IntegrationBaseTest.cs" />
     <Compile Include="IntegrationTests\RuleExceptions\IgnoreRulesTests.cs" />
     <Compile Include="IntegrationTests\RuleExceptions\RuleVisitorBuilderIgnoreRulesTests.cs" />
-    <Compile Include="UnitTests\Config\ConfigFileFinderTests.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
     <Compile Include="Helpers\RuleViolationComparer.cs" />
     <Compile Include="UnitTests\Parser\RuleExceptionFinder\RuleExceptionFinderTests.cs" />

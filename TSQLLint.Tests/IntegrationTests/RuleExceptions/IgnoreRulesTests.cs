@@ -5,11 +5,17 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Rules.RuleViolations;
 
-namespace TSQLLint.Tests.IntegrationTests
+namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
 {
     public class IgnoreRulesTests : IntegrationBaseTest
     {
-        protected static readonly string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\RuleExceptions\TestFiles");
+        private static new string TestFileDirectory;
+
+        [SetUp]
+        public void Init()
+        {
+            TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\RuleExceptions\TestFiles");
+        }
 
         protected static readonly IEnumerable<RuleViolation> IntegrationTestTwoRuleViolations = new List<RuleViolation>
         {

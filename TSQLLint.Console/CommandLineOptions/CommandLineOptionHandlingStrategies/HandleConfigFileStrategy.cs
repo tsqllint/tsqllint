@@ -1,26 +1,27 @@
+using System;
+using System.IO.Abstractions;
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions.Interfaces;
-using TSQLLint.Lib.Config;
 
 namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
 {
     public class HandleConfigFileStrategy : IHandlingStrategy
     {
         private readonly IBaseReporter _reporter;
-        private readonly IConfigFileFinder _configFileFinder;
+        private readonly IFileSystem _fileSystem;
 
-        public HandleConfigFileStrategy(IBaseReporter reporter, IConfigFileFinder configFileFinder)
+        public HandleConfigFileStrategy(IBaseReporter reporter) : this(reporter, new FileSystem()) { }
+
+        public HandleConfigFileStrategy(IBaseReporter reporter, FileSystem fileSystem)
         {
             _reporter = reporter;
-            _configFileFinder = configFileFinder;
+            _fileSystem = fileSystem;
         }
 
         public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
         {
             commandLineOptions.ConfigFile = commandLineOptions.ConfigFile.Trim();
-            var configFileExists = _configFileFinder.FindFile(commandLineOptions.ConfigFile);
-
-            if (!configFileExists)
+            if (!_fileSystem.File.Exists(commandLineOptions.ConfigFile))
             {
                 _reporter.Report($"Config file not found at: {commandLineOptions.ConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite");
             }

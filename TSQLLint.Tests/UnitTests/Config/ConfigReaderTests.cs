@@ -16,14 +16,6 @@ namespace TSQLLint.Tests.UnitTests.Config
             var fileSystem = new MockFileSystem();
             var reporter = Substitute.For<IReporter>();
 
-            const string defaultConfigFile = @"
-            {
-                'rules': {
-                    'select-star': 'error',
-                    'statement-semicolon-termination': 'warning'
-                }
-            }";
-
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
             configReader.LoadConfig();

@@ -9,20 +9,17 @@ namespace TSQLLint.Console.CommandLineOptions
     public class CommandLineOptionHandler : ICommandLineOptionHandler
     {
         private readonly CommandLineOptions _commandLineOptions;
-        private readonly IConfigFileFinder _configFileFinder;
         private readonly IConfigFileGenerator _configFileGenerator;
         private readonly IBaseReporter _reporter;
         private readonly IConfigReader _configReader;
 
         public CommandLineOptionHandler(
             CommandLineOptions commandLineOptions,
-            IConfigFileFinder configFileFinder,
             IConfigFileGenerator configFileGenerator,
             IConfigReader configReader,
             IBaseReporter reporter)
         {
             _commandLineOptions = commandLineOptions;
-            _configFileFinder = configFileFinder;
             _configFileGenerator = configFileGenerator;
             _configReader = configReader;
             _reporter = reporter;
@@ -52,12 +49,12 @@ namespace TSQLLint.Console.CommandLineOptions
             }
             else if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile))
             {
-                var strategy = new HandleConfigFileStrategy(_reporter, _configFileFinder);
+                var strategy = new HandleConfigFileStrategy(_reporter);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
             else if (commandLineOptions.Init)
             {
-                var strategy = new CreateConfigFileStrategy(_reporter, _configFileFinder, _configFileGenerator);
+                var strategy = new CreateConfigFileStrategy(_reporter, _configFileGenerator);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
             else if (_commandLineOptions.ListPlugins)

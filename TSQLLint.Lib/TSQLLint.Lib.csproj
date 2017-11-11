@@ -52,9 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\ConfigFileFinder.cs" />
     <Compile Include="Config\ConfigFileGenerator.cs" />
-    <Compile Include="Config\Interfaces\IConfigFileFinder.cs" />
     <Compile Include="Config\Interfaces\IConfigReader.cs" />
     <Compile Include="Config\Interfaces\IConfigFileGenerator.cs" />
     <Compile Include="Config\ConfigReader.cs" />
@@ -62,10 +60,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RuleVisitorTypeFriendlyNameMap.cs</LastGenOutput>
     </Content>
-    <Compile Include="Parser\GlobalRuleException.cs" />
+    <Compile Include="Parser\RuleExceptions\GlobalRuleException.cs" />
     <Compile Include="Parser\Interfaces\IRuleException.cs" />
-    <Compile Include="Parser\RuleException.cs" />
-    <Compile Include="Parser\RuleExceptionFinder.cs" />
+    <Compile Include="Parser\RuleExceptions\RuleException.cs" />
+    <Compile Include="Parser\RuleExceptions\RuleExceptionFinder.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />
     <Compile Include="Parser\RuleVisitorBuilder.cs" />

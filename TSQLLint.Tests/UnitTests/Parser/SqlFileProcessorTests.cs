@@ -5,6 +5,7 @@ using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
+using TSQLLint.Console.Reporters;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins.Interfaces;
@@ -459,12 +460,11 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
-        public void ShouldNotThrowWhenPassedNonExistantPath()
+        public void ProcessList_PassedInvalidPaths_ShouldNotThrow()
         {
             // arrange
             const string filePath1 = @"c:\dbscripts\db1\file2.sql";
             const string filePath2 = @"c:\dbscripts\db1\file3.sql";
-
             const string invalidFilePath = @"c:\invalid\invalid.sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
@@ -487,7 +487,6 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessList(new List<string> { invalidFilePath, @"c:\dbscripts\db1\" });
 
             // assert
-            pluginHandler.Received().ActivatePlugins(Arg.Any<IPluginContext>());
             ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
