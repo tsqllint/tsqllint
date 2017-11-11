@@ -1,4 +1,4 @@
-namespace TSQLLint.Lib.Parser
+namespace TSQLLint.Lib.Parser.Interfaces
 {
     public interface IRuleException
     {

@@ -4,7 +4,9 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config;
+using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser;
+using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Rules;
 using TSQLLint.Lib.Utility;
 

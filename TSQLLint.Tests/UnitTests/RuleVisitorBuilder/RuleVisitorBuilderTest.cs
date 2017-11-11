@@ -5,6 +5,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Parser;
+using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 {

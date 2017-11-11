@@ -1,4 +1,5 @@
 using System;
+using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Lib.Parser
 {

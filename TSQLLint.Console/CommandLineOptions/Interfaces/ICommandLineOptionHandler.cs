@@ -1,4 +1,4 @@
-﻿namespace TSQLLint.Console.CommandLineOptions
+namespace TSQLLint.Console.CommandLineOptions.Interfaces
 {
     public interface ICommandLineOptionHandler
     {

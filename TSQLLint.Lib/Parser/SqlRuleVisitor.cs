@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config;
+using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Rules.RuleViolations;
 
