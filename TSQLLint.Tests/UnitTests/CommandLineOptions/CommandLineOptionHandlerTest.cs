@@ -226,9 +226,10 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
                 Options = new Console.CommandLineOptions.CommandLineOptions(args),
                 Reporter = new TestCommandLineOptionHandlerReporter(),
                 ConfigFileGenerator = new TestCommandLineOptionHandlerConfigFileGenerator(),
-                ConfigFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(shouldFindFile, defaultConfigFile)
+                ConfigFileFinder = new TestCommandLineOptionHandlerConfigFileFinder(shouldFindFile, defaultConfigFile),
+                ConfigReader = new TestConfigReader()
             };
-            info.Handler = new CommandLineOptionHandler(info.Options, info.ConfigFileFinder, info.ConfigFileGenerator, info.Reporter);
+            info.Handler = new CommandLineOptionHandler(info.Options, info.ConfigFileFinder, info.ConfigFileGenerator, info.ConfigReader, info.Reporter);
             return info;
         }
 
@@ -243,6 +244,43 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             public TestCommandLineOptionHandlerConfigFileFinder ConfigFileFinder { get; set; }
 
             public CommandLineOptionHandler Handler { get; set; }
+
+            public TestConfigReader ConfigReader { get; set; }
+        }
+
+        private class TestConfigReader : IConfigReader
+        {
+            public bool IsConfigLoaded { get; }
+            
+            public Dictionary<string, string> GetPlugins()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public RuleViolationSeverity GetRuleSeverity(string key)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void ListPlugins()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void LoadConfig(string configFilePath)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void LoadConfigFromFile(string configFilePath)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void LoadConfigFromJson(string jsonConfigString)
+            {
+                throw new System.NotImplementedException();
+            }
         }
 
         private class TestCommandLineOptionHandlerReporter : IBaseReporter

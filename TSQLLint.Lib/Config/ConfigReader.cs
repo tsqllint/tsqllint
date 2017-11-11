@@ -72,30 +72,38 @@ namespace TSQLLint.Lib.Config
             return _pluginPaths;
         }
 
-        public void LoadConfig(string configFile, string defaultConfigRules)
+        public void LoadConfig(string configFilePath)
         {
-            if (!string.IsNullOrWhiteSpace(defaultConfigRules))
+            if (string.IsNullOrWhiteSpace(configFilePath))
             {
-                LoadConfigFromRules(defaultConfigRules);
+                var configFileGenerator = new ConfigFileGenerator();
+                LoadConfigFromJson(configFileGenerator.GetDefaultConfigRules());
             }
             else
             {
-                LoadConfigFromFile(configFile);
+                LoadConfigFromFile(configFilePath);
             }
+        }
+
+        public void LoadConfig()
+        {
+            var configFileGenerator = new ConfigFileGenerator();
+            LoadConfigFromJson(configFileGenerator.GetDefaultConfigRules());
         }
 
         public void LoadConfigFromFile(string configFilePath)
         {
-            if (string.IsNullOrEmpty(configFilePath) || !_fileSystem.File.Exists(configFilePath))
+            if (!_fileSystem.File.Exists(configFilePath))
             {
+                _reporter.Report($@"Config file not found: {configFilePath}");
                 return;
             }
 
             var jsonConfigString = _fileSystem.File.ReadAllText(configFilePath);
-            LoadConfigFromRules(jsonConfigString);
+            LoadConfigFromJson(jsonConfigString);
         }
 
-        public void LoadConfigFromRules(string jsonConfigString)
+        public void LoadConfigFromJson(string jsonConfigString)
         {
             if (Utility.ParsingUtility.TryParseJson(jsonConfigString, out var token))
             {

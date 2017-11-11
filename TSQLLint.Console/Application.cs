@@ -13,55 +13,28 @@ namespace TSQLLint.Console
 {
     public class Application
     {
-        private readonly string[] _args;
-        private readonly IReporter _reporter;
-        private readonly IConfigReader _configReader;
-        private readonly IConfigFileFinder _configFileFinder;
-        private readonly IConfigFileGenerator _configFileGenerator;
-        private readonly CommandLineOptions.CommandLineOptions _commandLineOptions;
         private readonly ICommandLineOptionHandler _commandLineOptionHandler;
-        private readonly ConsoleTimer _timer = new ConsoleTimer();
-
-        private readonly IPluginHandler _pluginHandler;
-        private readonly IRuleVisitor _ruleVisitor;
+        private readonly CommandLineOptions.CommandLineOptions _commandLineOptions;
+        private readonly IConfigReader _configReader;
         private readonly ISqlFileProcessor _fileProcessor;
 
         public Application(string[] args, IReporter reporter)
         {
+            var _timer = new ConsoleTimer();
             _timer.Start();
-            _args = args;
-            _reporter = reporter;
-            _configFileFinder = new ConfigFileFinder();
-            _configReader = new ConfigReader(_reporter);
-            _configFileGenerator = new ConfigFileGenerator(_reporter);
-            _commandLineOptions = new CommandLineOptions.CommandLineOptions(_args);
-            _commandLineOptionHandler = new CommandLineOptionHandler(_commandLineOptions, _configFileFinder, _configFileGenerator, _reporter);
-            _ruleVisitor = new SqlRuleVisitor(_configReader, _reporter);
-            _pluginHandler = new PluginHandler(_reporter, _configReader.GetPlugins());
-            _fileProcessor = new SqlFileProcessor(_pluginHandler, _ruleVisitor, _reporter);
+            _commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
+            _configReader = new ConfigReader(reporter);
+            _commandLineOptionHandler = new CommandLineOptionHandler(_commandLineOptions, new ConfigFileFinder(), new ConfigFileGenerator(), _configReader, reporter);
+            IRuleVisitor ruleVisitor = new SqlRuleVisitor(_configReader, reporter);
+            IPluginHandler pluginHandler = new PluginHandler(reporter, _configReader.GetPlugins());
+            _fileProcessor = new SqlFileProcessor(pluginHandler, ruleVisitor, reporter, _timer);
         }
 
         public void Run()
         {
-            // parse options
-            if (!_commandLineOptionHandler.HandleCommandLineOptions())
-            {
-                return;
-            }
-
-            // read config
-            _configReader.LoadConfig(_commandLineOptions.ConfigFile, _commandLineOptions.DefaultConfigRules);
-
-            // display list of plugins
-            if (_commandLineOptions.ListPlugins)
-            {
-                _configReader.ListPlugins();
-                return;
-            }
-
-            // perform lint
+            _configReader.LoadConfig(_commandLineOptions.ConfigFile);
+            _commandLineOptionHandler.HandleCommandLineOptions_Refactored(_commandLineOptions);
             _fileProcessor.ProcessList(_commandLineOptions.LintPath);
-            _reporter.ReportResults(_timer.Stop(), _fileProcessor.FileCount);
         }
     }
 }

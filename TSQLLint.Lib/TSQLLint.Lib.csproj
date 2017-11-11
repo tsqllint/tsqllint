@@ -84,6 +84,9 @@
     <Compile Include="Plugins\PluginContext.cs" />
     <Compile Include="Plugins\Interfaces\IPluginHandler.cs" />
     <Compile Include="Plugins\PluginHandler.cs" />
+    <Compile Include="Reporters\ConsoleReporter.cs" />
+    <Compile Include="Reporters\ConsoleTimer.cs" />
+    <Compile Include="Reporters\Interfaces\IConsoleTimer.cs" />
     <Compile Include="Rules\CrossDatabaseRule.cs" />
     <Compile Include="Rules\Common\Constants.cs" />
     <Compile Include="Rules\Common\ColumnNumberCalculator.cs" />

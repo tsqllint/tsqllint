@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using TSQLLint.Common;
+using TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies;
 using TSQLLint.Console.CommandLineOptions.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
@@ -12,17 +13,59 @@ namespace TSQLLint.Console.CommandLineOptions
         private readonly IConfigFileFinder _configFileFinder;
         private readonly IConfigFileGenerator _configFileGenerator;
         private readonly IBaseReporter _reporter;
+        private readonly IConfigReader _configReader;
 
         public CommandLineOptionHandler(
             CommandLineOptions commandLineOptions,
             IConfigFileFinder configFileFinder,
             IConfigFileGenerator configFileGenerator,
+            IConfigReader configReader,
             IBaseReporter reporter)
         {
             _commandLineOptions = commandLineOptions;
             _configFileFinder = configFileFinder;
             _configFileGenerator = configFileGenerator;
+            _configReader = configReader;
             _reporter = reporter;
+        }
+
+        public void HandleCommandLineOptions_Refactored(CommandLineOptions commandLineOptions)
+        {
+            if (commandLineOptions.Args.Length == 0 || commandLineOptions.Help)
+            {
+                var strategy = new PrintUsageStrategy(_reporter);
+                strategy.HandleCommandLineOptions(commandLineOptions);
+            }
+            else if (commandLineOptions.Version)
+            {
+                var strategy = new VersionStrategy(_reporter);
+                strategy.HandleCommandLineOptions();
+            }
+            else if (commandLineOptions.PrintConfig)
+            {
+                var strategy = new PrintConfigStrategy(_reporter);
+                strategy.HandleCommandLineOptions(commandLineOptions);
+            }
+            else if (commandLineOptions.PrintConfig)
+            {
+                var strategy = new PrintConfigStrategy(_reporter);
+                strategy.HandleCommandLineOptions(commandLineOptions);
+            }
+            else if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile))
+            {
+                var strategy = new HandleConfigFileStrategy(_reporter, _configFileFinder);
+                strategy.HandleCommandLineOptions(commandLineOptions);
+            }
+            else if (commandLineOptions.Init)
+            {
+                var strategy = new CreateConfigFileStrategy(_reporter, _configFileFinder, _configFileGenerator);
+                strategy.HandleCommandLineOptions(commandLineOptions);
+            }
+            else if (_commandLineOptions.ListPlugins)
+            {
+                var strategy = new PrintPluginsStrategy(_reporter, _configReader);
+                strategy.HandleCommandLineOptions(commandLineOptions);
+            }
         }
 
         public bool HandleCommandLineOptions()

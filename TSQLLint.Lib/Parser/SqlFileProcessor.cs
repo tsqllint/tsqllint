@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using TSQLLint.Common;
+using TSQLLint.Console.Reporters.Interfaces;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins;
 using TSQLLint.Lib.Plugins.Interfaces;
@@ -15,12 +16,14 @@ namespace TSQLLint.Lib.Parser
         private readonly IReporter _reporter;
         private readonly IFileSystem _fileSystem;
         private readonly IPluginHandler _pluginHandler;
+        private readonly IConsoleTimer _timer;
         
         public int FileCount { get; private set; }
 
-        public SqlFileProcessor(IPluginHandler pluginHandler, IRuleVisitor ruleVisitor, IReporter reporter)
+        public SqlFileProcessor(IPluginHandler pluginHandler, IRuleVisitor ruleVisitor, IReporter reporter, IConsoleTimer timer)
             : this(ruleVisitor, pluginHandler, reporter, new FileSystem())
         {
+            _timer = timer;
         }
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
@@ -140,6 +143,11 @@ namespace TSQLLint.Lib.Parser
             foreach (var t in paths)
             {
                 ProcessPath(t);
+            }
+
+            if (FileCount > 0)
+            {
+                _reporter.ReportResults(_timer.Stop(), FileCount);
             }
         }
 

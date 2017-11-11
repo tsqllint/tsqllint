@@ -1,9 +1,10 @@
 using System;
 using System.Diagnostics;
+using TSQLLint.Console.Reporters.Interfaces;
 
 namespace TSQLLint.Console.Reporters
 {
-    public class ConsoleTimer
+    public class ConsoleTimer : IConsoleTimer
     {
         private readonly Stopwatch StopWatch = new Stopwatch();
 

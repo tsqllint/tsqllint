@@ -26,7 +26,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfig(null, defaultConfigFile);
+            configReader.LoadConfig();
             configReader.ListPlugins();
 
             // assert

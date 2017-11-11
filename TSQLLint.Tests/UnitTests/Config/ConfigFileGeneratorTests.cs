@@ -35,7 +35,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             var reportedMessages = new List<string>();
             mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
             
-            var configFileGenerator = new ConfigFileGenerator(mockReporter);
+            var configFileGenerator = new ConfigFileGenerator();
             var configFileFinder = new ConfigFileFinder();
 
             // act
@@ -55,7 +55,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             var reportedMessages = new List<string>();
             testReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
             
-            var configFileGenerator = new ConfigFileGenerator(testReporter);
+            var configFileGenerator = new ConfigFileGenerator();
 
             // act
             var defaultRules = configFileGenerator.GetDefaultConfigRules();

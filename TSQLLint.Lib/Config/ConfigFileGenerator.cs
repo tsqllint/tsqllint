@@ -33,23 +33,14 @@ namespace TSQLLint.Lib.Config
     }
 }";
 
-        private readonly IBaseReporter _reporter;
-
-        public ConfigFileGenerator(IBaseReporter reporter)
-        {
-            _reporter = reporter;
-        }
-
         public string GetDefaultConfigRules()
         {
-            _reporter.Report(".tsqllintrc configuration file not found, using defaults.");
             return ConfigString;
         }
 
         public void WriteConfigFile(string path)
         {
             File.WriteAllText(path, ConfigString);
-            _reporter.Report($"Created default config file {path}.");
         }
     }
 }
