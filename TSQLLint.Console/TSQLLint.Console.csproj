@@ -76,13 +76,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="ConfigHandler\CommandLineOptionHandler.cs" />
-    <Compile Include="ConfigHandler\CommandLineOptions.cs" />
-    <Compile Include="ConfigHandler\ConfigFileFinder.cs" />
-    <Compile Include="ConfigHandler\Interfaces\IConfigFileFinder.cs" />
-    <Compile Include="ConfigHandler\ConfigHandler.cs" />
-    <Compile Include="ConsoleTimer.cs" />
-    <Compile Include="LintingHandler.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionHandler.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptions.cs" />
+    <Compile Include="CommandLineOptions\ConfigFileFinder.cs" />
+    <Compile Include="CommandLineOptions\Interfaces\ICommandLineOptionHandler.cs" />
+    <Compile Include="CommandLineOptions\Interfaces\IConfigFileFinder.cs" />
+    <Compile Include="CommandLineOptions\ConfigHandler.cs" />
+    <Compile Include="Reporters\ConsoleTimer.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -91,10 +91,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="ConfigHandler\TSQLLintOption.cs" />
+    <Compile Include="CommandLineOptions\TSQLLintOption.cs" />
     <None Include="packages.config" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

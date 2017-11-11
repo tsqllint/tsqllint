@@ -1,4 +1,4 @@
-﻿namespace TSQLLint.Console.ConfigHandler.Interfaces
+namespace TSQLLint.Console.CommandLineOptions.Interfaces
 {
     public interface IConfigFileFinder
     {

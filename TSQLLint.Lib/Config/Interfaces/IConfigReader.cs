@@ -1,13 +1,22 @@
-﻿using TSQLLint.Common;
+using System.Collections.Generic;
+using TSQLLint.Common;
 
 namespace TSQLLint.Lib.Config.Interfaces
 {
     public interface IConfigReader
     {
-        void LoadConfigFromFile(string configFilePath);
+        bool IsConfigLoaded { get; }
 
-        void LoadConfigFromRules(string jsonConfigString);
-
+        Dictionary<string, string> GetPlugins();
+        
         RuleViolationSeverity GetRuleSeverity(string key);
+        
+        void ListPlugins();
+        
+        void LoadConfig(string configFile, string defaultConfigRules);
+        
+        void LoadConfigFromFile(string configFilePath);
+        
+        void LoadConfigFromRules(string jsonConfigString);
     }
 }

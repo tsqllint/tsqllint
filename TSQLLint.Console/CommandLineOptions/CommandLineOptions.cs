@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
 
-namespace TSQLLint.Console.ConfigHandler
+namespace TSQLLint.Console.CommandLineOptions
 {
     public class CommandLineOptions
     {

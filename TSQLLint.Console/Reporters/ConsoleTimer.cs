@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
-namespace TSQLLint.Console
+namespace TSQLLint.Console.Reporters
 {
     public class ConsoleTimer
     {

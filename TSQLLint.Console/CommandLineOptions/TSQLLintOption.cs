@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace TSQLLint.Console.ConfigHandler
+namespace TSQLLint.Console.CommandLineOptions
 {
     [ExcludeFromCodeCoverage]
     [AttributeUsage(AttributeTargets.Property)]

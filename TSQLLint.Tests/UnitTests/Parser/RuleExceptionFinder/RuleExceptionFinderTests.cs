@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using TSQLLint.Lib.Parser;
+using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Rules;
 using TSQLLint.Tests.Helpers;
 

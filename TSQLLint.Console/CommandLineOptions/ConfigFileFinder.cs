@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
-using TSQLLint.Console.ConfigHandler.Interfaces;
+using TSQLLint.Console.CommandLineOptions.Interfaces;
 
-namespace TSQLLint.Console.ConfigHandler
+namespace TSQLLint.Console.CommandLineOptions
 {
     public class ConfigFileFinder : IConfigFileFinder
     {

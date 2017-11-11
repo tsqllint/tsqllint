@@ -1,12 +1,12 @@
 using System.Diagnostics;
 using System.Reflection;
 using TSQLLint.Common;
-using TSQLLint.Console.ConfigHandler.Interfaces;
+using TSQLLint.Console.CommandLineOptions.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Console.ConfigHandler
+namespace TSQLLint.Console.CommandLineOptions
 {
-    public class CommandLineOptionHandler
+    public class CommandLineOptionHandler : ICommandLineOptionHandler
     {
         private readonly CommandLineOptions _commandLineOptions;
         private readonly IConfigFileFinder _configFileFinder;
