@@ -82,11 +82,8 @@
     <Compile Include="CommandLineOptions\CommandLineOptionHandler.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\CreateConfigFileStrategy.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptions.cs" />
-    <Compile Include="CommandLineOptions\ConfigFileFinder.cs" />
     <Compile Include="CommandLineOptions\Interfaces\ICommandLineOptionHandler.cs" />
     <Compile Include="CommandLineOptions\Interfaces\IHandlingStrategy.cs" />
-    <Compile Include="CommandLineOptions\Interfaces\IConfigFileFinder.cs" />
-    <Compile Include="CommandLineOptions\ConfigHandler.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\HandleConfigFileStrategy.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\PrintUsageStrategy.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\PrintConfigStrategy.cs" />

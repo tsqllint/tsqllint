@@ -1,5 +1,5 @@
 using System.IO;
-using TSQLLint.Common;
+using System.IO.Abstractions;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Lib.Config
@@ -33,6 +33,15 @@ namespace TSQLLint.Lib.Config
     }
 }";
 
+        private readonly IFileSystem _fileSystem;
+
+        public ConfigFileGenerator() : this(new FileSystem()) { }
+
+        public ConfigFileGenerator(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+        }
+
         public string GetDefaultConfigRules()
         {
             return ConfigString;
@@ -40,7 +49,7 @@ namespace TSQLLint.Lib.Config
 
         public void WriteConfigFile(string path)
         {
-            File.WriteAllText(path, ConfigString);
+            _fileSystem.File.WriteAllText(path, ConfigString);
         }
     }
 }

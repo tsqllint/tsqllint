@@ -1,5 +1,6 @@
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions.Interfaces;
+using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
@@ -19,12 +20,12 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategie
 
         private void CreateConfigFile()
         {
-            _configFileGenerator.WriteConfigFile(_configFileFinder.DefaultConfigFileName);
+            _configFileGenerator.WriteConfigFile(_configFileFinder.DefaultConfgigFilePath);
         }
 
         public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
         {
-            var configFileExists = _configFileFinder.FindFile(_configFileFinder.DefaultConfigFileName);
+            var configFileExists = _configFileFinder.FindFile(_configFileFinder.DefaultConfgigFilePath);
             
             if (!configFileExists)
             {
@@ -36,7 +37,7 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategie
             }
             else
             {
-                _reporter.Report($"Config file not found at: {_configFileFinder.DefaultConfigFileName} use the '--init' option to create if one does not exist or the '--force' option to overwrite");
+                _reporter.Report($"Config file not found at: {_configFileFinder.DefaultConfgigFilePath} use the '--init' option to create if one does not exist or the '--force' option to overwrite");
             }
         }
     }

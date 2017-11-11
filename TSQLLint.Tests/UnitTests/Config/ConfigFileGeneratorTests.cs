@@ -1,68 +1,98 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using NSubstitute;
+using System.IO.Abstractions.TestingHelpers;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Lib.Config;
+using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Tests.UnitTests.Config
 {
     public class ConfigFileGeneratorTests
     {
-        private string _configFileName;
-
-        private string ConfigFileName => string.IsNullOrWhiteSpace(_configFileName) ? SetConfigFile() : _configFileName;
-
-        [TearDown]
-        public void TearDown()
+        private const string mockDirectory = @"c:\";
+        
+        [Test]
+        public void WriteConfigFile_FileDoesntExist_ShouldCreateFile()
         {
-            File.Delete(ConfigFileName);
-        }
+            // arrange
+            var testFile = Path.Combine(mockDirectory, @".tsqllintrc");
+            var fileSystem = new MockFileSystem();
+            fileSystem.AddDirectory(mockDirectory);
+            var configFileGenerator = new ConfigFileGenerator(fileSystem);
+            
+            // act
+            configFileGenerator.WriteConfigFile(testFile);
 
-        private string SetConfigFile()
-        {
-            _configFileName = Path.Combine(TestContext.CurrentContext.WorkDirectory, ".tsqllintrc");
-            return _configFileName;
+            // assert
+            Assert.IsTrue(fileSystem.FileExists(testFile));
         }
 
         [Test]
-        public void WriteConfigFileWritesToFile()
+        public void WriteConfigFile_FileExists_ShouldCreateFile()
         {
             // arrange
-            var mockReporter = Substitute.For<IReporter>();
+            var testFile = Path.Combine(mockDirectory, @".tsqllintrc");
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { testFile, new MockFileData("{}") },
+            });
 
-            var reportedMessages = new List<string>();
-            mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
-            
-            var configFileGenerator = new ConfigFileGenerator();
-            var configFileFinder = new ConfigFileFinder();
+            var configFileGenerator = new ConfigFileGenerator(fileSystem);
 
             // act
-            configFileGenerator.WriteConfigFile(ConfigFileName);
+            configFileGenerator.WriteConfigFile(testFile);
 
             // assert
-            Assert.IsTrue(configFileFinder.FindFile(ConfigFileName));
-            Assert.AreEqual(1, reportedMessages.Count);
+            Assert.IsTrue(fileSystem.FileExists(testFile));
         }
 
         [Test]
-        public void GetDefaultConfigRulesReturnsDefaultRules()
+        public void GetDefaultConfigRules_ShouldReturnValidJson()
         {
             // arrange
-            var testReporter = Substitute.For<IReporter>();
-
-            var reportedMessages = new List<string>();
-            testReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
-            
             var configFileGenerator = new ConfigFileGenerator();
 
             // act
-            var defaultRules = configFileGenerator.GetDefaultConfigRules();
+            var configString = configFileGenerator.GetDefaultConfigRules();
 
             // assert
-            StringAssert.Contains("rules", defaultRules);
-            Assert.AreEqual(1, reportedMessages.Count);
+            Assert.IsTrue(IsValidJson(configString));
+        }
+
+        [Test]
+        public void GetDefaultConfigRules_ShouldReturnJsonConfigWithRules()
+        {
+            // arrange
+            var configFileGenerator = new ConfigFileGenerator();
+
+            // act
+            var configString = configFileGenerator.GetDefaultConfigRules();
+            ParsingUtility.TryParseJson(configString, out var configJson);
+
+            // assert
+            Assert.IsNotNull(configJson["rules"]);
+        }
+
+        [ExcludeFromCodeCoverage]
+        private static bool IsValidJson(string strInput)
+        {
+            strInput = strInput.Trim();
+            if (strInput.StartsWith("{") && strInput.EndsWith("}") || strInput.StartsWith("[") && strInput.EndsWith("]"))
+            {
+                try
+                {
+                    JToken.Parse(strInput);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            
+            return false;
         }
     }
 }

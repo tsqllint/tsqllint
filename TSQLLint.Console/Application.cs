@@ -33,7 +33,7 @@ namespace TSQLLint.Console
         public void Run()
         {
             _configReader.LoadConfig(_commandLineOptions.ConfigFile);
-            _commandLineOptionHandler.HandleCommandLineOptions_Refactored(_commandLineOptions);
+            _commandLineOptionHandler.HandleCommandLineOptions(_commandLineOptions);
             _fileProcessor.ProcessList(_commandLineOptions.LintPath);
         }
     }
