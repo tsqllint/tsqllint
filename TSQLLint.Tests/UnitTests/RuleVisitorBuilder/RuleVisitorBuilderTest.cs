@@ -33,7 +33,7 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 
             var reporter = Substitute.For<IReporter>();
             var ConfigReader = new ConfigReader(reporter, fileSystem);
-            ConfigReader.LoadConfigFromFile(configFilePath);
+            ConfigReader.LoadConfig(configFilePath);
             var RuleVisitorBuilder = new Lib.Parser.RuleVisitorBuilder(ConfigReader, null);
 
             var ignoredRuleList = new List<IRuleException>();

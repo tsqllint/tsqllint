@@ -14,10 +14,6 @@ namespace TSQLLint.Lib.Config.Interfaces
         void ListPlugins();
         
         void LoadConfig(string configFilePath);
-        
-        void LoadConfigFromFile(string configFilePath);
-        
-        void LoadConfigFromJson(string jsonConfigString);
 
         string ConfigFileLoadedFrom { get; }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
@@ -19,7 +20,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfig();
+            configReader.LoadConfig(string.Empty); // load config from memory
             configReader.ListPlugins();
 
             // assert
@@ -40,7 +41,6 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(string.Empty);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
@@ -58,7 +58,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(@"c:\users\someone\.tsqllintrc");
+            configReader.LoadConfig(@"c:\users\someone\.tsqllintrc");
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
@@ -88,7 +88,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
@@ -168,7 +168,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"), "Rules that dont have a valid severity should be set to off");
@@ -191,7 +191,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
 
             // assert
             reporter.Received().Report("Config file is not valid Json.");
@@ -226,7 +226,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
             var plugins = configReader.GetPlugins();
             configReader.ListPlugins();
 

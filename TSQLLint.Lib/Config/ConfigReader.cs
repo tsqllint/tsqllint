@@ -96,13 +96,7 @@ namespace TSQLLint.Lib.Config
             }
         }
 
-        public void LoadConfig()
-        {
-            var configFileGenerator = new ConfigFileGenerator();
-            LoadConfigFromJson(configFileGenerator.GetDefaultConfigRules());
-        }
-
-        public void LoadConfigFromFile(string configFilePath)
+        private void LoadConfigFromFile(string configFilePath)
         {
             if (_fileSystem.File.Exists(configFilePath))
             {
@@ -116,7 +110,7 @@ namespace TSQLLint.Lib.Config
             }
         }
 
-        public void LoadConfigFromJson(string jsonConfigString)
+        private void LoadConfigFromJson(string jsonConfigString)
         {
             if (Utility.ParsingUtility.TryParseJson(jsonConfigString, out var token))
             {

@@ -1,6 +1,5 @@
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions.Interfaces;
-using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
