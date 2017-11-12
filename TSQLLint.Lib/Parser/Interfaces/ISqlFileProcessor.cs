@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TSQLLint.Lib.Parser.Interfaces
+namespace TSQLLint.Lib.Standard.Parser.Interfaces
 {
     public interface ISqlFileProcessor
     {

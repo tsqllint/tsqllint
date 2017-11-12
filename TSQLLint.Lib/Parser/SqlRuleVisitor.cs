@@ -1,11 +1,11 @@
 using System.IO;
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Parser.RuleExceptions;
-using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Lib.Standard.Parser.Interfaces;
+using TSQLLint.Lib.Standard.Parser.RuleExceptions;
+using TSQLLint.Lib.Standard.Rules.RuleViolations;
 
-namespace TSQLLint.Lib.Parser
+namespace TSQLLint.Lib.Standard.Parser
 {
     public class SqlRuleVisitor : IRuleVisitor
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLint.Lib.Rules.Interface;
+using TSQLLint.Lib.Standard.Rules.Interface;
 
-namespace TSQLLint.Lib.Rules
+namespace TSQLLint.Lib.Standard.Rules
 {
     public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
     {

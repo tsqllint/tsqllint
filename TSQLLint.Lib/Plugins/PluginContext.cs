@@ -1,7 +1,7 @@
 using System.IO;
 using TSQLLint.Common;
 
-namespace TSQLLint.Lib.Plugins
+namespace TSQLLint.Lib.Standard.Plugins
 {
     public class PluginContext : IPluginContext
     {

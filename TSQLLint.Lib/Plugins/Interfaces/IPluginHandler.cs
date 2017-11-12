@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using TSQLLint.Common;
 
-namespace TSQLLint.Lib.Plugins.Interfaces
+namespace TSQLLint.Lib.Standard.Plugins.Interfaces
 {
     public interface IPluginHandler
     {

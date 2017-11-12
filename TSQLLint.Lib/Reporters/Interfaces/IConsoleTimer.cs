@@ -1,6 +1,6 @@
 using System;
 
-namespace TSQLLint.Lib.Reporters.Interfaces
+namespace TSQLLint.Lib.Standard.Reporters.Interfaces
 {
     public interface IConsoleTimer
     {

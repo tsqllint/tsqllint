@@ -1,4 +1,4 @@
-namespace TSQLLint.Lib.Rules.Common
+namespace TSQLLint.Lib.Standard.Rules.Common
 {
     public static class Constants
     {

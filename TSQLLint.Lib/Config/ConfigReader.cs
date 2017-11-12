@@ -5,9 +5,9 @@ using System.IO.Abstractions;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using TSQLLint.Common;
-using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Lib.Standard.Config.Interfaces;
 
-namespace TSQLLint.Lib.Config
+namespace TSQLLint.Lib.Standard.Config
 {    
     public class ConfigReader : IConfigReader
     {

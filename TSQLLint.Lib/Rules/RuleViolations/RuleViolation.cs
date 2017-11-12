@@ -1,6 +1,6 @@
-﻿using TSQLLint.Common;
+using TSQLLint.Common;
 
-namespace TSQLLint.Lib.Rules.RuleViolations
+namespace TSQLLint.Lib.Standard.Rules.RuleViolations
 {
     public class RuleViolation : IRuleViolation
     {

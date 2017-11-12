@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace TSQLLint.Lib.Rules.Common
+namespace TSQLLint.Lib.Standard.Rules.Common
 {
     public static class ColumnNumberCalculator
     {

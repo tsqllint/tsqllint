@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Plugins;
-using TSQLLint.Lib.Plugins.Interfaces;
+using TSQLLint.Lib.Standard.Parser.Interfaces;
+using TSQLLint.Lib.Standard.Plugins;
+using TSQLLint.Lib.Standard.Plugins.Interfaces;
 
-namespace TSQLLint.Lib.Parser
+namespace TSQLLint.Lib.Standard.Parser
 {
     public class SqlFileProcessor : ISqlFileProcessor
     {

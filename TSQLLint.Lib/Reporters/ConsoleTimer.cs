@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics;
-using TSQLLint.Lib.Reporters.Interfaces;
+using TSQLLint.Lib.Standard.Reporters.Interfaces;
 
-namespace TSQLLint.Lib.Reporters
+namespace TSQLLint.Lib.Standard.Reporters
 {
     public class ConsoleTimer : IConsoleTimer
     {

@@ -1,11 +1,11 @@
 <#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ assembly name="$(TargetDir)TSQLLint.Lib.dll" #>
+<#@ assembly name="$(TargetDir)TSQLLint.Lib.Standard.dll" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic"#>
 <#@ import namespace="System.Diagnostics" #>
-<#@ import namespace="TSQLLint.Lib.Rules.Interface"#>
+<#@ import namespace="TSQLLint.Lib.Standard.Rules.Interface"#>
 <#@ output extension=".cs" debug="true"#>
 /*
   This file is auto-generated and should not be edited directly.

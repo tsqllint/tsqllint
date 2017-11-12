@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Common;
 
-namespace TSQLLint.Lib.Reporters
+namespace TSQLLint.Lib.Standard.Reporters
 {
     public class ConsoleReporter : IReporter
     {

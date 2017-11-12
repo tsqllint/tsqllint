@@ -1,6 +1,6 @@
-using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Standard.Parser.Interfaces;
 
-namespace TSQLLint.Lib.Parser.RuleExceptions
+namespace TSQLLint.Lib.Standard.Parser.RuleExceptions
 {
     public class GlobalRuleException : IRuleException
     {
