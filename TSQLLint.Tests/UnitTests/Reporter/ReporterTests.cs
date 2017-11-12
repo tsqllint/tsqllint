@@ -26,26 +26,8 @@ namespace TSQLLint.Tests.UnitTests.Reporter
             // assert
             reporter.Received().Report("foo.sql(1,1): error rule name : rule text.");
             reporter.Received().Report("foo.sql(1,1): warning rule name : rule text.");
-            reporter.Received().Report("foo.sql(1,1): off rule name : rule text.");
+            reporter.DidNotReceive().Report("foo.sql(1,1): off rule name : rule text.");
             reporter.Received().Report("\nLinted 3 files in 3661 seconds\n\n1 Errors.\n1 Warnings");
-        }
-
-        [Test]
-        [ExcludeFromCodeCoverage]
-        public void ConsoleReporter_InvalidSeverity_ShouldThrow()
-        {
-            // arrange
-            var reporter = Substitute.ForPartsOf<ConsoleReporter>();
-            reporter.When(x => x.Report(Arg.Any<string>())).DoNotCallBase(); // suppress console output
-
-            const RuleViolationSeverity invalidSeverity = (RuleViolationSeverity)99;
-
-            // assert
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-            {
-                // act
-                reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 1, invalidSeverity));
-            });
         }
     }
 }

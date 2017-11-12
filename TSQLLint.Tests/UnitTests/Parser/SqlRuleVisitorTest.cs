@@ -54,10 +54,9 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var mockRuleExceptionFinder = Substitute.For<IRuleExceptionFinder>();
             mockRuleExceptionFinder.GetIgnoredRuleList(Arg.Any<Stream>()).Returns(new List<IRuleException>());
             
-            void ErrorCallback(string ruleName, string ruleText, int startLne, int startColumn) { }
             var visitors = new List<TSqlFragmentVisitor>
             {
-                new SemicolonTerminationRule(ErrorCallback)
+                new SemicolonTerminationRule(null)
             };
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
