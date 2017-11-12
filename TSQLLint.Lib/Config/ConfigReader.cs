@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using Newtonsoft.Json.Linq;
@@ -7,7 +8,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Lib.Config
-{
+{    
     public class ConfigReader : IConfigReader
     {
         private readonly Dictionary<string, RuleViolationSeverity> _rules = new Dictionary<string, RuleViolationSeverity>();
@@ -17,6 +18,8 @@ namespace TSQLLint.Lib.Config
         private readonly IReporter _reporter;
 
         private readonly IFileSystem _fileSystem;
+
+        public string ConfigFileLoadedFrom { get; private set; }
 
         public ConfigReader(IReporter reporter) : this(reporter, new FileSystem()) { }
 
@@ -76,6 +79,14 @@ namespace TSQLLint.Lib.Config
         {
             if (string.IsNullOrWhiteSpace(configFilePath))
             {
+                var defaultConfigFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
+                if (_fileSystem.File.Exists(defaultConfigFilePath))
+                {
+                    LoadConfigFromFile(defaultConfigFilePath);
+                    return;
+                }
+
+                // load in memory config
                 var configFileGenerator = new ConfigFileGenerator();
                 LoadConfigFromJson(configFileGenerator.GetDefaultConfigRules());
             }
@@ -93,14 +104,16 @@ namespace TSQLLint.Lib.Config
 
         public void LoadConfigFromFile(string configFilePath)
         {
-            if (!_fileSystem.File.Exists(configFilePath))
+            if (_fileSystem.File.Exists(configFilePath))
+            {
+                var jsonConfigString = _fileSystem.File.ReadAllText(configFilePath);
+                LoadConfigFromJson(jsonConfigString);
+                ConfigFileLoadedFrom = configFilePath;
+            }
+            else
             {
                 _reporter.Report($@"Config file not found: {configFilePath}");
-                return;
             }
-
-            var jsonConfigString = _fileSystem.File.ReadAllText(configFilePath);
-            LoadConfigFromJson(jsonConfigString);
         }
 
         public void LoadConfigFromJson(string jsonConfigString)

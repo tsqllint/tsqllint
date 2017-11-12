@@ -19,11 +19,11 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategie
         {
             if (_configReader.IsConfigLoaded)
             {
-                _reporter.Report("No Plugins Found");
+                _configReader.ListPlugins();
             }
             else
             {
-                _configReader.ListPlugins();
+                _reporter.Report("No Plugins Found");
             }
         }
     }

@@ -43,7 +43,11 @@ namespace TSQLLint.Console
             _configReader.LoadConfig(_commandLineOptions.ConfigFile);
             _commandLineOptionHandler.HandleCommandLineOptions(_commandLineOptions);
             _fileProcessor.ProcessList(_commandLineOptions.LintPath);
-            _reporter.ReportResults(_timer.Stop(), _fileProcessor.FileCount);
+
+            if (_fileProcessor.FileCount > 0)
+            {
+                _reporter.ReportResults(_timer.Stop(), _fileProcessor.FileCount);
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using TSQLLint.Lib.Config;
 
 namespace TSQLLint.Tests.UnitTests.Config
 {
+    [TestFixture]
     public class ConfigReaderTests
     {
         [Test]

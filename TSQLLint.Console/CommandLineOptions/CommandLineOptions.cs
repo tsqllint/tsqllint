@@ -20,8 +20,6 @@ namespace TSQLLint.Console.CommandLineOptions
              HelpText = "Used to specify a .tsqllintrc file path other than the default")]
         public string ConfigFile { get; set; }
 
-        public string DefaultConfigRules { get; set; }
-
         [Option('f',
             longName: "force",
             Required = false,

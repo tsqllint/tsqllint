@@ -1,3 +1,4 @@
+using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies;
 using TSQLLint.Console.CommandLineOptions.Interfaces;
@@ -39,12 +40,7 @@ namespace TSQLLint.Console.CommandLineOptions
             }
             else if (commandLineOptions.PrintConfig)
             {
-                var strategy = new PrintConfigStrategy(_reporter);
-                strategy.HandleCommandLineOptions(commandLineOptions);
-            }
-            else if (commandLineOptions.PrintConfig)
-            {
-                var strategy = new PrintConfigStrategy(_reporter);
+                var strategy = new PrintConfigStrategy(_reporter, _configReader);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
             else if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile))
@@ -60,6 +56,11 @@ namespace TSQLLint.Console.CommandLineOptions
             else if (_commandLineOptions.ListPlugins)
             {
                 var strategy = new PrintPluginsStrategy(_reporter, _configReader);
+                strategy.HandleCommandLineOptions(commandLineOptions);
+            }
+            else if (!_commandLineOptions.LintPath.Any())
+            {
+                var strategy = new PrintUsageStrategy(_reporter);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
         }
