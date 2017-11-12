@@ -3,7 +3,6 @@ using System.IO;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
@@ -12,8 +11,11 @@ using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
 {
+    [TestFixture]
     public class RuleVisitorBuilderIgnoreRulesTests
     {
+        private IFragmentBuilder _fragmentBuilder = new FragmentBuilder();
+        
         [Test]
         public void RuleVisitorEnforcesRule()
         {
@@ -30,12 +32,13 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
             var RuleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO;");
-            var fragmentVisitor = new SqlRuleVisitor(mockConfigReader, mockReporter);
+            var textReader = new StreamReader(testFileStream);
+            var sqlFragment = _fragmentBuilder.GetFragment(textReader, out _);
 
             // act
             foreach (var sqlFragmentVisitor in ActiveRuleVisitors)
             {
-                fragmentVisitor.VisitRule(testFileStream, sqlFragmentVisitor);
+                sqlFragment.Accept(sqlFragmentVisitor);
                 testFileStream.Seek(0, SeekOrigin.Begin);
             }
 
@@ -68,12 +71,13 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
             var RuleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO;");
-            var fragmentVisitor = new SqlRuleVisitor(mockConfigReader, mockReporter);
+            var textReader = new StreamReader(testFileStream);
+            var sqlFragment = _fragmentBuilder.GetFragment(textReader, out _);
 
             // act
             foreach (var sqlFragmentVisitor in ActiveRuleVisitors)
             {
-                fragmentVisitor.VisitRule(testFileStream, sqlFragmentVisitor);
+                sqlFragment.Accept(sqlFragmentVisitor);
                 testFileStream.Seek(0, SeekOrigin.Begin);
             }
 
@@ -103,12 +107,13 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
             var RuleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO");
-            var fragmentVisitor = new SqlRuleVisitor(mockConfigReader, mockReporter);
+            var textReader = new StreamReader(testFileStream);
+            var sqlFragment = _fragmentBuilder.GetFragment(textReader, out _);
 
             // act
             foreach (var sqlFragmentVisitor in ActiveRuleVisitors)
             {
-                fragmentVisitor.VisitRule(testFileStream, sqlFragmentVisitor);
+                sqlFragment.Accept(sqlFragmentVisitor);
                 testFileStream.Seek(0, SeekOrigin.Begin);
             }
 

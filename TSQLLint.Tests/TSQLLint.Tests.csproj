@@ -77,6 +77,7 @@
     <Compile Include="Helpers\RuleViolationComparer.cs" />
     <Compile Include="UnitTests\Parser\RuleExceptionFinder\RuleExceptionFinderTests.cs" />
     <Compile Include="UnitTests\Parser\SqlFileProcessorTests.cs" />
+    <Compile Include="UnitTests\Parser\SqlRuleVisitorTest.cs" />
     <Compile Include="UnitTests\PluginHandler\AssemblyWrapperTests.cs" />
     <Compile Include="UnitTests\PluginHandler\PluginContextTests.cs" />
     <Compile Include="UnitTests\PluginHandler\PluginHandlerTests.cs" />

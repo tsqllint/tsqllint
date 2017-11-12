@@ -10,7 +10,7 @@ using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Lib.Parser
 {
-    public class RuleVisitorBuilder
+    public class RuleVisitorBuilder : IRuleVisitorBuilder
     {
         private readonly IReporter Reporter;
         private readonly IConfigReader ConfigReader;

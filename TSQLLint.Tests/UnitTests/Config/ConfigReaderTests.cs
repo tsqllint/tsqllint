@@ -23,7 +23,8 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
-            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("semicolon-termination"));
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("fake-rule"));
             Assert.IsTrue(configReader.IsConfigLoaded);
             reporter.Received().Report("Did not find any plugins");
         }

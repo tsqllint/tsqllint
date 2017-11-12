@@ -9,13 +9,7 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
 {
     public class IgnoreRulesTests : IntegrationBaseTest
     {
-        private static new string TestFileDirectory;
-
-        [SetUp]
-        public void Init()
-        {
-            TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\RuleExceptions\TestFiles");
-        }
+        private static string testDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\RuleExceptions\TestFiles");
 
         protected static readonly IEnumerable<RuleViolation> IntegrationTestTwoRuleViolations = new List<RuleViolation>
         {
@@ -26,8 +20,8 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
         {
             get
             {
-                yield return new TestCaseData(new List<string> { Path.Combine(TestFileDirectory, @"integration-test-two.sql") }, string.Empty, IntegrationTestTwoRuleViolations, 1).SetName("Ignore one select star rule enforce another");
-                yield return new TestCaseData(new List<string> { Path.Combine(TestFileDirectory, @"global-disable.sql") }, string.Empty, new List<RuleViolation>(), 1).SetName("Globally disable rule varnings");
+                yield return new TestCaseData(new List<string> { Path.Combine(testDirectory, @"integration-test-two.sql") }, string.Empty, IntegrationTestTwoRuleViolations, 1).SetName("Ignore one select star rule enforce another");
+                yield return new TestCaseData(new List<string> { Path.Combine(testDirectory, @"global-disable.sql") }, string.Empty, new List<RuleViolation>(), 1).SetName("Globally disable rule varnings");
             }
         }
 

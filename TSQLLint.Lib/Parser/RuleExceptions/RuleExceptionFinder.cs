@@ -6,7 +6,7 @@ using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Lib.Parser
 {
-    public class RuleExceptionFinder
+    public class RuleExceptionFinder : IRuleExceptionFinder
     {
         public IEnumerable<IRuleException> GetIgnoredRuleList(Stream fileStream)
         {

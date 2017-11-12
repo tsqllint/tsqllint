@@ -31,7 +31,9 @@ namespace TSQLLint.Console
             _commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
             _configReader = new ConfigReader(reporter);
             _commandLineOptionHandler = new CommandLineOptionHandler(_commandLineOptions, new ConfigFileGenerator(), _configReader, reporter);
-            IRuleVisitor ruleVisitor = new SqlRuleVisitor(_configReader, reporter);
+            var fragmentBuilder = new FragmentBuilder();
+            var ruleVisitorBuilder = new RuleVisitorBuilder(_configReader, _reporter);
+            IRuleVisitor ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
             IPluginHandler pluginHandler = new PluginHandler(reporter, _configReader.GetPlugins());
             _fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
         }

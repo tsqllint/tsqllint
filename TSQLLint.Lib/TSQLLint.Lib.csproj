@@ -60,8 +60,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RuleVisitorTypeFriendlyNameMap.cs</LastGenOutput>
     </Content>
+    <Compile Include="Parser\FragmentBuilder.cs" />
+    <Compile Include="Parser\IFragmentBuilder.cs" />
+    <Compile Include="Parser\IRuleVisitorBuilder.cs" />
     <Compile Include="Parser\RuleExceptions\GlobalRuleException.cs" />
     <Compile Include="Parser\Interfaces\IRuleException.cs" />
+    <Compile Include="Parser\RuleExceptions\IRuleExceptionFinder.cs" />
     <Compile Include="Parser\RuleExceptions\RuleException.cs" />
     <Compile Include="Parser\RuleExceptions\RuleExceptionFinder.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
