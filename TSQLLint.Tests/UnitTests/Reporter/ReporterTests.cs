@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Console.Reporters;
+using TSQLLint.Lib.Reporters;
 using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.Reporter

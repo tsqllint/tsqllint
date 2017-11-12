@@ -1,8 +1,7 @@
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
-using TSQLLint.Lib.Config;
+using TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions
@@ -35,7 +34,7 @@ namespace TSQLLint.Console.CommandLineOptions
             }
             else if (commandLineOptions.Version)
             {
-                var strategy = new VersionStrategy(_reporter);
+                var strategy = new PrintVersionStrategy(_reporter);
                 strategy.HandleCommandLineOptions();
             }
             else if (commandLineOptions.PrintConfig)
@@ -45,7 +44,7 @@ namespace TSQLLint.Console.CommandLineOptions
             }
             else if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile))
             {
-                var strategy = new HandleConfigFileStrategy(_reporter);
+                var strategy = new LoadConfigFileStrategy(_reporter);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
             else if (commandLineOptions.Init)

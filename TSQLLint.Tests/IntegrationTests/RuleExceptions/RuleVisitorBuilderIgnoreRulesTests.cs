@@ -6,6 +6,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Rules;
 using TSQLLint.Lib.Utility;
 
@@ -14,8 +15,8 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
     [TestFixture]
     public class RuleVisitorBuilderIgnoreRulesTests
     {
-        private IFragmentBuilder _fragmentBuilder = new FragmentBuilder();
-        
+        private readonly IFragmentBuilder _fragmentBuilder = new FragmentBuilder();
+
         [Test]
         public void RuleVisitorEnforcesRule()
         {

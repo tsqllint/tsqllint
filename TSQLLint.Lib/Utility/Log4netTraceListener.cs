@@ -18,7 +18,7 @@ namespace TSQLLint.Lib.Utility
         {
             if (LoggingEnabled)
             {
-                _log?.Debug(message);
+                _log.Debug(message);
             }
         }
 
@@ -26,7 +26,7 @@ namespace TSQLLint.Lib.Utility
         {
             if (LoggingEnabled)
             {
-                _log?.Debug(message);
+                _log.Debug(message);
             }
         }
     }

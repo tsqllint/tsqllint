@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
+using TSQLLint.Console.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions
 {
-    public class CommandLineOptions
+    public class CommandLineOptions : ICommandLineOptions
     {
         public CommandLineOptions(string[] args)
         {

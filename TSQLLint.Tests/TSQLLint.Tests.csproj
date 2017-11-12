@@ -70,10 +70,11 @@
     <Compile Include="FunctionalTests\ConsoleAppTests.cs" />
     <Compile Include="Helpers\HelperTests\RuleViolationCompareTests.cs" />
     <Compile Include="Helpers\RuleExceptionComparer.cs" />
-    <Compile Include="IntegrationTests\Configuration\ExistingConfigTests.cs" />
+    <Compile Include="IntegrationTests\Configuration\CommandLineOptionTests.cs" />
     <Compile Include="IntegrationTests\IntegrationBaseTest.cs" />
     <Compile Include="IntegrationTests\RuleExceptions\IgnoreRulesTests.cs" />
     <Compile Include="IntegrationTests\RuleExceptions\RuleVisitorBuilderIgnoreRulesTests.cs" />
+    <Compile Include="UnitTests\CommadLineOptions\CommandLineOptionHandlingStrategies\CreateConfigFileStrategyTests.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
     <Compile Include="Helpers\RuleViolationComparer.cs" />
     <Compile Include="UnitTests\Parser\RuleExceptionFinder\RuleExceptionFinderTests.cs" />
@@ -119,6 +120,8 @@
     <Content Include="IntegrationTests\Configuration\TestFiles\invalid-syntax.sql" />
     <Content Include="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\dontparse.txt" />
     <Content Include="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\integration-test-two.sql" />
+    <Content Include="IntegrationTests\RuleExceptions\TestFiles\enable-without-disbling.sql" />
+    <Content Include="IntegrationTests\RuleExceptions\TestFiles\global-enable-without-disbling.sql" />
     <Content Include="IntegrationTests\RuleExceptions\TestFiles\global-disable.sql" />
     <Content Include="IntegrationTests\RuleExceptions\TestFiles\disable-rule-enable-rule.sql" />
     <Content Include="IntegrationTests\RuleExceptions\TestFiles\integration-test-two.sql" />

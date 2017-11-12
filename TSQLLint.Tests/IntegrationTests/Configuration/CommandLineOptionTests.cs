@@ -1,15 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
-using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Lib.Rules.RuleViolations;
 
-namespace TSQLLint.Tests.IntegrationTests
+namespace TSQLLint.Tests.IntegrationTests.Configuration
 {
-    public class ExistingConfigTests : IntegrationBaseTest
+    public class CommandLineOptionTests : IntegrationBaseTest
     {
         private static readonly string InvalidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc-foo");
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
@@ -22,18 +20,6 @@ namespace TSQLLint.Tests.IntegrationTests
 
         private static List<RuleViolation> _allRuleViolations;
         private static List<RuleViolation> _multiFileRuleViolations;
-            
-        private static string UsageString => new CommandLineOptions(new string[0]).GetUsage();
-
-        private static string TSqllVersion
-        {
-            get
-            {
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-                return fvi.FileVersion;
-            }
-        }
 
         public static IEnumerable<RuleViolation> MultiFileRuleViolations
         {
@@ -66,7 +52,7 @@ namespace TSQLLint.Tests.IntegrationTests
             }
         }
 
-        public static IEnumerable ExistingConfigTestCases
+        public static IEnumerable CommandLineOptionTestCases
         {
             get
             {
@@ -101,7 +87,7 @@ namespace TSQLLint.Tests.IntegrationTests
             }
         }
 
-        [TestCaseSource(nameof(ExistingConfigTestCases))]
+        [TestCaseSource(nameof(CommandLineOptionTestCases))]
         public void RunExistingConfigTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
             PerformApplicationTest(argumentsUnderTest, expectedMessage, expectedRuleViolations, expectedFileCount);

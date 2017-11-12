@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Rules;
 using TSQLLint.Tests.Helpers;
 
@@ -63,7 +64,7 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
             var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"..\..\UnitTests\Parser\RuleExceptionFinder\TestFiles\{testFileName}.sql"));
             var fileStream = File.OpenRead(path);
             
-            var ruleExceptionFinder = new Lib.Parser.RuleExceptionFinder();
+            var ruleExceptionFinder = new Lib.Parser.RuleExceptions.RuleExceptionFinder();
             var comparer = new RuleExceptionComparer();
 
             // act

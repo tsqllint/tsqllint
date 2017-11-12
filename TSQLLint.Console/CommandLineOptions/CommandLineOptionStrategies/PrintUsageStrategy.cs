@@ -1,7 +1,7 @@
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
+using TSQLLint.Console.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class PrintUsageStrategy : IHandlingStrategy
     {
@@ -12,7 +12,7 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategie
             _reporter = reporter;
         }
         
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
+        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             _reporter.Report(string.Format(commandLineOptions.GetUsage()));
         }

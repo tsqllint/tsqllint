@@ -1,8 +1,8 @@
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class PrintConfigStrategy : IHandlingStrategy
     {
@@ -15,7 +15,7 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategie
             _configReader = configReader;
         }
 
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
+        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             _reporter.Report(string.IsNullOrEmpty(_configReader.ConfigFileLoadedFrom)
                     ? "Using default in memory config." : $"Config file found at: {_configReader.ConfigFileLoadedFrom}");

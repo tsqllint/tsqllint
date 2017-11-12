@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Lib.Parser
 {

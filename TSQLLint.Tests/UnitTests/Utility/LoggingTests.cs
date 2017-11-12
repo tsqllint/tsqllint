@@ -10,7 +10,7 @@ namespace TSQLLint.Tests.UnitTests.Utility
     public class LoggingTests
     {
         [Test]
-        public void ShouldLogWhenLoggingEnabled()
+        public void TraceListener_LoggingEnabled_ShouldLog()
         {
             // arrange
             var mockLogger = Substitute.For<ILog>();
@@ -27,7 +27,7 @@ namespace TSQLLint.Tests.UnitTests.Utility
         }
 
         [Test]
-        public void ShouldNotLogWhenLoggingDisabled()
+        public void TraceListener_LoggingDisabled_ShouldNotLog()
         {
             // arrange
             var mockLogger = Substitute.For<ILog>();
