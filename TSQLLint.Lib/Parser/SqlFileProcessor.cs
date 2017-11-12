@@ -18,10 +18,7 @@ namespace TSQLLint.Lib.Parser
         
         public int FileCount { get; private set; }
 
-        public SqlFileProcessor(IPluginHandler pluginHandler, IRuleVisitor ruleVisitor, IReporter reporter)
-            : this(ruleVisitor, pluginHandler, reporter, new FileSystem())
-        {
-        }
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter) : this(ruleVisitor, pluginHandler, reporter, new FileSystem()) { }
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {

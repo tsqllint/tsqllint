@@ -60,10 +60,14 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RuleVisitorTypeFriendlyNameMap.cs</LastGenOutput>
     </Content>
-    <Compile Include="Parser\GlobalRuleException.cs" />
+    <Compile Include="Parser\FragmentBuilder.cs" />
+    <Compile Include="Parser\Interfaces\IFragmentBuilder.cs" />
+    <Compile Include="Parser\Interfaces\IRuleVisitorBuilder.cs" />
+    <Compile Include="Parser\RuleExceptions\GlobalRuleException.cs" />
     <Compile Include="Parser\Interfaces\IRuleException.cs" />
-    <Compile Include="Parser\RuleException.cs" />
-    <Compile Include="Parser\RuleExceptionFinder.cs" />
+    <Compile Include="Parser\Interfaces\IRuleExceptionFinder.cs" />
+    <Compile Include="Parser\RuleExceptions\RuleException.cs" />
+    <Compile Include="Parser\RuleExceptions\RuleExceptionFinder.cs" />
     <Compile Include="Parser\Interfaces\IRuleVisitor.cs" />
     <Compile Include="Parser\Interfaces\ISqlFileProcessor.cs" />
     <Compile Include="Parser\RuleVisitorBuilder.cs" />
@@ -84,6 +88,9 @@
     <Compile Include="Plugins\PluginContext.cs" />
     <Compile Include="Plugins\Interfaces\IPluginHandler.cs" />
     <Compile Include="Plugins\PluginHandler.cs" />
+    <Compile Include="Reporters\ConsoleReporter.cs" />
+    <Compile Include="Reporters\ConsoleTimer.cs" />
+    <Compile Include="Reporters\Interfaces\IConsoleTimer.cs" />
     <Compile Include="Rules\CrossDatabaseRule.cs" />
     <Compile Include="Rules\Common\Constants.cs" />
     <Compile Include="Rules\Common\ColumnNumberCalculator.cs" />

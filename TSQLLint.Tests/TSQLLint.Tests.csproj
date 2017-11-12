@@ -74,12 +74,11 @@
     <Compile Include="IntegrationTests\IntegrationBaseTest.cs" />
     <Compile Include="IntegrationTests\RuleExceptions\IgnoreRulesTests.cs" />
     <Compile Include="IntegrationTests\RuleExceptions\RuleVisitorBuilderIgnoreRulesTests.cs" />
-    <Compile Include="UnitTests\CommandLineOptions\CommandLineOptionHandlerTest.cs" />
-    <Compile Include="UnitTests\CommandLineOptions\CommandLineParserTest.cs" />
     <Compile Include="UnitTests\Config\ConfigFileGeneratorTests.cs" />
     <Compile Include="Helpers\RuleViolationComparer.cs" />
     <Compile Include="UnitTests\Parser\RuleExceptionFinder\RuleExceptionFinderTests.cs" />
     <Compile Include="UnitTests\Parser\SqlFileProcessorTests.cs" />
+    <Compile Include="UnitTests\Parser\SqlRuleVisitorTest.cs" />
     <Compile Include="UnitTests\PluginHandler\AssemblyWrapperTests.cs" />
     <Compile Include="UnitTests\PluginHandler\PluginContextTests.cs" />
     <Compile Include="UnitTests\PluginHandler\PluginHandlerTests.cs" />
@@ -116,11 +115,12 @@
     <Content Include="FunctionalTests\TestFiles\with-warnings.sql" />
     <Content Include="FunctionalTests\TestFiles\with-errors.sql" />
     <Content Include="FunctionalTests\TestFiles\no-errors.sql" />
-    <Content Include="IntegrationTests\RuleExceptions\TestFiles\global-disable.sql" />
-    <Content Include="IntegrationTests\RuleExceptions\TestFiles\disable-rule-enable-rule.sql" />
     <Content Include="IntegrationTests\Configuration\TestFiles\integration-test-one.sql" />
     <Content Include="IntegrationTests\Configuration\TestFiles\invalid-syntax.sql" />
+    <Content Include="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\dontparse.txt" />
     <Content Include="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\integration-test-two.sql" />
+    <Content Include="IntegrationTests\RuleExceptions\TestFiles\global-disable.sql" />
+    <Content Include="IntegrationTests\RuleExceptions\TestFiles\disable-rule-enable-rule.sql" />
     <Content Include="IntegrationTests\RuleExceptions\TestFiles\integration-test-two.sql" />
     <Content Include="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable-multi-set.sql" />
     <Content Include="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable.sql" />
@@ -209,11 +209,9 @@
     <Content Include="UnitTests\Rules\select-star\test-files\select-star-no-error.sql" />
     <None Include="app.config" />
     <None Include="FunctionalTests\.tsqllintrc" />
-    <None Include="IntegrationTests\Configuration\TestFiles\.tsqllintrc" />
-    <None Include="UnitTests\Config\.tsqllintrc" />
-    <None Include="UnitTests\RuleVisitorBuilder\.tsqllintrc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="IntegrationTests\Configuration\TestFiles\.tsqllintrc" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

@@ -18,7 +18,6 @@ namespace TSQLLint.Tests.UnitTests.Rules
             var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"..\..\UnitTests\Rules\{rule}\test-files\{testFileName}.sql"));
             var fileStream = File.OpenRead(path);
 
-            var fragmentVisitor = new SqlRuleVisitor(null, null);
             var ruleViolations = new List<RuleViolation>();
 
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
@@ -29,8 +28,12 @@ namespace TSQLLint.Tests.UnitTests.Rules
             var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, args: (Action<string, string, int, int>)ErrorCallback);
             var compareer = new RuleViolationComparer();
 
+            var fragmentBuilder = new FragmentBuilder();
+            var textReader = new StreamReader(fileStream);
+            var sqlFragment = fragmentBuilder.GetFragment(textReader, out _);
+
             // act
-            fragmentVisitor.VisitRule(fileStream, visitor);
+            sqlFragment.Accept(visitor);
 
             ruleViolations = ruleViolations.OrderBy(o => o.Line).ToList();
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();

@@ -1,5 +1,5 @@
 using System.IO;
-using TSQLLint.Common;
+using System.IO.Abstractions;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Lib.Config
@@ -33,23 +33,23 @@ namespace TSQLLint.Lib.Config
     }
 }";
 
-        private readonly IBaseReporter _reporter;
+        private readonly IFileSystem _fileSystem;
 
-        public ConfigFileGenerator(IBaseReporter reporter)
+        public ConfigFileGenerator() : this(new FileSystem()) { }
+
+        public ConfigFileGenerator(IFileSystem fileSystem)
         {
-            _reporter = reporter;
+            _fileSystem = fileSystem;
         }
 
         public string GetDefaultConfigRules()
         {
-            _reporter.Report(".tsqllintrc configuration file not found, using defaults.");
             return ConfigString;
         }
 
         public void WriteConfigFile(string path)
         {
-            File.WriteAllText(path, ConfigString);
-            _reporter.Report($"Created default config file {path}.");
+            _fileSystem.File.WriteAllText(path, ConfigString);
         }
     }
 }

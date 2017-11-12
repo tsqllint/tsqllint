@@ -17,8 +17,7 @@ namespace TSQLLint.Console.Reporters
 
         public void ReportResults(TimeSpan timespan, int fileCount)
         {
-            Report(
-                $"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{ErrorCount} Errors.\n{WarningCount} Warnings");
+            Report($"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{ErrorCount} Errors.\n{WarningCount} Warnings");
         }
 
         public void ReportViolation(IRuleViolation violation)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
@@ -7,6 +8,7 @@ using TSQLLint.Lib.Config;
 
 namespace TSQLLint.Tests.UnitTests.Config
 {
+    [TestFixture]
     public class ConfigReaderTests
     {
         [Test]
@@ -16,22 +18,15 @@ namespace TSQLLint.Tests.UnitTests.Config
             var fileSystem = new MockFileSystem();
             var reporter = Substitute.For<IReporter>();
 
-            const string defaultConfigFile = @"
-            {
-                'rules': {
-                    'select-star': 'error',
-                    'statement-semicolon-termination': 'warning'
-                }
-            }";
-
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfig(null, defaultConfigFile);
+            configReader.LoadConfig(string.Empty); // load config from memory
             configReader.ListPlugins();
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
-            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("semicolon-termination"));
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("fake-rule"));
             Assert.IsTrue(configReader.IsConfigLoaded);
             reporter.Received().Report("Did not find any plugins");
         }
@@ -46,7 +41,6 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(string.Empty);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
@@ -64,7 +58,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(@"c:\users\someone\.tsqllintrc");
+            configReader.LoadConfig(@"c:\users\someone\.tsqllintrc");
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
@@ -94,7 +88,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
@@ -174,7 +168,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"), "Rules that dont have a valid severity should be set to off");
@@ -197,7 +191,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
 
             // assert
             reporter.Received().Report("Config file is not valid Json.");
@@ -232,7 +226,7 @@ namespace TSQLLint.Tests.UnitTests.Config
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem);
-            configReader.LoadConfigFromFile(configFilePath);
+            configReader.LoadConfig(configFilePath);
             var plugins = configReader.GetPlugins();
             configReader.ListPlugins();
 

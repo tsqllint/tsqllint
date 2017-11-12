@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using Newtonsoft.Json.Linq;
@@ -7,7 +8,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Lib.Config
-{
+{    
     public class ConfigReader : IConfigReader
     {
         private readonly Dictionary<string, RuleViolationSeverity> _rules = new Dictionary<string, RuleViolationSeverity>();
@@ -17,6 +18,8 @@ namespace TSQLLint.Lib.Config
         private readonly IReporter _reporter;
 
         private readonly IFileSystem _fileSystem;
+
+        public string ConfigFileLoadedFrom { get; private set; }
 
         public ConfigReader(IReporter reporter) : this(reporter, new FileSystem()) { }
 
@@ -72,30 +75,42 @@ namespace TSQLLint.Lib.Config
             return _pluginPaths;
         }
 
-        public void LoadConfig(string configFile, string defaultConfigRules)
+        public void LoadConfig(string configFilePath)
         {
-            if (!string.IsNullOrWhiteSpace(defaultConfigRules))
+            if (string.IsNullOrWhiteSpace(configFilePath))
             {
-                LoadConfigFromRules(defaultConfigRules);
+                var defaultConfigFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
+                if (_fileSystem.File.Exists(defaultConfigFilePath))
+                {
+                    LoadConfigFromFile(defaultConfigFilePath);
+                    return;
+                }
+
+                // load in memory config
+                var configFileGenerator = new ConfigFileGenerator();
+                LoadConfigFromJson(configFileGenerator.GetDefaultConfigRules());
             }
             else
             {
-                LoadConfigFromFile(configFile);
+                LoadConfigFromFile(configFilePath);
             }
         }
 
-        public void LoadConfigFromFile(string configFilePath)
+        private void LoadConfigFromFile(string configFilePath)
         {
-            if (string.IsNullOrEmpty(configFilePath) || !_fileSystem.File.Exists(configFilePath))
+            if (_fileSystem.File.Exists(configFilePath))
             {
-                return;
+                var jsonConfigString = _fileSystem.File.ReadAllText(configFilePath);
+                LoadConfigFromJson(jsonConfigString);
+                ConfigFileLoadedFrom = configFilePath;
             }
-
-            var jsonConfigString = _fileSystem.File.ReadAllText(configFilePath);
-            LoadConfigFromRules(jsonConfigString);
+            else
+            {
+                _reporter.Report($@"Config file not found: {configFilePath}");
+            }
         }
 
-        public void LoadConfigFromRules(string jsonConfigString)
+        private void LoadConfigFromJson(string jsonConfigString)
         {
             if (Utility.ParsingUtility.TryParseJson(jsonConfigString, out var token))
             {

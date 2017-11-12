@@ -1,6 +1,0 @@
-{
-    'rules': {
-        'select-star': 'warning',
-        'semicolon-termination': 'error'
-    }
-}

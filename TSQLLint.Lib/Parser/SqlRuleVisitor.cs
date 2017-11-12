@@ -1,10 +1,6 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
-using TSQLLint.Lib.Config;
-using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Rules.RuleViolations;
 
@@ -12,26 +8,28 @@ namespace TSQLLint.Lib.Parser
 {
     public class SqlRuleVisitor : IRuleVisitor
     {
-        private readonly TSql120Parser Parser;
+        private readonly IFragmentBuilder FragmentBuilder;
 
-        private readonly RuleVisitorBuilder RuleVisitorBuilder;
+        private readonly IRuleVisitorBuilder RuleVisitorBuilder;
 
         private readonly IReporter Reporter;
 
-        private readonly RuleExceptionFinder RuleExceptionFinder;
+        private readonly IRuleExceptionFinder RuleExceptionFinder;
 
-        public SqlRuleVisitor(IConfigReader configReader, IReporter reporter)
+        public SqlRuleVisitor(IRuleVisitorBuilder ruleVisitorBuilder, IFragmentBuilder fragmentBuilder, IReporter reporter) : this(ruleVisitorBuilder, new RuleExceptionFinder(),  fragmentBuilder, reporter) { }
+
+        public SqlRuleVisitor(IRuleVisitorBuilder ruleVisitorBuilder, IRuleExceptionFinder ruleExceptionFinder, IFragmentBuilder fragmentBuilder, IReporter reporter)
         {
-            Parser = new TSql120Parser(true);
-            RuleVisitorBuilder = new RuleVisitorBuilder(configReader, reporter);
+            FragmentBuilder = fragmentBuilder;
             Reporter = reporter;
-            RuleExceptionFinder = new RuleExceptionFinder();
+            RuleExceptionFinder = ruleExceptionFinder;
+            RuleVisitorBuilder = ruleVisitorBuilder;
         }
 
         public void VisitRules(string sqlPath, Stream sqlFileStream)
         {
             TextReader sqlTextReader = new StreamReader(sqlFileStream);
-            var sqlFragment = GetFragment(sqlTextReader, out var errors);
+            var sqlFragment = FragmentBuilder.GetFragment(sqlTextReader, out var errors);
 
             if (errors.Count > 0)
             {
@@ -47,18 +45,6 @@ namespace TSQLLint.Lib.Parser
             {
                 sqlFragment.Accept(visitor);
             }
-        }
-
-        public void VisitRule(Stream fileStream, TSqlFragmentVisitor visitor)
-        {
-            var textReader = new StreamReader(fileStream);
-            var sqlFragment = GetFragment(textReader, out _);
-            sqlFragment.Accept(visitor);
-        }
-
-        private TSqlFragment GetFragment(TextReader txtRdr, out IList<ParseError> errors)
-        {
-            return Parser.Parse(txtRdr, out errors);
         }
     }
 }
