@@ -30,10 +30,8 @@ namespace TSQLLint.Lib.Reporters
                 case RuleViolationSeverity.Error:
                     ErrorCount++;
                     break;
-                case RuleViolationSeverity.Off:
-                    break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    return;
             }
 
             ReportViolation(
