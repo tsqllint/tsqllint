@@ -19,9 +19,7 @@ namespace TSQLLint.Lib.Plugins
 
         public IList<IPlugin> Plugins => _plugins ?? (_plugins = new List<IPlugin>());
 
-        public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths) : this(reporter, pluginPaths, new FileSystem(), new AssemblyWrapper())
-        {
-        }
+        public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths) : this(reporter, pluginPaths, new FileSystem(), new AssemblyWrapper()) { }
 
         public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper)
         {

@@ -26,16 +26,30 @@ namespace TSQLLint.Lib.Parser
             _fileSystem = fileSystem;
         }
 
+        public void ProcessList(List<string> paths)
+        {
+            foreach (var path in paths)
+            {
+                ProcessPath(path);
+            }
+        }
+
+        private void ProcessFile(Stream fileStream, string filePath)
+        {
+            ProcessRules(fileStream, filePath);
+            ProcessPlugins(fileStream, filePath);
+            FileCount++;
+        }
+
         public void ProcessPath(string path)
         {
             // remove quotes from path
             path = path.Replace("\"", "");
 
             var pathStrings = path.Split(',');
-
-            // remove leading and trailing whitespace
             for (var index = 0; index < pathStrings.Length; index++)
             {
+                // remove leading and trailing whitespace
                 pathStrings[index] = pathStrings[index].Trim();
             }
 
@@ -61,8 +75,8 @@ namespace TSQLLint.Lib.Parser
 
         private void ProcessDirectory(string path)
         {
-            var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
-            foreach (var t in subdirectoryEntries)
+            var subDirectories = _fileSystem.Directory.GetDirectories(path);
+            foreach (var t in subDirectories)
             {
                 ProcessPath(t);
             }
@@ -111,13 +125,6 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
-        public void ProcessFile(Stream fileStream, string filePath)
-        {
-            ProcessRules(fileStream, filePath);
-            ProcessPlugins(fileStream, filePath);
-            FileCount++;
-        }
-
         private void ProcessRules(Stream fileStream, string filePath)
         {
             _ruleVisitor.VisitRules(filePath, fileStream);
@@ -128,14 +135,6 @@ namespace TSQLLint.Lib.Parser
             fileStream.Seek(0, SeekOrigin.Begin);
             TextReader textReader = new StreamReader(fileStream);
             _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
-        }
-
-        public void ProcessList(List<string> paths)
-        {
-            foreach (var t in paths)
-            {
-                ProcessPath(t);
-            }
         }
 
         private Stream GetFileContents(string filePath)
