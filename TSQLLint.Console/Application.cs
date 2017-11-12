@@ -1,15 +1,15 @@
 using System.IO.Abstractions;
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
-using TSQLLint.Console.Reporters;
-using TSQLLint.Console.Reporters.Interfaces;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins;
 using TSQLLint.Lib.Plugins.Interfaces;
+using TSQLLint.Lib.Reporters;
+using TSQLLint.Lib.Reporters.Interfaces;
 
 namespace TSQLLint.Console
 {

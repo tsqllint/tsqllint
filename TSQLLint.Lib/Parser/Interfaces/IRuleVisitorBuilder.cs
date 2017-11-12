@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLint.Lib.Parser.Interfaces;
 
-namespace TSQLLint.Lib.Parser
+namespace TSQLLint.Lib.Parser.Interfaces
 {
     public interface IRuleVisitorBuilder
     {

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Console;
+using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Lib.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers;
 
@@ -14,6 +16,18 @@ namespace TSQLLint.Tests.IntegrationTests
     public class IntegrationBaseTest
     {
         protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
+
+        protected static string UsageString => new CommandLineOptions(new string[0]).GetUsage();
+        
+        protected static string TSqllVersion
+        {
+            get
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                return fvi.FileVersion;
+            }
+        }
 
         protected static readonly string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\IntegrationTests\Configuration\TestFiles");
         protected static readonly string TestFileOne = Path.Combine(TestFileDirectory, @"integration-test-one.sql");

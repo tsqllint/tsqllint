@@ -80,15 +80,16 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptionHandler.cs" />
-    <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\CreateConfigFileStrategy.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionStrategies\CreateConfigFileStrategy.cs" />
     <Compile Include="CommandLineOptions\CommandLineOptions.cs" />
+    <Compile Include="Interfaces\ICommandLineOptions.cs" />
     <Compile Include="Interfaces\ICommandLineOptionHandler.cs" />
     <Compile Include="Interfaces\IHandlingStrategy.cs" />
-    <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\HandleConfigFileStrategy.cs" />
-    <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\PrintUsageStrategy.cs" />
-    <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\PrintConfigStrategy.cs" />
-    <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\PrintPluginsStrategy.cs" />
-    <Compile Include="CommandLineOptions\CommandLineOptionHandlingStrategies\VersionStrategy.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionStrategies\LoadConfigFileStrategy.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionStrategies\PrintUsageStrategy.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionStrategies\PrintConfigStrategy.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionStrategies\PrintPluginsStrategy.cs" />
+    <Compile Include="CommandLineOptions\CommandLineOptionStrategies\PrintVersionStrategy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

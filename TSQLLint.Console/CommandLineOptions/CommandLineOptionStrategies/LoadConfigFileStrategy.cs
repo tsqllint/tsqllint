@@ -1,25 +1,24 @@
-using System;
 using System.IO.Abstractions;
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
+using TSQLLint.Console.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
-    public class HandleConfigFileStrategy : IHandlingStrategy
+    public class LoadConfigFileStrategy : IHandlingStrategy
     {
         private readonly IBaseReporter _reporter;
         private readonly IFileSystem _fileSystem;
 
-        public HandleConfigFileStrategy(IBaseReporter reporter) : this(reporter, new FileSystem()) { }
+        public LoadConfigFileStrategy(IBaseReporter reporter) : this(reporter, new FileSystem()) { }
 
-        public HandleConfigFileStrategy(IBaseReporter reporter, FileSystem fileSystem)
+        public LoadConfigFileStrategy(IBaseReporter reporter, FileSystem fileSystem)
         {
             _reporter = reporter;
             _fileSystem = fileSystem;
         }
 
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
+        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             commandLineOptions.ConfigFile = commandLineOptions.ConfigFile.Trim();
             if (!_fileSystem.File.Exists(commandLineOptions.ConfigFile))

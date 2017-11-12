@@ -1,10 +1,10 @@
 using System;
 using System.IO.Abstractions;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class CreateConfigFileStrategy : IHandlingStrategy
     {
@@ -28,7 +28,7 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategie
             _configFileGenerator.WriteConfigFile(_defaultConfigFilePath);
         }
 
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
+        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             var configFileExists = _fileSystem.File.Exists(_defaultConfigFilePath);
             

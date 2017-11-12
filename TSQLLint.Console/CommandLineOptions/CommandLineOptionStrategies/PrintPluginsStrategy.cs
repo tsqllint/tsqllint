@@ -1,8 +1,8 @@
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class PrintPluginsStrategy : IHandlingStrategy
     {
@@ -15,16 +15,9 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategie
             _configReader = configReader;
         }
 
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
+        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
-            if (_configReader.IsConfigLoaded)
-            {
-                _configReader.ListPlugins();
-            }
-            else
-            {
-                _reporter.Report("No Plugins Found");
-            }
+            _configReader.ListPlugins();
         }
     }
 }

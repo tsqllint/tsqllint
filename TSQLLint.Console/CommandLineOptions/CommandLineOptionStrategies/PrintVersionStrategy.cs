@@ -1,20 +1,20 @@
 using System.Diagnostics;
 using System.Reflection;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.Interfaces;
+using TSQLLint.Console.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionHandlingStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
-    public class VersionStrategy : IHandlingStrategy
+    public class PrintVersionStrategy : IHandlingStrategy
     {
         private readonly IBaseReporter _reporter;
 
-        public VersionStrategy(IBaseReporter reporter)
+        public PrintVersionStrategy(IBaseReporter reporter)
         {
             _reporter = reporter;
         }
         
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions = null)
+        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions = null)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);

@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Lib.Parser
