@@ -15,9 +15,7 @@ namespace TSQLLint.Lib.Plugins
         private readonly IReporter _reporter;
         private readonly IAssemblyWrapper _assemblyWrapper;
         private readonly IFileSystem _fileSystem;
-        private List<IPlugin> _plugins;
-
-        public IList<IPlugin> Plugins => _plugins ?? (_plugins = new List<IPlugin>());
+        private Dictionary<Type, IPlugin> _plugins;
 
         public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths) : this(reporter, pluginPaths, new FileSystem(), new AssemblyWrapper()) { }
 
@@ -32,6 +30,10 @@ namespace TSQLLint.Lib.Plugins
                 ProcessPath(pluginPath.Value);
             }
         }
+
+        public IList<IPlugin> Plugins => _plugins.Values.ToList();
+
+        private Dictionary<Type, IPlugin> List => _plugins ?? (_plugins = new Dictionary<Type, IPlugin>());
 
         public void ProcessPath(string path)
         {
@@ -82,24 +84,30 @@ namespace TSQLLint.Lib.Plugins
                     continue;
                 }
 
-                //TODO: don't allow duplicates
-                Plugins.Add((IPlugin)Activator.CreateInstance(type));
+                if (!List.ContainsKey(type))
+                {
+                    List.Add(type, (IPlugin)Activator.CreateInstance(type));
 
-                _reporter.Report($"\nLoaded plugin {type.FullName}\n");
+                    _reporter.Report($"\nLoaded plugin '{type.FullName}'\n");
+                }
+                else
+                {
+                    _reporter.Report($"\nAlready loaded plugin with type '{type.FullName}'\n");
+                }
             }
         }
 
         public void ActivatePlugins(IPluginContext pluginContext)
         {
-            foreach (var plugin in Plugins)
+            foreach (var plugin in List)
             {
                 try
                 {
-                    plugin.PerformAction(pluginContext, _reporter);
+                    plugin.Value.PerformAction(pluginContext, _reporter);
                 }
                 catch (Exception exception)
                 {
-                    _reporter.Report($"\nThere was a problem with plugin: {plugin.GetType()}\n\n{exception}");
+                    _reporter.Report($"\nThere was a problem with plugin: {plugin.Key}\n\n{exception}");
                     Trace.WriteLine(exception);
                     throw;
                 }
