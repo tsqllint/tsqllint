@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace TSQLLint.Lib.Standard.Parser.Interfaces
+namespace TSQLLint.Lib.Parser.Interfaces
 {
     public interface IRuleVisitor
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
-namespace TSQLLint.Lib.Standard.Parser.Interfaces
+namespace TSQLLint.Lib.Parser.Interfaces
 {
     public interface IFragmentBuilder
     {

@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using TSQLLint.Lib.Rules;
 
 namespace TSQLLint.Lib.Parser
 {
@@ -13,27 +14,27 @@ namespace TSQLLint.Lib.Parser
         // a list of all classes that implement ISqlRule
         public static readonly Dictionary<string, Type> List = new Dictionary<string, Type>
         {
-            { "cross-database", typeof(TSQLLint.Lib.Standard.Rules.CrossDatabaseRule) },
-            { "data-type-length", typeof(TSQLLint.Lib.Standard.Rules.DataTypeLengthRule) },
-            { "linked-server", typeof(TSQLLint.Lib.Standard.Rules.LinkedServerRule) },
-            { "non-sargable", typeof(TSQLLint.Lib.Standard.Rules.NonSargableRule) },
-            { "print-statement", typeof(TSQLLint.Lib.Standard.Rules.PrintStatementRule) },
-            { "conditional-begin-end", typeof(TSQLLint.Lib.Standard.Rules.ConditionalBeginEndRule) },
-            { "disallow-cursors", typeof(TSQLLint.Lib.Standard.Rules.DisallowCursorRule) },
-            { "keyword-capitalization", typeof(TSQLLint.Lib.Standard.Rules.KeywordCapitalizationRule) },
-            { "multi-table-alias", typeof(TSQLLint.Lib.Standard.Rules.MultiTableAliasRule) },
-            { "set-variable", typeof(TSQLLint.Lib.Standard.Rules.SetVariableRule) },
-            { "upper-lower", typeof(TSQLLint.Lib.Standard.Rules.UpperLowerRule) },
-            { "schema-qualify", typeof(TSQLLint.Lib.Standard.Rules.SchemaQualifyRule) },
-            { "information-schema", typeof(TSQLLint.Lib.Standard.Rules.InformationSchemaRule) },
-            { "object-property", typeof(TSQLLint.Lib.Standard.Rules.ObjectPropertyRule) },
-            { "data-compression", typeof(TSQLLint.Lib.Standard.Rules.DataCompressionOptionRule) },
-            { "select-star", typeof(TSQLLint.Lib.Standard.Rules.SelectStarRule) },
-            { "set-quoted-identifier", typeof(TSQLLint.Lib.Standard.Rules.SetQuotedIdentifierRule) },
-            { "set-ansi", typeof(TSQLLint.Lib.Standard.Rules.SetAnsiNullsRule) },
-            { "set-nocount", typeof(TSQLLint.Lib.Standard.Rules.SetNoCountRule) },
-            { "set-transaction-isolation-level", typeof(TSQLLint.Lib.Standard.Rules.SetTransactionIsolationLevelRule) },
-            { "semicolon-termination", typeof(TSQLLint.Lib.Standard.Rules.SemicolonTerminationRule) },
+            { "cross-database", typeof(CrossDatabaseRule) },
+            { "data-type-length", typeof(DataTypeLengthRule) },
+            { "linked-server", typeof(LinkedServerRule) },
+            { "non-sargable", typeof(NonSargableRule) },
+            { "print-statement", typeof(PrintStatementRule) },
+            { "conditional-begin-end", typeof(ConditionalBeginEndRule) },
+            { "disallow-cursors", typeof(DisallowCursorRule) },
+            { "keyword-capitalization", typeof(KeywordCapitalizationRule) },
+            { "multi-table-alias", typeof(MultiTableAliasRule) },
+            { "set-variable", typeof(SetVariableRule) },
+            { "upper-lower", typeof(UpperLowerRule) },
+            { "schema-qualify", typeof(SchemaQualifyRule) },
+            { "information-schema", typeof(InformationSchemaRule) },
+            { "object-property", typeof(ObjectPropertyRule) },
+            { "data-compression", typeof(DataCompressionOptionRule) },
+            { "select-star", typeof(SelectStarRule) },
+            { "set-quoted-identifier", typeof(SetQuotedIdentifierRule) },
+            { "set-ansi", typeof(SetAnsiNullsRule) },
+            { "set-nocount", typeof(SetNoCountRule) },
+            { "set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule) },
+            { "semicolon-termination", typeof(SemicolonTerminationRule) },
         };
     }
 }

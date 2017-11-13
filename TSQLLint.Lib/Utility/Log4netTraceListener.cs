@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using log4net;
 
-namespace TSQLLint.Lib.Standard.Utility
+namespace TSQLLint.Lib.Utility
 {
     public class Log4netTraceListener : TraceListener
     {

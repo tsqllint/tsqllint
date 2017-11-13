@@ -5,10 +5,10 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Lib.Standard.Parser.Interfaces;
-using TSQLLint.Lib.Standard.Plugins.Interfaces;
+using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Plugins.Interfaces;
 
-namespace TSQLLint.Lib.Standard.Plugins
+namespace TSQLLint.Lib.Plugins
 {
     public class PluginHandler : IPluginHandler
     {

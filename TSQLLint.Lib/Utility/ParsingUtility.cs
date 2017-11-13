@@ -2,7 +2,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace TSQLLint.Lib.Standard.Utility
+namespace TSQLLint.Lib.Utility
 {
     public static class ParsingUtility
     {

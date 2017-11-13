@@ -5,9 +5,9 @@
 
 using System;
 using System.Collections.Generic;
-using TSQLLint.Lib.Standard.Rules;
+using TSQLLint.Lib.Rules;
 
-namespace TSQLLint.Lib.Standard.Parser
+namespace TSQLLint.Lib.Parser
 {
     public static class RuleVisitorTypes
     {

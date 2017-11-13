@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLint.Lib.Standard.Rules.Common;
-using TSQLLint.Lib.Standard.Rules.Interface;
+using TSQLLint.Lib.Rules.Common;
+using TSQLLint.Lib.Rules.Interface;
 
-namespace TSQLLint.Lib.Standard.Rules
+namespace TSQLLint.Lib.Rules
 {
     public class KeywordCapitalizationRule : TSqlFragmentVisitor, ISqlRule
     {

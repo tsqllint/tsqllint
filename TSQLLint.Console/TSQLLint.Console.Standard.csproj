@@ -6,11 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />
     <PackageReference Include="TSQLLint.Common" Version="1.0.15" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TSQLLint.Lib\TSQLLint.Lib.Standard.csproj" />
+    <ProjectReference Include="..\TSQLLint.Lib\TSQLLint.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 using System.IO.Abstractions;
-using TSQLLint.Lib.Standard.Config.Interfaces;
+using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Lib.Standard.Config
+namespace TSQLLint.Lib.Config
 {
     public class ConfigFileGenerator : IConfigFileGenerator
     {

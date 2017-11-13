@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLint.Lib.Standard.Parser.Interfaces;
+using TSQLLint.Lib.Parser.Interfaces;
 
-namespace TSQLLint.Lib.Standard.Parser
+namespace TSQLLint.Lib.Parser
 {
     public class FragmentBuilder : IFragmentBuilder
     {

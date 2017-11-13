@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLint.Lib.Standard.Rules.Interface;
+using TSQLLint.Lib.Rules.Interface;
 
-namespace TSQLLint.Lib.Standard.Rules
+namespace TSQLLint.Lib.Rules
 {
     public class DataTypeLengthRule : TSqlFragmentVisitor, ISqlRule
     {

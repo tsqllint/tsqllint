@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using TSQLLint.Common;
 
-namespace TSQLLint.Lib.Standard.Config.Interfaces
+namespace TSQLLint.Lib.Config.Interfaces
 {
     public interface IConfigReader
     {

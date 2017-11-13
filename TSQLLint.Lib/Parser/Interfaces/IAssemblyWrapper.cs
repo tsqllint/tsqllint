@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace TSQLLint.Lib.Standard.Parser.Interfaces
+namespace TSQLLint.Lib.Parser.Interfaces
 {
     public interface IAssemblyWrapper
     {

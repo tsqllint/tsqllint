@@ -1,4 +1,4 @@
-namespace TSQLLint.Lib.Standard.Rules.Interface
+namespace TSQLLint.Lib.Rules.Interface
 {
     public interface ISqlRule
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Reflection;
-using TSQLLint.Lib.Standard.Parser.Interfaces;
+using TSQLLint.Lib.Parser.Interfaces;
 
-namespace TSQLLint.Lib.Standard.Plugins
+namespace TSQLLint.Lib.Plugins
 {
     public class AssemblyWrapper : IAssemblyWrapper
     {

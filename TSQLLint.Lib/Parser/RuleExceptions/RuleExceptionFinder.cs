@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using TSQLLint.Lib.Parser;
-using TSQLLint.Lib.Standard.Parser.Interfaces;
+using TSQLLint.Lib.Parser.Interfaces;
 
-namespace TSQLLint.Lib.Standard.Parser.RuleExceptions
+namespace TSQLLint.Lib.Parser.RuleExceptions
 {
     public class RuleExceptionFinder : IRuleExceptionFinder
     {

@@ -1,4 +1,4 @@
-namespace TSQLLint.Lib.Standard.Config.Interfaces
+namespace TSQLLint.Lib.Config.Interfaces
 {
     public interface IConfigFileGenerator
     {

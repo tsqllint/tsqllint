@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser;
-using TSQLLint.Lib.Standard.Config.Interfaces;
-using TSQLLint.Lib.Standard.Parser.Interfaces;
-using TSQLLint.Lib.Standard.Parser.RuleExceptions;
-using TSQLLint.Lib.Standard.Rules.Interface;
-using TSQLLint.Lib.Standard.Rules.RuleViolations;
+using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
+using TSQLLint.Lib.Rules.Interface;
+using TSQLLint.Lib.Rules.RuleViolations;
 
-namespace TSQLLint.Lib.Standard.Parser
+namespace TSQLLint.Lib.Parser
 {
     public class RuleVisitorBuilder : IRuleVisitorBuilder
     {
