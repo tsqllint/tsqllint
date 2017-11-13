@@ -67,7 +67,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(4, pluginHandler.Plugins.Count);
@@ -107,7 +108,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
@@ -143,7 +145,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
@@ -179,7 +182,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var reporter = Substitute.For<IReporter>();
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
@@ -214,7 +218,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var context = new PluginContext(@"c:\scripts\foo.sql", textReader);
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
@@ -260,7 +265,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var context = Substitute.For<IPluginContext>();
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);

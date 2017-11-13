@@ -17,23 +17,26 @@ namespace TSQLLint.Lib.Plugins
         private readonly IFileSystem _fileSystem;
         private Dictionary<Type, IPlugin> _plugins;
 
-        public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths) : this(reporter, pluginPaths, new FileSystem(), new AssemblyWrapper()) { }
+        public PluginHandler(IReporter reporter) : this(reporter, new FileSystem(), new AssemblyWrapper()) { }
 
-        public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper)
+        public PluginHandler(IReporter reporter, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper)
         {
             _reporter = reporter;
             _fileSystem = fileSystem;
             _assemblyWrapper = assemblyWrapper;
-
-            foreach (var pluginPath in pluginPaths)
-            {
-                ProcessPath(pluginPath.Value);
-            }
         }
 
         public IList<IPlugin> Plugins => _plugins.Values.ToList();
 
         private Dictionary<Type, IPlugin> List => _plugins ?? (_plugins = new Dictionary<Type, IPlugin>());
+
+        public void ProcessPaths(Dictionary<string, string> pluginPaths)
+        {
+            foreach (var pluginPath in pluginPaths)
+            {
+                ProcessPath(pluginPath.Value);
+            }
+        }
 
         public void ProcessPath(string path)
         {
