@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 
-namespace TSQLLint.Console.Interfaces
+namespace TSQLLint.Console.Standard.Interfaces
 {
     public interface ICommandLineOptions
     {
-        string[] Args { get; set; }
-        
         string ConfigFile { get; set; }
         
         bool Force { get; set; }
@@ -14,7 +12,7 @@ namespace TSQLLint.Console.Interfaces
         
         bool Init { get; set; }
         
-        List<string> LintPath { get; set; }
+        IEnumerable<string> LintPath { get; set; }
         
         bool ListPlugins { get; set; }
         

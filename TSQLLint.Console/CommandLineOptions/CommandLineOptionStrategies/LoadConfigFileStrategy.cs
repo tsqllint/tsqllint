@@ -1,9 +1,9 @@
 using System.IO.Abstractions;
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Console.Interfaces;
+using TSQLLint.Console.Standard.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
+namespace TSQLLint.Console.Standard.CommandLineOptions.CommandLineOptionStrategies
 {
     public class LoadConfigFileStrategy : IHandlingStrategy
     {

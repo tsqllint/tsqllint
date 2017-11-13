@@ -1,6 +1,4 @@
-using TSQLLint.Console.CommandLineOptions;
-
-namespace TSQLLint.Console.Interfaces
+namespace TSQLLint.Console.Standard.Interfaces
 {
     public interface IHandlingStrategy
     {

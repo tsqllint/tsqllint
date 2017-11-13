@@ -2,17 +2,16 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Lib.Reporters;
-using TSQLLint.Lib.Utility;
 
-namespace TSQLLint.Console
+namespace TSQLLint.Console.Standard
 {
-    internal class Program
+    public class Program
     {
         [ExcludeFromCodeCoverage]
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            Trace.Listeners.Add(new Log4netTraceListener(logger, new BooleanSwitch("Logging", "Entire application").Enabled));
+            //var logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            //Trace.Listeners.Add(new Log4netTraceListener(logger, new BooleanSwitch("Logging", "Entire application").Enabled));
             
             var application = new Application(args, new ConsoleReporter());
             

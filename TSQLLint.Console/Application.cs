@@ -1,7 +1,10 @@
+using System.Diagnostics;
 using System.IO.Abstractions;
+using System.Linq;
+using CommandLine;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions;
-using TSQLLint.Console.Interfaces;
+using TSQLLint.Console.Standard.CommandLineOptions;
+using TSQLLint.Console.Standard.Interfaces;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser;
@@ -11,26 +14,27 @@ using TSQLLint.Lib.Plugins.Interfaces;
 using TSQLLint.Lib.Reporters;
 using TSQLLint.Lib.Reporters.Interfaces;
 
-namespace TSQLLint.Console
+namespace TSQLLint.Console.Standard
 {
     public class Application
     {
         private readonly ICommandLineOptionHandler _commandLineOptionHandler;
-        private readonly CommandLineOptions.CommandLineOptions _commandLineOptions;
         private readonly IConfigReader _configReader;
         private readonly ISqlFileProcessor _fileProcessor;
         private readonly IReporter _reporter;
         private readonly IConsoleTimer _timer;
 
+        private ICommandLineOptions _options;
+
         public Application(string[] args, IReporter reporter)
         {
+            Debugger.Break();
             _timer = new ConsoleTimer();
             _timer.Start();
-            
             _reporter = reporter;
-            _commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
+            Parser.Default.ParseArguments<Options>(args).WithParsed(options => _options = options);
+            _commandLineOptionHandler = new CommandLineOptionHandler(_options, new ConfigFileGenerator(), _configReader, reporter);
             _configReader = new ConfigReader(reporter);
-            _commandLineOptionHandler = new CommandLineOptionHandler(_commandLineOptions, new ConfigFileGenerator(), _configReader, reporter);
             var fragmentBuilder = new FragmentBuilder();
             var ruleVisitorBuilder = new RuleVisitorBuilder(_configReader, _reporter);
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
@@ -40,9 +44,9 @@ namespace TSQLLint.Console
 
         public void Run()
         {
-            _configReader.LoadConfig(_commandLineOptions.ConfigFile);
-            _commandLineOptionHandler.HandleCommandLineOptions(_commandLineOptions);
-            _fileProcessor.ProcessList(_commandLineOptions.LintPath);
+            _configReader.LoadConfig(_options.ConfigFile);
+            _commandLineOptionHandler.HandleCommandLineOptions(_options);
+            _fileProcessor.ProcessList(_options.LintPath.ToList());
 
             if (_fileProcessor.FileCount > 0)
             {

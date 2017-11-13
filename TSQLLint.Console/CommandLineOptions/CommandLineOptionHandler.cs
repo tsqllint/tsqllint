@@ -1,66 +1,66 @@
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies;
-using TSQLLint.Console.Interfaces;
+using TSQLLint.Console.Standard.CommandLineOptions.CommandLineOptionStrategies;
+using TSQLLint.Console.Standard.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions
+namespace TSQLLint.Console.Standard.CommandLineOptions
 {
     public class CommandLineOptionHandler : ICommandLineOptionHandler
     {
-        private readonly CommandLineOptions _commandLineOptions;
+        private readonly ICommandLineOptions _options;
         private readonly IConfigFileGenerator _configFileGenerator;
         private readonly IBaseReporter _reporter;
         private readonly IConfigReader _configReader;
 
         public CommandLineOptionHandler(
-            CommandLineOptions commandLineOptions,
+            ICommandLineOptions options,
             IConfigFileGenerator configFileGenerator,
             IConfigReader configReader,
             IBaseReporter reporter)
         {
-            _commandLineOptions = commandLineOptions;
+            _options = options;
             _configFileGenerator = configFileGenerator;
             _configReader = configReader;
             _reporter = reporter;
         }
 
-        public void HandleCommandLineOptions(CommandLineOptions commandLineOptions)
+        public void HandleCommandLineOptions(ICommandLineOptions options)
         {
-            if (commandLineOptions.Args.Length == 0 || commandLineOptions.Help)
+            if (options.Help)
             {
                 var strategy = new PrintUsageStrategy(_reporter);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                strategy.HandleCommandLineOptions(options);
             }
-            else if (commandLineOptions.Version)
+            else if (options.Version)
             {
                 var strategy = new PrintVersionStrategy(_reporter);
                 strategy.HandleCommandLineOptions();
             }
-            else if (commandLineOptions.PrintConfig)
+            else if (options.PrintConfig)
             {
                 var strategy = new PrintConfigStrategy(_reporter, _configReader);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                strategy.HandleCommandLineOptions(options);
             }
-            else if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile))
+            else if (!string.IsNullOrWhiteSpace(options.ConfigFile))
             {
                 var strategy = new LoadConfigFileStrategy(_reporter);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                strategy.HandleCommandLineOptions(options);
             }
-            else if (commandLineOptions.Init)
+            else if (options.Init)
             {
                 var strategy = new CreateConfigFileStrategy(_reporter, _configFileGenerator);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                strategy.HandleCommandLineOptions(options);
             }
-            else if (_commandLineOptions.ListPlugins)
+            else if (_options.ListPlugins)
             {
                 var strategy = new PrintPluginsStrategy(_reporter, _configReader);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                strategy.HandleCommandLineOptions(options);
             }
-            else if (!_commandLineOptions.LintPath.Any())
+            else if (!_options.LintPath.Any())
             {
                 var strategy = new PrintUsageStrategy(_reporter);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                strategy.HandleCommandLineOptions(options);
             }
         }
     }
