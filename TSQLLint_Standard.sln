@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Console.Standard", "TSQLLint.Console\TSQLLint.Console.Standard.csproj", "{7697E982-E7EA-4D1A-A26C-3DDA32423F1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Console", "TSQLLint.Console\TSQLLint.Console.csproj", "{7697E982-E7EA-4D1A-A26C-3DDA32423F1C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Lib", "TSQLLint.Lib\TSQLLint.Lib.csproj", "{80B6DAB5-3ED4-461C-87CB-71E0B3BAFC81}"
 EndProject

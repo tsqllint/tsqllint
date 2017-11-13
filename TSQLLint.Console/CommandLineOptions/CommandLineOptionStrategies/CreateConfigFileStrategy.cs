@@ -1,10 +1,10 @@
 using System;
 using System.IO.Abstractions;
 using TSQLLint.Common;
-using TSQLLint.Console.Standard.Interfaces;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Console.Standard.CommandLineOptions.CommandLineOptionStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class CreateConfigFileStrategy : IHandlingStrategy
     {

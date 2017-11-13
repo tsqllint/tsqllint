@@ -3,8 +3,8 @@ using System.IO.Abstractions;
 using System.Linq;
 using CommandLine;
 using TSQLLint.Common;
-using TSQLLint.Console.Standard.CommandLineOptions;
-using TSQLLint.Console.Standard.Interfaces;
+using TSQLLint.Console.CommandLineOptions;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser;
@@ -14,7 +14,7 @@ using TSQLLint.Lib.Plugins.Interfaces;
 using TSQLLint.Lib.Reporters;
 using TSQLLint.Lib.Reporters.Interfaces;
 
-namespace TSQLLint.Console.Standard
+namespace TSQLLint.Console
 {
     public class Application
     {

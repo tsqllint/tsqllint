@@ -1,4 +1,4 @@
-namespace TSQLLint.Console.Standard.Interfaces
+namespace TSQLLint.Console.Interfaces
 {
     public interface IHandlingStrategy
     {

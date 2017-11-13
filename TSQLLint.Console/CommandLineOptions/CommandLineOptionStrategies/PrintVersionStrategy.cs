@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Reflection;
 using TSQLLint.Common;
-using TSQLLint.Console.Standard.Interfaces;
+using TSQLLint.Console.Interfaces;
 
-namespace TSQLLint.Console.Standard.CommandLineOptions.CommandLineOptionStrategies
+namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class PrintVersionStrategy : IHandlingStrategy
     {

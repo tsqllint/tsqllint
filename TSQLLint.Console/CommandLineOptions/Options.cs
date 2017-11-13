@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
-using TSQLLint.Console.Standard.Interfaces;
+using TSQLLint.Console.Interfaces;
 
-namespace TSQLLint.Console.Standard.CommandLineOptions
+namespace TSQLLint.Console.CommandLineOptions
 {
     public class Options : ICommandLineOptions
     {

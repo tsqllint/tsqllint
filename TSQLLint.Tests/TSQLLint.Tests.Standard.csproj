@@ -5,12 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.5.0" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="2.1.0.174" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="2.1.0.174" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TSQLLint.Console\TSQLLint.Console.Standard.csproj" />
-    <ProjectReference Include="..\TSQLLint.Lib\TSQLLint.Lib.Standard.csproj" />
+    <ProjectReference Include="..\TSQLLint.Console\TSQLLint.Console.csproj" />
+    <ProjectReference Include="..\TSQLLint.Lib\TSQLLint.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Console.Standard.CommandLineOptions.CommandLineOptionStrategies;
-using TSQLLint.Console.Standard.Interfaces;
+using TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies;
+using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
-namespace TSQLLint.Console.Standard.CommandLineOptions
+namespace TSQLLint.Console.CommandLineOptions
 {
     public class CommandLineOptionHandler : ICommandLineOptionHandler
     {
