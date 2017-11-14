@@ -15,7 +15,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
         public static void RunRulesTest(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             // arrange
-            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"UnitTests\Rules\{rule}\test-files\{testFileName}.sql"));
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"UnitTests/Rules/{rule}/test-files/{testFileName}.sql"));
             var fileStream = File.OpenRead(path);
 
             var ruleViolations = new List<RuleViolation>();
