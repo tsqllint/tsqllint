@@ -2,6 +2,6 @@ namespace TSQLLint.Console.Interfaces
 {
     public interface ICommandLineOptionHandler
     {
-        void HandleCommandLineOptions(ICommandLineOptions options);
+        void HandleCommandLineOptions(CommandLineOptions.CommandLineOptions options);
     }
 }
