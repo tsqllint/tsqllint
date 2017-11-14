@@ -32,6 +32,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="FunctionalTests\.tsqllintrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FunctionalTests\TestFiles\no-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FunctionalTests\TestFiles\with-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FunctionalTests\TestFiles\with-warnings.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="IntegrationTests\Configuration\TestFiles\.tsqllintrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

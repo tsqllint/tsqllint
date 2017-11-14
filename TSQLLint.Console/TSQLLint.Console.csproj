@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netstandard2.0;netcoreapp2.0;</TargetFrameworks>
-    <ApplicationIcon />
+    <TargetFrameworks>netcoreapp2.0;</TargetFrameworks>
     <StartupObject>TSQLLint.Console.Program</StartupObject>
   </PropertyGroup>
 
