@@ -68,6 +68,246 @@
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\cross-database\test-files\cross-database-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\cross-database\test-files\cross-database-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-all-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-multiple-errors-tabs.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\linked-server\test-files\linked-server-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\linked-server\test-files\linked-server-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-spaces.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-tabs.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-spaces.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-tabs.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-multi-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\object-property\test-files\object-property-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\object-property\test-files\object-property-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\object-property\test-files\object-property-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\object-property\test-files\object-property-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\select-star\test-files\select-star-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\select-star\test-files\select-star-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\select-star\test-files\select-star-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\select-star\test-files\select-star-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-multiple-errors-with-tab.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-multiple-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error-create-object.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-try-catch-while.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-on-off-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-on-off-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-no-error-ddl.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-no-rowset-action.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-one-error-rowset-action.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-quoted-identifier\test-files\set-quoted-identifier-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-quoted-identifier\test-files\set-quoted-identifier-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-transaction-isolation-level\test-files\set-transaction-isolation-level-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-transaction-isolation-level\test-files\set-transaction-isolation-level-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
