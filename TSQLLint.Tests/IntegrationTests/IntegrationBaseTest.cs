@@ -29,8 +29,9 @@ namespace TSQLLint.Tests.IntegrationTests
             }
         }
 
-        protected static readonly string TestFileDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"\IntegrationTests\RuleExceptions\TestFiles");
-        protected static readonly string TestFileOne = Path.Combine(TestFileDirectory, @"integration-test-one.sql");
+        protected static string TestFileDirectory => Path.Combine(TestContext.CurrentContext.WorkDirectory, @"/IntegrationTests/Configuration/TestFiles");
+        
+        protected static string TestFileOne => Path.Combine(TestFileDirectory, @"/integration-test-one.sql");
 
         protected static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
         {
