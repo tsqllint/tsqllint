@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Console", "TSQLLin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Lib", "TSQLLint.Lib\TSQLLint.Lib.csproj", "{80B6DAB5-3ED4-461C-87CB-71E0B3BAFC81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Tests.Standard", "TSQLLint.Tests\TSQLLint.Tests.Standard.csproj", "{B3139814-0754-4549-BC6D-9D4F4C772056}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Tests", "TSQLLint.Tests\TSQLLint.Tests.csproj", "{B3139814-0754-4549-BC6D-9D4F4C772056}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
