@@ -7,4 +7,4 @@ install:
 - dotnet restore
 script:
 - dotnet build
-- dotnet test TSQLLint.Tests/TSQLLint.Tests.csproj
+- dotnet test
