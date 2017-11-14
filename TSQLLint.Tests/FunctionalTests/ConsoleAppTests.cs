@@ -17,7 +17,7 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"-h", 0)]
         [TestCase(@"-c .tsqllintrc", 0)]
         [TestCase(@"invalid", 0)]
-        [TestCase(@"c:\foo_invalid.sql", 0)]
+        [TestCase(@"c:/foo_invalid.sql", 0)]
         [TestCase(@"-foo", 1)]
         public void NoLintingExitCodeTest(string arguments, int expectedExitCode)
         {
@@ -41,9 +41,9 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(process);
         }
 
-        [TestCase(@"TestFiles\no-errors.sql", 0)]
-        [TestCase(@"TestFiles\with-warnings.sql", 0)]
-        [TestCase(@"TestFiles\with-errors.sql", 1)]
+        [TestCase(@"TestFiles/no-errors.sql", 0)]
+        [TestCase(@"TestFiles/with-warnings.sql", 0)]
+        [TestCase(@"TestFiles/with-errors.sql", 1)]
         public void LintingExitCodeTest(string testFile, int expectedExitCode)
         {
             var fileLinted = false;
@@ -66,8 +66,8 @@ namespace TSQLLint.Tests.FunctionalTests
                 Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
             }
 
-            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.WorkDirectory, $@"FunctionalTests\{testFile}"));
-            var configFilePath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"FunctionalTests\.tsqllintrc"));
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.WorkDirectory, $@"FunctionalTests/{testFile}"));
+            var configFilePath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"FunctionalTests/.tsqllintrc"));
             
             var process = ConsoleAppTestHelper.GetProcess($"-c {configFilePath} {path}", OutputHandler, ErrorHandler, ExitHandler);
             ConsoleAppTestHelper.RunApplication(process);
