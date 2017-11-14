@@ -74,7 +74,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
 
                 // invalid linting targets
                 yield return new TestCaseData(new List<string> { @"invalid.sql" }, "invalid.sql is not a valid path.", new List<RuleViolation>(), 0).SetName("File Args Invalid File Does Not Exist");
-                yield return new TestCaseData(new List<string> { @"c:/invalid/foo*.sql" }, @"Directory does not exit: c:/invalid", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Directory Does Not Exist");
+                yield return new TestCaseData(new List<string> { @"c:/invalid/foo*.sql" }, @"Directory does not exist: c:\invalid", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Directory Does Not Exist");
                 yield return new TestCaseData(new List<string> { @"c:/invalid.sql" }, @"c:/invalid.sql is not a valid path.", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Path Does Not Exist");
 
                 // valid linting files and directories

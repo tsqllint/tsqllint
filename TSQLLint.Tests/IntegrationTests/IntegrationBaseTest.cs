@@ -17,6 +17,10 @@ namespace TSQLLint.Tests.IntegrationTests
     {
         protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
+        protected static string TestFileDirectory => Path.Combine(TestContext.CurrentContext.WorkDirectory, @"IntegrationTests/Configuration/TestFiles");
+
+        protected static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
+
         protected static string UsageString => new CommandLineOptions(new string[]{}).GetUsage();
         
         protected static string TSqllVersion
@@ -28,10 +32,6 @@ namespace TSQLLint.Tests.IntegrationTests
                 return fvi.FileVersion;
             }
         }
-
-        protected static string TestFileDirectory => Path.Combine(TestContext.CurrentContext.WorkDirectory, @"/IntegrationTests/Configuration/TestFiles");
-        
-        protected static string TestFileOne => Path.Combine(TestFileDirectory, @"/integration-test-one.sql");
 
         protected static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
         {
