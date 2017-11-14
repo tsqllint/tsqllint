@@ -9,7 +9,7 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
 {
     public class IgnoreRulesTests : IntegrationBaseTest
     {
-        private static readonly string testDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\IntegrationTests\RuleExceptions\TestFiles");
+        private static readonly string testDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"\IntegrationTests\RuleExceptions\TestFiles");
 
         protected static readonly IEnumerable<RuleViolation> IntegrationTestTwoRuleViolations = new List<RuleViolation>
         {

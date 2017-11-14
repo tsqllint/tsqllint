@@ -22,4 +22,52 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="IntegrationTests\Configuration\TestFiles\.tsqllintrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\Configuration\TestFiles\integration-test-one.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\Configuration\TestFiles\invalid-syntax.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\dontparse.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\integration-test-two.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\RuleExceptions\TestFiles\disable-rule-enable-rule.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\RuleExceptions\TestFiles\enable-without-disbling.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\RuleExceptions\TestFiles\global-disable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\RuleExceptions\TestFiles\global-enable-without-disbling.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\RuleExceptions\TestFiles\integration-test-two.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\disable-rule-enable-rule.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\disable-rule-whole-file.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable-multi-set.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable-re-enable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
