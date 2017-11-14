@@ -15,18 +15,23 @@ namespace TSQLLint.Lib.Plugins
         private readonly IReporter _reporter;
         private readonly IAssemblyWrapper _assemblyWrapper;
         private readonly IFileSystem _fileSystem;
-        private List<IPlugin> _plugins;
+        private Dictionary<Type, IPlugin> _plugins;
 
-        public IList<IPlugin> Plugins => _plugins ?? (_plugins = new List<IPlugin>());
+        public PluginHandler(IReporter reporter) : this(reporter, new FileSystem(), new AssemblyWrapper()) { }
 
-        public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths) : this(reporter, pluginPaths, new FileSystem(), new AssemblyWrapper()) { }
-
-        public PluginHandler(IReporter reporter, Dictionary<string, string> pluginPaths, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper)
+        public PluginHandler(IReporter reporter, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper)
         {
             _reporter = reporter;
             _fileSystem = fileSystem;
             _assemblyWrapper = assemblyWrapper;
+        }
 
+        public IList<IPlugin> Plugins => _plugins.Values.ToList();
+
+        private Dictionary<Type, IPlugin> List => _plugins ?? (_plugins = new Dictionary<Type, IPlugin>());
+
+        public void ProcessPaths(Dictionary<string, string> pluginPaths)
+        {
             foreach (var pluginPath in pluginPaths)
             {
                 ProcessPath(pluginPath.Value);
@@ -82,24 +87,30 @@ namespace TSQLLint.Lib.Plugins
                     continue;
                 }
 
-                //TODO: don't allow duplicates
-                Plugins.Add((IPlugin)Activator.CreateInstance(type));
+                if (!List.ContainsKey(type))
+                {
+                    List.Add(type, (IPlugin)Activator.CreateInstance(type));
 
-                _reporter.Report($"\nLoaded plugin {type.FullName}\n");
+                    _reporter.Report($"\nLoaded plugin '{type.FullName}'\n");
+                }
+                else
+                {
+                    _reporter.Report($"\nAlready loaded plugin with type '{type.FullName}'\n");
+                }
             }
         }
 
         public void ActivatePlugins(IPluginContext pluginContext)
         {
-            foreach (var plugin in Plugins)
+            foreach (var plugin in List)
             {
                 try
                 {
-                    plugin.PerformAction(pluginContext, _reporter);
+                    plugin.Value.PerformAction(pluginContext, _reporter);
                 }
                 catch (Exception exception)
                 {
-                    _reporter.Report($"\nThere was a problem with plugin: {plugin.GetType()}\n\n{exception}");
+                    _reporter.Report($"\nThere was a problem with plugin: {plugin.Key}\n\n{exception}");
                     Trace.WriteLine(exception);
                     throw;
                 }

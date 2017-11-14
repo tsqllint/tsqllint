@@ -18,6 +18,7 @@ namespace TSQLLint.Console
         private readonly ICommandLineOptionHandler _commandLineOptionHandler;
         private readonly CommandLineOptions.CommandLineOptions _commandLineOptions;
         private readonly IConfigReader _configReader;
+        private readonly IPluginHandler _pluginHandler;
         private readonly ISqlFileProcessor _fileProcessor;
         private readonly IReporter _reporter;
         private readonly IConsoleTimer _timer;
@@ -34,13 +35,14 @@ namespace TSQLLint.Console
             var fragmentBuilder = new FragmentBuilder();
             var ruleVisitorBuilder = new RuleVisitorBuilder(_configReader, _reporter);
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
-            IPluginHandler pluginHandler = new PluginHandler(reporter, _configReader.GetPlugins());
-            _fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
+            _pluginHandler = new PluginHandler(reporter);
+            _fileProcessor = new SqlFileProcessor(ruleVisitor, _pluginHandler, reporter, new FileSystem());
         }
 
         public void Run()
         {
             _configReader.LoadConfig(_commandLineOptions.ConfigFile);
+            _pluginHandler.ProcessPaths(_configReader.GetPlugins());
             _commandLineOptionHandler.HandleCommandLineOptions(_commandLineOptions);
             _fileProcessor.ProcessList(_commandLineOptions.LintPath);
 

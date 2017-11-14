@@ -22,6 +22,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             const string filePath3 = @"c:\pluginDirectory\plugin_three.dll";
             const string filePath4 = @"c:\pluginDirectory\foo.txt";
             const string filePath5 = @"c:\pluginDirectory\subDirectory\bar.txt";
+            const string filePath6 = @"c:\pluginDirectory\subDirectory\plugin_four.dll";
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -39,19 +40,19 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 },
                 {
                     filePath5, new MockFileData("bar")
-                }
+                },
+                {
+                    filePath6, new MockFileData(string.Empty)
+                },
             });
 
-            var assembly = Assembly.GetExecutingAssembly();
-
-            var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
-            assemblyWrapper.LoadFile(Arg.Any<string>()).Returns(assembly);
-            assemblyWrapper.GetExportedTypes(assembly).Returns(
-                new[]
-                {
-                    typeof(TestPlugin),
-                    typeof(string)
-                });
+            var assemblyWrapper = new TestAssemblyWrapper(new Dictionary<string, int>
+            {
+                { @"c:\pluginDirectory\plugin_one.dll", 0 },
+                { @"c:\pluginDirectory\plugin_two.dll", 1 },
+                { @"c:\pluginDirectory\plugin_three.dll", 2 },
+                { @"c:\pluginDirectory\subDirectory\plugin_four.dll", 3 }
+            });
 
             var reporter = Substitute.For<IReporter>();
 
@@ -61,12 +62,13 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                     "my-first-plugin", @"c:\pluginDirectory\"
                 },
                 {
-                    "my-second-plugin", @"c:\pluginDirectory\plugin_one.dll"
+                    "my-second-plugin", filePath6
                 }
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(4, pluginHandler.Plugins.Count);
@@ -94,17 +96,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 },
                 currentDirectory.FullName);
 
-            var assembly = Assembly.GetExecutingAssembly();
-
-            var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
-            assemblyWrapper.LoadFile(Arg.Any<string>()).Returns(assembly);
-            assemblyWrapper.GetExportedTypes(assembly).Returns(
-                new[]
-                {
-                    typeof(TestPlugin),
-                    typeof(string)
-                });
-
+            var assemblyWrapper = new TestAssemblyWrapper();
+ 
             var reporter = Substitute.For<IReporter>();
 
             var pluginPaths = new Dictionary<string, string>
@@ -115,7 +108,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
@@ -139,16 +133,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 },
                 currentDirectory.FullName);
 
-            var assembly = Assembly.GetExecutingAssembly();
-
-            var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
-            assemblyWrapper.LoadFile(Arg.Any<string>()).Returns(assembly);
-            assemblyWrapper.GetExportedTypes(assembly).Returns(
-                new[]
-                {
-                    typeof(TestPlugin),
-                    typeof(string)
-                });
+            var assemblyWrapper = new TestAssemblyWrapper();
 
             var reporter = Substitute.For<IReporter>();
 
@@ -160,10 +145,51 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
+        }
+
+        [Test]
+        public void LoadPlugins_ThrowErrors_When_Same_Type_Is_Loaded_More_Than_Once()
+        {
+            // arrange
+            const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    filePath1, new MockFileData(string.Empty)
+                }
+            });
+
+            var assemblyWrapper = new TestAssemblyWrapper(defaultPlugin: typeof(TestPluginThrowsException));
+
+            var pluginPaths = new Dictionary<string, string>
+            {
+                {
+                    "my-plugin", filePath1
+                },
+                {
+                    "my-plugin-directories", @"c:\pluginDirectory"
+                },
+                {
+                    "my-plugin-invalid-path", @"c:\doesnt-exist"
+                }
+            };
+
+            var reporter = Substitute.For<IReporter>();
+
+            // act
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
+
+            // assert
+            Assert.AreEqual(1, pluginHandler.Plugins.Count);
+            var type = typeof(TestPluginThrowsException);
+            reporter.Received().Report($"\nLoaded plugin '{type.FullName}'\n");
+            reporter.Received().Report($"\nAlready loaded plugin with type '{type.FullName}'\n");
         }
 
         [Test]
@@ -178,16 +204,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 }
             });
 
-            var assembly = Assembly.GetExecutingAssembly();
-
-            var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
-            assemblyWrapper.LoadFile(Arg.Any<string>()).Returns(assembly);
-            assemblyWrapper.GetExportedTypes(assembly).Returns(
-                new[]
-                {
-                    typeof(TestPlugin),
-                    typeof(string)
-                });
+            var assemblyWrapper = new TestAssemblyWrapper();
 
             var pluginPaths = new Dictionary<string, string>
             {
@@ -201,7 +218,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var context = new PluginContext(@"c:\scripts\foo.sql", textReader);
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
@@ -228,14 +246,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 }
             });
 
-            var assemblyWrapper = Substitute.For<IAssemblyWrapper>();
-            var assembly = Assembly.GetExecutingAssembly();
-            assemblyWrapper.LoadFile(Arg.Any<string>()).Returns(assembly);
-            assemblyWrapper.GetExportedTypes(assembly).Returns(
-                new[]
-                {
-                    typeof(TestPluginThrowsException)
-                });
+            var assemblyWrapper = new TestAssemblyWrapper(defaultPlugin: typeof(TestPluginThrowsException));
 
             var pluginPaths = new Dictionary<string, string>    
             {
@@ -254,12 +265,25 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var context = Substitute.For<IPluginContext>();
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, pluginPaths, fileSystem, assemblyWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
-            Assert.AreEqual(2, pluginHandler.Plugins.Count);
+            Assert.AreEqual(1, pluginHandler.Plugins.Count);
             Assert.Throws<NotImplementedException>(() => pluginHandler.ActivatePlugins(context));
             reporter.Received().Report(Arg.Any<string>());
+        }
+
+        public class TestPlugin2 : TestPlugin
+        {
+        }
+
+        public class TestPlugin3 : TestPlugin
+        {
+        }
+
+        public class TestPlugin4 : TestPlugin
+        {
         }
 
         public class TestPluginThrowsException : IPlugin
@@ -267,6 +291,47 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             public void PerformAction(IPluginContext context, IReporter reporter)
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        public class TestAssemblyWrapper : IAssemblyWrapper
+        {
+            private readonly Assembly _assembly;
+            private readonly Dictionary<string, int> _pathsToPluginNumber;
+            private string _assemblyLoaded;
+            private Type _defaultPlugin;
+
+            public TestAssemblyWrapper(Dictionary<string, int> pathsToPluginNumber = null, Type defaultPlugin = null)
+            {
+                _assembly = Assembly.GetExecutingAssembly();
+                _pathsToPluginNumber = pathsToPluginNumber;
+                _defaultPlugin = defaultPlugin ?? typeof(TestPlugin);
+            }
+
+            public Assembly LoadFile(string path)
+            {
+                _assemblyLoaded = path;
+                return _assembly;
+            }
+
+            public Type[] GetExportedTypes(Assembly assembly)
+            {
+                if (_pathsToPluginNumber == null || !_pathsToPluginNumber.ContainsKey(_assemblyLoaded))
+                {
+                    return new[] { _defaultPlugin };
+                }
+
+                switch (_pathsToPluginNumber[_assemblyLoaded])
+                {
+                    case 0:
+                        return new[] { _defaultPlugin };
+                    case 1:
+                        return new[] { typeof(TestPlugin2) };
+                    case 2:
+                        return new[] { typeof(TestPlugin3) };
+                    default:
+                        return new[] { typeof(TestPlugin4) };
+                }
             }
         }
     }
