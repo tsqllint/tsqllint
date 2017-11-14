@@ -61,7 +61,7 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
         public void RuleExceptionFinderUnitTests(string testFileName, List<IRuleException> expectedResult)
         {
             // arrange
-            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"..\..\UnitTests\Parser\RuleExceptionFinder\TestFiles\{testFileName}.sql"));
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"..\..\..\UnitTests\Parser\RuleExceptionFinder\TestFiles\{testFileName}.sql"));
             var fileStream = File.OpenRead(path);
             
             var ruleExceptionFinder = new Lib.Parser.RuleExceptions.RuleExceptionFinder();
