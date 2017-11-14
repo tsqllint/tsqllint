@@ -17,7 +17,7 @@ namespace TSQLLint.Tests.IntegrationTests
     {
         protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
-        protected static string UsageString => new CommandLineOptions(null).GetUsage();
+        protected static string UsageString => new CommandLineOptions(new string[]{}).GetUsage();
         
         protected static string TSqllVersion
         {

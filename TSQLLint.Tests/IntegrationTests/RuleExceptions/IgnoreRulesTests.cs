@@ -9,8 +9,6 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
 {
     public class IgnoreRulesTests : IntegrationBaseTest
     {
-        private static readonly string testDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"\IntegrationTests\RuleExceptions\TestFiles");
-
         protected static readonly IEnumerable<RuleViolation> IntegrationTestTwoRuleViolations = new List<RuleViolation>
         {
             new RuleViolation(Path.Combine(TestFileDirectory, @"integration-test-two.sql"), "select-star", "text", 12, 8, RuleViolationSeverity.Error)
@@ -30,17 +28,18 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
         {
             get
             {
-                yield return new TestCaseData(new List<string> { Path.Combine(testDirectory, @"integration-test-two.sql") }, string.Empty, IntegrationTestTwoRuleViolations, 1).SetName("Ignore one select star rule enforce another");
-                yield return new TestCaseData(new List<string> { Path.Combine(testDirectory, @"global-disable.sql") }, string.Empty, new List<RuleViolation>(), 1).SetName("Globally disable rule varnings");
-                yield return new TestCaseData(new List<string> { Path.Combine(testDirectory, @"global-enable-without-disbling.sql") }, string.Empty, GlobalEnableWithoutDisableRuleViolations, 1).SetName("Globally enable without disabling first");
-                yield return new TestCaseData(new List<string> { Path.Combine(testDirectory, @"enable-without-disbling.sql") }, string.Empty, EnableWithoutDisableRuleViolations, 1).SetName("Globally enable without disabling first");
+                yield return new TestCaseData(@"integration-test-two.sql", string.Empty, IntegrationTestTwoRuleViolations, 1).SetName("Ignore one select star rule enforce another");
+                yield return new TestCaseData(@"global-disable.sql", string.Empty, new List<RuleViolation>(), 1).SetName("Globally disable rule varnings");
+                yield return new TestCaseData(@"global-enable-without-disbling.sql", string.Empty, GlobalEnableWithoutDisableRuleViolations, 1).SetName("Globally enable without disabling first");
+                yield return new TestCaseData(@"enable-without-disbling.sql", string.Empty, EnableWithoutDisableRuleViolations, 1).SetName("Globally enable without disabling first");
             }
         }
 
         [TestCaseSource(nameof(ExistingConfigTestCases))]
-        public void RunExistingConfigTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
+        public void RunExistingConfigTest(string testFile, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
-            PerformApplicationTest(argumentsUnderTest, expectedMessage, expectedRuleViolations, expectedFileCount);
+            testFile = $@"{TestContext.CurrentContext.TestDirectory}\IntegrationTests\RuleExceptions\TestFiles\{testFile}";
+            PerformApplicationTest(new List<string>{ testFile }, expectedMessage, expectedRuleViolations, expectedFileCount);
         }
     }
 }

@@ -1,18 +1,21 @@
 language: csharp
+sudo: false
 dist: trusty
-sudo: required
 env:
   global:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
     - DOTNET_CLI_TELEMETRY_OPTOUT: 1
 mono: none
+os:
+  - osx
+osx_image: xcode8.1
+addons:
+  apt:
+    packages:
+      - libunwind8
 dotnet: 2.0.0
 install:
 - dotnet restore
 script:
 - dotnet build
-- dotnet test
-addons:
-  apt:
-    packages:
-      - libunwind8
+- dotnet test 
