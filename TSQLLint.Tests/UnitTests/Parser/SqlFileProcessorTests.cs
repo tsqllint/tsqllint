@@ -21,9 +21,9 @@ namespace TSQLLint.Tests.UnitTests.Parser
         {
             OperatingSystem os = Environment.OSVersion;
             PlatformID pid = os.Platform;
-            if (pid == PlatformID.MacOSX)
+            if (pid == PlatformID.MacOSX || pid == PlatformID.Unix)
             {
-                Assert.Ignore("Tests ignored on osx until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
+                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
             }
         }
         
