@@ -32,7 +32,7 @@ namespace TSQLLint.Tests.Helpers
                 EnableRaisingEvents = true,
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = @"c:/Program Files/dotnet/dotnet.exe",
+                    FileName = "dotnet",
                     Arguments = $"{ApplicationPath} {arguments}",
                     UseShellExecute = false,
                     RedirectStandardError = true,

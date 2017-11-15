@@ -21,15 +21,9 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"-foo", 1)]
         public void NoLintingExitCodeTest(string arguments, int expectedExitCode)
         {
-            void OutputHandler(object sender, DataReceivedEventArgs args)
-            {
-                System.Console.WriteLine(args);
-            }
+            void OutputHandler(object sender, DataReceivedEventArgs args) { }
 
-            void ErrorHandler(object sender, DataReceivedEventArgs args)
-            {
-                System.Console.WriteLine(args);
-            }
+            void ErrorHandler(object sender, DataReceivedEventArgs args) { }
 
             void ExitHandler(object sender, EventArgs args)
             {
@@ -56,9 +50,7 @@ namespace TSQLLint.Tests.FunctionalTests
                 }
             }
 
-            void ErrorHandler(object sender, DataReceivedEventArgs args)
-            {
-            }
+            void ErrorHandler(object sender, DataReceivedEventArgs args) { }
 
             void ExitHandler(object sender, EventArgs args)
             {

@@ -13,6 +13,17 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
     public class PluginHandlerTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            OperatingSystem os = Environment.OSVersion;
+            PlatformID pid = os.Platform;
+            if (pid == PlatformID.MacOSX || pid == PlatformID.Unix)
+            {
+                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
+            }
+        }
+        
         [Test]
         public void LoadPlugins_ShouldLoadPluginsFromPathAndFile()
         {
