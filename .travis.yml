@@ -1,21 +1,18 @@
 language: csharp
-sudo: false
+sudo: required
 dist: trusty
-env:
-  global:
-    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-    - DOTNET_CLI_TELEMETRY_OPTOUT: 1
 mono: none
 os:
   - osx
-osx_image: xcode8.1
+  - linux
+solution: TSQLLint.sln
 addons:
   apt:
     packages:
       - libunwind8
 dotnet: 2.0.0
 install:
-- dotnet restore
+  - 'dotnet restore'
 script:
-- dotnet build
-- dotnet test 
+  - 'dotnet build'
+  - 'dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj'
