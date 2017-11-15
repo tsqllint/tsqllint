@@ -13,13 +13,22 @@ namespace TSQLLint.Tests.UnitTests.CommadLineOptions.CommandLineOptionHandlingSt
     [TestFixture]
     public class CreateConfigFileStrategyTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
+            }
+        }
+
         [Test]
         public void HandleCommandLineOptions_ConfigFileExistsNoForceParam_ShouldReportError()
         {
             // arrange
             var mockReporter = Substitute.For<IBaseReporter>();
             mockReporter.Report(Arg.Any<string>());
-            
+
             var mockConfigFileGenerator = Substitute.For<IConfigFileGenerator>();
 
             var mockCommandLineOptions = Substitute.For<ICommandLineOptions>();
@@ -28,7 +37,7 @@ namespace TSQLLint.Tests.UnitTests.CommadLineOptions.CommandLineOptionHandlingSt
             var mockFileSystem = new MockFileSystem();
             var configFilePath = mockFileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
             mockFileSystem.AddFile(configFilePath, new MockFileData(string.Empty));
-            
+
             var testCreateConfigFileStrategy = new CreateConfigFileStrategy(mockReporter, mockConfigFileGenerator, mockFileSystem);
 
             // act

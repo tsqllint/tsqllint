@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -9,10 +10,20 @@ using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Tests.UnitTests.Config
 {
+    [TestFixture]
     public class ConfigFileGeneratorTests
     {
         private const string mockDirectory = @"c:\";
-        
+
+        [SetUp]
+        public void Setup()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
+            }
+        }
+
         [Test]
         public void WriteConfigFile_FileDoesntExist_ShouldCreateFile()
         {
@@ -21,7 +32,7 @@ namespace TSQLLint.Tests.UnitTests.Config
             var fileSystem = new MockFileSystem();
             fileSystem.AddDirectory(mockDirectory);
             var configFileGenerator = new ConfigFileGenerator(fileSystem);
-            
+
             // act
             configFileGenerator.WriteConfigFile(testFile);
 
@@ -91,7 +102,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                     return false;
                 }
             }
-            
+
             return false;
         }
     }
