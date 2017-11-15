@@ -19,14 +19,12 @@ namespace TSQLLint.Tests.UnitTests.Parser
         [SetUp]
         public void Setup()
         {
-            OperatingSystem os = Environment.OSVersion;
-            PlatformID pid = os.Platform;
-            if (pid == PlatformID.MacOSX || pid == PlatformID.Unix)
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
             {
                 Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
             }
         }
-        
+
         [Test]
         public void ProcessPath_SingleFile_ShouldProcessFile()
         {
