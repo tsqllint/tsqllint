@@ -1,52 +1,9 @@
-version: '{build}'  
-pull_requests:  
-  do_not_increment_build_number: true
-environment:  
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
-install:  
-  # Download .NET Core 2.0 Preview 2 SDK and add to PATH
-  - ps: $urlCurrent = "https://download.microsoft.com/download/F/A/A/FAAE9280-F410-458E-8819-279C5A68EDCF/dotnet-sdk-2.0.0-preview2-006497-win-x64.zip"
-  - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetsdk"
-  - ps: mkdir $env:DOTNET_INSTALL_DIR -Force | Out-Null
-  - ps: $tempFileCurrent = [System.IO.Path]::GetTempFileName()
-  - ps: (New-Object System.Net.WebClient).DownloadFile($urlCurrent, $tempFileCurrent)
-  - ps: Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory($tempFileCurrent, $env:DOTNET_INSTALL_DIR)
-  - ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"  
-branches:  
-  only:
-  - master
-clone_depth: 1  
-#nuget:  
-#  disable_publish_on_pr: true
-#build_script:  
-#- ps: .\Build.ps1
-#test: off  
-#artifacts:  
-#- path: .\artifacts\**\*.nupkg
-#  name: NuGet
-#deploy:  
-#- provider: NuGet
-#  server: https://www.myget.org/F/andrewlock-ci/api/v2/package
-#  api_key:
-#    secure: xxxxxx
-#  skip_symbols: true
-#  on:
-#    branch: master
-#- provider: NuGet
-#  name: production
-#  api_key:
-#    secure: xxxxxx
-#  on:
-#    branch: master
-#    appveyor_repo_tag: true
-
 #---------------------------------#
 #      general configuration      #
 #---------------------------------#
 
 # Maximum number of concurrent jobs for the project
-#max_jobs: 2
+max_jobs: 2
 
 #---------------------------------#
 #    environment configuration    #
@@ -56,7 +13,7 @@ environment:
   nodejs_version: "6"
 
 # Build worker image (VM template)
-#image: Visual Studio 2017
+image: Visual Studio 2017
 
 # scripts that are called at very beginning, before repo cloning
 init:
@@ -72,17 +29,26 @@ clone_depth: 5                      # clone entire repository history if not def
 #       build configuration       #
 #---------------------------------#
 
-#artifacts:
-#  - path: 'tsqllint*.tgz'
-#
-#before_build:
-#  - nuget restore
-#
-#build_script:
-#  - ./scripts/build.cmd
-#
-#after_test:
-#  - ./scripts/cover.cmd
-#
-#after_build:
-#  - cmd: npm pack
+before_build:
+- appveyor-retry dotnet restore -v Minimal
+
+build_script:
+  - dotnet build
+
+test_script:
+  - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
+
+# artifacts:
+#   - path: 'tsqllint*.tgz'
+
+# before_build:
+#   - nuget restore
+
+# build_script:
+#   - ./scripts/build.cmd
+
+# after_test:
+#   - ./scripts/cover.cmd
+
+# after_build:
+#   - cmd: npm pack
