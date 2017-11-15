@@ -1,4 +1,4 @@
-﻿using TSQLLint.Common;
+using TSQLLint.Common;
 
 namespace TSQLLint.Lib.Rules.RuleViolations
 {

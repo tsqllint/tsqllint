@@ -29,17 +29,17 @@ clone_depth: 5                      # clone entire repository history if not def
 #       build configuration       #
 #---------------------------------#
 
-artifacts:
-  - path: 'tsqllint*.tgz'
-
 before_build:
-  - nuget restore
+- appveyor-retry dotnet restore -v Minimal
 
 build_script:
-  - ./scripts/build.cmd
+  - dotnet build
 
-after_test:
-  - ./scripts/cover.cmd
+test_script:
+  - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
 
 after_build:
   - cmd: npm pack
+
+artifacts:
+  - path: 'tsqllint*.tgz'

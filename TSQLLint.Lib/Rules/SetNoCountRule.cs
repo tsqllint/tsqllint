@@ -1,6 +1,6 @@
 using System;
-using TSQLLint.Lib.Rules.Interface;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using TSQLLint.Lib.Rules.Interface;
 
 namespace TSQLLint.Lib.Rules
 {

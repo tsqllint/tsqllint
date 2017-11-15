@@ -6,14 +6,11 @@ using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Console
 {
-    internal class Program
+    public class Program
     {
         [ExcludeFromCodeCoverage]
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            Trace.Listeners.Add(new Log4netTraceListener(logger, new BooleanSwitch("Logging", "Entire application").Enabled));
-            
             var application = new Application(args, new ConsoleReporter());
             
             try

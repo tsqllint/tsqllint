@@ -17,9 +17,9 @@ namespace TSQLLint.Tests.Helpers
                 {
                     return _ApplicationPath;
                 }
-                
-                var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
-                _ApplicationPath = $@"{workingDirectory}\TSQLLint.Console.exe";
+
+                var workingDirectory = Path.Combine(TestContext.CurrentContext.WorkDirectory);
+                _ApplicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint.Console")}/TSQLLint.Console.dll";
 
                 return _ApplicationPath;
             }
@@ -32,8 +32,8 @@ namespace TSQLLint.Tests.Helpers
                 EnableRaisingEvents = true,
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = ApplicationPath,
-                    Arguments = arguments,
+                    FileName = "dotnet",
+                    Arguments = $"{ApplicationPath} {arguments}",
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,

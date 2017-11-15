@@ -13,6 +13,15 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
     public class PluginHandlerTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
+            }
+        }
+
         [Test]
         public void LoadPlugins_ShouldLoadPluginsFromPathAndFile()
         {
@@ -97,7 +106,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 currentDirectory.FullName);
 
             var assemblyWrapper = new TestAssemblyWrapper();
- 
+
             var reporter = Substitute.For<IReporter>();
 
             var pluginPaths = new Dictionary<string, string>
@@ -225,8 +234,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
             Assert.DoesNotThrow(() => pluginHandler.ActivatePlugins(context));
 
-            reporter.Received().ReportViolation(Arg.Is<IRuleViolation>(x => 
-                x.FileName == context.FilePath 
+            reporter.Received().ReportViolation(Arg.Is<IRuleViolation>(x =>
+                x.FileName == context.FilePath
                 && x.RuleName == "prefer-tabs"
                 && x.Text == "Should use spaces rather than tabs"
                 && x.Line == 1
@@ -248,7 +257,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var assemblyWrapper = new TestAssemblyWrapper(defaultPlugin: typeof(TestPluginThrowsException));
 
-            var pluginPaths = new Dictionary<string, string>    
+            var pluginPaths = new Dictionary<string, string>
             {
                 {
                     "my-plugin", filePath1

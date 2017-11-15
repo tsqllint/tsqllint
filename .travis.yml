@@ -1,0 +1,19 @@
+language: csharp
+sudo: required
+dist: trusty
+mono: none
+os:
+  - osx
+  - linux
+osx_image: xcode9.1
+solution: TSQLLint.sln
+addons:
+  apt:
+    packages:
+      - libunwind8
+dotnet: 2.0.0
+install:
+  - 'dotnet restore'
+script:
+  - 'dotnet build'
+  - 'dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj'

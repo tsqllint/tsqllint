@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using TSQLLint.Lib.Rules;
 
 namespace TSQLLint.Lib.Parser
 {
@@ -13,27 +14,27 @@ namespace TSQLLint.Lib.Parser
         // a list of all classes that implement ISqlRule
         public static readonly List<Type> List = new List<Type>
         {
-            typeof(TSQLLint.Lib.Rules.ConditionalBeginEndRule),
-            typeof(TSQLLint.Lib.Rules.CrossDatabaseRule),
-            typeof(TSQLLint.Lib.Rules.DataCompressionOptionRule),
-            typeof(TSQLLint.Lib.Rules.DataTypeLengthRule),
-            typeof(TSQLLint.Lib.Rules.DisallowCursorRule),
-            typeof(TSQLLint.Lib.Rules.InformationSchemaRule),
-            typeof(TSQLLint.Lib.Rules.KeywordCapitalizationRule),
-            typeof(TSQLLint.Lib.Rules.LinkedServerRule),
-            typeof(TSQLLint.Lib.Rules.MultiTableAliasRule),
-            typeof(TSQLLint.Lib.Rules.NonSargableRule),
-            typeof(TSQLLint.Lib.Rules.ObjectPropertyRule),
-            typeof(TSQLLint.Lib.Rules.PrintStatementRule),
-            typeof(TSQLLint.Lib.Rules.SchemaQualifyRule),
-            typeof(TSQLLint.Lib.Rules.SelectStarRule),
-            typeof(TSQLLint.Lib.Rules.SemicolonTerminationRule),
-            typeof(TSQLLint.Lib.Rules.SetAnsiNullsRule),
-            typeof(TSQLLint.Lib.Rules.SetNoCountRule),
-            typeof(TSQLLint.Lib.Rules.SetQuotedIdentifierRule),
-            typeof(TSQLLint.Lib.Rules.SetTransactionIsolationLevelRule),
-            typeof(TSQLLint.Lib.Rules.SetVariableRule),
-            typeof(TSQLLint.Lib.Rules.UpperLowerRule),
+            typeof(ConditionalBeginEndRule),
+            typeof(CrossDatabaseRule),
+            typeof(DataCompressionOptionRule),
+            typeof(DataTypeLengthRule),
+            typeof(DisallowCursorRule),
+            typeof(InformationSchemaRule),
+            typeof(KeywordCapitalizationRule),
+            typeof(LinkedServerRule),
+            typeof(MultiTableAliasRule),
+            typeof(NonSargableRule),
+            typeof(ObjectPropertyRule),
+            typeof(PrintStatementRule),
+            typeof(SchemaQualifyRule),
+            typeof(SelectStarRule),
+            typeof(SemicolonTerminationRule),
+            typeof(SetAnsiNullsRule),
+            typeof(SetNoCountRule),
+            typeof(SetQuotedIdentifierRule),
+            typeof(SetTransactionIsolationLevelRule),
+            typeof(SetVariableRule),
+            typeof(UpperLowerRule),
         };
     }
 }

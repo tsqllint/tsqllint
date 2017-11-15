@@ -27,7 +27,7 @@ namespace TSQLLint.Console
         {
             _timer = new ConsoleTimer();
             _timer.Start();
-            
+
             _reporter = reporter;
             _commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
             _configReader = new ConfigReader(reporter);

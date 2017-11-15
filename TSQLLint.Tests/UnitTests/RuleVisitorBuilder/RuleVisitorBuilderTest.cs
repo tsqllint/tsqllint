@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
@@ -11,11 +12,20 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
     [TestFixture]
     public class RuleVisitorBuilderTest
     {
+        [SetUp]
+        public void Setup()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
+            }
+        }
+
         [Test]
         public void GetRuleSeverity()
         {
             var configFilePath = @"c:\.tsqllintrc";
-            
+
             var jsonConfig = @"{
                 'rules': {
                     'select-star': 'warning',

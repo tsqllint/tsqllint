@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Common;
 using TSQLLint.Lib.Rules.Interface;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLint.Lib.Rules
 {

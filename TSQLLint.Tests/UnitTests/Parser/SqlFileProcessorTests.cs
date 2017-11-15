@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
@@ -15,6 +16,15 @@ namespace TSQLLint.Tests.UnitTests.Parser
     [TestFixture]
     public class SqlFileProcessorTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
+            }
+        }
+
         [Test]
         public void ProcessPath_SingleFile_ShouldProcessFile()
         {
