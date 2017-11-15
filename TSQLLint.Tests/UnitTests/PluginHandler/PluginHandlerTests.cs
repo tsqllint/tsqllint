@@ -17,12 +17,12 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void LoadPlugins_ShouldLoadPluginsFromPathAndFile()
         {
             // arrange
-            const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
-            const string filePath2 = @"c:\pluginDirectory\plugin_two.dll";
-            const string filePath3 = @"c:\pluginDirectory\plugin_three.dll";
-            const string filePath4 = @"c:\pluginDirectory\foo.txt";
-            const string filePath5 = @"c:\pluginDirectory\subDirectory\bar.txt";
-            const string filePath6 = @"c:\pluginDirectory\subDirectory\plugin_four.dll";
+            const string filePath1 = @"c:/pluginDirectory/plugin_one.dll";
+            const string filePath2 = @"c:/pluginDirectory/plugin_two.dll";
+            const string filePath3 = @"c:/pluginDirectory/plugin_three.dll";
+            const string filePath4 = @"c:/pluginDirectory/foo.txt";
+            const string filePath5 = @"c:/pluginDirectory/subDirectory/bar.txt";
+            const string filePath6 = @"c:/pluginDirectory/subDirectory/plugin_four.dll";
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -48,10 +48,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var assemblyWrapper = new TestAssemblyWrapper(new Dictionary<string, int>
             {
-                { @"c:\pluginDirectory\plugin_one.dll", 0 },
-                { @"c:\pluginDirectory\plugin_two.dll", 1 },
-                { @"c:\pluginDirectory\plugin_three.dll", 2 },
-                { @"c:\pluginDirectory\subDirectory\plugin_four.dll", 3 }
+                { @"c:/pluginDirectory/plugin_one.dll", 0 },
+                { @"c:/pluginDirectory/plugin_two.dll", 1 },
+                { @"c:/pluginDirectory/plugin_three.dll", 2 },
+                { @"c:/pluginDirectory/subDirectory/plugin_four.dll", 3 }
             });
 
             var reporter = Substitute.For<IReporter>();
@@ -59,7 +59,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var pluginPaths = new Dictionary<string, string>
             {
                 {
-                    "my-first-plugin", @"c:\pluginDirectory\"
+                    "my-first-plugin", @"c:/pluginDirectory/"
                 },
                 {
                     "my-second-plugin", filePath6
@@ -103,7 +103,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var pluginPaths = new Dictionary<string, string>
             {
                 {
-                    "my-second-plugin", @"..\plugin_one.dll"
+                    "my-second-plugin", @"../plugin_one.dll"
                 }
             };
 
@@ -156,7 +156,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void LoadPlugins_ThrowErrors_When_Same_Type_Is_Loaded_More_Than_Once()
         {
             // arrange
-            const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
+            const string filePath1 = @"c:/pluginDirectory/plugin_one.dll";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -172,10 +172,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                     "my-plugin", filePath1
                 },
                 {
-                    "my-plugin-directories", @"c:\pluginDirectory"
+                    "my-plugin-directories", @"c:/pluginDirectory"
                 },
                 {
-                    "my-plugin-invalid-path", @"c:\doesnt-exist"
+                    "my-plugin-invalid-path", @"c:/doesnt-exist"
                 }
             };
 
@@ -196,7 +196,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void ActivatePlugins_PluginRuleViolations_ShouldCallReporter()
         {
             // arrange
-            const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
+            const string filePath1 = @"c:/pluginDirectory/plugin_one.dll";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -215,7 +215,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var reporter = Substitute.For<IReporter>();
             var textReader = Lib.Utility.ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
-            var context = new PluginContext(@"c:\scripts\foo.sql", textReader);
+            var context = new PluginContext(@"c:/scripts/foo.sql", textReader);
 
             // act
             var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
@@ -238,7 +238,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void ActivatePlugins_ThrowErrors_ShouldCatch_ShouldReport()
         {
             // arrange
-            const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
+            const string filePath1 = @"c:/pluginDirectory/plugin_one.dll";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -254,10 +254,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                     "my-plugin", filePath1
                 },
                 {
-                    "my-plugin-directories", @"c:\pluginDirectory"
+                    "my-plugin-directories", @"c:/pluginDirectory"
                 },
                 {
-                    "my-plugin-invalid-path", @"c:\doesnt-exist"
+                    "my-plugin-invalid-path", @"c:/doesnt-exist"
                 }
             };
 
