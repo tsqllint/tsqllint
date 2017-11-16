@@ -38,8 +38,11 @@ build_script:
 test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
 
+after_test:
+  - cmd: ./scripts/cover.cmd
+
 after_build:
   - cmd: npm pack
 
 artifacts:
-  - path: 'tsqllint*.tgz'
+  - path: tsqllint*.tgz

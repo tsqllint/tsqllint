@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,7 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.174" />
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="2.1.0.174" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta6" />
   </ItemGroup>
 
   <ItemGroup>
