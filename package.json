@@ -14,19 +14,11 @@
   },
   "repository": "tsqllint/tsqllint",
   "files": [
-    "scripts/install/install.js",
-    "scripts/install/install-dependencies.cmd",
-    "scripts/install/install-dependencies.ps1",
-    "scripts/install/tsqllint",
-    "TSQLLint.Console.exe",
-    "TSQLLint.Console.exe.config",
-    "log4net.config"
+    "TSQLLint.Console/bin/Release"
   ],
-  "bin": {
-    "tsqllint": "TSQLLint.Console.exe"
-  },
   "os": [
-    "win32"
+    "win32",
+    "darwin"
   ],
   "author": "Nathan Boyd & Doug Wilson",
   "license": "MIT"
