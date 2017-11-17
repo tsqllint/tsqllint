@@ -272,3 +272,9 @@ npm-debug.log*
 
 # ignore tsqllintrc in root or scripts directories
 scripts/.tsqllintrc
+
+# ignore tsqllint packages
+tsqllint-*.tgz
+
+#ignore published lib directory
+lib

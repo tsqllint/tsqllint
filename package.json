@@ -9,24 +9,15 @@
   "engines": {
     "node": ">=4"
   },
-  "scripts": {
-    "postinstall": "node scripts/install/install.js"
-  },
   "repository": "tsqllint/tsqllint",
   "files": [
-    "scripts/install/install.js",
-    "scripts/install/install-dependencies.cmd",
-    "scripts/install/install-dependencies.ps1",
-    "scripts/install/tsqllint",
-    "TSQLLint.Console.exe",
-    "TSQLLint.Console.exe.config",
-    "log4net.config"
+    "lib",
+    "tsqllint.js"
   ],
-  "bin": {
-    "tsqllint": "TSQLLint.Console.exe"
-  },
+  "bin" : "./tsqllint.js",
   "os": [
-    "win32"
+    "win32",
+    "darwin"
   ],
   "author": "Nathan Boyd & Doug Wilson",
   "license": "MIT"

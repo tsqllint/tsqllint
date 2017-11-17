@@ -33,16 +33,18 @@ before_build:
 - appveyor-retry dotnet restore -v Minimal
 
 build_script:
-  - dotnet build
+  - dotnet build TSQLLint.Console/TSQLLint.Console.csproj -c Release
+
+after_build:
+  - cmd: dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f net452 -o ../lib/net452
+  - cmd: dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp2.0 -o ../lib/netcoreapp2.0
+  - cmd: npm pack
 
 test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
 
 after_test:
   - cmd: ./scripts/cover.cmd
-
-after_build:
-  - cmd: npm pack
 
 artifacts:
   - path: tsqllint*.tgz
