@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <Version>1.6.0</Version>
     <StartupObject>TSQLLint.Console.Program</StartupObject>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
