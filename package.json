@@ -11,7 +11,7 @@
   },
   "repository": "tsqllint/tsqllint",
   "files": [
-    "TSQLLint.Console/bin/Release",
+    "lib",
     "tsqllint.js"
   ],
   "bin" : "./tsqllint.js",

@@ -275,3 +275,6 @@ scripts/.tsqllintrc
 
 # ignore tsqllint packages
 tsqllint-*.tgz
+
+#ignore published lib directory
+lib

@@ -5,10 +5,10 @@ var os = require('os');
 var args = process.argv.slice(2);
 
 if (os.type() === 'Linux' || os.type() === 'Darwin') {
-  var cmd = `dotnet ${__dirname}/TSQLLint.Console/bin/Release/netcoreapp2.0/publish/TSQLLint.Console.dll ${args.join(' ')}`
+  var cmd = `dotnet ${__dirname}/lib/netcoreapp2.0/TSQLLint.Console.dll ${args.join(' ')}`
 }
 else if (os.type() === 'Windows_NT') {
-   var cmd = `${__dirname}/TSQLLint.Console/bin/Release/net452/publish/TSQLLint.Console.exe ${args.join(' ')}`
+   var cmd = `${__dirname}/lib/net452/TSQLLint.Console.exe ${args.join(' ')}`
 }
 else {
   throw new Error(`Invalid Platform: ${os.type()}`)
@@ -17,9 +17,9 @@ else {
 var child = exec(cmd);
 
 child.stdout.on('data', function(data) {
-  console.log(data);
+  process.stdout.write(data);
 });
 
 child.stderr.on('data', function(data) {
-  console.log(data);
+  process.stdout.write(data);
 });
