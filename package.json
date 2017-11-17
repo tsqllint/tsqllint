@@ -9,13 +9,12 @@
   "engines": {
     "node": ">=4"
   },
-  "scripts": {
-    "postinstall": "node scripts/install/install.js"
-  },
   "repository": "tsqllint/tsqllint",
   "files": [
-    "TSQLLint.Console/bin/Release"
+    "TSQLLint.Console/bin/Release",
+    "tsqllint.js"
   ],
+  "bin" : "./tsqllint.js",
   "os": [
     "win32",
     "darwin"
