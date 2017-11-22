@@ -12,11 +12,11 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
     {
         private static readonly string InvalidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc-foo");
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
-        private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory\integration-test-two.sql");
+        private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory/integration-test-two.sql");
         private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
 
         private static readonly string ConfigNotFoundMessage = $"Config file not found at: {InvalidConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite";
-        private static readonly string ConfigFoundMessage = $"Config file found at: {Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\\.tsqllintrc";
+        private static readonly string ConfigFoundMessage = $"Config file found at: {Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.tsqllintrc";
         private static readonly string NoPluginsFound = "Did not find any plugins";
 
         private static List<RuleViolation> _allRuleViolations;
@@ -75,7 +75,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
 
                 // invalid linting targets
                 yield return new TestCaseData(new List<string> { @"invalid.sql" }, "invalid.sql is not a valid path.", new List<RuleViolation>(), 0).SetName("File Args Invalid File Does Not Exist");
-                yield return new TestCaseData(new List<string> { @"c:/invalid/foo*.sql" }, @"Directory does not exist: c:\invalid", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Directory Does Not Exist");
+                yield return new TestCaseData(new List<string> { @"c:/invalid/foo*.sql" }, @"Directory does not exist: c:/invalid", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Directory Does Not Exist");
                 yield return new TestCaseData(new List<string> { @"c:/invalid.sql" }, @"c:/invalid.sql is not a valid path.", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Path Does Not Exist");
 
                 // valid linting files and directories
@@ -85,15 +85,6 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
                 yield return new TestCaseData(new List<string> { TestFileTwo, TestFileOne }, null, MultiFileRuleViolations, 2).SetName("File Args Valid Lint Two Files, Changed Order");
                 yield return new TestCaseData(new List<string> { TestFileDirectory }, null, AllRuleViolations, 3).SetName("File Args Valid Lint Directory");
                 yield return new TestCaseData(new List<string> { TestFileInvalidSyntax }, null, TestFileInvalidSyntaxRuleViolations, 1).SetName("File Args Invalid due to Invalid Syntax");
-            }
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
-            {
-                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
             }
         }
 
