@@ -16,7 +16,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
         private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
 
         private static readonly string ConfigNotFoundMessage = $"Config file not found at: {InvalidConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite";
-        private static readonly string ConfigFoundMessage = $"Config file found at: {Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.tsqllintrc";
+        private static readonly string ConfigFoundMessage = $"Config file found at: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc")}";
         private static readonly string NoPluginsFound = "Did not find any plugins";
 
         private static List<RuleViolation> _allRuleViolations;
