@@ -91,11 +91,11 @@ namespace TSQLLint.Lib.Plugins
                 {
                     List.Add(type, (IPlugin)Activator.CreateInstance(type));
 
-                    _reporter.Report($"\nLoaded plugin '{type.FullName}'\n");
+                    _reporter.Report($"Loaded plugin '{type.FullName}'");
                 }
                 else
                 {
-                    _reporter.Report($"\nAlready loaded plugin with type '{type.FullName}'\n");
+                    _reporter.Report($"Already loaded plugin with type '{type.FullName}'");
                 }
             }
         }
