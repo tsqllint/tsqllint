@@ -19,6 +19,7 @@ namespace TSQLLint.Lib.Parser
             typeof(DataCompressionOptionRule),
             typeof(DataTypeLengthRule),
             typeof(DisallowCursorRule),
+            typeof(FullTextRule),
             typeof(InformationSchemaRule),
             typeof(KeywordCapitalizationRule),
             typeof(LinkedServerRule),

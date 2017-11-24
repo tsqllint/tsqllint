@@ -35,6 +35,7 @@ namespace TSQLLint.Lib.Parser
             { "set-nocount", typeof(SetNoCountRule) },
             { "set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule) },
             { "semicolon-termination", typeof(SemicolonTerminationRule) },
+            { "full-text", typeof(FullTextRule) }
         };
     }
 }
