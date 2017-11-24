@@ -71,6 +71,7 @@ Rules may be set to "off", "warning", or "error".
         "data-compression": "error",
         "data-type-length": "error",
         "disallow-cursors": "error",
+        "full-text", "error",
         "information-schema": "error",
         "keyword-capitalization": "error",
         "linked-server": "error",

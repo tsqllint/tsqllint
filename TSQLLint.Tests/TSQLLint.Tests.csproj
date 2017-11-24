@@ -150,6 +150,18 @@
     <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Rules\full-text\test-files\full-text-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\full-text\test-files\full-text-one-error-mixed-state.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\full-text\test-files\full-text-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\full-text\test-files\full-text-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UnitTests\Rules\information-schema\test-files\information-schema-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
