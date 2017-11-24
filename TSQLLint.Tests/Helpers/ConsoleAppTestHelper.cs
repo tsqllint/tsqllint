@@ -18,8 +18,13 @@ namespace TSQLLint.Tests.Helpers
                     return _ApplicationPath;
                 }
 
-                var workingDirectory = Path.Combine(TestContext.CurrentContext.WorkDirectory);
-                _ApplicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint.Console")}/TSQLLint.Console.dll";
+                var file = "TSQLLint.Console.exe";
+                #if NETCOREAPP2_0
+                file = "TSQLLint.Console.dll";
+                #endif
+
+                var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
+                _ApplicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint.Console")}/{file}";
 
                 return _ApplicationPath;
             }
@@ -27,13 +32,19 @@ namespace TSQLLint.Tests.Helpers
 
         public static Process GetProcess(string arguments, DataReceivedEventHandler OutputHandler, DataReceivedEventHandler ErrorHandler, EventHandler ExitHandler)
         {
+
             var process = new Process
             {
                 EnableRaisingEvents = true,
                 StartInfo = new ProcessStartInfo
                 {
+#if NET452
+                    FileName = ApplicationPath,
+                    Arguments = arguments,
+#elif NETCOREAPP2_0
                     FileName = "dotnet",
                     Arguments = $"{ApplicationPath} {arguments}",
+#endif
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,

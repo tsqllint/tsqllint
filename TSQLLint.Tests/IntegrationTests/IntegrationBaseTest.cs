@@ -17,7 +17,20 @@ namespace TSQLLint.Tests.IntegrationTests
     {
         protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
-        protected static string TestFileDirectory => Path.Combine(TestContext.CurrentContext.WorkDirectory, @"IntegrationTests/Configuration/TestFiles");
+        private static string TestFileBase
+        {
+            get
+            {
+                #if NET452
+                return TestContext.CurrentContext.TestDirectory;
+                #elif NETCOREAPP2_0
+                return TestContext.CurrentContext.WorkDirectory;
+                #endif
+            }
+        }
+
+        protected static string TestFileDirectory => Path.Combine(TestFileBase, @"IntegrationTests/Configuration/TestFiles");
+
 
         protected static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
