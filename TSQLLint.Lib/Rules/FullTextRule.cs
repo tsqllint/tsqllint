@@ -19,7 +19,7 @@ namespace TSQLLint.Lib.Rules
         }
 
         public override void Visit(FullTextPredicate node){
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.ScriptTokenStream[node.FirstTokenIndex].Column);
+            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
     }
 }
