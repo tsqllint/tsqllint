@@ -63,7 +63,7 @@ namespace TSQLLint.Lib.Rules
 
         private static bool IsExpressionToCheck(BooleanComparisonExpression node)
         {
-            return !(node.FirstExpression is ColumnReferenceExpression) || !(node.SecondExpression is ColumnReferenceExpression);
+            return !(node.FirstExpression is ColumnReferenceExpression) && !(node.SecondExpression is ColumnReferenceExpression);
         }
 
         private class ChildExpressionVisitor : TSqlFragmentVisitor

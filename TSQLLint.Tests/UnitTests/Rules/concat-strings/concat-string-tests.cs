@@ -59,6 +59,45 @@ namespace TSQLLint.Tests.UnitTests.Rules
                     new RuleViolation("concat-strings", 7, 18)
                 }
             },
+            // WHERE N'a' + N'b' = N'ab' mixed variations
+            new object[]
+            {
+                "concat-strings", "concat-strings-raw-where-error",  typeof(ConcatStringsRule), new List<RuleViolation>
+                {
+                    new RuleViolation("concat-strings", 3, 14),
+                    new RuleViolation("concat-strings", 7, 14),
+                    new RuleViolation("concat-strings", 10, 7),
+                    new RuleViolation("concat-strings", 13, 7),
+                    new RuleViolation("concat-strings", 16, 7),
+                    new RuleViolation("concat-strings", 19, 7),
+                    new RuleViolation("concat-strings", 22, 7),
+                    new RuleViolation("concat-strings", 25, 7),
+                    new RuleViolation("concat-strings", 28, 7),
+                    new RuleViolation("concat-strings", 28, 15),
+                    new RuleViolation("concat-strings", 31, 7),
+                    new RuleViolation("concat-strings", 31, 15),
+                    new RuleViolation("concat-strings", 34, 7),
+                    new RuleViolation("concat-strings", 37, 7),
+                    new RuleViolation("concat-strings", 37, 14),
+                    new RuleViolation("concat-strings", 40, 7),
+                    new RuleViolation("concat-strings", 40, 14),
+                    new RuleViolation("concat-strings", 43, 7),
+                    new RuleViolation("concat-strings", 46, 7),
+                    new RuleViolation("concat-strings", 46, 15),
+                    new RuleViolation("concat-strings", 49, 7),
+                    new RuleViolation("concat-strings", 49, 15),
+                    new RuleViolation("concat-strings", 52, 7) //TODO: more than one issue if comparison and concat have issues 
+                }
+            },
+            // JOIN c.name = N'a' + N'b'; mixed variations
+            new object[]
+            {
+                "concat-strings", "concat-strings-raw-join-error",  typeof(ConcatStringsRule), new List<RuleViolation>
+                {
+                    new RuleViolation("concat-strings", 5, 15),
+                    new RuleViolation("concat-strings", 11, 15)
+                }
+            },
         };
 
         [TestCaseSource(nameof(TestCases))]

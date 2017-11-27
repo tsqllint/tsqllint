@@ -18,6 +18,12 @@ SELECT 'Test'
 FROM sys.tables
 WHERE name = N'a' + N'b';
 
+SELECT col1
+WHERE N'a' + N'b' = N'ab';
+
+SELECT col1
+WHERE N'ab' = N'a' + N'b';
+
 SELECT 'Test'
 FROM sys.tables t
 	JOIN sys.columns c
@@ -25,9 +31,3 @@ FROM sys.tables t
 	AND c.name = N'a' + N'b';
 
 SELECT N'a' + N'b' col1, col2, N'c' + N'd' as col3;
-
-SELECT col1
-WHERE N'a' + N'b' = N'ab';
-
-SELECT col1
-WHERE N'ab' = N'a' + N'b';
