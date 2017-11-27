@@ -16,6 +16,8 @@ namespace TSQLLint.Lib.Rules
 
         private readonly List<TSqlFragment> ErrorsReported = new List<TSqlFragment>();
 
+        private bool _multiClauseQuery;
+
         public NonSargableRule(Action<string, string, int, int> errorCallback)
         {
             ErrorCallback = errorCallback;
@@ -32,29 +34,60 @@ namespace TSQLLint.Lib.Rules
             ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode));
         }
 
+        public override void Visit(TSqlStatement node)
+        {
+            _multiClauseQuery = false;
+        }
+
         public override void Visit(JoinTableReference node)
         {
-            var childVisitor = new ChildFunctionCallVisitor(ChildCallback);
+            var childBinaryExpressionVisitor = new ChildPredicateExpressionVisitor();
+            node.Accept(childBinaryExpressionVisitor);
+            _multiClauseQuery = childBinaryExpressionVisitor.PredicatesFound;
+            
+            var childVisitor = new ChildFunctionCallVisitor(ChildCallback, _multiClauseQuery);
             node.Accept(childVisitor);
         }
 
         public override void Visit(WhereClause node)
         {
-            var childVisitor = new ChildFunctionCallVisitor(ChildCallback);
+            var childBinaryExpressionVisitor = new ChildPredicateExpressionVisitor();
+            node.Accept(childBinaryExpressionVisitor);
+            _multiClauseQuery = childBinaryExpressionVisitor.PredicatesFound;
+
+            var childVisitor = new ChildFunctionCallVisitor(ChildCallback, _multiClauseQuery);
             node.Accept(childVisitor);
+        }
+
+        public class ChildPredicateExpressionVisitor : TSqlFragmentVisitor
+        {
+            public bool PredicatesFound { get; private set; }
+
+            public override void Visit(BooleanBinaryExpression node)
+            {
+                PredicatesFound = true;
+            }
         }
 
         public class ChildFunctionCallVisitor : TSqlFragmentVisitor
         {
+            private readonly bool _isMultiClause;
             private readonly Action<TSqlFragment> ChildCallback;
 
-            public ChildFunctionCallVisitor(Action<TSqlFragment> errorCallback)
+            public ChildFunctionCallVisitor(Action<TSqlFragment> errorCallback, bool isMultiClause)
             {
                 ChildCallback = errorCallback;
+                _isMultiClause = isMultiClause;
             }
 
             public override void Visit(FunctionCall node)
             {
+                // allow isnull predicates provided other filters exist
+                if (node.FunctionName.Value == "ISNULL" && _isMultiClause)
+                {
+                    return;
+                }
+
                 VisitChildren(node);
             }
 
@@ -90,7 +123,7 @@ namespace TSQLLint.Lib.Rules
             }
         }
 
-        public class ChildColumnReferenceVisitor : TSqlConcreteFragmentVisitor
+        public class ChildColumnReferenceVisitor : TSqlFragmentVisitor
         {
             public bool ColumnReferenceFound { get; private set; }
 

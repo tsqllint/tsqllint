@@ -16,9 +16,30 @@ namespace TSQLLint.Tests.UnitTests.Rules
             },
             new object[]
             {
-                "non-sargable", "non-sargable-one-error",  typeof(NonSargableRule), new List<RuleViolation>
+                "non-sargable", "non-sargable-one-error-where-clause",  typeof(NonSargableRule), new List<RuleViolation>
                 {
                     new RuleViolation("non-sargable", 1, 25)
+                }
+            },
+            new object[]
+            {
+                "non-sargable", "non-sargable-one-error-join-table",  typeof(NonSargableRule), new List<RuleViolation>
+                {
+                    new RuleViolation("non-sargable", 2, 19)
+                }
+            },
+            new object[]
+            {
+                "non-sargable", "non-sargable-isnull-one-clause-one-error",  typeof(NonSargableRule), new List<RuleViolation>
+                {
+                    new RuleViolation("non-sargable", 2, 7)
+                }
+            },
+            new object[]
+            {
+                "non-sargable", "non-sargable-isnull-multi-statement-one-error",  typeof(NonSargableRule), new List<RuleViolation>
+                {
+                    new RuleViolation("non-sargable", 6, 7)
                 }
             },
             new object[]
