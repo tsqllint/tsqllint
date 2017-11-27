@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,18 +46,22 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
         private static void FindIgnoredRules(ICollection<IRuleException> ruleExceptionList, int lineNumber, Match match)
         {
             var action = match.Groups[1].Value;
+
+            var disableCommand = string.Compare("tsqllint-disable", action, StringComparison.Ordinal) == 0;
+            var enableCommand = string.Compare("tsqllint-enable", action, StringComparison.Ordinal) == 0;
+
             var ruleExceptionDetails = match.Groups[2].Value.Split(' ').Select(p => p.Trim()).ToList();
             var matchedFriendlyNames = ruleExceptionDetails.Intersect(RuleVisitorFriendlyNameTypeMap.List.Select(friendly => friendly.Key)).ToList();
 
             if (!matchedFriendlyNames.Any())
             {
-                if (action == "tsqllint-disable")
+                if (disableCommand)
                 {
                     var ruleException = new GlobalRuleException(lineNumber, 0);
                     ruleExceptionList.Add(ruleException);
                 }
 
-                if (action == "tsqllint-enable")
+                if (enableCommand)
                 {
                     var ruleException = ruleExceptionList.OfType<GlobalRuleException>().FirstOrDefault(r => r.EndLine == 0);
                     ruleException?.SetEndLine(lineNumber);
@@ -67,13 +72,13 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
             {
                 RuleVisitorFriendlyNameTypeMap.List.TryGetValue(matchedFriendlyName, out var matchedType);
 
-                if (action == "tsqllint-disable")
+                if (disableCommand)
                 {
                     var ruleException = new RuleException(matchedType, lineNumber, 0);
                     ruleExceptionList.Add(ruleException);
                 }
 
-                if (action == "tsqllint-enable")
+                if (enableCommand)
                 {
                     var ruleException = ruleExceptionList.OfType<RuleException>().FirstOrDefault(r => r.EndLine == 0);
                     ruleException?.SetEndLine(lineNumber);
