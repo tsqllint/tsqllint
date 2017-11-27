@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Lib.Reporters;
-using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Console
 {

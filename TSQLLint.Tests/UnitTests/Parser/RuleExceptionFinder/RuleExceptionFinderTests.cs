@@ -7,6 +7,7 @@ using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Rules;
 using TSQLLint.Tests.Helpers;
+using TSQLLint.Tests.Helpers.ObjectComparers;
 
 namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
 {
