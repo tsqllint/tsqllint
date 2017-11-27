@@ -10,6 +10,7 @@ using TSQLLint.Console;
 using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Lib.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers;
+using TSQLLint.Tests.Helpers.ObjectComparers;
 
 namespace TSQLLint.Tests.IntegrationTests
 {
@@ -101,8 +102,10 @@ namespace TSQLLint.Tests.IntegrationTests
 
             // assert
             Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
-            reportedViolations = reportedViolations.OrderBy(o => o.Line).ToList();
             Assert.IsTrue(string.IsNullOrEmpty(expectedMessage) || reportedMessages.Contains(expectedMessage), $"Expected: '{expectedMessage}', Received: '{string.Join(" ", reportedMessages)}'");
+
+            reportedViolations = reportedViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
+            expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
             CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, _ruleViolationComparer);
         }
     }

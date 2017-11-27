@@ -6,7 +6,7 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NUnit.Framework;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Rules.RuleViolations;
-using TSQLLint.Tests.Helpers;
+using TSQLLint.Tests.Helpers.ObjectComparers;
 
 namespace TSQLLint.Tests.UnitTests.Rules
 {
