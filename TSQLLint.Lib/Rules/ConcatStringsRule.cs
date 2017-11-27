@@ -24,9 +24,16 @@ namespace TSQLLint.Lib.Rules
         {
             var sqlDataType = node.DataType.Name.BaseIdentifier.Value;
             var isNational = sqlDataType.Equals("nvarchar", StringComparison.OrdinalIgnoreCase);
-            if (isNational || sqlDataType.Equals("varchar", StringComparison.OrdinalIgnoreCase))
+            if (!isNational && !sqlDataType.Equals("varchar", StringComparison.OrdinalIgnoreCase)) return;
+
+            var name = node.VariableName.Value.ToLower();
+            if (!_stringVariables.ContainsKey(name))
             {
-                _stringVariables.Add(node.VariableName.Value.ToLower(), isNational);
+                _stringVariables.Add(name, isNational);
+            }
+            else
+            {
+                _stringVariables[name] = isNational;
             }
         }
 
@@ -56,7 +63,7 @@ namespace TSQLLint.Lib.Rules
                 return null;
             }
 
-            var childExpressionVisitor = new ChildExpressionVisitor(IsNationalStringVariable);
+            var childExpressionVisitor = new ChildExpressionVisitor(this, IsNationalStringVariable);
             node.AcceptChildren(childExpressionVisitor);
 
             if (childExpressionVisitor.Children.Count > 0 &&
@@ -77,22 +84,29 @@ namespace TSQLLint.Lib.Rules
             _errorNodes.Add(errorInfo);
         }
 
-        private static bool IsExpressionToCheck(BinaryExpression node)
+        private bool IsTypeToCheck(TSqlFragment fragment)
         {
-            return node.BinaryExpressionType == BinaryExpressionType.Add;
+            return fragment is StringLiteral || fragment is BinaryExpression || fragment is VariableReference varRef && _stringVariables.ContainsKey(varRef.Name.ToLower());
         }
 
-        private static bool IsExpressionToCheck(BooleanComparisonExpression node)
+        private bool IsExpressionToCheck(BinaryExpression node)
         {
-            return !(node.FirstExpression is ColumnReferenceExpression) && !(node.SecondExpression is ColumnReferenceExpression);
+            return node.BinaryExpressionType == BinaryExpressionType.Add && IsTypeToCheck(node.FirstExpression) && IsTypeToCheck(node.SecondExpression);
+        }
+
+        private bool IsExpressionToCheck(BooleanComparisonExpression node)
+        {
+            return IsTypeToCheck(node.FirstExpression) && IsTypeToCheck(node.SecondExpression);
         }
 
         private class ChildExpressionVisitor : TSqlFragmentVisitor
         {
+            private readonly ConcatStringsRule _parent;
             private readonly Func<VariableReference, bool?> _isNationalStringVariable;
 
-            public ChildExpressionVisitor(Func<VariableReference, bool?> isNationalStringVariable)
+            public ChildExpressionVisitor(ConcatStringsRule parent, Func<VariableReference, bool?> isNationalStringVariable)
             {
+                _parent = parent;
                 _isNationalStringVariable = isNationalStringVariable;
             }
 
@@ -100,28 +114,18 @@ namespace TSQLLint.Lib.Rules
 
             public override void Visit(BooleanComparisonExpression node)
             {
-                if (!IsExpressionToCheck(node)) return;
+                if (!_parent.IsExpressionToCheck(node)) return;
 
-                var firstExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
-                node.FirstExpression.AcceptChildren(firstExpressionVisitor);
-                Children.AddRange(firstExpressionVisitor.Children);
-
-                var secondExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
-                node.SecondExpression.AcceptChildren(secondExpressionVisitor);
-                Children.AddRange(secondExpressionVisitor.Children);
+                ProcessChildren(node.FirstExpression);
+                ProcessChildren(node.SecondExpression);
             }
 
             public override void Visit(BinaryExpression node)
             {
-                if (!IsExpressionToCheck(node)) return;
+                if (!_parent.IsExpressionToCheck(node)) return;
 
-                var firstExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
-                node.FirstExpression.AcceptChildren(firstExpressionVisitor);
-                Children.AddRange(firstExpressionVisitor.Children);
-
-                var secondExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
-                node.SecondExpression.AcceptChildren(secondExpressionVisitor);
-                Children.AddRange(secondExpressionVisitor.Children);
+                ProcessChildren(node.FirstExpression);
+                ProcessChildren(node.SecondExpression);
             }
 
             public override void Visit(VariableReference node)
@@ -136,6 +140,13 @@ namespace TSQLLint.Lib.Rules
             public override void Visit(StringLiteral node)
             {
                 Children.Add(new NodeInfo { IsNational = node.IsNational });
+            }
+
+            private void ProcessChildren(TSqlFragment expression)
+            {
+                var childExpressionVisitorVisitor = new ChildExpressionVisitor(_parent, _isNationalStringVariable);
+                expression.AcceptChildren(childExpressionVisitorVisitor);
+                Children.AddRange(childExpressionVisitorVisitor.Children);
             }
         }
 

@@ -30,6 +30,11 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "concat-strings", "concat-strings-variable-nvarchar-no-error",  typeof(ConcatStringsRule), new List<RuleViolation>()
             },
+            // non string addition allowed
+            new object[]
+            {
+                "concat-strings", "concat-strings-non-strings-no-error",  typeof(ConcatStringsRule), new List<RuleViolation>()
+            },
             // SELECT 'a' + 'b' mixed variations
             new object[]
             {
@@ -92,7 +97,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
                     new RuleViolation("concat-strings", 46, 15),
                     new RuleViolation("concat-strings", 49, 7),
                     new RuleViolation("concat-strings", 49, 15),
-                    new RuleViolation("concat-strings", 52, 7) //TODO: more than one issue if comparison and concat have issues 
+                    new RuleViolation("concat-strings", 52, 7)
                 }
             },
             // JOIN c.name = N'a' + N'b'; mixed variations
