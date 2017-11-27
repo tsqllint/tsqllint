@@ -117,9 +117,6 @@
     <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-concat-three-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\test.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-concat-two-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
