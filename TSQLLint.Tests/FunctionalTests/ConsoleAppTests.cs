@@ -58,8 +58,14 @@ namespace TSQLLint.Tests.FunctionalTests
                 Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
             }
 
-            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.WorkDirectory, $@"FunctionalTests/{testFile}"));
-            var configFilePath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.WorkDirectory, @"FunctionalTests/.tsqllintrc"));
+            var directory = TestContext.CurrentContext.TestDirectory;
+    
+            #if NETCOREAPP2_0
+            directory = TestContext.CurrentContext.WorkDirectory;
+            #endif
+
+            var path = Path.GetFullPath(Path.Combine(directory, $@"FunctionalTests/{testFile}"));
+            var configFilePath = Path.GetFullPath(Path.Combine(directory, @"FunctionalTests/.tsqllintrc"));
             
             var process = ConsoleAppTestHelper.GetProcess($"-c {configFilePath} {path}", OutputHandler, ErrorHandler, ExitHandler);
             ConsoleAppTestHelper.RunApplication(process);

@@ -17,12 +17,25 @@ namespace TSQLLint.Tests.IntegrationTests
     {
         protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
-        protected static string TestFileDirectory => Path.Combine(TestContext.CurrentContext.WorkDirectory, @"IntegrationTests/Configuration/TestFiles");
+        private static string TestFileBase
+        {
+            get
+            {
+                #if NET452
+                return TestContext.CurrentContext.TestDirectory;
+                #elif NETCOREAPP2_0
+                return TestContext.CurrentContext.WorkDirectory;
+                #endif
+            }
+        }
+
+        protected static string TestFileDirectory => Path.Combine(TestFileBase, @"IntegrationTests/Configuration/TestFiles");
+
 
         protected static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
         protected static string UsageString => new CommandLineOptions(new string[]{}).GetUsage();
-        
+
         protected static string TSqllVersion
         {
             get
@@ -54,7 +67,7 @@ namespace TSQLLint.Tests.IntegrationTests
             new RuleViolation("set-transaction-isolation-level", 1, 1),
             new RuleViolation("upper-lower", 59, 8)
         };
-        
+
         protected static readonly IEnumerable<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>
         {
             new RuleViolation(null, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error)
@@ -64,14 +77,14 @@ namespace TSQLLint.Tests.IntegrationTests
         {
             new RuleViolation("print-statement", 5, 1)
         };
-        
+
         private readonly RuleViolationComparer _ruleViolationComparer = new RuleViolationComparer();
 
         protected void PerformApplicationTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
             // arrange
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
-            
+
             var appArgs = argumentsUnderTest.ToArray();
             var mockReporter = Substitute.For<IReporter>();
 
@@ -89,7 +102,7 @@ namespace TSQLLint.Tests.IntegrationTests
             // assert
             Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
             reportedViolations = reportedViolations.OrderBy(o => o.Line).ToList();
-            Assert.IsTrue(string.IsNullOrEmpty(expectedMessage) || reportedMessages.Contains(expectedMessage));
+            Assert.IsTrue(string.IsNullOrEmpty(expectedMessage) || reportedMessages.Contains(expectedMessage), $"Expected: '{expectedMessage}', Received: '{string.Join(" ", reportedMessages)}'");
             CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, _ruleViolationComparer);
         }
     }

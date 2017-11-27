@@ -197,8 +197,8 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
             var type = typeof(TestPluginThrowsException);
-            reporter.Received().Report($"\nLoaded plugin '{type.FullName}'\n");
-            reporter.Received().Report($"\nAlready loaded plugin with type '{type.FullName}'\n");
+            reporter.Received().Report($"Loaded plugin '{type.FullName}'");
+            reporter.Received().Report($"Already loaded plugin with type '{type.FullName}'");
         }
 
         [Test]
