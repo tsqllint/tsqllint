@@ -14,6 +14,7 @@ namespace TSQLLint.Lib.Parser
         // a list of all classes that implement ISqlRule
         public static readonly List<Type> List = new List<Type>
         {
+            typeof(ConcatStringsRule),
             typeof(ConditionalBeginEndRule),
             typeof(CrossDatabaseRule),
             typeof(DataCompressionOptionRule),
@@ -34,7 +35,7 @@ namespace TSQLLint.Lib.Parser
             typeof(SetQuotedIdentifierRule),
             typeof(SetTransactionIsolationLevelRule),
             typeof(SetVariableRule),
-            typeof(UpperLowerRule),
+            typeof(UpperLowerRule)
         };
     }
 }
