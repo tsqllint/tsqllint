@@ -10,19 +10,25 @@ namespace TSQLLint.Tests.UnitTests.Rules
     {
         private static readonly object[] TestCases =
         {
-            //new object[]
-            //{
-            //    "concat-strings", "test",  typeof(ConcatStringsRule), new List<RuleViolation>()
-            //},
-            // varchar combinations allowed
+            // varchar string combinations allowed
             new object[]
             {
                 "concat-strings", "concat-strings-raw-varchar-no-error",  typeof(ConcatStringsRule), new List<RuleViolation>()
             },
-            // nvarchar combinations allowed
+            // varchar variable combinations allowed
+            new object[]
+            {
+                "concat-strings", "concat-strings-variable-varchar-no-error",  typeof(ConcatStringsRule), new List<RuleViolation>()
+            },
+            // nvarchar string combinations allowed
             new object[]
             {
                 "concat-strings", "concat-strings-raw-nvarchar-no-error",  typeof(ConcatStringsRule), new List<RuleViolation>()
+            },
+            // nvarchar variable combinations allowed
+            new object[]
+            {
+                "concat-strings", "concat-strings-variable-nvarchar-no-error",  typeof(ConcatStringsRule), new List<RuleViolation>()
             },
             // SELECT 'a' + 'b' mixed variations
             new object[]
@@ -98,6 +104,27 @@ namespace TSQLLint.Tests.UnitTests.Rules
                     new RuleViolation("concat-strings", 11, 15)
                 }
             },
+            // variable concatenation
+            new object[]
+            {
+                "concat-strings", "concat-strings-variable-error",  typeof(ConcatStringsRule), new List<RuleViolation>
+                {
+                    new RuleViolation("concat-strings", 4, 8),
+                    new RuleViolation("concat-strings", 5, 8),
+                    new RuleViolation("concat-strings", 7, 8),
+                    new RuleViolation("concat-strings", 8, 8),
+                    new RuleViolation("concat-strings", 10, 8),
+                    new RuleViolation("concat-strings", 11, 8),
+                    new RuleViolation("concat-strings", 13, 18),
+                    new RuleViolation("concat-strings", 15, 18),
+                    new RuleViolation("concat-strings", 19, 14),
+                    new RuleViolation("concat-strings", 23, 14),
+                    new RuleViolation("concat-strings", 26, 7),
+                    new RuleViolation("concat-strings", 29, 7),
+                    new RuleViolation("concat-strings", 35, 15),
+                    new RuleViolation("concat-strings", 41, 15)
+                }
+            }
         };
 
         [TestCaseSource(nameof(TestCases))]

@@ -93,6 +93,15 @@
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-variable-varchar-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-variable-nvarchar-no-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-variable-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-join-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

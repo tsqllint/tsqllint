@@ -12,11 +12,22 @@ namespace TSQLLint.Lib.Rules
         public string RULE_TEXT => "Strings should be concatenated with like types: varchar to varchar or nvarchar to nvarchar";
 
         private readonly Action<string, string, int, int> _errorCallback;
+        private readonly Dictionary<string, bool> _stringVariables = new Dictionary<string, bool>();
         private readonly List<ErrorInfo> _errorNodes = new List<ErrorInfo>();
 
         public ConcatStringsRule(Action<string, string, int, int> errorCallback)
         {
             _errorCallback = errorCallback;
+        }
+
+        public override void Visit(DeclareVariableElement node)
+        {
+            var sqlDataType = node.DataType.Name.BaseIdentifier.Value;
+            var isNational = sqlDataType.Equals("nvarchar", StringComparison.OrdinalIgnoreCase);
+            if (isNational || sqlDataType.Equals("varchar", StringComparison.OrdinalIgnoreCase))
+            {
+                _stringVariables.Add(node.VariableName.Value.ToLower(), isNational);
+            }
         }
 
         public override void Visit(BinaryExpression node)
@@ -35,7 +46,17 @@ namespace TSQLLint.Lib.Rules
 
         private void ProcessChildren(TSqlFragment node)
         {
-            var childExpressionVisitor = new ChildExpressionVisitor();
+            bool? IsNationalStringVariable(VariableReference variableReference)
+            {
+                var name = variableReference.Name.ToLower();
+                if (_stringVariables.ContainsKey(name))
+                {
+                    return _stringVariables[name];
+                }
+                return null;
+            }
+
+            var childExpressionVisitor = new ChildExpressionVisitor(IsNationalStringVariable);
             node.AcceptChildren(childExpressionVisitor);
 
             if (childExpressionVisitor.Children.Count > 0 &&
@@ -68,17 +89,24 @@ namespace TSQLLint.Lib.Rules
 
         private class ChildExpressionVisitor : TSqlFragmentVisitor
         {
+            private readonly Func<VariableReference, bool?> _isNationalStringVariable;
+
+            public ChildExpressionVisitor(Func<VariableReference, bool?> isNationalStringVariable)
+            {
+                _isNationalStringVariable = isNationalStringVariable;
+            }
+
             public readonly List<NodeInfo> Children = new List<NodeInfo>();
 
             public override void Visit(BooleanComparisonExpression node)
             {
                 if (!IsExpressionToCheck(node)) return;
 
-                var firstExpressionVisitor = new ChildExpressionVisitor();
+                var firstExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
                 node.FirstExpression.AcceptChildren(firstExpressionVisitor);
                 Children.AddRange(firstExpressionVisitor.Children);
 
-                var secondExpressionVisitor = new ChildExpressionVisitor();
+                var secondExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
                 node.SecondExpression.AcceptChildren(secondExpressionVisitor);
                 Children.AddRange(secondExpressionVisitor.Children);
             }
@@ -87,13 +115,22 @@ namespace TSQLLint.Lib.Rules
             {
                 if (!IsExpressionToCheck(node)) return;
 
-                var firstExpressionVisitor = new ChildExpressionVisitor();
+                var firstExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
                 node.FirstExpression.AcceptChildren(firstExpressionVisitor);
                 Children.AddRange(firstExpressionVisitor.Children);
 
-                var secondExpressionVisitor = new ChildExpressionVisitor();
+                var secondExpressionVisitor = new ChildExpressionVisitor(_isNationalStringVariable);
                 node.SecondExpression.AcceptChildren(secondExpressionVisitor);
                 Children.AddRange(secondExpressionVisitor.Children);
+            }
+
+            public override void Visit(VariableReference node)
+            {
+                var isNationalStringVariable = _isNationalStringVariable.Invoke(node);
+                if (isNationalStringVariable != null)
+                {
+                    Children.Add(new NodeInfo { IsNational = isNationalStringVariable.Value });
+                }
             }
 
             public override void Visit(StringLiteral node)
