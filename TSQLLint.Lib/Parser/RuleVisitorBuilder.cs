@@ -43,9 +43,9 @@ namespace TSQLLint.Lib.Parser
             }
             
             var configuredVisitors = new List<TSqlFragmentVisitor>();
-            foreach (var visitor in RuleVisitorTypes.List)
+            foreach (var visitor in RuleVisitorFriendlyNameTypeMap.List)
             {
-                var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor, (Action<string, string, int, int>)ErrorCallback);
+                var visitorInstance = (ISqlRule)Activator.CreateInstance(visitor.Value, (Action<string, string, int, int>)ErrorCallback);
                 var severity = ConfigReader.GetRuleSeverity(visitorInstance.RULE_NAME);
 
                 if (severity == RuleViolationSeverity.Off)
