@@ -47,8 +47,8 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
         {
             var action = match.Groups[1].Value;
 
-            var disableCommand = string.Compare("tsqllint-disable", action, StringComparison.Ordinal) == 0;
-            var enableCommand = string.Compare("tsqllint-enable", action, StringComparison.Ordinal) == 0;
+            var disableCommand = action.Equals("tsqllint-disable", StringComparison.OrdinalIgnoreCase);
+            var enableCommand = action.Equals("tsqllint-enable", StringComparison.OrdinalIgnoreCase);
 
             var ruleExceptionDetails = match.Groups[2].Value.Split(' ').Select(p => p.Trim()).ToList();
             var matchedFriendlyNames = ruleExceptionDetails.Intersect(RuleVisitorFriendlyNameTypeMap.List.Select(friendly => friendly.Key)).ToList();
