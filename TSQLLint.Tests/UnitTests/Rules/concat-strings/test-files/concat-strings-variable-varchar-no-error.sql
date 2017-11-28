@@ -1,4 +1,5 @@
-DECLARE @NAME varCHAR(25);
+DECLARE @NAME varCHAR(25),
+		@other int;
 
 SELECT @name + 'ab';
 SELECT 'ab' + @name;
@@ -27,3 +28,14 @@ FROM sys.tables t
 	JOIN sys.columns c
 	ON t.object_id = c.object_id
 	AND c.name = @name + 'b';
+
+IF EXISTS(SELECT * FROM sys.tables)
+BEGIN
+	DECLARE @sql varchar(4000);
+	SELECT @sql = '' + 'test';
+END;
+ELSE
+BEGIN
+	DECLARE @sql nvarchar(4000);
+	SELECT @sql = N'' + N'something else';
+END;

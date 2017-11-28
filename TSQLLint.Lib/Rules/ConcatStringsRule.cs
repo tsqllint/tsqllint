@@ -112,14 +112,6 @@ namespace TSQLLint.Lib.Rules
 
             public readonly List<NodeInfo> Children = new List<NodeInfo>();
 
-            public override void Visit(BooleanComparisonExpression node)
-            {
-                if (!_parent.IsExpressionToCheck(node)) return;
-
-                ProcessChildren(node.FirstExpression);
-                ProcessChildren(node.SecondExpression);
-            }
-
             public override void Visit(BinaryExpression node)
             {
                 if (!_parent.IsExpressionToCheck(node)) return;
