@@ -3,11 +3,11 @@ DECLARE @int int,
 
 SELECT 1 + 1;
 
-SELECT @val + @val;
+SELECT @int + @int;
 
-SELECT @val++;
+SELECT @int++;
 
-SELECT @val = @val + 1;
+SELECT @int = @int + 1;
 
 SELECT CAST('1/1/2017') + @date;
 
@@ -19,3 +19,9 @@ END;
 SELECT @int = 1 - 1;
 
 SELECT '1' - '1';
+
+SELECT @int = @int - 1;
+
+SELECT @int = @int + 1 - 1;
+
+SELECT @varname = @varname + 1 + '1';
