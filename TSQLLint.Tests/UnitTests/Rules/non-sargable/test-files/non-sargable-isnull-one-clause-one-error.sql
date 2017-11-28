@@ -1,0 +1,2 @@
+SELECT Name FROM Foo 
+WHERE ISNULL(ID, 0) != 0

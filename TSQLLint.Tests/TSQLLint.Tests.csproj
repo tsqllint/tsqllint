@@ -207,13 +207,22 @@
     <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-tabs.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-isnull-multi-statement-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-multi-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error.sql">
+    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-isnull-one-clause-one-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error-join-table.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error-where-clause.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Rules\object-property\test-files\object-property-no-error.sql">
