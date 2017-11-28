@@ -8,6 +8,7 @@ namespace TSQLLint.Lib.Config
         private const string ConfigString =
 @"{
     ""rules"": {
+        ""concat-strings"": ""error"",
         ""conditional-begin-end"": ""error"",
         ""cross-database"": ""error"",
         ""data-compression"": ""error"",
