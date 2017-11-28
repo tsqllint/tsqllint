@@ -1,0 +1,6 @@
+SELECT Name FROM Foo 
+WHERE Foo.Value = 'Active'
+AND ISNULL(ID, 0) != 0
+
+SELECT Name FROM Foo 
+WHERE ISNULL(ID, 0) != 0
