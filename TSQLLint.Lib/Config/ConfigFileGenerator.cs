@@ -5,12 +5,12 @@ namespace TSQLLint.Lib.Config
 {
     public class ConfigFileGenerator : IConfigFileGenerator
     {
-        private const string ConfigString =
+        private const string DefaultConfigurationString =
 @"{
     ""rules"": {
-        ""concat-strings"": ""error"",
+        ""concat-strings"": ""warning"",
         ""conditional-begin-end"": ""error"",
-        ""cross-database"": ""error"",
+        ""cross-database"": ""off"",
         ""cross-database-transaction"": ""error"",
         ""data-compression"": ""error"",
         ""data-type-length"": ""error"",
@@ -46,12 +46,12 @@ namespace TSQLLint.Lib.Config
 
         public string GetDefaultConfigRules()
         {
-            return ConfigString;
+            return DefaultConfigurationString;
         }
 
         public void WriteConfigFile(string path)
         {
-            _fileSystem.File.WriteAllText(path, ConfigString);
+            _fileSystem.File.WriteAllText(path, DefaultConfigurationString);
         }
     }
 }
