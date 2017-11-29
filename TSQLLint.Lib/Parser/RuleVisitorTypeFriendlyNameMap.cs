@@ -14,30 +14,29 @@ namespace TSQLLint.Lib.Parser
         // a list of all classes that implement ISqlRule
         public static readonly Dictionary<string, Type> List = new Dictionary<string, Type>
         {
-            { "cross-database", typeof(CrossDatabaseRule) },
-            { "cross-database-transaction", typeof(CrossDatabaseTransactionRule) },
-            { "data-type-length", typeof(DataTypeLengthRule) },
-            { "linked-server", typeof(LinkedServerRule) },
-            { "non-sargable", typeof(NonSargableRule) },
-            { "print-statement", typeof(PrintStatementRule) },
+            { "concat-strings", typeof(ConcatStringsRule) },
             { "conditional-begin-end", typeof(ConditionalBeginEndRule) },
-            { "disallow-cursors", typeof(DisallowCursorRule) },
-            { "keyword-capitalization", typeof(KeywordCapitalizationRule) },
-            { "multi-table-alias", typeof(MultiTableAliasRule) },
-            { "set-variable", typeof(SetVariableRule) },
-            { "upper-lower", typeof(UpperLowerRule) },
-            { "schema-qualify", typeof(SchemaQualifyRule) },
-            { "information-schema", typeof(InformationSchemaRule) },
-            { "object-property", typeof(ObjectPropertyRule) },
+            { "cross-database-transaction", typeof(CrossDatabaseTransactionRule) },
             { "data-compression", typeof(DataCompressionOptionRule) },
+            { "data-type-length", typeof(DataTypeLengthRule) },
+            { "disallow-cursors", typeof(DisallowCursorRule) },
+            { "full-text", typeof(FullTextRule) },
+            { "information-schema", typeof(InformationSchemaRule) },
+            { "keyword-capitalization", typeof(KeywordCapitalizationRule) },
+            { "linked-server", typeof(LinkedServerRule) },
+            { "multi-table-alias", typeof(MultiTableAliasRule) },
+            { "non-sargable", typeof(NonSargableRule) },
+            { "object-property", typeof(ObjectPropertyRule) },
+            { "print-statement", typeof(PrintStatementRule) },
+            { "schema-qualify", typeof(SchemaQualifyRule) },
             { "select-star", typeof(SelectStarRule) },
-            { "set-quoted-identifier", typeof(SetQuotedIdentifierRule) },
+            { "semicolon-termination", typeof(SemicolonTerminationRule) },
             { "set-ansi", typeof(SetAnsiNullsRule) },
             { "set-nocount", typeof(SetNoCountRule) },
+            { "set-quoted-identifier", typeof(SetQuotedIdentifierRule) },
             { "set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule) },
-            { "semicolon-termination", typeof(SemicolonTerminationRule) },
-            { "full-text", typeof(FullTextRule) },
-            { "concat-strings", typeof(ConcatStringsRule) }
+            { "set-variable", typeof(SetVariableRule) },
+            { "upper-lower", typeof(UpperLowerRule) }
         };
     }
 }

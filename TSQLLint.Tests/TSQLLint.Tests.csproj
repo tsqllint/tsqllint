@@ -156,12 +156,6 @@
     <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database\test-files\cross-database-no-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\cross-database\test-files\cross-database-one-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="UnitTests\Rules\data-compression\test-files\data-compression-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

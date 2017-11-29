@@ -68,7 +68,6 @@ Rules may be set to "off", "warning", or "error".
     "rules": {
         "concat-strings": "error",
         "conditional-begin-end": "error",
-        "cross-database": "error",
         "cross-database-transaction": "error",
         "data-compression": "error",
         "data-type-length": "error",
