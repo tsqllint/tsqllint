@@ -14,7 +14,6 @@ namespace TSQLLint.Lib.Parser
         // a list of all classes that implement ISqlRule
         public static readonly Dictionary<string, Type> List = new Dictionary<string, Type>
         {
-            { "concat-strings", typeof(ConcatStringsRule) },
             { "conditional-begin-end", typeof(ConditionalBeginEndRule) },
             { "cross-database-transaction", typeof(CrossDatabaseTransactionRule) },
             { "data-compression", typeof(DataCompressionOptionRule) },

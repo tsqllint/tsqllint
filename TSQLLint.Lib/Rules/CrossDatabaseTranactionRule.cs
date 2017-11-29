@@ -10,7 +10,7 @@ namespace TSQLLint.Lib.Rules
     {
         public string RULE_NAME => "cross-database-transaction";
 
-        public string RULE_TEXT => "Cross database inserts or updates wrapped in a single transaction can lead to data corruption";
+        public string RULE_TEXT => "Cross database inserts or updates enclosed in a transaction can lead to data corruption";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -54,8 +54,11 @@ namespace TSQLLint.Lib.Rules
 
             public override void Visit(CommitTransactionStatement node)
             {
-                var firstUncomitted = TransactionLists.Last(x => x.Commit == null);
-                firstUncomitted.Commit = node;
+                var firstUncomitted = TransactionLists.LastOrDefault(x => x.Commit == null);
+                if (firstUncomitted != null)
+                {
+                    firstUncomitted.Commit = node;
+                }
             }
         }
 
@@ -83,11 +86,28 @@ namespace TSQLLint.Lib.Rules
 
             private void GetDatabasesUpdated(TSqlFragment node)
             {
-                if (node.StartLine >= _transaction.Begin.StartLine && node.StartColumn > _transaction.Begin.StartColumn)
+                if (IsWithinTransaction(node))
                 {
                     node.Accept(childDatabaseNameVisitor);
                     DatabasesUpdated.UnionWith(childDatabaseNameVisitor.DatabasesUpdated);
                 }
+            }
+            
+            private bool IsWithinTransaction(TSqlFragment node)
+            {
+                if (node.StartLine == _transaction.Begin?.StartLine &&
+                    node.StartColumn < _transaction.Begin?.StartColumn)
+                {
+                    return false;
+                }
+
+                if (node.StartLine == _transaction.Commit?.StartLine &&
+                    node.StartColumn > _transaction.Commit?.StartColumn)
+                {
+                    return false;
+                }
+
+                return node.StartLine >= _transaction.Begin?.StartLine && node.StartLine <= _transaction.Commit?.StartLine;
             }
         }
 
