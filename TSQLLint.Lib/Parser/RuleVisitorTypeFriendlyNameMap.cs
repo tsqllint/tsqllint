@@ -15,6 +15,7 @@ namespace TSQLLint.Lib.Parser
         public static readonly Dictionary<string, Type> List = new Dictionary<string, Type>
         {
             { "cross-database", typeof(CrossDatabaseRule) },
+            { "cross-database-transaction", typeof(CrossDatabaseTransactionRule) },
             { "data-type-length", typeof(DataTypeLengthRule) },
             { "linked-server", typeof(LinkedServerRule) },
             { "non-sargable", typeof(NonSargableRule) },
