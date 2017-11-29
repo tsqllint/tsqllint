@@ -138,10 +138,22 @@
     <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database\test-files\cross-database-no-error.sql">
+    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database\test-files\cross-database-one-error.sql">
+    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-nested-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-multiple-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-one-error-single-line.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-no-error-single-line.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Rules\data-compression\test-files\data-compression-no-error.sql">

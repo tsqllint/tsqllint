@@ -16,12 +16,12 @@ The recommended method of installing tsqllint is to install the tool globally us
 
 This binary can be installed though [the `npm` registry](https://www.npmjs.com/). First, install [Node.js version 4 or higher](https://nodejs.org/en/download/), and then installation is done using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
-```
+```bash
 $ npm install tsqllint -g
 ```
 
 ## Usage
-```
+```bash
 # lint a single file
 $ tsqllint test.sql
 
@@ -52,7 +52,7 @@ TSQLLint uses a common message format that allows for integration into off the s
 
 ## Configuration
 
-```
+```bash
 # generate a default .tsqllintrc file using the init flag (optional if just using a default configuration)
 $ tsqllint --init
 ```
@@ -63,16 +63,16 @@ Configure tsqllint by editing its config file, which is called .tsqllintrc, you 
 
 Rules may be set to "off", "warning", or "error".
 
-```
+```json
 {
     "rules": {
         "concat-strings": "error",
         "conditional-begin-end": "error",
-        "cross-database": "error",
+        "cross-database-transaction": "error",
         "data-compression": "error",
         "data-type-length": "error",
         "disallow-cursors": "error",
-        "full-text", "error",
+        "full-text": "error",
         "information-schema": "error",
         "keyword-capitalization": "error",
         "linked-server": "error",
@@ -97,7 +97,7 @@ Rules may be set to "off", "warning", or "error".
 
 To temporarily disable rule warnings in a script, use comments in the following format:
 
-```
+```sql
 /* tsqllint-disable */
 
 SELECT * FROM FOO;
@@ -107,7 +107,7 @@ SELECT * FROM FOO;
 
 You can also disable or enable warnings for specific rules:
 
-```
+```sql
 /* tsqllint-disable select-star */
 
 SELECT * FROM FOO;
@@ -117,7 +117,7 @@ SELECT * FROM FOO;
 
 To disable warnings for the entire script, place a /* tsqllint-disable */ comment at the top of the file:
 
-```
+```sql
 /* tsqllint-disable */
 
 SELECT * FROM FOO;
@@ -125,7 +125,7 @@ SELECT * FROM FOO;
 
 To disable specific rule warnings for the entire script place a comment similar to the following at the top of the file:
 
-```
+```sql
 /* tsqllint-disable select-star */
 
 SELECT * FROM FOO;
@@ -137,21 +137,21 @@ You can extend the base functionality of TSQLLint by creating a custom plugin. T
 
 Once you complete your plugin, update your .tsqllintrc file to point to your assembly.
 
-```
+```json
 {
-    'rules': {
+    "rules": {
         "upper-lower": "error"
     },
-    'plugins': {
-        'my-first-plugin': 'c:/users/someone/my-plugins/my-first-plugin.dll',
-        'my-second-plugin': 'c:/users/someone/my-plugins/my-second-plugin.dll'
+    "plugins": {
+        "my-first-plugin": "c:/users/someone/my-plugins/my-first-plugin.dll",
+        "my-second-plugin": "c:/users/someone/my-plugins/my-second-plugin.dll/"
     }
 }
 ```
 
 This sample plugin notifies users that spaces should be used rather than tabs.
 
-```
+```csharp
 using System;
 using TSQLLint.Common;
 

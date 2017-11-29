@@ -1,1 +1,0 @@
-SELECT Foo FROM Mydatabase.MySchemea.MyTable;
