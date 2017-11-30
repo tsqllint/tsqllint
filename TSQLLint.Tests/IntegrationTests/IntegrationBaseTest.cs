@@ -9,7 +9,6 @@ using TSQLLint.Common;
 using TSQLLint.Console;
 using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Lib.Rules.RuleViolations;
-using TSQLLint.Tests.Helpers;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
 namespace TSQLLint.Tests.IntegrationTests
@@ -66,7 +65,8 @@ namespace TSQLLint.Tests.IntegrationTests
             new RuleViolation("set-nocount", 1, 1),
             new RuleViolation("set-quoted-identifier", 1, 1),
             new RuleViolation("set-transaction-isolation-level", 1, 1),
-            new RuleViolation("upper-lower", 59, 8)
+            new RuleViolation("upper-lower", 59, 1),
+            new RuleViolation("non-sargable", 59, 41)
         };
 
         protected static readonly IEnumerable<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>

@@ -55,5 +55,5 @@ UPDATE [dbo].[FOO] SET BAR = 1
 -- set-quoted-identifier
 -- set-transaction-isolation-level
 
--- upper-lower
-SELECT upper("foo");
+-- upper-lower & non-sargable
+SELECT Value FROM dbo.Foo WHERE Value = upper("foo");
