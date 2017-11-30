@@ -1,3 +1,4 @@
-﻿SELECT GETDATE();
+SELECT GETDATE();
 
-SELECT UPPER("foo");
+SELECT * FROM Foo 
+WHERE Status = lower(@Status)

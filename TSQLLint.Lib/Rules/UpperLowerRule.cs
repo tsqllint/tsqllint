@@ -8,7 +8,7 @@ namespace TSQLLint.Lib.Rules
     {
         public string RULE_NAME => "upper-lower";
 
-        public string RULE_TEXT => "Use of the UPPER or LOWER functions is not required when running database in case insensitive mode";
+        public string RULE_TEXT => "Use of the UPPER or LOWER functions when performing comparisons in SELECT statements is not required when running database in case insensitive mode";
 
         private readonly Action<string, string, int, int> ErrorCallback;
 
@@ -17,12 +17,57 @@ namespace TSQLLint.Lib.Rules
             ErrorCallback = errorCallback;
         }
 
-        public override void Visit(FunctionCall node)
+        public override void Visit(SelectStatement node)
         {
-            if (node.FunctionName.Value.Equals("UPPER", StringComparison.OrdinalIgnoreCase) ||
-                node.FunctionName.Value.Equals("LOWER", StringComparison.OrdinalIgnoreCase))
+            var visitor = new ChildQueryComparisonVisitor();
+            node.Accept(visitor);
+            if (visitor.QueryExpressionUpperLowerFunctionFound)
             {
                 ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            }
+        }
+
+        public class ChildQueryComparisonVisitor : TSqlFragmentVisitor
+        {
+            public bool QueryExpressionUpperLowerFunctionFound;
+
+            public override void Visit(QueryExpression node)
+            {
+                var visitor = new ChildBooleanComparisonVisitor();
+                node.Accept(visitor);
+                if (visitor.UpperLowerFunctionCallInComparison)
+                {
+                    QueryExpressionUpperLowerFunctionFound = true;
+                }
+            }
+        }
+
+        public class ChildBooleanComparisonVisitor : TSqlFragmentVisitor
+        {
+            public bool UpperLowerFunctionCallInComparison;
+            
+            public override void Visit(BooleanComparisonExpression node)
+            {
+                var visitor = new ChildFunctionCallVisitor();
+                node.Accept(visitor);
+                if (visitor.UpperLowerFound)
+                {
+                    UpperLowerFunctionCallInComparison = true;
+                }
+            }
+        }
+
+        public class ChildFunctionCallVisitor : TSqlFragmentVisitor
+        {
+            public bool UpperLowerFound;
+            
+            public override void Visit(FunctionCall node)
+            {
+                if (node.FunctionName.Value.Equals("UPPER", StringComparison.OrdinalIgnoreCase) ||
+                    node.FunctionName.Value.Equals("LOWER", StringComparison.OrdinalIgnoreCase))
+                {
+                    UpperLowerFound = true;
+                }
             }
         }
     }

@@ -402,9 +402,6 @@
     <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-two-errors.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

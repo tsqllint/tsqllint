@@ -1,1 +1,2 @@
-﻿SELECT upper("foo");
+SELECT * FROM Foo 
+WHERE Status = lower(@Status)

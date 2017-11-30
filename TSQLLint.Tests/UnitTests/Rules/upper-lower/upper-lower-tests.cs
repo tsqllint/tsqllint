@@ -18,22 +18,14 @@ namespace TSQLLint.Tests.UnitTests.Rules
             {
                 "upper-lower", "upper-lower-one-error", typeof(UpperLowerRule), new List<RuleViolation>
                 {
-                    new RuleViolation("upper-lower", 1, 8)
-                }
-            },
-            new object[]
-            {
-                "upper-lower", "upper-lower-two-errors", typeof(UpperLowerRule), new List<RuleViolation>
-                {
-                    new RuleViolation("upper-lower", 1, 8),
-                    new RuleViolation("upper-lower", 2, 8)
+                    new RuleViolation("upper-lower", 1, 1)
                 }
             },
             new object[]
             {
                 "upper-lower", "upper-lower-one-error-mixed-state", typeof(UpperLowerRule), new List<RuleViolation>
                 {
-                    new RuleViolation("upper-lower", 3, 8)
+                    new RuleViolation("upper-lower", 3, 1)
                 }
             }
         };
