@@ -29,7 +29,8 @@ namespace TSQLLint.Lib.Config
         ""set-quoted-identifier"": ""error"",
         ""set-transaction-isolation-level"": ""error"",
         ""set-variable"": ""error"",
-        ""upper-lower"": ""error""
+        ""upper-lower"": ""error"",
+        ""unicode-string"" : ""error""
     }
 }";
 

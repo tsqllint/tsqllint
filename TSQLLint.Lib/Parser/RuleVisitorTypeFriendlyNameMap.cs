@@ -35,7 +35,8 @@ namespace TSQLLint.Lib.Parser
             { "set-quoted-identifier", typeof(SetQuotedIdentifierRule) },
             { "set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule) },
             { "set-variable", typeof(SetVariableRule) },
-            { "upper-lower", typeof(UpperLowerRule) }
+            { "upper-lower", typeof(UpperLowerRule) },
+            { "unicode-string", typeof(UnicodeStringRule) }
         };
     }
 }
