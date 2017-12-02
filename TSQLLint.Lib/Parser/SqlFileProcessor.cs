@@ -34,10 +34,14 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
-        private void ProcessFile(Stream fileStream, string filePath)
+        private void ProcessFile(string pathString, string filePath)
         {
-            ProcessRules(fileStream, filePath);
-            ProcessPlugins(fileStream, filePath);
+            using (var fileStream = GetFileContents(pathString))
+            {
+                ProcessRules(fileStream, filePath);
+                ProcessPlugins(fileStream, filePath);
+            }
+
             FileCount++;
         }
 
@@ -68,7 +72,7 @@ namespace TSQLLint.Lib.Parser
                 }
                 else
                 {
-                    ProcessFile(GetFileContents(pathString), pathString);
+                    ProcessFile(pathString, pathString);
                 }
             }
         }
@@ -92,7 +96,7 @@ namespace TSQLLint.Lib.Parser
         {
             if (_fileSystem.Path.GetExtension(fileName).Equals(".sql", StringComparison.InvariantCultureIgnoreCase))
             {
-                ProcessFile(GetFileContents(fileName), fileName);
+                ProcessFile(fileName, fileName);
             }            
         }
 
