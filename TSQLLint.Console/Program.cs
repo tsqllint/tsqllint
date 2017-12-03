@@ -15,6 +15,9 @@ namespace TSQLLint.Console
             try
             {
                 application.Run();
+                //var thread = new Thread(x => { application.Run(); }, 5000000);
+                //thread.Start();
+                //thread.Join();
             }
             catch (Exception exception)
             {

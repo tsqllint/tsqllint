@@ -18,6 +18,9 @@ namespace TSQLLint.Lib.Parser
         
         public int FileCount { get; private set; }
 
+        ProducerConsumerQueue q = new ProducerConsumerQueue(128);
+
+
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
             _ruleVisitor = ruleVisitor;
@@ -32,15 +35,22 @@ namespace TSQLLint.Lib.Parser
             {
                 ProcessPath(path);
             }
+
+            q.Shutdown(true);
         }
 
         private void ProcessFile(string pathString, string filePath)
         {
-            using (var fileStream = GetFileContents(pathString))
-            {
-                ProcessRules(fileStream, filePath);
-                ProcessPlugins(fileStream, filePath);
-            }
+
+            q.EnqueueItem(() => {
+                using (var fileStream = GetFileContents(pathString))
+                {
+                    ProcessRules(fileStream, filePath);
+                    ProcessPlugins(fileStream, filePath);
+                }
+            });
+            
+
 
             FileCount++;
         }
