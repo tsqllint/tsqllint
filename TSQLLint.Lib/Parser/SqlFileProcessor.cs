@@ -26,49 +26,53 @@ namespace TSQLLint.Lib.Parser
             _fileSystem = fileSystem;
         }
 
-        public void ProcessList(List<string> paths)
+        public void ProcessList(List<string> filePaths)
         {
-            foreach (var path in paths)
+            foreach (var path in filePaths)
             {
                 ProcessPath(path);
             }
         }
 
-        private void ProcessFile(Stream fileStream, string filePath)
+        private void ProcessFile(string filePath)
         {
-            ProcessRules(fileStream, filePath);
-            ProcessPlugins(fileStream, filePath);
+            using (var fileStream = GetFileContents(filePath))
+            {
+                ProcessRules(fileStream, filePath);
+                ProcessPlugins(fileStream, filePath);
+            }
+
             FileCount++;
         }
 
         public void ProcessPath(string path)
         {
-            // remove quotes from path
+            // remove quotes from filePaths
             path = path.Replace("\"", "");
 
-            var pathStrings = path.Split(',');
-            for (var index = 0; index < pathStrings.Length; index++)
+            var filePathList = path.Split(',');
+            for (var index = 0; index < filePathList.Length; index++)
             {
                 // remove leading and trailing whitespace
-                pathStrings[index] = pathStrings[index].Trim();
+                filePathList[index] = filePathList[index].Trim();
             }
 
-            foreach (var pathString in pathStrings)
+            foreach (var filePath in filePathList)
             {
-                if (!_fileSystem.File.Exists(pathString))
+                if (!_fileSystem.File.Exists(filePath))
                 {
-                    if (_fileSystem.Directory.Exists(pathString))
+                    if (_fileSystem.Directory.Exists(filePath))
                     {
-                        ProcessDirectory(pathString);
+                        ProcessDirectory(filePath);
                     }
                     else
                     {
-                        ProcessWildCard(pathString);
+                        ProcessWildCard(filePath);
                     }
                 }
                 else
                 {
-                    ProcessFile(GetFileContents(pathString), pathString);
+                    ProcessFile(filePath);
                 }
             }
         }
@@ -92,20 +96,20 @@ namespace TSQLLint.Lib.Parser
         {
             if (_fileSystem.Path.GetExtension(fileName).Equals(".sql", StringComparison.InvariantCultureIgnoreCase))
             {
-                ProcessFile(GetFileContents(fileName), fileName);
+                ProcessFile(fileName);
             }            
         }
 
-        private void ProcessWildCard(string path)
+        private void ProcessWildCard(string filePath)
         {
-            var containsWildCard = path.Contains("*") || path.Contains("?");
+            var containsWildCard = filePath.Contains("*") || filePath.Contains("?");
             if (!containsWildCard)
             {
-                _reporter.Report($"{path} is not a valid path.");
+                _reporter.Report($"{filePath} is not a valid file path.");
                 return;
             }
 
-            var dirPath = _fileSystem.Path.GetDirectoryName(path);
+            var dirPath = _fileSystem.Path.GetDirectoryName(filePath);
             if (string.IsNullOrEmpty(dirPath))
             {
                 dirPath = _fileSystem.Directory.GetCurrentDirectory();
@@ -117,7 +121,7 @@ namespace TSQLLint.Lib.Parser
                 return;
             }
 
-            var searchPattern = _fileSystem.Path.GetFileName(path);
+            var searchPattern = _fileSystem.Path.GetFileName(filePath);
             var files = _fileSystem.Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
             foreach (var file in files)
             {

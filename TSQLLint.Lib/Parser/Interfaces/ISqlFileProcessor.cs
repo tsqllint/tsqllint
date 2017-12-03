@@ -4,7 +4,7 @@ namespace TSQLLint.Lib.Parser.Interfaces
 {
     public interface ISqlFileProcessor
     {
-        void ProcessList(List<string> path);
+        void ProcessList(List<string> filePaths);
 
         void ProcessPath(string path);
 

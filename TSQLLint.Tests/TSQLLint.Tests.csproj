@@ -23,7 +23,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.175" />
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="2.1.0.175" />
-    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta6" />
   </ItemGroup>
 
   <ItemGroup>

@@ -163,7 +163,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             fileBase.Received().Exists(filePath);
             directoryBase.Received().Exists(filePath);
             ruleVisitor.DidNotReceive().VisitRules(filePath, Arg.Any<Stream>());
-            reporter.Received().Report($"{filePath} is not a valid path.");
+            reporter.Received().Report($"{filePath} is not a valid file path.");
             Assert.AreEqual(0, processor.FileCount);
         }
 
@@ -455,7 +455,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
-            reporter.Received().Report($@"{invalidFilePath} is not a valid path.");
+            reporter.Received().Report($@"{invalidFilePath} is not a valid file path.");
             Assert.AreEqual(2, processor.FileCount);
         }
     }
