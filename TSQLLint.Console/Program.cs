@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using TSQLLint.Lib.Reporters;
 
 namespace TSQLLint.Console
@@ -14,10 +15,13 @@ namespace TSQLLint.Console
             
             try
             {
-                application.Run();
-                //var thread = new Thread(x => { application.Run(); }, 5000000);
-                //thread.Start();
-                //thread.Join();
+                #if NET452
+                    var thread = new Thread(x => { application.Run(); }, 2500000);
+                    thread.Start();
+                    thread.Join();
+                #elif NETCOREAPP2_0
+                    application.Run();
+                #endif
             }
             catch (Exception exception)
             {
