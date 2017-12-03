@@ -92,39 +92,6 @@
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-non-strings-no-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-variable-varchar-no-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-variable-nvarchar-no-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-variable-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-join-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-where-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-case-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-nvarchar-no-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-concat-three-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-concat-two-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="UnitTests\Rules\concat-strings\test-files\concat-strings-raw-varchar-no-error.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -390,6 +357,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Rules\set-variable\test-files\set-variable-two-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\unicode-string\test-files\unicode-string-error.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\unicode-string\test-files\unicode-string-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-no-error.sql">
