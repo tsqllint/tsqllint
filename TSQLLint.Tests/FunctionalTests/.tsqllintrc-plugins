@@ -3,5 +3,8 @@
     "schema-qualify": "off",
     "select-star": "warning",
     "semicolon-termination": "error"
-  }  
+  },
+  "plugins": {
+    "test-plugin": "changeme"
+  }    
 }
