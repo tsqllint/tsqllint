@@ -1,10 +1,12 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NUnit.Framework;
 
 namespace TSQLLint.Tests.Helpers
 {
+    [ExcludeFromCodeCoverage]
     public static class ConsoleAppTestHelper
     {
         private static string _ApplicationPath;
@@ -27,6 +29,23 @@ namespace TSQLLint.Tests.Helpers
                 _ApplicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint.Console")}/{file}";
 
                 return _ApplicationPath;
+            }
+        }
+
+        private static string _TestPluginPath;
+
+        public static string TestPluginPath
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_TestPluginPath))
+                {
+                    return _TestPluginPath;
+                }
+
+                var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
+                _TestPluginPath = $@"{workingDirectory}/TSQLLint.Tests.dll";
+                return _TestPluginPath;
             }
         }
 
