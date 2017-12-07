@@ -18,10 +18,12 @@ namespace TSQLLint.Lib.Rules
         private readonly Type[] TypesToSkip = 
         {
             typeof(BeginEndBlockStatement),
-            typeof(IfStatement),
+            typeof(GoToStatement),
             typeof(IndexDefinition),
+            typeof(LabelStatement),
             typeof(TryCatchStatement),
-            typeof(WhileStatement)
+            typeof(WhileStatement),
+            typeof(IfStatement)
         };
 
         public SemicolonTerminationRule(Action<string, string, int, int> errorCallback)
