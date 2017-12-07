@@ -45,7 +45,7 @@ test_script:
 
 after_test:
   - cmd: ./scripts/cover.cmd
-- cmd: 7z a coverage.zip %APPVEYOR_BUILD_FOLDER%\coverage
+  - cmd: 7z a coverage.zip %APPVEYOR_BUILD_FOLDER%\coverage
 
 artifacts:
   - path: tsqllint*.tgz
