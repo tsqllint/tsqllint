@@ -14,6 +14,7 @@ namespace TSQLLint.Tests.UnitTests.CommadLineOptions.CommandLineOptionHandlingSt
     public class CreateConfigFileStrategyTests
     {
         [SetUp]
+        [ExcludeFromCodeCoverage]
         public void Setup()
         {
             if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
