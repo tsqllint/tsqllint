@@ -16,6 +16,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         private const string mockDirectory = @"c:\";
 
         [SetUp]
+        [ExcludeFromCodeCoverage]
         public void Setup()
         {
             if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)

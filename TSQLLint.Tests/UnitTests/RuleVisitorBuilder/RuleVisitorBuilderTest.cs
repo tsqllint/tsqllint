@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
@@ -13,6 +14,7 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
     public class RuleVisitorBuilderTest
     {
         [SetUp]
+        [ExcludeFromCodeCoverage]
         public void Setup()
         {
             if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
