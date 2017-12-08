@@ -12,7 +12,7 @@ namespace TSQLLint.Console
         public static void Main(string[] args)
         {
             var application = new Application(args, new ConsoleReporter());
-            
+
             try
             {
                 #if NET452
