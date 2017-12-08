@@ -30,7 +30,7 @@ clone_depth: 5                      # clone entire repository history if not def
 #---------------------------------#
 
 before_build:
-- appveyor-retry dotnet restore -v Minimal
+- dotnet restore
 
 build_script:
   - dotnet build TSQLLint.Console/TSQLLint.Console.csproj -c Release
