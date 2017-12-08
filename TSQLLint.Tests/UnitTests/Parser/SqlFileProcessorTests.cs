@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
@@ -17,6 +18,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
     public class SqlFileProcessorTests
     {
         [SetUp]
+        [ExcludeFromCodeCoverage]
         public void Setup()
         {
             if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)

@@ -1,10 +1,11 @@
-using System;
-using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
+using System.Diagnostics.CodeAnalysis;
+using System.IO.Abstractions.TestingHelpers;
+using System;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies;
+using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Console.Interfaces;
 using TSQLLint.Lib.Config.Interfaces;
 
@@ -14,6 +15,7 @@ namespace TSQLLint.Tests.UnitTests.CommadLineOptions.CommandLineOptionHandlingSt
     public class CreateConfigFileStrategyTests
     {
         [SetUp]
+        [ExcludeFromCodeCoverage]
         public void Setup()
         {
             if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)

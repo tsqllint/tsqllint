@@ -1,4 +1,5 @@
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using TSQLLint.Common;
 
@@ -37,6 +38,7 @@ namespace TSQLLint.Lib.Rules.RuleViolations
             Column = startColumn;
         }
 
+        [ExcludeFromCodeCoverage]
         public override string ToString()
         {
             if(_PropertyInfos == null)
