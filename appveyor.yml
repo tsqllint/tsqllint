@@ -30,6 +30,7 @@ clone_depth: 5                      # clone entire repository history if not def
 #---------------------------------#
 
 before_build:
+- dotnet --info
 - dotnet restore
 
 build_script:
