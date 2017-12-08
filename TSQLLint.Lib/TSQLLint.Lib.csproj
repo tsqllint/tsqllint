@@ -22,6 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="14.0.3811.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1-beta1" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.175" />
