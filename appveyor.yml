@@ -37,7 +37,7 @@ build_script:
   - dotnet build TSQLLint.Console/TSQLLint.Console.csproj -c Release
 
 after_build:
-  - cmd: dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f net452 -o ../lib/net452
+  - cmd: dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f net452 -o ../lib/net462
   - cmd: dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp2.0 -o ../lib/netcoreapp2.0
   - cmd: npm pack
 
