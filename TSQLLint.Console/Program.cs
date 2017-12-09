@@ -13,13 +13,15 @@ namespace TSQLLint.Console
         [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
         {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-            var Configuration = builder.Build();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory
+                .GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
 
-            var debug = Configuration["debug"];
+            var Configuration = builder.Build();
+            var debug = Configuration.GetValue<bool>("debug", false);
 
             var application = new Application(args, new ConsoleReporter());
-
 
             try
             {
@@ -34,7 +36,10 @@ namespace TSQLLint.Console
             catch (Exception exception)
             {
                 System.Console.WriteLine("TSQLLint encountered a problem.");
-                Trace.WriteLine(exception);
+
+                if(debug){
+                    Trace.WriteLine(exception);
+                }
             }
         }
     }
