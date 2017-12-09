@@ -9,7 +9,7 @@ if (os.type() === 'Linux' || os.type() === 'Darwin') {
   var child = spawn('dotnet', args);
 }
 else if (os.type() === 'Windows_NT') {
-   var child = spawn(`${__dirname}/lib/net452/TSQLLint.Console.exe`, args);
+  var child = spawn(`${__dirname}/lib/net47/TSQLLint.Console.exe`, args);
 }
 else {
   throw new Error(`Invalid Platform: ${os.type()}`)

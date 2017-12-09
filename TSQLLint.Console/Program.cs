@@ -24,13 +24,13 @@ namespace TSQLLint.Console
 
             try
             {
-                #if NET452
+#if NETCOREAPP2_0
+                    application.Run();
+#else
                     var thread = new Thread(x => { application.Run(); }, 2500000);
                     thread.Start();
                     thread.Join();
-                #elif NETCOREAPP2_0
-                    application.Run();
-                #endif
+#endif
             }
             catch (Exception exception)
             {

@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
     <RuntimeIdentifiers>osx-x64,win-x64;win-x32</RuntimeIdentifiers>
   </PropertyGroup>
 
