@@ -38,7 +38,7 @@ namespace TSQLLint.Console
                 System.Console.WriteLine("TSQLLint encountered a problem.");
 
                 if(debug){
-                    Trace.WriteLine(exception);
+                    System.Console.WriteLine(exception);
                 }
             }
         }
