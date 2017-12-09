@@ -14,8 +14,7 @@ namespace TSQLLint.Console
         public static void Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory
-                .GetCurrentDirectory())
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json");
 
             var Configuration = builder.Build();
