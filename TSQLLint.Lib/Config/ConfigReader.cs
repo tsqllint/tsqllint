@@ -8,7 +8,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Lib.Config
-{    
+{
     public class ConfigReader : IConfigReader
     {
         private readonly Dictionary<string, RuleViolationSeverity> _rules = new Dictionary<string, RuleViolationSeverity>();

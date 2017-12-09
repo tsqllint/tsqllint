@@ -57,12 +57,12 @@ namespace TSQLLint.Tests.Helpers
                 EnableRaisingEvents = true,
                 StartInfo = new ProcessStartInfo
                 {
-#if NET452
-                    FileName = ApplicationPath,
-                    Arguments = arguments,
-#elif NETCOREAPP2_0
+#if NETCOREAPP2_0
                     FileName = "dotnet",
                     Arguments = $"{ApplicationPath} {arguments}",
+#else
+                    FileName = ApplicationPath,
+                    Arguments = arguments,
 #endif
                     UseShellExecute = false,
                     RedirectStandardError = true,

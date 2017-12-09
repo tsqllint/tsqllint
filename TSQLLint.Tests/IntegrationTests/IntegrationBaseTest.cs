@@ -21,11 +21,11 @@ namespace TSQLLint.Tests.IntegrationTests
         {
             get
             {
-                #if NET452
-                return TestContext.CurrentContext.TestDirectory;
-                #elif NETCOREAPP2_0
+#if NETCOREAPP2_0
                 return TestContext.CurrentContext.WorkDirectory;
-                #endif
+#else
+                return TestContext.CurrentContext.TestDirectory;
+#endif
             }
         }
 
