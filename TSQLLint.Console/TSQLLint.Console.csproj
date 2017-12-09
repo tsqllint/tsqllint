@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="1.9.71" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
     <PackageReference Include="TSQLLint.Common" Version="1.0.15" />
   </ItemGroup>
 
