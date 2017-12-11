@@ -1,3 +1,3 @@
-tar -zcvf ./lib/osx-x64.tar.gz ./lib/osx-x64
-tar -zcvf ./lib/win-x86.tar.gz ./lib/win-x86
-tar -zcvf ./lib/win-x64.tar.gz ./lib/win-x64
+cd lib && tar -zcvf osx-x64.tar.gz osx-x64 && cd ..
+cd lib && tar -zcvf win-x86.tar.gz win-x86 && cd ..
+cd lib && tar -zcvf win-x64.tar.gz win-x64 && cd ..

@@ -25,6 +25,8 @@
     "author": "Nathan Boyd & Doug Wilson",
     "license": "MIT",
     "dependencies": {
+        "decompress": "^4.2.0",
+        "decompress-targz": "^4.1.1",
         "follow-redirects": "^1.2.6"
     }
 }
