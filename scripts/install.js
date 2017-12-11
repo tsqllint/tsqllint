@@ -10,15 +10,15 @@ const ProgressBar = require('progress');
 var runTime = "";
 if (os.type() === 'Darwin') {
     runTime = "osx-x64";
-}
-else if (os.type() === 'Windows_NT') {
+} else if (os.type() === 'Linux'){
+    runTime = "linux-x64";
+} else if (os.type() === 'Windows_NT') {
     if (process.arch == 'x32') {
         runTime = 'win-x86';
     } else if (process.arch == 'x64') {
         runTime = "win-x64";
     }
-}
-else {
+} else {
     throw new Error(`Invalid Platform: ${os.type()}`)
 }
 

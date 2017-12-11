@@ -19,9 +19,6 @@ image: Visual Studio 2017
 init:
   - git config --global core.autocrlf input
 
-# fetch repository as zip archive
-shallow_clone: true                 # default is "false"
-
 # set clone depth
 clone_depth: 5                      # clone entire repository history if not defined
 
@@ -30,15 +27,13 @@ clone_depth: 5                      # clone entire repository history if not def
 #---------------------------------#
 
 before_build:
-- dotnet --info
-- dotnet restore
+  - dotnet --info
 
 build_script:
   - dotnet build TSQLLint.Console/TSQLLint.Console.csproj -c Release
 
 after_build:
-  - cmd: dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f net47 -o ../lib/net47
-  - cmd: dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp2.0 -o ../lib/netcoreapp2.0
+  - cmd: ./scripts/publish/publish.cmd
   - cmd: npm pack
 
 test_script:
@@ -46,8 +41,20 @@ test_script:
 
 after_test:
   - cmd: ./scripts/cover.cmd
+  - cmd: ./scripts/packageRuntimes/packageRuntimes.cmd
   - cmd: 7z a coverage.zip %APPVEYOR_BUILD_FOLDER%\coverage
 
+deploy:
+  description: 'Release description'
+  provider: GitHub
+  auth_token:
+    secure: +ldQnV1tY0iQRt0oAaumSoPCc7J2VWvS5wnnCx8blmwsnKPWzqO9uHvZ+cRKBjAP
+  artifact: /**\.tgz/
+  draft: true
+  prerelease: false
+  on:
+    appveyor_repo_tag: true
+
 artifacts:
-  - path: tsqllint*.tgz
+  - path: /**\.tgz/
   - path: coverage.zip  

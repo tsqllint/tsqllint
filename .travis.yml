@@ -3,17 +3,23 @@ sudo: required
 dist: trusty
 mono: none
 os:
-  - osx
-  - linux
+- osx
+- linux
 osx_image: xcode9.1
 solution: TSQLLint.sln
 addons:
   apt:
     packages:
-      - libunwind8
+    - libunwind8
 dotnet: 2.0.0
-install:
-  - 'dotnet restore'
 script:
-  - 'dotnet build'
-  - 'dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj'
+- dotnet build
+- dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
+deploy:
+  provider: releases
+  api_key: $GithubToken
+  file_glob: true
+  file: /**\.tgz/
+  skip_cleanup: true
+  on:
+    tags: true
