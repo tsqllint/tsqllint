@@ -13,9 +13,9 @@ if (os.type() === 'Darwin') {
 }
 else if (os.type() === 'Windows_NT') {
     if (process.arch == 'x32') {
-        runTime = "win-x64";
-    } else if (process.arch == 'x64') {
         runTime = 'win-x86';
+    } else if (process.arch == 'x64') {
+        runTime = "win-x64";
     }
 }
 else {
