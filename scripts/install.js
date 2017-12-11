@@ -22,21 +22,21 @@ else {
     throw new Error(`Invalid Platform: ${os.type()}`)
 }
 
-
 function download(url, dest) {
     return new Promise((resolve, reject) => {
         var file = fs.createWriteStream(dest);
         var request = https.get(url, function(response) {
-            if(response.statusCode != 200){
-                console.log(`There was a problem downloading ${url}`);
-                return;
-            }
             response.pipe(file);
             file.on('finish', function() {
                 file.close(resolve);
             });
         })
         .on('response', (res) => {
+            if(res.statusCode != 200){
+                fs.unlink(dest);
+                return reject(new Error(`There was a problem downloading ${url}`));
+            }
+
             var len = parseInt(res.headers['content-length'], 10);
 
             var bar = new ProgressBar(`Downloading TSQLLint ${runTime} Runtime [:bar] :rate/bps :percent :etas`, {
@@ -74,4 +74,7 @@ download(`${urlBase}/${runTime}.tar.gz`, `${runTime}.tar.gz`, (err) => {
             decompressTargz()
         ]
     });
-});
+}).catch((err) => {
+    console.log(err);
+    process.exit(1);
+})

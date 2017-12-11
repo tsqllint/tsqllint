@@ -16,7 +16,7 @@
     ],
     "bin": "./tsqllint.js",
     "scripts": {
-        "install": "scripts/install.js"
+        "install": "node ./scripts/install.js"
     },
     "os": [
         "win32",
