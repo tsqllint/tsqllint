@@ -1,24 +1,33 @@
 {
-  "name": "tsqllint",
-  "version": "1.8.2",
-  "description": "Configurable linting for TSQL.",
-  "keywords": [
-    "TSQL",
-    "lint"
-  ],
-  "engines": {
-    "node": ">=4"
-  },
-  "repository": "tsqllint/tsqllint",
-  "files": [
-    "lib",
-    "tsqllint.js"
-  ],
-  "bin" : "./tsqllint.js",
-  "os": [
-    "win32",
-    "darwin"
-  ],
-  "author": "Nathan Boyd & Doug Wilson",
-  "license": "MIT"
+    "name": "tsqllint",
+    "version": "1.8.2",
+    "description": "Configurable linting for TSQL.",
+    "keywords": [
+        "TSQL",
+        "lint"
+    ],
+    "engines": {
+        "node": ">=4"
+    },
+    "repository": "tsqllint/tsqllint",
+    "files": [
+        "scripts/install.js",
+        "tsqllint.js"
+    ],
+    "bin": "./tsqllint.js",
+    "scripts": {
+        "install": "node ./scripts/install.js"
+    },
+    "os": [
+        "win32",
+        "darwin"
+    ],
+    "author": "Nathan Boyd & Doug Wilson",
+    "license": "MIT",
+    "dependencies": {
+        "decompress": "^4.2.0",
+        "decompress-targz": "^4.1.1",
+        "follow-redirects": "^1.2.6",
+        "progress": "^2.0.0"
+    }
 }
