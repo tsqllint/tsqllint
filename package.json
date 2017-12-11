@@ -11,7 +11,6 @@
     },
     "repository": "tsqllint/tsqllint",
     "files": [
-        "lib",
         "tsqllint.js"
     ],
     "bin": "./tsqllint.js",
