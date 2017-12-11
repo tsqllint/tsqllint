@@ -11,6 +11,7 @@
     },
     "repository": "tsqllint/tsqllint",
     "files": [
+        "scripts/install.js",
         "tsqllint.js"
     ],
     "bin": "./tsqllint.js",
@@ -26,6 +27,7 @@
     "dependencies": {
         "decompress": "^4.2.0",
         "decompress-targz": "^4.1.1",
-        "follow-redirects": "^1.2.6"
+        "follow-redirects": "^1.2.6",
+        "progress": "^2.0.0"
     }
 }

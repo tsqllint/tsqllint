@@ -5,7 +5,7 @@ const os = require('os');
 var args = process.argv.slice(2);
 
 if (os.type() === 'Linux' || os.type() === 'Darwin') {
-  args.unshift(`${__dirname}/lib/TSQLLint.Console.dll`)
+  args.unshift(`${__dirname}/osx-x64/TSQLLint.Console.dll`)
   var child = spawn('dotnet', args);
 }
 else if (os.type() === 'Windows_NT') {
