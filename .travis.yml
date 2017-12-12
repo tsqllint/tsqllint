@@ -3,9 +3,7 @@ sudo: required
 dist: trusty
 mono: none
 os:
-- osx
 - linux
-osx_image: xcode9.1
 solution: TSQLLint.sln
 addons:
   apt:
