@@ -32,24 +32,20 @@ before_build:
 build_script:
   - dotnet build TSQLLint.Console/TSQLLint.Console.csproj -c Release
 
-after_build:
-  - cmd: ./scripts/publish/publish.cmd
-  - cmd: npm pack
-
 test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
 
 after_test:
   - cmd: ./scripts/cover.cmd
-  - cmd: ./scripts/packageRuntimes/packageRuntimes.cmd
   - cmd: 7z a coverage.zip %APPVEYOR_BUILD_FOLDER%\coverage
+  - cmd: ./scripts/publish/publish.cmd
+  - cmd: ./scripts/packageRuntimes/packageRuntimes.cmd
+  - cmd: npm pack
 
 deploy:
-  description: 'Release description'
   provider: GitHub
   auth_token:
     secure: +ldQnV1tY0iQRt0oAaumSoPCc7J2VWvS5wnnCx8blmwsnKPWzqO9uHvZ+cRKBjAP
-  artifact: /**\.tgz/
   draft: true
   prerelease: false
   on:
