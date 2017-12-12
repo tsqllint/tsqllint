@@ -30,9 +30,6 @@ before_build:
   - dotnet --info
 
 build_script:
-  - dotnet build TSQLLint.Console/TSQLLint.Console.csproj -c Release
-
-test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
 
 after_test:
