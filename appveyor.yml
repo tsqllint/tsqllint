@@ -39,11 +39,6 @@ after_test:
   - cmd: ./scripts/packageRuntimes/packageRuntimes.cmd
   - cmd: npm pack
 
-before_deploy:
-  - cmd: ./scripts/publish/publish.cmd
-  - cmd: ./scripts/packageRuntimes/packageRuntimes.cmd
-  - cmd: npm pack
-
 deploy:
   provider: GitHub
   auth_token:

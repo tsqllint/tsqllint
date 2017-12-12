@@ -57,8 +57,8 @@ function download(url, dest) {
     });
 };
 
-var urlBase = 'https://github.com/tsqllint/tsqllint/releases/download/v1.8.2';
-download(`${urlBase}/${runTime}.tar.gz`, `${runTime}.tar.gz`, (err) => {
+var urlBase = 'https://github.com/tsqllint/tsqllint/releases/download/v1.8.4';
+download(`${urlBase}/${runTime}.tgz`, `${runTime}.tar.gz`, (err) => {
     if(err){
         console.log(err);
         return;

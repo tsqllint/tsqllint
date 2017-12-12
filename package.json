@@ -1,6 +1,6 @@
 {
     "name": "tsqllint",
-    "version": "1.8.3",
+    "version": "1.8.4",
     "description": "Configurable linting for TSQL.",
     "keywords": [
         "TSQL",
