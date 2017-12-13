@@ -58,7 +58,7 @@ function download(url, dest) {
 };
 
 var urlBase = 'https://github.com/tsqllint/tsqllint/releases/download/v1.8.4';
-download(`${urlBase}/${runTime}.tgz`, `${runTime}.tar.gz`, (err) => {
+download(`${urlBase}/${runTime}.tgz`, `${runTime}.tgz`, (err) => {
     if(err){
         console.log(err);
         return;
@@ -69,7 +69,7 @@ download(`${urlBase}/${runTime}.tgz`, `${runTime}.tar.gz`, (err) => {
         return;
     }
 
-    decompress(`${runTime}.tar.gz`, './', {
+    decompress(`${runTime}.tgz`, './', {
         plugins: [
             decompressTargz()
         ]
