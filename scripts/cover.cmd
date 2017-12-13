@@ -13,7 +13,7 @@ mkdir coverage
     -excludebyattribute:*.ExcludeFromCodeCoverage* ^
     -register:user ^
     -output:".\coverage\coverage_results.xml" ^
-    -target:"C:\Program Files\dotnet\dotnet.exe" ^
+    -target:"dotnet" ^
     -targetargs:"test .\TSQLLint.Tests\TSQLLint.Tests.csproj" ^
     -oldStyle
 
