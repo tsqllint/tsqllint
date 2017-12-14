@@ -2,7 +2,6 @@
 #      general configuration      #
 #---------------------------------#
 
-# Maximum number of concurrent jobs for the project
 max_jobs: 2
 
 #---------------------------------#
@@ -12,15 +11,13 @@ max_jobs: 2
 environment:
   nodejs_version: "6"
 
-# Build worker image (VM template)
 image: Visual Studio 2017
 
-# scripts that are called at very beginning, before repo cloning
 init:
   - git config --global core.autocrlf input
 
-# set clone depth
-clone_depth: 5                      # clone entire repository history if not defined
+# clone entire repository history if not defined
+clone_depth: 5                      
 
 #---------------------------------#
 #       build configuration       #
@@ -34,7 +31,7 @@ build_script:
 
 after_test:
   - cmd: ./scripts/cover.cmd
-  - cmd: 7z a coverage.zip %APPVEYOR_BUILD_FOLDER%\coverage
+  - cmd: 7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz
   - cmd: ./scripts/publish/publish.cmd
   - cmd: ./scripts/packageRuntimes/packageRuntimes.cmd
   - cmd: npm pack
@@ -50,4 +47,3 @@ deploy:
 
 artifacts:
   - path: /**\.tgz/
-  - path: coverage.zip  
