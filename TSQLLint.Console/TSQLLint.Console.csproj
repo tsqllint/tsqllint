@@ -1,26 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
-    <DebugType>full</DebugType>
-    <DebugSymbols>True</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
-    <RuntimeIdentifiers>osx-x64,win-x64;win-x32</RuntimeIdentifiers>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <DebugType>full</DebugType>
-    <DebugSymbols>True</DebugSymbols>
-  </PropertyGroup>
-
   <PropertyGroup>
     <StartupObject>TSQLLint.Console.Program</StartupObject>
+    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <RuntimeIdentifiers>osx-x64,linux-x64,win-x64;win-x32</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
     <Version>1.8.4</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
