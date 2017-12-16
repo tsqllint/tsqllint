@@ -15,8 +15,7 @@ namespace TSQLLint.Console
                 .AddJsonFile("appsettings.json");
 
             var Configuration = builder.Build();
-            var debug = Configuration.GetValue<bool>("debug", false);
-
+            var debug = Configuration.GetValue("debug", false);
             var application = new Application(args, new ConsoleReporter());
 
             try
