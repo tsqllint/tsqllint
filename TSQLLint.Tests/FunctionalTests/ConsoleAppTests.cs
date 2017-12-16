@@ -16,11 +16,7 @@ namespace TSQLLint.Tests.FunctionalTests
         [SetUp]
         public void Setup()
         {
-            _testDirectoryPath = TestContext.CurrentContext.TestDirectory;
-
-            #if NETCOREAPP2_0
             _testDirectoryPath = TestContext.CurrentContext.WorkDirectory;
-            #endif
         }
 
 

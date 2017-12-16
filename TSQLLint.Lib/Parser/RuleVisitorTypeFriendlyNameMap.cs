@@ -1,8 +1,3 @@
-/*
-  This file is auto-generated and should not be edited directly.
-  All changes should be made to the accompanying template.
-*/
-
 using System;
 using System.Collections.Generic;
 using TSQLLint.Lib.Rules;

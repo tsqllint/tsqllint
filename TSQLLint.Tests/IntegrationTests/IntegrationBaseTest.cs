@@ -21,11 +21,7 @@ namespace TSQLLint.Tests.IntegrationTests
         {
             get
             {
-#if NETCOREAPP2_0
                 return TestContext.CurrentContext.WorkDirectory;
-#else
-                return TestContext.CurrentContext.TestDirectory;
-#endif
             }
         }
 
