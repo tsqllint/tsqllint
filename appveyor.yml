@@ -27,6 +27,10 @@ before_build:
   - dotnet --info
 
 build_script:
+  - cmd: IF %APPVEYOR_REPO_TAG%==false dotnet build -c Release -f netcoreapp2.0
+  - cmd: IF %APPVEYOR_REPO_TAG%==false 7z a -ttar -so tsqllint.tar ./TSQLLint.Console/bin/Release | 7z a -si tsqllint.tgz
+
+test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
 
 after_test:
