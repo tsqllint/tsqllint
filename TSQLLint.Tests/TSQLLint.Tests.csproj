@@ -20,6 +20,10 @@
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="2.1.0.176" />
   </ItemGroup>
 
+  <PropertyGroup>
+      <CodeAnalysisRuleSet>$(SolutionDir)\.stylecop\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\TSQLLint.Console\TSQLLint.Console.csproj" />
     <ProjectReference Include="..\TSQLLint.Lib\TSQLLint.Lib.csproj" />

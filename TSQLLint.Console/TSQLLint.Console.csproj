@@ -24,6 +24,10 @@
     <PackageReference Include="TSQLLint.Common" Version="1.0.15" />
   </ItemGroup>
 
+  <PropertyGroup>
+      <CodeAnalysisRuleSet>$(SolutionDir)\.stylecop\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\TSQLLint.Lib\TSQLLint.Lib.csproj" />
   </ItemGroup>

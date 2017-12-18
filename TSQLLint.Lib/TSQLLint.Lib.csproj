@@ -18,4 +18,8 @@
     <PackageReference Include="TSQLLint.Common" Version="1.0.15" />
   </ItemGroup>
 
+  <PropertyGroup>
+      <CodeAnalysisRuleSet>$(SolutionDir)\.stylecop\stylecop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
 </Project>
