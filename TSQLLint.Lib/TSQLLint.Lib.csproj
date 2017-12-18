@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="14.0.3811.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1-beta1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.176" />
     <PackageReference Include="TSQLLint.Common" Version="1.0.15" />
   </ItemGroup>

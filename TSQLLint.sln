@@ -1,18 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Console", "TSQLLint.Console\TSQLLint.Console.csproj", "{7697E982-E7EA-4D1A-A26C-3DDA32423F1C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Lib", "TSQLLint.Lib\TSQLLint.Lib.csproj", "{80B6DAB5-3ED4-461C-87CB-71E0B3BAFC81}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Tests", "TSQLLint.Tests\TSQLLint.Tests.csproj", "{B3139814-0754-4549-BC6D-9D4F4C772056}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EDE88698-0CFD-4108-81BA-9AA3F00B6FD9}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
