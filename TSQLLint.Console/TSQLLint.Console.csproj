@@ -24,6 +24,12 @@
     <PackageReference Include="TSQLLint.Common" Version="1.0.15" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <NoWarn>1701;1702;1705</NoWarn>
+  </PropertyGroup>
+
   <PropertyGroup>
       <CodeAnalysisRuleSet>$(SolutionDir)\.stylecop\stylecop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

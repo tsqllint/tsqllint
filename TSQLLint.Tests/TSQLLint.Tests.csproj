@@ -20,6 +20,12 @@
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="2.1.0.176" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <NoWarn>1701;1702;1705</NoWarn>
+  </PropertyGroup>
+
   <PropertyGroup>
       <CodeAnalysisRuleSet>$(SolutionDir)\.stylecop\stylecop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
