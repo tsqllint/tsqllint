@@ -6,16 +6,16 @@ namespace TSQLLint.Lib.Rules
 {
     public class SetNoCountRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "set-nocount";
-
-        public string RULE_TEXT => "Expected SET NOCOUNT ON near top of file";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         public SetNoCountRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "set-nocount";
+
+        public string RULE_TEXT => "Expected SET NOCOUNT ON near top of file";
 
         public override void Visit(TSqlScript node)
         {
@@ -39,7 +39,7 @@ namespace TSQLLint.Lib.Rules
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
         public class ChildRowsetVisitor : TSqlFragmentVisitor

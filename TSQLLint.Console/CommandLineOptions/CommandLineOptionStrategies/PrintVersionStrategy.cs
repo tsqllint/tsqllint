@@ -7,19 +7,19 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class PrintVersionStrategy : IHandlingStrategy
     {
-        private readonly IBaseReporter _reporter;
+        private readonly IBaseReporter reporter;
 
         public PrintVersionStrategy(IBaseReporter reporter)
         {
-            _reporter = reporter;
+            this.reporter = reporter;
         }
-        
+
         public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions = null)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             var version = fvi.FileVersion;
-            _reporter.Report($"v{version}");
+            reporter.Report($"v{version}");
         }
     }
 }

@@ -15,33 +15,6 @@ namespace TSQLLint.Tests.IntegrationTests
 {
     public class IntegrationBaseTest
     {
-        protected readonly string DefaultConfigFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
-
-        private static string TestFileBase
-        {
-            get
-            {
-                return TestContext.CurrentContext.WorkDirectory;
-            }
-        }
-
-        protected static string TestFileDirectory => Path.Combine(TestFileBase, @"IntegrationTests/Configuration/TestFiles");
-
-
-        protected static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
-
-        protected static string UsageString => new CommandLineOptions(new string[]{}).GetUsage();
-
-        protected static string TSqllVersion
-        {
-            get
-            {
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-                return fvi.FileVersion;
-            }
-        }
-
         protected static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
         {
             new RuleViolation("conditional-begin-end", 2, 1),
@@ -75,7 +48,27 @@ namespace TSQLLint.Tests.IntegrationTests
             new RuleViolation("print-statement", 5, 1)
         };
 
-        private readonly RuleViolationComparer _ruleViolationComparer = new RuleViolationComparer();
+        private readonly RuleViolationComparer ruleViolationComparer = new RuleViolationComparer();
+
+        protected static string TestFileDirectory => Path.Combine(TestFileBase, @"IntegrationTests/Configuration/TestFiles");
+
+        protected static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
+
+        protected static string UsageString => new CommandLineOptions(new string[] { }).GetUsage();
+
+        protected static string TSqllVersion
+        {
+            get
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                return fvi.FileVersion;
+            }
+        }
+
+        protected string DefaultConfigFile { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
+
+        private static string TestFileBase => TestContext.CurrentContext.WorkDirectory;
 
         protected void PerformApplicationTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
@@ -102,7 +95,7 @@ namespace TSQLLint.Tests.IntegrationTests
 
             reportedViolations = reportedViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
-            CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, _ruleViolationComparer);
+            CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, ruleViolationComparer);
         }
     }
 }

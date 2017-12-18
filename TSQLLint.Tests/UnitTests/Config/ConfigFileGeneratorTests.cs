@@ -13,7 +13,7 @@ namespace TSQLLint.Tests.UnitTests.Config
     [TestFixture]
     public class ConfigFileGeneratorTests
     {
-        private const string mockDirectory = @"c:\";
+        private const string MockDirectory = @"c:\";
 
         [SetUp]
         [ExcludeFromCodeCoverage]
@@ -29,9 +29,9 @@ namespace TSQLLint.Tests.UnitTests.Config
         public void WriteConfigFile_FileDoesntExist_ShouldCreateFile()
         {
             // arrange
-            var testFile = Path.Combine(mockDirectory, @".tsqllintrc");
+            var testFile = Path.Combine(MockDirectory, @".tsqllintrc");
             var fileSystem = new MockFileSystem();
-            fileSystem.AddDirectory(mockDirectory);
+            fileSystem.AddDirectory(MockDirectory);
             var configFileGenerator = new ConfigFileGenerator(fileSystem);
 
             // act
@@ -45,7 +45,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         public void WriteConfigFile_FileExists_ShouldCreateFile()
         {
             // arrange
-            var testFile = Path.Combine(mockDirectory, @".tsqllintrc");
+            var testFile = Path.Combine(MockDirectory, @".tsqllintrc");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { testFile, new MockFileData("{}") },
@@ -91,7 +91,7 @@ namespace TSQLLint.Tests.UnitTests.Config
         private static bool IsValidJson(string strInput)
         {
             strInput = strInput.Trim();
-            if (strInput.StartsWith("{") && strInput.EndsWith("}") || strInput.StartsWith("[") && strInput.EndsWith("]"))
+            if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || (strInput.StartsWith("[") && strInput.EndsWith("]")))
             {
                 try
                 {

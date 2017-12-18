@@ -6,20 +6,20 @@ namespace TSQLLint.Lib.Rules
 {
     public class DisallowCursorRule : TSqlFragmentVisitor, ISqlRule
     {
+        private readonly Action<string, string, int, int> errorCallback;
+
+        public DisallowCursorRule(Action<string, string, int, int> errorCallback)
+        {
+            this.errorCallback = errorCallback;
+        }
+
         public string RULE_NAME => "disallow-cursors";
 
         public string RULE_TEXT => "Found use of CURSOR statement";
 
-        private readonly Action<string, string, int, int> ErrorCallback;
-
-        public DisallowCursorRule(Action<string, string, int, int> errorCallback)
-        {
-            ErrorCallback = errorCallback;
-        }
-
         public override void Visit(CursorStatement node)
         {
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
     }
 }

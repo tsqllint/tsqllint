@@ -11,14 +11,13 @@ namespace TSQLLint.Tests.FunctionalTests
     [ExcludeFromCodeCoverage]
     public class ConsoleAppTests
     {
-        private string _testDirectoryPath;
-        
+        private string testDirectoryPath;
+
         [SetUp]
         public void Setup()
         {
-            _testDirectoryPath = TestContext.CurrentContext.WorkDirectory;
+            testDirectoryPath = TestContext.CurrentContext.WorkDirectory;
         }
-
 
         [TestCase(@"", 0)]
         [TestCase(@"-i", 0)]
@@ -70,9 +69,9 @@ namespace TSQLLint.Tests.FunctionalTests
                 Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
             }
 
-            var path = Path.GetFullPath(Path.Combine(_testDirectoryPath, $@"FunctionalTests/{testFile}"));
-            var configFilePath = Path.GetFullPath(Path.Combine(_testDirectoryPath, @"FunctionalTests/.tsqllintrc"));
-            
+            var path = Path.GetFullPath(Path.Combine(testDirectoryPath, $@"FunctionalTests/{testFile}"));
+            var configFilePath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc"));
+
             var process = ConsoleAppTestHelper.GetProcess($"-c {configFilePath} {path}", OutputHandler, ErrorHandler, ExitHandler);
             ConsoleAppTestHelper.RunApplication(process);
 
@@ -100,11 +99,11 @@ namespace TSQLLint.Tests.FunctionalTests
                 Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
             }
 
-            var configFilePath = Path.GetFullPath(Path.Combine(_testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins"));
+            var configFilePath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins"));
             var jsonString = File.ReadAllText(configFilePath);
             dynamic jsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonString);
             jsonObject["plugins"]["test-plugin"] = ConsoleAppTestHelper.TestPluginPath;
-            var updatedConfigFilePath = Path.Combine(_testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins-updated");
+            var updatedConfigFilePath = Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins-updated");
             File.WriteAllText(updatedConfigFilePath, jsonObject.ToString());
 
             var process = ConsoleAppTestHelper.GetProcess($"-c {updatedConfigFilePath} {testArgs}", OutputHandler, ErrorHandler, ExitHandler);

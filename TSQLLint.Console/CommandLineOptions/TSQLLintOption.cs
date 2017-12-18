@@ -8,5 +8,5 @@ namespace TSQLLint.Console.CommandLineOptions
     public class TSQLLintOption : Attribute
     {
         public bool NonLintingCommand { get; set; }
-    }  
+    }
 }

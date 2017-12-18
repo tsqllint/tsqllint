@@ -34,13 +34,14 @@ namespace TSQLLint.Lib.Config
     }
 }";
 
-        private readonly IFileSystem _fileSystem;
+        private readonly IFileSystem fileSystem;
 
-        public ConfigFileGenerator() : this(new FileSystem()) { }
+        public ConfigFileGenerator()
+            : this(new FileSystem()) { }
 
         public ConfigFileGenerator(IFileSystem fileSystem)
         {
-            _fileSystem = fileSystem;
+            this.fileSystem = fileSystem;
         }
 
         public string GetDefaultConfigRules()
@@ -50,7 +51,7 @@ namespace TSQLLint.Lib.Config
 
         public void WriteConfigFile(string path)
         {
-            _fileSystem.File.WriteAllText(path, DefaultConfigurationString);
+            fileSystem.File.WriteAllText(path, DefaultConfigurationString);
         }
     }
 }

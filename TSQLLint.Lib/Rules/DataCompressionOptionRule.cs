@@ -6,16 +6,16 @@ namespace TSQLLint.Lib.Rules
 {
     public class DataCompressionOptionRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "data-compression";
-
-        public string RULE_TEXT => "Expected table to use data compression";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         public DataCompressionOptionRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "data-compression";
+
+        public string RULE_TEXT => "Expected table to use data compression";
 
         public override void Visit(CreateTableStatement node)
         {
@@ -24,7 +24,7 @@ namespace TSQLLint.Lib.Rules
 
             if (!childCompressionVisitor.CompressionOptionExists)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
             }
         }
 
@@ -32,7 +32,7 @@ namespace TSQLLint.Lib.Rules
         {
             public bool CompressionOptionExists
             {
-                get; 
+                get;
                 private set;
             }
 

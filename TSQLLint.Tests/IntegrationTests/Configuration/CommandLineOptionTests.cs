@@ -19,23 +19,23 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
         private static readonly string ConfigFoundMessage = $"Config file found at: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc")}";
         private static readonly string NoPluginsFound = "Did not find any plugins";
 
-        private static List<RuleViolation> _allRuleViolations;
-        private static List<RuleViolation> _multiFileRuleViolations;
+        private static List<RuleViolation> allRuleViolations;
+        private static List<RuleViolation> multiFileRuleViolations;
 
         public static IEnumerable<RuleViolation> MultiFileRuleViolations
         {
             get
             {
-                if (_multiFileRuleViolations != null)
+                if (multiFileRuleViolations != null)
                 {
-                    return _multiFileRuleViolations;
+                    return multiFileRuleViolations;
                 }
 
-                _multiFileRuleViolations = new List<RuleViolation>();
-                _multiFileRuleViolations.AddRange(TestFileOneRuleViolations);
-                _multiFileRuleViolations.AddRange(TestFileTwoRuleViolations);
+                multiFileRuleViolations = new List<RuleViolation>();
+                multiFileRuleViolations.AddRange(TestFileOneRuleViolations);
+                multiFileRuleViolations.AddRange(TestFileTwoRuleViolations);
 
-                return _multiFileRuleViolations;
+                return multiFileRuleViolations;
             }
         }
 
@@ -44,12 +44,12 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
             get
             {
                 // change if used more than once
-                _allRuleViolations = new List<RuleViolation>();
-                _allRuleViolations.AddRange(TestFileOneRuleViolations);
-                _allRuleViolations.AddRange(TestFileTwoRuleViolations);
-                _allRuleViolations.AddRange(TestFileInvalidSyntaxRuleViolations);
+                allRuleViolations = new List<RuleViolation>();
+                allRuleViolations.AddRange(TestFileOneRuleViolations);
+                allRuleViolations.AddRange(TestFileTwoRuleViolations);
+                allRuleViolations.AddRange(TestFileInvalidSyntaxRuleViolations);
 
-                return _allRuleViolations;
+                return allRuleViolations;
             }
         }
 
@@ -75,7 +75,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
 
                 // invalid linting targets
                 yield return new TestCaseData(new List<string> { @"invalid.sql" }, "invalid.sql is not a valid file path.", new List<RuleViolation>(), 0).SetName("File Args Invalid File Does Not Exist");
-                yield return new TestCaseData(new List<string> { @"c:/invalid/foo*.sql" }, $"Directory does not exist: {Path.Combine($"c:{Path.DirectorySeparatorChar}","invalid")}", new List<RuleViolation>(), 0).SetName("File Args Invalid Directory Does Not Exist");
+                yield return new TestCaseData(new List<string> { @"c:/invalid/foo*.sql" }, $"Directory does not exist: {Path.Combine($"c:{Path.DirectorySeparatorChar}", "invalid")}", new List<RuleViolation>(), 0).SetName("File Args Invalid Directory Does Not Exist");
                 yield return new TestCaseData(new List<string> { @"c:/invalid.sql" }, @"c:/invalid.sql is not a valid file path.", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Path Does Not Exist");
 
                 // valid linting files and directories

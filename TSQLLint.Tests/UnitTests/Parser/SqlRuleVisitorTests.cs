@@ -15,8 +15,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
     [TestFixture]
     public class SqlRuleVisitorTests
     {
-        private const string path = @"c:\testFile.sql";
-        
+        private const string Path = @"c:\testFile.sql";
+
         [Test]
         public void VisitRules_InvalidSql_ShouldReportError()
         {
@@ -28,10 +28,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, fragmentBuilder, mockReporter);
 
             // act
-            sqlRuleVisitor.VisitRules(path, sqlStream);
+            sqlRuleVisitor.VisitRules(Path, sqlStream);
 
             // assert
-            mockReporter.Received().ReportViolation(Arg.Is<RuleViolation>(x => x.FileName == path && x.Text == "TSQL not syntactically correct"));
+            mockReporter.Received().ReportViolation(Arg.Is<RuleViolation>(x => x.FileName == Path && x.Text == "TSQL not syntactically correct"));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             var mockRuleExceptionFinder = Substitute.For<IRuleExceptionFinder>();
             mockRuleExceptionFinder.GetIgnoredRuleList(Arg.Any<Stream>()).Returns(new List<IRuleException>());
-            
+
             var visitors = new List<TSqlFragmentVisitor>
             {
                 new SemicolonTerminationRule(null)
@@ -61,11 +61,11 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
             mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
-            
+
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, mockRuleExceptionFinder, mockFragmentBuilder, mockReporter);
 
             // act
-            sqlRuleVisitor.VisitRules(path, sqlStream);
+            sqlRuleVisitor.VisitRules(Path, sqlStream);
 
             // assert
             mockFragment.Received().Accept(Arg.Any<TSqlFragmentVisitor>());

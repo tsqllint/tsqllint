@@ -6,31 +6,31 @@ namespace TSQLLint.Lib.Rules
 {
     public class SetTransactionIsolationLevelRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "set-transaction-isolation-level";
+        private readonly Action<string, string, int, int> errorCallback;
 
-        public string RULE_TEXT => "Expected SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED near top of file";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
-
-        private bool ErrorLogged;
+        private bool errorLogged;
 
         public SetTransactionIsolationLevelRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "set-transaction-isolation-level";
+
+        public string RULE_TEXT => "Expected SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED near top of file";
 
         public override void Visit(TSqlScript node)
         {
             var childTransactionIsolationLevelVisitor = new ChildTransactionIsolationLevelVisitor();
             node.AcceptChildren(childTransactionIsolationLevelVisitor);
-            
-            if (childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound || ErrorLogged)
+
+            if (childTransactionIsolationLevelVisitor.TransactionIsolationLevelFound || errorLogged)
             {
                 return;
             }
-            
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-            ErrorLogged = true;
+
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorLogged = true;
         }
 
         public class ChildTransactionIsolationLevelVisitor : TSqlFragmentVisitor

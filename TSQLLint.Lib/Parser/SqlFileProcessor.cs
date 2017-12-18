@@ -11,20 +11,23 @@ namespace TSQLLint.Lib.Parser
 {
     public class SqlFileProcessor : ISqlFileProcessor
     {
-        private readonly IRuleVisitor _ruleVisitor;
-        private readonly IReporter _reporter;
-        private readonly IFileSystem _fileSystem;
-        private readonly IPluginHandler _pluginHandler;
-        
-        public int FileCount { get; private set; }
+        private readonly IRuleVisitor ruleVisitor;
+
+        private readonly IReporter reporter;
+
+        private readonly IFileSystem fileSystem;
+
+        private readonly IPluginHandler pluginHandler;
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
-            _ruleVisitor = ruleVisitor;
-            _pluginHandler = pluginHandler;
-            _reporter = reporter;
-            _fileSystem = fileSystem;
+            this.ruleVisitor = ruleVisitor;
+            this.pluginHandler = pluginHandler;
+            this.reporter = reporter;
+            this.fileSystem = fileSystem;
         }
+
+        public int FileCount { get; private set; }
 
         public void ProcessList(List<string> filePaths)
         {
@@ -34,21 +37,10 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
-        private void ProcessFile(string filePath)
-        {
-            using (var fileStream = GetFileContents(filePath))
-            {
-                ProcessRules(fileStream, filePath);
-                ProcessPlugins(fileStream, filePath);
-            }
-
-            FileCount++;
-        }
-
         public void ProcessPath(string path)
         {
             // remove quotes from filePaths
-            path = path.Replace("\"", "");
+            path = path.Replace("\"", string.Empty);
 
             var filePathList = path.Split(',');
             for (var index = 0; index < filePathList.Length; index++)
@@ -59,9 +51,9 @@ namespace TSQLLint.Lib.Parser
 
             foreach (var filePath in filePathList)
             {
-                if (!_fileSystem.File.Exists(filePath))
+                if (!fileSystem.File.Exists(filePath))
                 {
-                    if (_fileSystem.Directory.Exists(filePath))
+                    if (fileSystem.Directory.Exists(filePath))
                     {
                         ProcessDirectory(filePath);
                     }
@@ -77,15 +69,26 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
+        private void ProcessFile(string filePath)
+        {
+            using (var fileStream = GetFileContents(filePath))
+            {
+                ProcessRules(fileStream, filePath);
+                ProcessPlugins(fileStream, filePath);
+            }
+
+            FileCount++;
+        }
+
         private void ProcessDirectory(string path)
         {
-            var subDirectories = _fileSystem.Directory.GetDirectories(path);
+            var subDirectories = fileSystem.Directory.GetDirectories(path);
             foreach (var t in subDirectories)
             {
                 ProcessPath(t);
             }
 
-            var fileEntries = _fileSystem.Directory.GetFiles(path);
+            var fileEntries = fileSystem.Directory.GetFiles(path);
             foreach (var t in fileEntries)
             {
                 ProcessIfSqlFile(t);
@@ -94,10 +97,10 @@ namespace TSQLLint.Lib.Parser
 
         private void ProcessIfSqlFile(string fileName)
         {
-            if (_fileSystem.Path.GetExtension(fileName).Equals(".sql", StringComparison.InvariantCultureIgnoreCase))
+            if (fileSystem.Path.GetExtension(fileName).Equals(".sql", StringComparison.InvariantCultureIgnoreCase))
             {
                 ProcessFile(fileName);
-            }            
+            }
         }
 
         private void ProcessWildCard(string filePath)
@@ -105,24 +108,24 @@ namespace TSQLLint.Lib.Parser
             var containsWildCard = filePath.Contains("*") || filePath.Contains("?");
             if (!containsWildCard)
             {
-                _reporter.Report($"{filePath} is not a valid file path.");
+                reporter.Report($"{filePath} is not a valid file path.");
                 return;
             }
 
-            var dirPath = _fileSystem.Path.GetDirectoryName(filePath);
+            var dirPath = fileSystem.Path.GetDirectoryName(filePath);
             if (string.IsNullOrEmpty(dirPath))
             {
-                dirPath = _fileSystem.Directory.GetCurrentDirectory();
+                dirPath = fileSystem.Directory.GetCurrentDirectory();
             }
 
-            if (!_fileSystem.Directory.Exists(dirPath))
+            if (!fileSystem.Directory.Exists(dirPath))
             {
-                _reporter.Report($"Directory does not exist: {dirPath}");
+                reporter.Report($"Directory does not exist: {dirPath}");
                 return;
             }
 
-            var searchPattern = _fileSystem.Path.GetFileName(filePath);
-            var files = _fileSystem.Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
+            var searchPattern = fileSystem.Path.GetFileName(filePath);
+            var files = fileSystem.Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
             foreach (var file in files)
             {
                 ProcessIfSqlFile(file);
@@ -131,19 +134,19 @@ namespace TSQLLint.Lib.Parser
 
         private void ProcessRules(Stream fileStream, string filePath)
         {
-            _ruleVisitor.VisitRules(filePath, fileStream);
+            ruleVisitor.VisitRules(filePath, fileStream);
         }
 
         private void ProcessPlugins(Stream fileStream, string filePath)
         {
             fileStream.Seek(0, SeekOrigin.Begin);
             TextReader textReader = new StreamReader(fileStream);
-            _pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
+            pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
         }
 
         private Stream GetFileContents(string filePath)
         {
-            return _fileSystem.File.OpenRead(filePath);
+            return fileSystem.File.OpenRead(filePath);
         }
     }
 }

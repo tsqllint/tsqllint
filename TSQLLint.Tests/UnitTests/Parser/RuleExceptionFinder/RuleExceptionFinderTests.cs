@@ -14,7 +14,7 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
     [TestFixture]
     public class RuleExceptionFinderTests
     {
-        private static readonly object[] testCases =
+        private static readonly object[] TestCases =
         {
             new object[]
             {
@@ -40,7 +40,7 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
                     new GlobalRuleException(1, 5),
                     new GlobalRuleException(7, 9)
                 }
-            },  
+            },
             new object[]
             {
                 "globally-disable", new List<IRuleException>
@@ -58,7 +58,8 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
             }
         };
 
-        [Test, TestCaseSource(nameof(testCases))]
+        [Test]
+        [TestCaseSource(nameof(TestCases))]
         public void RuleExceptionFinderUnitTests(string testFileName, List<IRuleException> expectedResult)
         {
             // arrange

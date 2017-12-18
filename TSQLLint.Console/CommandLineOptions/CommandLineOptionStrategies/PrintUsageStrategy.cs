@@ -5,16 +5,16 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class PrintUsageStrategy : IHandlingStrategy
     {
-        private readonly IBaseReporter _reporter;
-        
+        private readonly IBaseReporter reporter;
+
         public PrintUsageStrategy(IBaseReporter reporter)
         {
-            _reporter = reporter;
+            this.reporter = reporter;
         }
-        
+
         public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
-            _reporter.Report(string.Format(commandLineOptions.GetUsage()));
+            reporter.Report(string.Format(commandLineOptions.GetUsage()));
         }
     }
 }

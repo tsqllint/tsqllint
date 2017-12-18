@@ -6,18 +6,18 @@ namespace TSQLLint.Lib.Rules
 {
     public class SelectStarRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "select-star";
-
-        public string RULE_TEXT => "Expected column names in SELECT";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         private int expressionCounter;
 
         public SelectStarRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "select-star";
+
+        public string RULE_TEXT => "Expected column names in SELECT";
 
         public override void Visit(ExistsPredicate node)
         {
@@ -35,7 +35,7 @@ namespace TSQLLint.Lib.Rules
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
         public class ChildVisitor : TSqlFragmentVisitor

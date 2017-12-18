@@ -40,7 +40,7 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
         public void RunExistingConfigTest(string testFile, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
             testFile = $@"{TestContext.CurrentContext.TestDirectory}/IntegrationTests/RuleExceptions/TestFiles/{testFile}";
-            PerformApplicationTest(new List<string>{ testFile }, expectedMessage, expectedRuleViolations, expectedFileCount);
+            PerformApplicationTest(new List<string> { testFile }, expectedMessage, expectedRuleViolations, expectedFileCount);
         }
     }
 }

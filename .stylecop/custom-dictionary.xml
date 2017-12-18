@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>TSQLLint</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>TSQL</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

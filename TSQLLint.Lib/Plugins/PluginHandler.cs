@@ -12,23 +12,24 @@ namespace TSQLLint.Lib.Plugins
 {
     public class PluginHandler : IPluginHandler
     {
-        private readonly IReporter _reporter;
-        private readonly IAssemblyWrapper _assemblyWrapper;
-        private readonly IFileSystem _fileSystem;
-        private Dictionary<Type, IPlugin> _plugins;
+        private readonly IReporter reporter;
+        private readonly IAssemblyWrapper assemblyWrapper;
+        private readonly IFileSystem fileSystem;
+        private Dictionary<Type, IPlugin> plugins;
 
-        public PluginHandler(IReporter reporter) : this(reporter, new FileSystem(), new AssemblyWrapper()) { }
+        public PluginHandler(IReporter reporter)
+            : this(reporter, new FileSystem(), new AssemblyWrapper()) { }
 
         public PluginHandler(IReporter reporter, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper)
         {
-            _reporter = reporter;
-            _fileSystem = fileSystem;
-            _assemblyWrapper = assemblyWrapper;
+            this.reporter = reporter;
+            this.fileSystem = fileSystem;
+            this.assemblyWrapper = assemblyWrapper;
         }
 
-        public IList<IPlugin> Plugins => _plugins.Values.ToList();
+        public IList<IPlugin> Plugins => plugins.Values.ToList();
 
-        private Dictionary<Type, IPlugin> List => _plugins ?? (_plugins = new Dictionary<Type, IPlugin>());
+        private Dictionary<Type, IPlugin> List => plugins ?? (plugins = new Dictionary<Type, IPlugin>());
 
         public void ProcessPaths(Dictionary<string, string> pluginPaths)
         {
@@ -41,17 +42,17 @@ namespace TSQLLint.Lib.Plugins
         public void ProcessPath(string path)
         {
             // remove quotes from path
-            path = path.Replace("\"", "").Trim();
+            path = path.Replace("\"", string.Empty).Trim();
 
-            if (!_fileSystem.File.Exists(path))
+            if (!fileSystem.File.Exists(path))
             {
-                if (_fileSystem.Directory.Exists(path))
+                if (fileSystem.Directory.Exists(path))
                 {
                     LoadPluginDirectory(path);
                 }
                 else
                 {
-                    _reporter.Report($"\nFailed to load plugin(s) defined by '{path}'. No file or directory found by that name.\n");
+                    reporter.Report($"\nFailed to load plugin(s) defined by '{path}'. No file or directory found by that name.\n");
                 }
             }
             else
@@ -62,13 +63,13 @@ namespace TSQLLint.Lib.Plugins
 
         public void LoadPluginDirectory(string path)
         {
-            var subdirectoryEntries = _fileSystem.Directory.GetDirectories(path);
+            var subdirectoryEntries = fileSystem.Directory.GetDirectories(path);
             foreach (var entry in subdirectoryEntries)
             {
                 ProcessPath(entry);
             }
 
-            var fileEntries = _fileSystem.Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
+            var fileEntries = fileSystem.Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
             foreach (var entry in fileEntries)
             {
                 LoadPlugin(entry);
@@ -77,10 +78,10 @@ namespace TSQLLint.Lib.Plugins
 
         public void LoadPlugin(string assemblyPath)
         {
-            var path = _fileSystem.Path.GetFullPath(assemblyPath);
-            var dll = _assemblyWrapper.LoadFile(path);
+            var path = fileSystem.Path.GetFullPath(assemblyPath);
+            var dll = assemblyWrapper.LoadFile(path);
 
-            foreach (var type in _assemblyWrapper.GetExportedTypes(dll))
+            foreach (var type in assemblyWrapper.GetExportedTypes(dll))
             {
                 if (!type.GetInterfaces().Contains(typeof(IPlugin)))
                 {
@@ -91,11 +92,11 @@ namespace TSQLLint.Lib.Plugins
                 {
                     List.Add(type, (IPlugin)Activator.CreateInstance(type));
 
-                    _reporter.Report($"Loaded plugin '{type.FullName}'");
+                    reporter.Report($"Loaded plugin '{type.FullName}'");
                 }
                 else
                 {
-                    _reporter.Report($"Already loaded plugin with type '{type.FullName}'");
+                    reporter.Report($"Already loaded plugin with type '{type.FullName}'");
                 }
             }
         }
@@ -106,11 +107,11 @@ namespace TSQLLint.Lib.Plugins
             {
                 try
                 {
-                    plugin.Value.PerformAction(pluginContext, _reporter);
+                    plugin.Value.PerformAction(pluginContext, reporter);
                 }
                 catch (Exception exception)
                 {
-                    _reporter.Report($"\nThere was a problem with plugin: {plugin.Key}\n\n{exception}");
+                    reporter.Report($"\nThere was a problem with plugin: {plugin.Key}\n\n{exception}");
                     Trace.WriteLine(exception);
                     throw;
                 }

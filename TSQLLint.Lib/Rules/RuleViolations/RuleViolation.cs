@@ -1,25 +1,13 @@
-using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Text;
 using TSQLLint.Common;
 
 namespace TSQLLint.Lib.Rules.RuleViolations
 {
     public class RuleViolation : IRuleViolation
     {
-        public int Column { get; set; }
-
-        public string FileName { get; set; }
-
-        public int Line { get; set; }
-
-        public string RuleName { get; set; }
-
-        public RuleViolationSeverity Severity { get; set; }
-
-        public string Text { get; set; }
-
-        private PropertyInfo[] _PropertyInfos = null;
+        private PropertyInfo[] propertyInfos = null;
 
         public RuleViolation(string fileName, string ruleName, string text, int startLine, int startColumn, RuleViolationSeverity severity)
         {
@@ -38,15 +26,29 @@ namespace TSQLLint.Lib.Rules.RuleViolations
             Column = startColumn;
         }
 
+        public int Column { get; set; }
+
+        public string FileName { get; set; }
+
+        public int Line { get; set; }
+
+        public string RuleName { get; set; }
+
+        public RuleViolationSeverity Severity { get; set; }
+
+        public string Text { get; set; }
+
         [ExcludeFromCodeCoverage]
         public override string ToString()
         {
-            if(_PropertyInfos == null)
-                _PropertyInfos = this.GetType().GetProperties();
+            if (propertyInfos == null)
+            {
+                propertyInfos = this.GetType().GetProperties();
+            }
 
             var sb = new StringBuilder();
 
-            foreach (var info in _PropertyInfos)
+            foreach (var info in propertyInfos)
             {
                 var value = info.GetValue(this, null) ?? "(null)";
                 sb.AppendLine(info.Name + ": " + value.ToString());

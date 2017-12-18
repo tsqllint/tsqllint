@@ -43,13 +43,13 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
             });
 
             var reporter = Substitute.For<IReporter>();
-            var ConfigReader = new ConfigReader(reporter, fileSystem);
-            ConfigReader.LoadConfig(configFilePath);
-            var RuleVisitorBuilder = new Lib.Parser.RuleVisitorBuilder(ConfigReader, null);
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfig(configFilePath);
+            var ruleVisitorBuilder = new Lib.Parser.RuleVisitorBuilder(configReader, null);
 
             var ignoredRuleList = new List<IRuleException>();
-            var ActiveRuleVisitors = RuleVisitorBuilder.BuildVisitors("foo.sql", ignoredRuleList);
-            Assert.AreEqual(2, ActiveRuleVisitors.Count);
+            var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors("foo.sql", ignoredRuleList);
+            Assert.AreEqual(2, activeRuleVisitors.Count);
         }
     }
 }

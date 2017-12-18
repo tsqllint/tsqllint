@@ -7,13 +7,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "schema-qualify";
+        private readonly Action<string, string, int, int> errorCallback;
 
-        public string RULE_TEXT => "Object name not schema qualified";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
-
-        private readonly List<string> TableAliases = new List<string>
+        private readonly List<string> tableAliases = new List<string>
         {
             "INSERTED",
             "UPDATED",
@@ -22,14 +18,18 @@ namespace TSQLLint.Lib.Rules
 
         public SchemaQualifyRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "schema-qualify";
+
+        public string RULE_TEXT => "Object name not schema qualified";
 
         public override void Visit(TSqlStatement node)
         {
             var childAliasVisitor = new ChildAliasVisitor();
             node.AcceptChildren(childAliasVisitor);
-            TableAliases.AddRange(childAliasVisitor.TableAliases);
+            tableAliases.AddRange(childAliasVisitor.TableAliases);
         }
 
         public override void Visit(NamedTableReference node)
@@ -38,7 +38,7 @@ namespace TSQLLint.Lib.Rules
             {
                 return;
             }
-            
+
             // don't attempt to enforce schema validation on temp tables
             if (node.SchemaObject.BaseIdentifier.Value.Contains("#"))
             {
@@ -46,12 +46,12 @@ namespace TSQLLint.Lib.Rules
             }
 
             // don't attempt to enforce schema validation on table aliases
-            if (TableAliases.FindIndex(x => x.Equals(node.SchemaObject.BaseIdentifier.Value, StringComparison.OrdinalIgnoreCase)) != -1)
+            if (tableAliases.FindIndex(x => x.Equals(node.SchemaObject.BaseIdentifier.Value, StringComparison.OrdinalIgnoreCase)) != -1)
             {
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
         public class ChildAliasVisitor : TSqlFragmentVisitor
