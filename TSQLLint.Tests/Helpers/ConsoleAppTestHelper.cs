@@ -9,44 +9,43 @@ namespace TSQLLint.Tests.Helpers
     [ExcludeFromCodeCoverage]
     public static class ConsoleAppTestHelper
     {
-        private static string _ApplicationPath;
+        private static string applicationPath;
 
-        private static string ApplicationPath
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(_ApplicationPath))
-                {
-                    return _ApplicationPath;
-                }
-
-                var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
-                _ApplicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint.Console")}/TSQLLint.Console.dll";
-
-                return _ApplicationPath;
-            }
-        }
-
-        private static string _TestPluginPath;
+        private static string testPluginPath;
 
         public static string TestPluginPath
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(_TestPluginPath))
+                if (!string.IsNullOrWhiteSpace(testPluginPath))
                 {
-                    return _TestPluginPath;
+                    return testPluginPath;
                 }
 
                 var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
-                _TestPluginPath = $@"{workingDirectory}/TSQLLint.Tests.dll";
-                return _TestPluginPath;
+                testPluginPath = $@"{workingDirectory}/TSQLLint.Tests.dll";
+                return testPluginPath;
             }
         }
 
-        public static Process GetProcess(string arguments, DataReceivedEventHandler OutputHandler, DataReceivedEventHandler ErrorHandler, EventHandler ExitHandler)
+        private static string ApplicationPath
         {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(applicationPath))
+                {
+                    return applicationPath;
+                }
 
+                var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
+                applicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint.Console")}/TSQLLint.Console.dll";
+
+                return applicationPath;
+            }
+        }
+
+        public static Process GetProcess(string arguments, DataReceivedEventHandler outputHandler, DataReceivedEventHandler errorHandler, EventHandler exitHandler)
+        {
             var process = new Process
             {
                 EnableRaisingEvents = true,
@@ -61,9 +60,9 @@ namespace TSQLLint.Tests.Helpers
                 }
             };
 
-            process.OutputDataReceived += OutputHandler;
-            process.ErrorDataReceived += ErrorHandler;
-            process.Exited += ExitHandler;
+            process.OutputDataReceived += outputHandler;
+            process.ErrorDataReceived += errorHandler;
+            process.Exited += exitHandler;
             return process;
         }
 

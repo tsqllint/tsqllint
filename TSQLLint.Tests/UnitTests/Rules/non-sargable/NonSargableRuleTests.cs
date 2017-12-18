@@ -8,7 +8,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
 {
     public class NonSargableRuleTests
     {
-        private static readonly object[] testCases =
+        private static readonly object[] TestCases =
         {
             new object[]
             {
@@ -66,7 +66,8 @@ namespace TSQLLint.Tests.UnitTests.Rules
             }
         };
 
-        [Test, TestCaseSource(nameof(testCases))]
+        [Test]
+        [TestCaseSource(nameof(TestCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {
             RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);

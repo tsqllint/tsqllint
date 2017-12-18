@@ -7,28 +7,29 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class LoadConfigFileStrategy : IHandlingStrategy
     {
-        private readonly IBaseReporter _reporter;
-        private readonly IFileSystem _fileSystem;
+        private readonly IBaseReporter reporter;
+        private readonly IFileSystem fileSystem;
 
-        public LoadConfigFileStrategy(IBaseReporter reporter) : this(reporter, new FileSystem()) { }
+        public LoadConfigFileStrategy(IBaseReporter reporter)
+            : this(reporter, new FileSystem()) { }
 
         public LoadConfigFileStrategy(IBaseReporter reporter, FileSystem fileSystem)
         {
-            _reporter = reporter;
-            _fileSystem = fileSystem;
+            this.reporter = reporter;
+            this.fileSystem = fileSystem;
         }
 
         public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             commandLineOptions.ConfigFile = commandLineOptions.ConfigFile.Trim();
-            if (!_fileSystem.File.Exists(commandLineOptions.ConfigFile))
+            if (!fileSystem.File.Exists(commandLineOptions.ConfigFile))
             {
-                _reporter.Report($"Config file not found at: {commandLineOptions.ConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite");
+                reporter.Report($"Config file not found at: {commandLineOptions.ConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite");
             }
 
             if (!commandLineOptions.LintPath.Any())
             {
-                _reporter.Report(commandLineOptions.GetUsage());
+                reporter.Report(commandLineOptions.GetUsage());
             }
         }
     }

@@ -62,7 +62,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath2 = @"c:\dbscripts\file2.txt";
             const string filePath3 = @"c:\dbscripts\file3.sql";
             const string filePath4 = @"c:\dbscripts\file4.Sql";
-            
+
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var pluginHandler = Substitute.For<IPluginHandler>();
             var reporter = Substitute.For<IReporter>();
@@ -208,7 +208,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
             ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
-            Assert.AreEqual(3, processor.FileCount);            
+            Assert.AreEqual(3, processor.FileCount);
         }
 
         [Test]
@@ -283,7 +283,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath(@"c:\doesntExist\file*.*");
 
             // assert
-            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath1, Arg.Any<Stream>());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath1, Arg.Any<Stream>());
 
             Assert.AreEqual(0, processor.FileCount);
         }
@@ -320,7 +320,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                     {
                         sqlFilePath5, new MockFileData("File5SQL")
                     }
-                }, 
+                },
                 @"c:\dbscripts");
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
@@ -423,7 +423,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
-            Assert.AreEqual(3, processor.FileCount);            
+            Assert.AreEqual(3, processor.FileCount);
         }
 
         [Test]

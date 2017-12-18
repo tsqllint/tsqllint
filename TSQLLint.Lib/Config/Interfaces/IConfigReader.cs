@@ -7,14 +7,14 @@ namespace TSQLLint.Lib.Config.Interfaces
     {
         bool IsConfigLoaded { get; }
 
-        Dictionary<string, string> GetPlugins();
-        
-        RuleViolationSeverity GetRuleSeverity(string key);
-        
-        void ListPlugins();
-        
-        void LoadConfig(string configFilePath);
-
         string ConfigFileLoadedFrom { get; }
+
+        Dictionary<string, string> GetPlugins();
+
+        RuleViolationSeverity GetRuleSeverity(string key);
+
+        void ListPlugins();
+
+        void LoadConfig(string configFilePath);
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using TSQLLint.Lib.Reporters;
 using Microsoft.Extensions.Configuration;
+using TSQLLint.Lib.Reporters;
 
 namespace TSQLLint.Console
 {
@@ -14,8 +14,8 @@ namespace TSQLLint.Console
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json");
 
-            var Configuration = builder.Build();
-            var debug = Configuration.GetValue("debug", false);
+            var configuration = builder.Build();
+            var debug = configuration.GetValue("debug", false);
             var application = new Application(args, new ConsoleReporter());
 
             try
@@ -26,7 +26,8 @@ namespace TSQLLint.Console
             {
                 System.Console.WriteLine("TSQLLint encountered a problem.");
 
-                if(debug){
+                if (debug)
+                {
                     System.Console.WriteLine(exception);
                 }
             }

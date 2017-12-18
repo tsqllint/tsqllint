@@ -307,35 +307,35 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
         public class TestAssemblyWrapper : IAssemblyWrapper
         {
-            private readonly Assembly _assembly;
-            private readonly Dictionary<string, int> _pathsToPluginNumber;
-            private string _assemblyLoaded;
-            private Type _defaultPlugin;
+            private readonly Assembly assembly;
+            private readonly Dictionary<string, int> pathsToPluginNumber;
+            private string assemblyLoaded;
+            private Type defaultPlugin;
 
             public TestAssemblyWrapper(Dictionary<string, int> pathsToPluginNumber = null, Type defaultPlugin = null)
             {
-                _assembly = Assembly.GetExecutingAssembly();
-                _pathsToPluginNumber = pathsToPluginNumber;
-                _defaultPlugin = defaultPlugin ?? typeof(TestPlugin);
+                assembly = Assembly.GetExecutingAssembly();
+                this.pathsToPluginNumber = pathsToPluginNumber;
+                this.defaultPlugin = defaultPlugin ?? typeof(TestPlugin);
             }
 
             public Assembly LoadFile(string path)
             {
-                _assemblyLoaded = path;
-                return _assembly;
+                assemblyLoaded = path;
+                return assembly;
             }
 
             public Type[] GetExportedTypes(Assembly assembly)
             {
-                if (_pathsToPluginNumber == null || !_pathsToPluginNumber.ContainsKey(_assemblyLoaded))
+                if (pathsToPluginNumber == null || !pathsToPluginNumber.ContainsKey(assemblyLoaded))
                 {
-                    return new[] { _defaultPlugin };
+                    return new[] { defaultPlugin };
                 }
 
-                switch (_pathsToPluginNumber[_assemblyLoaded])
+                switch (pathsToPluginNumber[assemblyLoaded])
                 {
                     case 0:
-                        return new[] { _defaultPlugin };
+                        return new[] { defaultPlugin };
                     case 1:
                         return new[] { typeof(TestPlugin2) };
                     case 2:

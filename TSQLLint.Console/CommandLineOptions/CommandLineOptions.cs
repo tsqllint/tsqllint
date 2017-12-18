@@ -15,19 +15,22 @@ namespace TSQLLint.Console.CommandLineOptions
 
         public string[] Args { get; set; }
 
-        [Option('c',
+        [Option(
+            'c',
              longName: "config",
              Required = false,
              HelpText = "Used to specify a .tsqllintrc file path other than the default")]
         public string ConfigFile { get; set; }
 
-        [Option('f',
+        [Option(
+            'f',
             longName: "force",
             Required = false,
             HelpText = "Used to force generation of default config file when one already exists")]
         public bool Force { get; set; }
 
-        [Option('i',
+        [Option(
+            'i',
             longName: "init",
             Required = false,
             HelpText = "Generate default .tsqllintrc config file")]
@@ -36,28 +39,32 @@ namespace TSQLLint.Console.CommandLineOptions
         [ValueList(typeof(List<string>))]
         public List<string> LintPath { get; set; }
 
-        [Option('p',
+        [Option(
+            'p',
             longName: "print-config",
             Required = false,
-            HelpText = "Print path to config file"),
-        TSQLLintOption(NonLintingCommand = true)]
+            HelpText = "Print path to config file")]
+        [TSQLLintOption(NonLintingCommand = true)]
         public bool PrintConfig { get; set; }
 
-        [Option('l',
+        [Option(
+            'l',
              longName: "list-plugins",
              Required = false,
-             HelpText = "List the loaded plugins"),
-         TSQLLintOption(NonLintingCommand = true)]
+             HelpText = "List the loaded plugins")]
+        [TSQLLintOption(NonLintingCommand = true)]
         public bool ListPlugins { get; set; }
 
-        [Option('v',
+        [Option(
+            'v',
             longName: "version",
             Required = false,
-            HelpText = "Display tsqllint version"),
-        TSQLLintOption(NonLintingCommand = true)]
+            HelpText = "Display tsqllint version")]
+        [TSQLLintOption(NonLintingCommand = true)]
         public bool Version { get; set; }
 
-        [Option('h',
+        [Option(
+            'h',
             longName: "help",
             Required = false,
             HelpText = "Display this help dialog")]

@@ -8,39 +8,40 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {
     public class CreateConfigFileStrategy : IHandlingStrategy
     {
-        private readonly IBaseReporter _reporter;
-        private readonly IConfigFileGenerator _configFileGenerator;
-        private readonly IFileSystem _fileSystem;
-        private readonly string _defaultConfigFilePath;
+        private readonly IBaseReporter reporter;
+        private readonly IConfigFileGenerator configFileGenerator;
+        private readonly IFileSystem fileSystem;
+        private readonly string defaultConfigFilePath;
 
-        public CreateConfigFileStrategy(IBaseReporter reporter, IConfigFileGenerator configFileGenerator) : this(reporter, configFileGenerator, new FileSystem()) { }
-            
+        public CreateConfigFileStrategy(IBaseReporter reporter, IConfigFileGenerator configFileGenerator)
+            : this(reporter, configFileGenerator, new FileSystem()) { }
+
         public CreateConfigFileStrategy(IBaseReporter reporter, IConfigFileGenerator configFileGenerator, IFileSystem fileSystem)
         {
-            _reporter = reporter;
-            _configFileGenerator = configFileGenerator;
-            _fileSystem = fileSystem;
-            _defaultConfigFilePath = _fileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
-        }
-
-        private void CreateConfigFile()
-        {
-            _configFileGenerator.WriteConfigFile(_defaultConfigFilePath);
+            this.reporter = reporter;
+            this.configFileGenerator = configFileGenerator;
+            this.fileSystem = fileSystem;
+            defaultConfigFilePath = this.fileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
         }
 
         public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
-            var configFileExists = _fileSystem.File.Exists(_defaultConfigFilePath);
-            
+            var configFileExists = fileSystem.File.Exists(defaultConfigFilePath);
+
             if (!configFileExists || commandLineOptions.Force)
             {
                 CreateConfigFile();
-                _reporter.Report($@"Created default config file at {_defaultConfigFilePath}");
+                reporter.Report($@"Created default config file at {defaultConfigFilePath}");
             }
             else
             {
-                _reporter.Report($"Default config file already exists at: {_defaultConfigFilePath} use the '--init' option combined with the '--force' option to overwrite");
+                reporter.Report($"Default config file already exists at: {defaultConfigFilePath} use the '--init' option combined with the '--force' option to overwrite");
             }
+        }
+
+        private void CreateConfigFile()
+        {
+            configFileGenerator.WriteConfigFile(defaultConfigFilePath);
         }
     }
 }

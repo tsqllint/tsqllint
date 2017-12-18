@@ -8,24 +8,24 @@ namespace TSQLLint.Lib.Rules
 {
     public class MultiTableAliasRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "multi-table-alias";
+        private readonly Action<string, string, int, int> errorCallback;
 
-        public string RULE_TEXT => "Unaliased table found in multi table joins";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
-
-        private HashSet<string> CteNames = new HashSet<string>();
+        private HashSet<string> cteNames = new HashSet<string>();
 
         public MultiTableAliasRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "multi-table-alias";
+
+        public string RULE_TEXT => "Unaliased table found in multi table joins";
 
         public override void Visit(TSqlStatement node)
         {
             var childCommonTableExpressionVisitor = new ChildCommonTableExpressionVisitor();
             node.AcceptChildren(childCommonTableExpressionVisitor);
-            CteNames = childCommonTableExpressionVisitor.CommonTableExpressionIdentifiers;
+            cteNames = childCommonTableExpressionVisitor.CommonTableExpressionIdentifiers;
         }
 
         public override void Visit(TableReference node)
@@ -34,7 +34,7 @@ namespace TSQLLint.Lib.Rules
             {
                 var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(childNode.StartLine, childNode.LastTokenIndex, childNode.ScriptTokenStream);
                 var column = ColumnNumberCalculator.GetColumnNumberBeforeToken(tabsOnLine, childNode.ScriptTokenStream[childNode.FirstTokenIndex]);
-                ErrorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column);
+                errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column);
             }
 
             var childTableJoinVisitor = new ChildTableJoinVisitor();
@@ -45,7 +45,7 @@ namespace TSQLLint.Lib.Rules
                 return;
             }
 
-            var childTableAliasVisitor = new ChildTableAliasVisitor(ChildCallback, CteNames);
+            var childTableAliasVisitor = new ChildTableAliasVisitor(ChildCallback, cteNames);
             node.AcceptChildren(childTableAliasVisitor);
         }
 
@@ -71,15 +71,15 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildTableAliasVisitor : TSqlFragmentVisitor
         {
-            private readonly Action<TSqlFragment> ChildCallback;
-
-            public HashSet<string> CteNames { get; }
+            private readonly Action<TSqlFragment> childCallback;
 
             public ChildTableAliasVisitor(Action<TSqlFragment> errorCallback, HashSet<string> cteNames)
             {
                 CteNames = cteNames;
-                ChildCallback = errorCallback;
+                childCallback = errorCallback;
             }
+
+            public HashSet<string> CteNames { get; }
 
             public override void Visit(NamedTableReference node)
             {
@@ -90,7 +90,7 @@ namespace TSQLLint.Lib.Rules
 
                 if (node.Alias == null)
                 {
-                    ChildCallback(node);
+                    childCallback(node);
                 }
             }
         }

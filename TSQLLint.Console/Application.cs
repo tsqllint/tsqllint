@@ -15,40 +15,40 @@ namespace TSQLLint.Console
 {
     public class Application
     {
-        private readonly ICommandLineOptionHandler _commandLineOptionHandler;
-        private readonly CommandLineOptions.CommandLineOptions _commandLineOptions;
-        private readonly IConfigReader _configReader;
-        private readonly IPluginHandler _pluginHandler;
-        private readonly ISqlFileProcessor _fileProcessor;
-        private readonly IReporter _reporter;
-        private readonly IConsoleTimer _timer;
+        private readonly ICommandLineOptionHandler commandLineOptionHandler;
+        private readonly CommandLineOptions.CommandLineOptions commandLineOptions;
+        private readonly IConfigReader configReader;
+        private readonly IPluginHandler pluginHandler;
+        private readonly ISqlFileProcessor fileProcessor;
+        private readonly IReporter reporter;
+        private readonly IConsoleTimer timer;
 
         public Application(string[] args, IReporter reporter)
         {
-            _timer = new ConsoleTimer();
-            _timer.Start();
+            timer = new ConsoleTimer();
+            timer.Start();
 
-            _reporter = reporter;
-            _commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
-            _configReader = new ConfigReader(reporter);
-            _commandLineOptionHandler = new CommandLineOptionHandler(_commandLineOptions, new ConfigFileGenerator(), _configReader, reporter);
+            this.reporter = reporter;
+            commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
+            configReader = new ConfigReader(reporter);
+            commandLineOptionHandler = new CommandLineOptionHandler(commandLineOptions, new ConfigFileGenerator(), configReader, reporter);
             var fragmentBuilder = new FragmentBuilder();
-            var ruleVisitorBuilder = new RuleVisitorBuilder(_configReader, _reporter);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter);
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
-            _pluginHandler = new PluginHandler(reporter);
-            _fileProcessor = new SqlFileProcessor(ruleVisitor, _pluginHandler, reporter, new FileSystem());
+            pluginHandler = new PluginHandler(reporter);
+            fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
         }
 
         public void Run()
         {
-            _configReader.LoadConfig(_commandLineOptions.ConfigFile);
-            _pluginHandler.ProcessPaths(_configReader.GetPlugins());
-            _commandLineOptionHandler.HandleCommandLineOptions(_commandLineOptions);
-            _fileProcessor.ProcessList(_commandLineOptions.LintPath);
+            configReader.LoadConfig(commandLineOptions.ConfigFile);
+            pluginHandler.ProcessPaths(configReader.GetPlugins());
+            commandLineOptionHandler.HandleCommandLineOptions(commandLineOptions);
+            fileProcessor.ProcessList(commandLineOptions.LintPath);
 
-            if (_fileProcessor.FileCount > 0)
+            if (fileProcessor.FileCount > 0)
             {
-                _reporter.ReportResults(_timer.Stop(), _fileProcessor.FileCount);
+                reporter.ReportResults(timer.Stop(), fileProcessor.FileCount);
             }
         }
     }

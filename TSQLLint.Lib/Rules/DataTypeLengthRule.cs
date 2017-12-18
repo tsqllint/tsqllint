@@ -7,13 +7,9 @@ namespace TSQLLint.Lib.Rules
 {
     public class DataTypeLengthRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "data-type-length";
+        private readonly Action<string, string, int, int> errorCallback;
 
-        public string RULE_TEXT => "Date type length not specified";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
-
-        private readonly SqlDataTypeOption[] TypesThatRequireLength = 
+        private readonly SqlDataTypeOption[] typesThatRequireLength =
         {
                 SqlDataTypeOption.Char,
                 SqlDataTypeOption.VarChar,
@@ -28,14 +24,18 @@ namespace TSQLLint.Lib.Rules
 
         public DataTypeLengthRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "data-type-length";
+
+        public string RULE_TEXT => "Date type length not specified";
 
         public override void Visit(SqlDataTypeReference node)
         {
-            if (TypesThatRequireLength.Any(option => Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1))
+            if (typesThatRequireLength.Any(option => Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1))
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + node.FragmentLength);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + node.FragmentLength);
             }
         }
     }

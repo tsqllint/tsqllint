@@ -6,16 +6,16 @@ namespace TSQLLint.Lib.Rules
 {
     public class UpperLowerRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "upper-lower";
-
-        public string RULE_TEXT => "Use of the UPPER or LOWER functions when performing comparisons in SELECT statements is not required when running database in case insensitive mode";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         public UpperLowerRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "upper-lower";
+
+        public string RULE_TEXT => "Use of the UPPER or LOWER functions when performing comparisons in SELECT statements is not required when running database in case insensitive mode";
 
         public override void Visit(SelectStatement node)
         {
@@ -23,13 +23,13 @@ namespace TSQLLint.Lib.Rules
             node.Accept(visitor);
             if (visitor.QueryExpressionUpperLowerFunctionFound)
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
             }
         }
 
         public class ChildQueryComparisonVisitor : TSqlFragmentVisitor
         {
-            public bool QueryExpressionUpperLowerFunctionFound;
+            public bool QueryExpressionUpperLowerFunctionFound { get; private set; }
 
             public override void Visit(QueryExpression node)
             {
@@ -44,8 +44,8 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildBooleanComparisonVisitor : TSqlFragmentVisitor
         {
-            public bool UpperLowerFunctionCallInComparison;
-            
+            public bool UpperLowerFunctionCallInComparison { get; private set; }
+
             public override void Visit(BooleanComparisonExpression node)
             {
                 var visitor = new ChildFunctionCallVisitor();
@@ -59,8 +59,8 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildFunctionCallVisitor : TSqlFragmentVisitor
         {
-            public bool UpperLowerFound;
-            
+            public bool UpperLowerFound { get; private set; }
+
             public override void Visit(FunctionCall node)
             {
                 if (node.FunctionName.Value.Equals("UPPER", StringComparison.OrdinalIgnoreCase) ||

@@ -8,16 +8,16 @@ namespace TSQLLint.Lib.Rules
 {
     public class KeywordCapitalizationRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "keyword-capitalization";
-
-        public string RULE_TEXT => "Expected TSQL Keyword to be capitalized";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         public KeywordCapitalizationRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "keyword-capitalization";
+
+        public string RULE_TEXT => "Expected TSQL Keyword to be capitalized";
 
         public override void Visit(TSqlScript node)
         {
@@ -38,7 +38,7 @@ namespace TSQLLint.Lib.Rules
                 var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(token.Line, index, node.ScriptTokenStream);
                 var column = ColumnNumberCalculator.GetColumnNumberBeforeToken(tabsOnLine, token);
 
-                ErrorCallback(RULE_NAME, RULE_TEXT, token.Line, column);
+                errorCallback(RULE_NAME, RULE_TEXT, token.Line, column);
             }
         }
 

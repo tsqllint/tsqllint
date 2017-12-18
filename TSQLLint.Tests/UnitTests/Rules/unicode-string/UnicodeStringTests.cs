@@ -13,7 +13,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
             new object[]
             {
                 "unicode-string", "unicode-string-no-error", typeof(UnicodeStringRule), new List<RuleViolation>()
-            },            
+            },
             new object[]
             {
                 "unicode-string", "unicode-string-error", typeof(UnicodeStringRule), new List<RuleViolation>

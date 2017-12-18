@@ -7,16 +7,16 @@ namespace TSQLLint.Lib.Parser
 {
     public class FragmentBuilder : IFragmentBuilder
     {
-        private readonly TSql120Parser Parser;
+        private readonly TSql120Parser parser;
 
         public FragmentBuilder()
         {
-            Parser = new TSql120Parser(true);
+            parser = new TSql120Parser(true);
         }
-        
+
         public TSqlFragment GetFragment(TextReader txtRdr, out IList<ParseError> errors)
         {
-            return Parser.Parse(txtRdr, out errors);
+            return parser.Parse(txtRdr, out errors);
         }
     }
 }

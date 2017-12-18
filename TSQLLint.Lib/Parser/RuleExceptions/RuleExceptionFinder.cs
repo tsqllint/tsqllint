@@ -13,7 +13,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
         {
             const string pattern = @"\/\*\s*(tsqllint-(?:dis|en)able)\s*(.*)(?:\s*\*\/)";
             var regex = new Regex(pattern, RegexOptions.IgnoreCase);
-            
+
             var ruleExceptionList = new List<IRuleException>();
             TextReader reader = new StreamReader(fileStream);
 
@@ -39,7 +39,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
                     ruleException.SetEndLine(lineNumber);
                 }
             }
-            
+
             return ruleExceptionList;
         }
 

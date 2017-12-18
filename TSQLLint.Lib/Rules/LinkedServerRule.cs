@@ -6,16 +6,16 @@ namespace TSQLLint.Lib.Rules
 {
     public class LinkedServerRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "linked-server";
-
-        public string RULE_TEXT => "Linked server queries can cause table locking and are discouraged";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         public LinkedServerRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "linked-server";
+
+        public string RULE_TEXT => "Linked server queries can cause table locking and are discouraged";
 
         public override void Visit(NamedTableReference node)
         {
@@ -24,7 +24,7 @@ namespace TSQLLint.Lib.Rules
                 return;
             }
 
-            ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
     }
 }

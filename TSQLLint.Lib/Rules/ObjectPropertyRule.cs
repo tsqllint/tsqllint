@@ -6,22 +6,22 @@ namespace TSQLLint.Lib.Rules
 {
     public class ObjectPropertyRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "object-property";
-
-        public string RULE_TEXT => "Expected use of SYS.COLUMNS rather than ObjectProperty function";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         public ObjectPropertyRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "object-property";
+
+        public string RULE_TEXT => "Expected use of SYS.COLUMNS rather than ObjectProperty function";
 
         public override void Visit(FunctionCall node)
         {
             if (node.FunctionName.Value.Equals("OBJECTPROPERTY", StringComparison.OrdinalIgnoreCase))
             {
-                ErrorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
             }
         }
     }

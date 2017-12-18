@@ -230,7 +230,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                         }
                     }")
                 },
-                { pluginPath, new MockFileData("") }
+                { pluginPath, new MockFileData(string.Empty) }
             });
 
             var reporter = Substitute.For<IReporter>();

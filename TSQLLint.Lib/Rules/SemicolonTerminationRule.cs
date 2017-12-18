@@ -8,14 +8,10 @@ namespace TSQLLint.Lib.Rules
 {
     public class SemicolonTerminationRule : TSqlFragmentVisitor, ISqlRule
     {
-        public string RULE_NAME => "semicolon-termination";
-
-        public string RULE_TEXT => "Statement not terminated with semicolon";
-
-        private readonly Action<string, string, int, int> ErrorCallback;
+        private readonly Action<string, string, int, int> errorCallback;
 
         // don't enforce semicolon termination on these statements
-        private readonly Type[] TypesToSkip = 
+        private readonly Type[] typesToSkip =
         {
             typeof(BeginEndBlockStatement),
             typeof(GoToStatement),
@@ -28,12 +24,16 @@ namespace TSQLLint.Lib.Rules
 
         public SemicolonTerminationRule(Action<string, string, int, int> errorCallback)
         {
-            ErrorCallback = errorCallback;
+            this.errorCallback = errorCallback;
         }
+
+        public string RULE_NAME => "semicolon-termination";
+
+        public string RULE_TEXT => "Statement not terminated with semicolon";
 
         public override void Visit(TSqlStatement node)
         {
-            if (TypesToSkip.Contains(node.GetType()) || EndsWithSemicolon(node))
+            if (typesToSkip.Contains(node.GetType()) || EndsWithSemicolon(node))
             {
                 return;
             }
@@ -41,7 +41,7 @@ namespace TSQLLint.Lib.Rules
             var lastToken = node.ScriptTokenStream[node.LastTokenIndex];
             var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(lastToken.Line, node.LastTokenIndex, node.ScriptTokenStream);
             var column = ColumnNumberCalculator.GetColumnNumberAfterToken(tabsOnLine, lastToken);
-            ErrorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column);
+            errorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column);
         }
 
         public override void Visit(BeginEndBlockStatement node)
@@ -52,7 +52,7 @@ namespace TSQLLint.Lib.Rules
             }
 
             var endTerminator = node.ScriptTokenStream[node.LastTokenIndex];
-            ErrorCallback(
+            errorCallback(
                 RULE_NAME,
                 RULE_TEXT,
                 node.ScriptTokenStream[node.LastTokenIndex].Line,
