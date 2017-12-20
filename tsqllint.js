@@ -5,12 +5,12 @@ const os = require('os')
 
 var args = process.argv.slice(2)
 
-if (os.type() ==== 'Darwin') {
+if (os.type() === 'Darwin') {
   var child = spawn(`${__dirname}/osx-x64/TSQLLint.Console`, args)
-} else if (os.type() ==== 'Linux') {
+} else if (os.type() === 'Linux') {
   var child = spawn(`${__dirname}/linux-x64/TSQLLint.Console`, args)
-} else if (os.type() ==== 'Windows_NT') {
-  if (os.type() ==== 'Windows_NT') {
+} else if (os.type() === 'Windows_NT') {
+  if (os.type() === 'Windows_NT') {
     if (process.arch === 'x32') {
       var child = spawn(`${__dirname}/win-x86/TSQLLint.Console.exe`, args)
     } else if (process.arch === 'x64') {

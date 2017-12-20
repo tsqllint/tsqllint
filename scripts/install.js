@@ -8,11 +8,11 @@ const decompressTargz = require('decompress-targz')
 const ProgressBar = require('progress')
 
 var runTime = ''
-if (os.type() ==== 'Darwin') {
+if (os.type() === 'Darwin') {
   runTime = 'osx-x64'
-} else if (os.type() ==== 'Linux') {
+} else if (os.type() === 'Linux') {
   runTime = 'linux-x64'
-} else if (os.type() ==== 'Windows_NT') {
+} else if (os.type() === 'Windows_NT') {
   if (process.arch === 'x32') {
     runTime = 'win-x86'
   } else if (process.arch === 'x64') {
@@ -69,7 +69,7 @@ download(`${urlBase}/${runTime}.tgz`, `${runTime}.tgz`, (err) => {
     return
   }
 
-  decompress(`${runTime}.tgz`, './', {
+    decompress(`${runTime}.tgz`, './', {
     plugins: [
       decompressTargz()
     ]
