@@ -305,6 +305,9 @@
     <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-multiple-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error-waitfor.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error-create-object.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

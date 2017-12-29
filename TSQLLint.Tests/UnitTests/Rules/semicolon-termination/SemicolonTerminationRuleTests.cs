@@ -10,9 +10,13 @@ namespace TSQLLint.Tests.UnitTests.Rules
     {
         private static readonly object[] TestCases =
         {
-            new object[]
+          new object[]
           {
               "semicolon-termination", "semicolon-termination-no-error",  typeof(SemicolonTerminationRule), new List<RuleViolation>()
+          },
+          new object[]
+          {
+              "semicolon-termination", "semicolon-termination-no-error-waitfor",  typeof(SemicolonTerminationRule), new List<RuleViolation>()
           },
           new object[]
           {
