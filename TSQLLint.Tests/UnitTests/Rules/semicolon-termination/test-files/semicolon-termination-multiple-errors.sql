@@ -26,11 +26,4 @@ BEGIN
 END -- violation
 GO
 
-DECLARE @conversation_group_id UNIQUEIDENTIFIER ;  
-
-SET @conversation_group_id =   
-    <retrieve conversation group ID from database> ;  
-
-RECEIVE *  
-FROM ExpenseQueue  
-WHERE conversation_group_id = @conversation_group_id --violation
+RECEIVE TOP (1) * FROM ExpenseQueue --violation

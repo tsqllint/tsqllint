@@ -48,7 +48,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
                   new RuleViolation("semicolon-termination", 14, 29),
                   new RuleViolation("semicolon-termination", 19, 47),
                   new RuleViolation("semicolon-termination", 26, 4),
-                  new RuleViolation("semicolon-termination", 33, 53)
+                  new RuleViolation("semicolon-termination", 29, 36)
               }
           },
           new object[]

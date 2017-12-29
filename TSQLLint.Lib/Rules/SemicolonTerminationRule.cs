@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Rules.Common;
@@ -9,6 +10,8 @@ namespace TSQLLint.Lib.Rules
     public class SemicolonTerminationRule : TSqlFragmentVisitor, ISqlRule
     {
         private readonly Action<string, string, int, int> errorCallback;
+
+        private readonly IList<TSqlFragment> waitForStatements = new List<TSqlFragment>();
 
         // don't enforce semicolon termination on these statements
         private readonly Type[] typesToSkip =
@@ -31,9 +34,16 @@ namespace TSQLLint.Lib.Rules
 
         public string RULE_TEXT => "Statement not terminated with semicolon";
 
+        public override void Visit(WaitForStatement node)
+        {
+            waitForStatements.Add(node.Statement);
+        }
+
         public override void Visit(TSqlStatement node)
         {
-            if (typesToSkip.Contains(node.GetType()) || EndsWithSemicolon(node))
+            if (typesToSkip.Contains(node.GetType()) ||
+                EndsWithSemicolon(node) ||
+                waitForStatements.Contains(node))
             {
                 return;
             }
