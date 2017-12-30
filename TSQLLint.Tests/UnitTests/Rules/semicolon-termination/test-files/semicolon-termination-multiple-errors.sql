@@ -25,3 +25,5 @@ BEGIN
     SELECT 1;
 END -- violation
 GO
+
+RECEIVE TOP (1) * FROM ExpenseQueue --violation

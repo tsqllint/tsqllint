@@ -10,9 +10,13 @@ namespace TSQLLint.Tests.UnitTests.Rules
     {
         private static readonly object[] TestCases =
         {
-            new object[]
+          new object[]
           {
               "semicolon-termination", "semicolon-termination-no-error",  typeof(SemicolonTerminationRule), new List<RuleViolation>()
+          },
+          new object[]
+          {
+              "semicolon-termination", "semicolon-termination-no-error-waitfor",  typeof(SemicolonTerminationRule), new List<RuleViolation>()
           },
           new object[]
           {
@@ -43,7 +47,8 @@ namespace TSQLLint.Tests.UnitTests.Rules
                   new RuleViolation("semicolon-termination", 12, 47),
                   new RuleViolation("semicolon-termination", 14, 29),
                   new RuleViolation("semicolon-termination", 19, 47),
-                  new RuleViolation("semicolon-termination", 26, 4)
+                  new RuleViolation("semicolon-termination", 26, 4),
+                  new RuleViolation("semicolon-termination", 29, 36)
               }
           },
           new object[]

@@ -18,6 +18,7 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.176" />
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="2.1.0.176" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta6" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -302,6 +303,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-multiple-errors.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error-waitfor.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error-create-object.sql">
