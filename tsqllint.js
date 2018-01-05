@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { spawn } = require('child_process')
+const spawn = require('child_process').spawn
 const os = require('os')
 
 var args = process.argv.slice(2)
