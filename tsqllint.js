@@ -11,7 +11,7 @@ if (os.type() === 'Darwin') {
   var child = spawn(`${__dirname}/linux-x64/TSQLLint.Console`, args)
 } else if (os.type() === 'Windows_NT') {
   if (os.type() === 'Windows_NT') {
-    if (process.arch === 'x32') {
+    if (process.arch === 'ia32') {
       var child = spawn(`${__dirname}/win-x86/TSQLLint.Console.exe`, args)
     } else if (process.arch === 'x64') {
       var child = spawn(`${__dirname}/win-x64/TSQLLint.Console.exe`, args)
