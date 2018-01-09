@@ -55,6 +55,21 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
                     new GlobalRuleException(1, 5),
                     new RuleException(typeof(SelectStarRule), 7, 9),
                 }
+            },
+            new object[]
+            {
+                "disable-rule-with-additional-comments", new List<IRuleException>
+                {
+                    new RuleException(typeof(SelectStarRule), 1, 3),
+                    new RuleException(typeof(LinkedServerRule), 1, 3)
+                }
+            },
+            new object[]
+            {
+                "global-disable-rule-with-additional-comments", new List<IRuleException>
+                {
+                    new GlobalRuleException(1, 3)
+                }
             }
         };
 
