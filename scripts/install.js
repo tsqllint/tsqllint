@@ -13,7 +13,7 @@ if (os.type() === 'Darwin') {
 } else if (os.type() === 'Linux') {
   runTime = 'linux-x64'
 } else if (os.type() === 'Windows_NT') {
-  if (process.arch === 'x32') {
+  if (process.arch === 'ia32') {
     runTime = 'win-x86'
   } else if (process.arch === 'x64') {
     runTime = 'win-x64'
