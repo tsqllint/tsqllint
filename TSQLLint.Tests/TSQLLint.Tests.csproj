@@ -92,6 +92,12 @@
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\disable-rule-whole-file.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\global-disable-rule-with-additional-comments.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\disable-rule-with-additional-comments.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable-multi-set.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
