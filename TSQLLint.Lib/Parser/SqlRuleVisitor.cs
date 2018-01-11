@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using TSQLLint.Common;
@@ -36,6 +37,7 @@ namespace TSQLLint.Lib.Parser
             if (errors.Count > 0)
             {
                 reporter.ReportViolation(new RuleViolation(sqlPath, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error));
+                Environment.ExitCode = 1;
                 return;
             }
 
