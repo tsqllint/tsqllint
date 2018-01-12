@@ -30,3 +30,7 @@ child.stdout.on('data', function (data) {
 child.stderr.on('data', function (data) {
   process.stdout.write(data)
 })
+
+child.on('exit', function (code) {
+  process.exit(code);
+})
