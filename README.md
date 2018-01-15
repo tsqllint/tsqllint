@@ -46,7 +46,15 @@ $ tsqllint --list-plugins
 
 ## Integrating TSQLLint with other Tools
 
-TSQLLint uses a common message format that allows for integration into off the shelf tools. SQL Server Management Studio can use TSQLLint using SSMS's external tools feature.
+### Visual Studio Code Extension
+
+TSQLLint is built into a [Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=tsqllint.tsqllint). This extension can be installed from within the VS Code Extension Interface or from the VS Code Extension marketplace.
+
+![Usage Example](documentation/usage-animation.gif?raw=true)
+
+### SQL Server Management Studio
+
+TSQLLint uses a common message format that allows for integration into off the shelf tools. SQL Server Management Studio can use TSQLLint using SSMS's External Tools feature.
 
 ![SSMS Integration Image](documentation/SSMSIntegrationScreenshot.PNG)
 
