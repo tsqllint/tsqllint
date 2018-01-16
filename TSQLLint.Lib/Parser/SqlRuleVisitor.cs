@@ -34,7 +34,7 @@ namespace TSQLLint.Lib.Parser
             TextReader sqlTextReader = new StreamReader(sqlFileStream);
             var sqlFragment = fragmentBuilder.GetFragment(sqlTextReader, out var errors);
 
-            if (errors.Count > 0)
+            if (sqlFragment == null)
             {
                 reporter.ReportViolation(new RuleViolation(sqlPath, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error));
                 Environment.ExitCode = 1;

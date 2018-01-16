@@ -40,7 +40,11 @@ namespace TSQLLint.Tests.IntegrationTests
 
         protected static readonly IEnumerable<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>
         {
-            new RuleViolation(null, null, "TSQL not syntactically correct", 0, 0, RuleViolationSeverity.Error)
+            new RuleViolation("keyword-capitalization", 1, 1),
+            new RuleViolation("set-ansi", 1, 1),
+            new RuleViolation("set-nocount", 1, 1),
+            new RuleViolation("set-quoted-identifier", 1, 1),
+            new RuleViolation("set-transaction-isolation-level", 1, 1),
         };
 
         protected static readonly IEnumerable<RuleViolation> TestFileTwoRuleViolations = new List<RuleViolation>
