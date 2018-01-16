@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -18,20 +19,34 @@ namespace TSQLLint.Tests.UnitTests.Parser
         private const string Path = @"c:\testFile.sql";
 
         [Test]
-        public void VisitRules_InvalidSql_ShouldReportError()
+        public void VisitRules_InvalidSql_ShouldStillLint()
         {
             // arrange
             var mockReporter = Substitute.For<IReporter>();
             var fragmentBuilder = new FragmentBuilder();
+            var errorCallbacks = new List<string>();
+
+            var ruleViolations = new List<RuleViolation>();
+            void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
+            {
+                ruleViolations.Add(new RuleViolation(ruleName, startLine, startColumn));
+            }
+
+            var visitors = new List<TSqlFragmentVisitor>
+            {
+                new KeywordCapitalizationRule(ErrorCallback)
+            };
+
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
-            var sqlStream = ParsingUtility.GenerateStreamFromString("SELECT");
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            var sqlStream = ParsingUtility.GenerateStreamFromString("select");
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, fragmentBuilder, mockReporter);
 
             // act
             sqlRuleVisitor.VisitRules(Path, sqlStream);
 
             // assert
-            mockReporter.Received().ReportViolation(Arg.Is<RuleViolation>(x => x.FileName == Path && x.Text == "TSQL not syntactically correct"));
+            Assert.AreEqual(1, ruleViolations.Count);
         }
 
         [Test]

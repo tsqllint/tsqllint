@@ -16,6 +16,7 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.176" />
     <PackageReference Include="TSQLLint.Common" Version="1.0.15" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta6" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -49,7 +49,7 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"TestFiles/no-errors.sql", 0)]
         [TestCase(@"TestFiles/with-warnings.sql", 0)]
         [TestCase(@"TestFiles/with-errors.sql", 1)]
-        [TestCase(@"TestFiles/invalid-syntax.sql", 1)]
+        [TestCase(@"TestFiles/invalid-syntax.sql", 0)]
         public void LintingExitCodeTest(string testFile, int expectedExitCode)
         {
             var fileLinted = false;

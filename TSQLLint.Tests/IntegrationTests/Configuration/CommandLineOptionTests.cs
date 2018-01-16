@@ -84,7 +84,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
                 yield return new TestCaseData(new List<string> { TestFileOne, TestFileTwo }, null, MultiFileRuleViolations, 2).SetName("File Args Valid Lint Two Files");
                 yield return new TestCaseData(new List<string> { TestFileTwo, TestFileOne }, null, MultiFileRuleViolations, 2).SetName("File Args Valid Lint Two Files, Changed Order");
                 yield return new TestCaseData(new List<string> { TestFileDirectory }, null, AllRuleViolations, 3).SetName("File Args Valid Lint Directory");
-                yield return new TestCaseData(new List<string> { TestFileInvalidSyntax }, null, TestFileInvalidSyntaxRuleViolations, 1).SetName("File Args Invalid due to Invalid Syntax");
+                yield return new TestCaseData(new List<string> { TestFileInvalidSyntax }, null, TestFileInvalidSyntaxRuleViolations, 1).SetName("File Args not invalid due to Invalid Syntax");
             }
         }
 
