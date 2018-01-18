@@ -3,7 +3,7 @@
 END TRY
 BEGIN CATCH
     SELECT 2;
-END CATCH
+END CATCH;
 
 DECLARE @KeepGoing INT = 1;
 WHILE (@KeepGoing = 1)
