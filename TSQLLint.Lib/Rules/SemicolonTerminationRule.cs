@@ -20,7 +20,6 @@ namespace TSQLLint.Lib.Rules
             typeof(GoToStatement),
             typeof(IndexDefinition),
             typeof(LabelStatement),
-            typeof(TryCatchStatement),
             typeof(WhileStatement),
             typeof(IfStatement)
         };

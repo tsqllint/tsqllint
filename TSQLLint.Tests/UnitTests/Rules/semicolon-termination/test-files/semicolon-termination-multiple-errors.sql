@@ -5,7 +5,7 @@ BEGIN TRY;
 END TRY
 BEGIN CATCH;  
     SELECT 2;
-END CATCH;
+END CATCH --violation
 
 CREATE TABLE t1 (
   ColumnOne int, 
