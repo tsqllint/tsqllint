@@ -23,7 +23,7 @@ GO
 IF NOT EXISTS(SELECT * FROM SYS.INDEXES	WHERE OBJECT_ID = OBJECT_ID('dbo.Foo'))
 BEGIN
     SELECT 1;
-END -- violation
+END
 GO
 
 RECEIVE TOP (1) * FROM ExpenseQueue --violation
