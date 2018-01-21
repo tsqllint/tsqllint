@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Common;
 
@@ -8,6 +9,7 @@ namespace TSQLLint.Lib.Reporters
     {
         private int warningCount;
         private int errorCount;
+        private List<IRuleViolation> violationList = new List<IRuleViolation>();
 
         [ExcludeFromCodeCoverage]
         public virtual void Report(string message)
@@ -17,6 +19,27 @@ namespace TSQLLint.Lib.Reporters
 
         public void ReportResults(TimeSpan timespan, int fileCount)
         {
+            violationList.Sort((x, y) =>
+            {
+                var v = x.FileName.CompareTo(y.FileName);
+                if (v == 0)
+                {
+                    v = x.Line.CompareTo(y.Line);
+                }
+                return v;
+            });
+
+            foreach (IRuleViolation violation in violationList)
+            {
+                ReportViolation(
+                    violation.FileName,
+                    violation.Line.ToString(),
+                    violation.Column.ToString(),
+                    violation.Severity.ToString().ToLowerInvariant(),
+                    violation.RuleName,
+                    violation.Text);
+            }
+
             Report($"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings");
         }
 
@@ -34,13 +57,7 @@ namespace TSQLLint.Lib.Reporters
                     return;
             }
 
-            ReportViolation(
-                violation.FileName,
-                violation.Line.ToString(),
-                violation.Column.ToString(),
-                violation.Severity.ToString().ToLowerInvariant(),
-                violation.RuleName,
-                violation.Text);
+            violationList.Add(violation);
         }
 
         public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
