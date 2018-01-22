@@ -8,6 +8,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Console;
 using TSQLLint.Console.CommandLineOptions;
+using TSQLLint.Lib.Reporters;
 using TSQLLint.Lib.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
@@ -80,7 +81,7 @@ namespace TSQLLint.Tests.IntegrationTests
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
 
             var appArgs = argumentsUnderTest.ToArray();
-            var mockReporter = Substitute.For<IReporter>();
+            var mockReporter = Substitute.For<ConsoleReporter>();
 
             var reportedViolations = new List<IRuleViolation>();
             mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => reportedViolations.Add(x.Arg<IRuleViolation>()));

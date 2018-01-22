@@ -6,6 +6,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins;
 using TSQLLint.Lib.Plugins.Interfaces;
+using TSQLLint.Lib.Reporters;
 
 namespace TSQLLint.Lib.Parser
 {
@@ -13,13 +14,13 @@ namespace TSQLLint.Lib.Parser
     {
         private readonly IRuleVisitor ruleVisitor;
 
-        private readonly IReporter reporter;
+        private readonly ConsoleReporter reporter;
 
         private readonly IFileSystem fileSystem;
 
         private readonly IPluginHandler pluginHandler;
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, ConsoleReporter reporter, IFileSystem fileSystem)
         {
             this.ruleVisitor = ruleVisitor;
             this.pluginHandler = pluginHandler;
@@ -77,6 +78,7 @@ namespace TSQLLint.Lib.Parser
                 ProcessPlugins(fileStream, filePath);
             }
 
+            reporter.ReportFileResults();
             FileCount++;
         }
 

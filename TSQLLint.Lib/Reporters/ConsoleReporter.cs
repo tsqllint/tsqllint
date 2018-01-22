@@ -19,15 +19,12 @@ namespace TSQLLint.Lib.Reporters
 
         public void ReportResults(TimeSpan timespan, int fileCount)
         {
-            violationList.Sort((x, y) =>
-            {
-                var v = x.FileName.CompareTo(y.FileName);
-                if (v == 0)
-                {
-                    v = x.Line.CompareTo(y.Line);
-                }
-                return v;
-            });
+            Report($"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings");
+        }
+
+        public void ReportFileResults()
+        {
+            violationList.Sort((x, y) => x.Line.CompareTo(y.Line));
 
             foreach (IRuleViolation violation in violationList)
             {
@@ -40,7 +37,7 @@ namespace TSQLLint.Lib.Reporters
                     violation.Text);
             }
 
-            Report($"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings");
+            violationList.Clear();
         }
 
         public void ReportViolation(IRuleViolation violation)
