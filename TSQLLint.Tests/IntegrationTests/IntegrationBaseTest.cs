@@ -81,7 +81,7 @@ namespace TSQLLint.Tests.IntegrationTests
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
 
             var appArgs = argumentsUnderTest.ToArray();
-            var mockReporter = Substitute.For<ConsoleReporter>();
+            var mockReporter = Substitute.For<IReporter>();
 
             var reportedViolations = new List<IRuleViolation>();
             mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => reportedViolations.Add(x.Arg<IRuleViolation>()));

@@ -34,6 +34,13 @@ namespace TSQLLint.Lib.Parser
             TextReader sqlTextReader = new StreamReader(sqlFileStream);
             var sqlFragment = fragmentBuilder.GetFragment(sqlTextReader, out var errors);
 
+            if (sqlFragment == null)
+            {
+                 reporter.ReportViolation(new RuleViolation(sqlPath, null, "TSQL file not parseable", 0, 0, RuleViolationSeverity.Error));
+                 Environment.ExitCode = 1;
+                 return;
+            }
+
             sqlFileStream.Seek(0, SeekOrigin.Begin);
             var ignoredRules = ruleExceptionFinder.GetIgnoredRuleList(sqlFileStream).ToList();
 

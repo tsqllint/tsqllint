@@ -38,6 +38,7 @@ namespace TSQLLint.Lib.Reporters
             }
 
             violationList.Clear();
+            violationList.TrimExcess();
         }
 
         public void ReportViolation(IRuleViolation violation)
@@ -59,8 +60,7 @@ namespace TSQLLint.Lib.Reporters
 
         public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
         {
-            Report(
-                $"{fileName}({line},{column}): {severity} {ruleName} : {violationText}.");
+            Report($"{fileName}({line},{column}): {severity} {ruleName} : {violationText}.");
         }
     }
 }

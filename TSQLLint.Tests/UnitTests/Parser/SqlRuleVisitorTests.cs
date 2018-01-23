@@ -44,6 +44,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // act
             sqlRuleVisitor.VisitRules(Path, sqlStream);
+            System.Console.WriteLine(ruleViolations.ToString());
 
             // assert
             Assert.AreEqual(1, ruleViolations.Count);
