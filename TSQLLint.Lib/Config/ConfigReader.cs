@@ -63,6 +63,13 @@ namespace TSQLLint.Lib.Config
         {
             if (string.IsNullOrWhiteSpace(configFilePath))
             {
+                var localConfigFilePath = Path.Combine(Environment.CurrentDirectory, @".tsqllintrc");
+                if (fileSystem.File.Exists(localConfigFilePath))
+                {
+                    LoadConfigFromFile(localConfigFilePath);
+                    return;
+                }
+
                 var defaultConfigFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
                 if (fileSystem.File.Exists(defaultConfigFilePath))
                 {

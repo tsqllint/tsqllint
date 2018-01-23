@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
@@ -78,10 +79,81 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
+        public void ConfigReaderLoadsConfigsFromUserProfile()
+        {
+            // arrange
+            var configFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'rules': {
+                            'select-star': 'warning',
+                            'statement-semicolon-termination': 'warning'
+                        }
+                    }")
+                }
+            });
+
+            var reporter = Substitute.For<IReporter>();
+
+            // act
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfig(null);
+
+            // assert
+            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("select-star"));
+            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsTrue(configReader.IsConfigLoaded);
+        }
+
+        [Test]
+        public void ConfigReaderLoadsConfigsFromLocal()
+        {
+            // arrange
+            var localConfigFile = Path.Combine(TestContext.CurrentContext.TestDirectory, ".tsqllintrc");
+            var fileSystem = new MockFileSystem(
+            new Dictionary<string, MockFileData>
+            {
+                {
+                    // should ignore config files in user profile when local config exists
+                    @"C:\Users\User\.tsqllintrc", new MockFileData(@"
+                    {
+                        'rules': {
+                            'select-star': 'off',
+                            'statement-semicolon-termination': 'warning'
+                        }
+                    }")
+                },
+                {
+                    localConfigFile, new MockFileData(@"
+                    {
+                        'rules': {
+                            'select-star': 'warning',
+                            'statement-semicolon-termination': 'warning'
+                        }
+                    }")
+                }
+            }, TestContext.CurrentContext.TestDirectory);
+
+            var reporter = Substitute.For<IReporter>();
+
+            // act
+            var configReader = new ConfigReader(reporter, fileSystem);
+            configReader.LoadConfig(null);
+
+            // assert
+            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("select-star"));
+            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsTrue(configReader.IsConfigLoaded);
+        }
+
+        [Test]
         public void ConfigReaderGetRuleSeverity()
         {
             // arrange
-            const string configFilePath = @"c:\users\someone\.tsqllintrc";
+            const string configFilePath = @"C:\Users\User\.tsqllintrc";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
