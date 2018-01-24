@@ -35,7 +35,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath = "c:\\dbscripts\\myfile.sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var fileSystem = Substitute.For<IFileSystem>();
             var fileBase = Substitute.For<FileBase>();
             var pluginHandler = Substitute.For<IPluginHandler>();
@@ -66,7 +66,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var pluginHandler = Substitute.For<IPluginHandler>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -107,7 +107,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath4 = @"c:\dbscripts\db2\sproc\file4.Sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
@@ -146,7 +146,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath = "This doesnt exist";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var fileSystem = Substitute.For<IFileSystem>();
             var fileBase = Substitute.For<FileBase>();
             var pluginHandler = Substitute.For<IPluginHandler>();
@@ -180,7 +180,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath4 = @"c:\dbscripts\file4.Sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
@@ -223,7 +223,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath5 = @"c:\file4.Sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
@@ -266,7 +266,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string sqlFilePath1 = @"c:\dbscripts\file1.SQL";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(
@@ -300,7 +300,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string sqlFilePath5 = @"c:\file4.Sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(
@@ -346,7 +346,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath1 = @"c:\dbscripts\file1.txt";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
@@ -372,7 +372,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         {
             // arrange
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var fileSystem = Substitute.For<IFileSystem>();
             var pluginHandler = Substitute.For<IPluginHandler>();
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
@@ -395,7 +395,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string filePath4 = @"c:\dbscripts\db2\sproc\file4.Sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
@@ -436,7 +436,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             const string invalidFilePath = @"c:\invalid\invalid.sql";
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
-            var reporter = Substitute.For<ConsoleReporter>();
+            var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>

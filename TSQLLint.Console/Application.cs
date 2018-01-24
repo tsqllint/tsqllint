@@ -20,10 +20,10 @@ namespace TSQLLint.Console
         private readonly IConfigReader configReader;
         private readonly IPluginHandler pluginHandler;
         private readonly ISqlFileProcessor fileProcessor;
-        private readonly ConsoleReporter reporter;
+        private readonly IReporter reporter;
         private readonly IConsoleTimer timer;
 
-        public Application(string[] args, ConsoleReporter reporter)
+        public Application(string[] args, IReporter reporter)
         {
             timer = new ConsoleTimer();
             timer.Start();

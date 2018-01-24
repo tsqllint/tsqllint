@@ -14,13 +14,13 @@ namespace TSQLLint.Lib.Parser
     {
         private readonly IRuleVisitor ruleVisitor;
 
-        private readonly ConsoleReporter reporter;
+        private readonly IReporter reporter;
 
         private readonly IFileSystem fileSystem;
 
         private readonly IPluginHandler pluginHandler;
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, ConsoleReporter reporter, IFileSystem fileSystem)
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
             this.ruleVisitor = ruleVisitor;
             this.pluginHandler = pluginHandler;
