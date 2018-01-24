@@ -53,21 +53,6 @@ namespace TSQLLint.Lib.Rules
             errorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column);
         }
 
-        public override void Visit(BeginEndBlockStatement node)
-        {
-            if (EndsWithSemicolon(node))
-            {
-                return;
-            }
-
-            var endTerminator = node.ScriptTokenStream[node.LastTokenIndex];
-            errorCallback(
-                RULE_NAME,
-                RULE_TEXT,
-                node.ScriptTokenStream[node.LastTokenIndex].Line,
-                endTerminator.Column + endTerminator.Text.Length);
-        }
-
         private static bool EndsWithSemicolon(TSqlFragment node)
         {
             return node.ScriptTokenStream[node.LastTokenIndex].TokenType == TSqlTokenType.Semicolon
