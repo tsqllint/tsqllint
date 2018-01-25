@@ -94,8 +94,8 @@ namespace TSQLLint.Tests.IntegrationTests
                     reportedMessages.Add(v.Text);
                 }
             });
-            mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
 
+            mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
             var application = new Application(appArgs, mockReporter);
 
             // act

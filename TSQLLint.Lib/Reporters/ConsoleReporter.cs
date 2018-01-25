@@ -24,7 +24,12 @@ namespace TSQLLint.Lib.Reporters
 
         public void ReportFileResults()
         {
-            violationList.Sort((x, y) => x.Line.CompareTo(y.Line));
+            violationList.Sort((x, y) =>
+            {
+                var v = x.Line.CompareTo(y.Line);
+                if (v == 0) { v = x.Column.CompareTo(y.Column); }
+                return v;
+            });
 
             foreach (IRuleViolation violation in violationList)
             {
