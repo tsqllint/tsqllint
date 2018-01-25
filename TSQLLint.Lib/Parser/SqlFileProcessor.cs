@@ -6,7 +6,6 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins;
 using TSQLLint.Lib.Plugins.Interfaces;
-using TSQLLint.Lib.Reporters;
 
 namespace TSQLLint.Lib.Parser
 {
