@@ -10,6 +10,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
 using TSQLLint.Lib.Plugins.Interfaces;
+using TSQLLint.Lib.Reporters;
 using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Tests.UnitTests.Parser

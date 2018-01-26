@@ -8,6 +8,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Console;
 using TSQLLint.Console.CommandLineOptions;
+using TSQLLint.Lib.Reporters;
 using TSQLLint.Lib.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
@@ -86,8 +87,15 @@ namespace TSQLLint.Tests.IntegrationTests
             mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => reportedViolations.Add(x.Arg<IRuleViolation>()));
 
             var reportedMessages = new List<string>();
-            mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
+            mockReporter.When(reporter => reporter.ReportFileResults()).Do(x =>
+            {
+                foreach (RuleViolation v in reportedViolations)
+                {
+                    reportedMessages.Add(v.Text);
+                }
+            });
 
+            mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
             var application = new Application(appArgs, mockReporter);
 
             // act

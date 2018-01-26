@@ -16,7 +16,13 @@ namespace TSQLLint.Lib.Parser
 
         public TSqlFragment GetFragment(TextReader txtRdr, out IList<ParseError> errors)
         {
-            return parser.Parse(txtRdr, out errors);
+            var parsedFragment = parser.Parse(txtRdr, out errors);
+             if (parsedFragment != null && parsedFragment.FirstTokenIndex != -1)
+             {
+                 return parsedFragment;
+             }
+
+             return null;
         }
     }
 }
