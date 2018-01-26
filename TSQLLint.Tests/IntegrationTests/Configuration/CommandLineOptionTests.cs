@@ -14,7 +14,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
         private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory/integration-test-two.sql");
         private static readonly string TestFileInvalidSyntax = Path.Combine(TestFileDirectory, @"invalid-syntax.sql");
-
+        private static readonly string TestFileNotParseable = Path.Combine(TestFileDirectory, @"not-parseable-tsql.sql");
         private static readonly string ConfigNotFoundMessage = $"Config file not found at: {InvalidConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite";
         private static readonly string ConfigFoundMessage = $"Config file found at: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc")}";
         private static readonly string NoPluginsFound = "Did not find any plugins";
@@ -85,6 +85,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
                 yield return new TestCaseData(new List<string> { TestFileTwo, TestFileOne }, null, MultiFileRuleViolations, 2).SetName("File Args Valid Lint Two Files, Changed Order");
                 yield return new TestCaseData(new List<string> { TestFileDirectory }, null, AllRuleViolations, 3).SetName("File Args Valid Lint Directory");
                 yield return new TestCaseData(new List<string> { TestFileInvalidSyntax }, null, TestFileInvalidSyntaxRuleViolations, 1).SetName("File Args not invalid due to Invalid Syntax");
+                yield return new TestCaseData(new List<string> { TestFileNotParseable }, null, TestFileNotParseableRuleViolations, 1).SetName("File Args not valid due to unparseable file");
             }
         }
 
