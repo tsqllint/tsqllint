@@ -19,13 +19,16 @@ namespace TSQLLint.Lib.Config
 
         private readonly IFileSystem fileSystem;
 
-        public ConfigReader(IReporter reporter)
-            : this(reporter, new FileSystem()) { }
+        private readonly IEnvironmentWrapper environmentWrapper;
 
-        public ConfigReader(IReporter reporter, IFileSystem fileSystem)
+        public ConfigReader(IReporter reporter)
+            : this(reporter, new FileSystem(), new EnvironmentWrapper()) { }
+
+        public ConfigReader(IReporter reporter, IFileSystem fileSystem, IEnvironmentWrapper environmentWrapper)
         {
             this.reporter = reporter;
             this.fileSystem = fileSystem;
+            this.environmentWrapper = environmentWrapper;
         }
 
         public string ConfigFileLoadedFrom { get; private set; }
@@ -63,6 +66,13 @@ namespace TSQLLint.Lib.Config
         {
             if (string.IsNullOrWhiteSpace(configFilePath))
             {
+                var envVariableConfigFilePath = environmentWrapper.GetEnvironmentVariable("tsqllintrc");
+                if (fileSystem.File.Exists(envVariableConfigFilePath))
+                {
+                    LoadConfigFromFile(envVariableConfigFilePath);
+                    return;
+                }
+
                 var localConfigFilePath = Path.Combine(Environment.CurrentDirectory, @".tsqllintrc");
                 if (fileSystem.File.Exists(localConfigFilePath))
                 {

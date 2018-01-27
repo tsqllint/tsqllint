@@ -7,6 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config;
+using TSQLLint.Lib.Config.Interfaces;
 
 namespace TSQLLint.Tests.UnitTests.Config
 {
@@ -29,9 +30,10 @@ namespace TSQLLint.Tests.UnitTests.Config
             // arrange
             var fileSystem = new MockFileSystem();
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(string.Empty); // load config from memory
             configReader.ListPlugins();
 
@@ -48,11 +50,11 @@ namespace TSQLLint.Tests.UnitTests.Config
         {
             // arrange
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
-
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
@@ -65,11 +67,11 @@ namespace TSQLLint.Tests.UnitTests.Config
         {
             // arrange
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
-
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(@"c:\users\someone\.tsqllintrc");
 
             // assert
@@ -97,9 +99,10 @@ namespace TSQLLint.Tests.UnitTests.Config
             });
 
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(null);
 
             // assert
@@ -138,13 +141,59 @@ namespace TSQLLint.Tests.UnitTests.Config
             }, TestContext.CurrentContext.TestDirectory);
 
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(null);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("select-star"));
+            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+            Assert.IsTrue(configReader.IsConfigLoaded);
+        }
+
+        [Test]
+        public void ConfigReaderLoadsConfigsEnvironmentVariable()
+        {
+            // arrange
+            var testConfigFile = @"c:\foo\.tsqllintrc";
+
+            var fileSystem = new MockFileSystem(
+                new Dictionary<string, MockFileData>
+                {
+                    {
+                        // should ignore config files in user profile when local config exists
+                        testConfigFile, new MockFileData(@"
+                        {
+                            'rules': {
+                                'select-star': 'off',
+                                'statement-semicolon-termination': 'warning'
+                            }
+                        }")
+                    },
+                    {
+                        // should ignore config files in user profile when local config exists
+                        @"C:\Users\User\.tsqllintrc", new MockFileData(@"
+                        {
+                            'rules': {
+                                'select-star': 'error',
+                                'statement-semicolon-termination': 'error'
+                            }
+                        }")
+                    },
+                }, TestContext.CurrentContext.TestDirectory);
+
+            var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+            environmentWrapper.GetEnvironmentVariable("tsqllintrc").Returns(testConfigFile);
+
+            // act
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
+            configReader.LoadConfig(null);
+
+            // assert
+            Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
             Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
             Assert.IsTrue(configReader.IsConfigLoaded);
         }
@@ -168,9 +217,10 @@ namespace TSQLLint.Tests.UnitTests.Config
             });
 
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
 
             // assert
@@ -192,12 +242,13 @@ namespace TSQLLint.Tests.UnitTests.Config
             });
 
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // assert
             Assert.DoesNotThrow(() =>
             {
                 // act
-                var configReader = new ConfigReader(reporter, fileSystem);
+                var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
                 Assert.IsNotNull(configReader);
                 Assert.IsFalse(configReader.IsConfigLoaded);
             });
@@ -222,9 +273,10 @@ namespace TSQLLint.Tests.UnitTests.Config
             });
 
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("foo"), "Rules that dont have a validator should be set to off");
@@ -247,10 +299,12 @@ namespace TSQLLint.Tests.UnitTests.Config
                     }")
                 }
             });
+
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
 
             // assert
@@ -271,9 +325,10 @@ namespace TSQLLint.Tests.UnitTests.Config
             });
 
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
 
             // assert
@@ -306,9 +361,10 @@ namespace TSQLLint.Tests.UnitTests.Config
             });
 
             var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
             // act
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
             var plugins = configReader.GetPlugins();
             configReader.ListPlugins();
