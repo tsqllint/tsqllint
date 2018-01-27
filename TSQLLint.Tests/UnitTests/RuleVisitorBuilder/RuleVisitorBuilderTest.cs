@@ -6,6 +6,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config;
+using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
@@ -43,7 +44,9 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
             });
 
             var reporter = Substitute.For<IReporter>();
-            var configReader = new ConfigReader(reporter, fileSystem);
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
             var ruleVisitorBuilder = new Lib.Parser.RuleVisitorBuilder(configReader, null);
 
