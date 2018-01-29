@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -7,6 +6,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Rules;
 using TSQLLint.Lib.Rules.RuleViolations;
 using TSQLLint.Lib.Utility;
@@ -38,7 +38,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             };
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
-            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IExtendedRuleException>>()).Returns(visitors);
             var sqlStream = ParsingUtility.GenerateStreamFromString("select");
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, fragmentBuilder, mockReporter);
 
@@ -67,7 +67,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             });
 
             var mockRuleExceptionFinder = Substitute.For<IRuleExceptionFinder>();
-            mockRuleExceptionFinder.GetIgnoredRuleList(Arg.Any<Stream>()).Returns(new List<IRuleException>());
+            mockRuleExceptionFinder.GetIgnoredRuleList(Arg.Any<Stream>()).Returns(new List<IExtendedRuleException>());
 
             var visitors = new List<TSqlFragmentVisitor>
             {
@@ -75,7 +75,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             };
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
-            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IExtendedRuleException>>()).Returns(visitors);
 
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, mockRuleExceptionFinder, mockFragmentBuilder, mockReporter);
 
