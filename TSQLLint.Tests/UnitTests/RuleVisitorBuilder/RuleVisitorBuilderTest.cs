@@ -8,6 +8,7 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser.Interfaces;
+using IRuleException = TSQLLint.Common.IRuleException;
 
 namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 {

@@ -1,4 +1,4 @@
-using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Common;
 
 namespace TSQLLint.Lib.Parser.RuleExceptions
 {
@@ -11,6 +11,8 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
         }
 
         public int EndLine { get; private set; }
+
+        public string RuleName { get; }
 
         public int StartLine { get; }
 

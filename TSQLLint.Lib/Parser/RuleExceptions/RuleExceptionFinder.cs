@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Lib.Parser.RuleExceptions
@@ -36,7 +37,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
             {
                 if (ruleException.EndLine == 0)
                 {
-                    ruleException.SetEndLine(lineNumber);
+                    throw new NotImplementedException();
                 }
             }
 

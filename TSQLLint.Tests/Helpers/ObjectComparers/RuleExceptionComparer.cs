@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Common;
 using TSQLLint.Lib.Parser.RuleExceptions;
 
 namespace TSQLLint.Tests.Helpers.ObjectComparers
