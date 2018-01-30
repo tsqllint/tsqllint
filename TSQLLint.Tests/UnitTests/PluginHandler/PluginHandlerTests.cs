@@ -226,7 +226,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var reporter = Substitute.For<IReporter>();
             var textReader = Lib.Utility.ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
-            var context = new PluginContext(@"c:\scripts\foo.sql", textReader);
+            var context = new PluginContext(@"c:\scripts\foo.sql", new List<IRuleException>(), textReader);
 
             // act
             var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);

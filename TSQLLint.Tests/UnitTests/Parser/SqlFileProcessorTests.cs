@@ -50,7 +50,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             // assert
             fileBase.Received().Exists(filePath);
             fileBase.Received().OpenRead(filePath);
-            ruleVisitor.Received().VisitRules(filePath, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath, new IRuleException[0],  Arg.Any<Stream>());
             Assert.AreEqual(1, processor.FileCount);
         }
 
@@ -89,10 +89,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath("\" " + @"c:\DBScripts" + " \"");
 
             // assert
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath1, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<IEnumerable<IRuleException>>(), Arg.Any<Stream>());
             Assert.AreEqual(3, processor.FileCount);
         }
 
@@ -131,10 +131,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath(@"c:\DBScripts");
 
             // assert
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath1, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath2, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, new IRuleException[0], Arg.Any<Stream>());
             Assert.AreEqual(4, processor.FileCount);
         }
 
@@ -164,7 +164,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             // assert
             fileBase.Received().Exists(filePath);
             directoryBase.Received().Exists(filePath);
-            ruleVisitor.DidNotReceive().VisitRules(filePath, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath, new IRuleException[0], Arg.Any<Stream>());
             reporter.Received().Report($"{filePath} is not a valid file path.");
             Assert.AreEqual(0, processor.FileCount);
         }
@@ -204,10 +204,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath(@"c:\DBScripts\file?.sql");
 
             // assert
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath1, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath2, new IRuleException[0], Arg.Any<Stream>());
             Assert.AreEqual(3, processor.FileCount);
         }
 
@@ -250,11 +250,11 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath(@"c:\DBScripts\file*.*");
 
             // assert
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath2, Arg.Any<Stream>());
-            ruleVisitor.DidNotReceive().VisitRules(filePath5, Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath1, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath2, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath5, new IRuleException[0], Arg.Any<Stream>());
             Assert.AreEqual(3, processor.FileCount);
         }
 
@@ -283,7 +283,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath(@"c:\doesntExist\file*.*");
 
             // assert
-            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath1, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath1, new IRuleException[0], Arg.Any<Stream>());
 
             Assert.AreEqual(0, processor.FileCount);
         }
@@ -329,11 +329,11 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath(@"file*.*");
 
             // assert
-            ruleVisitor.Received().VisitRules(sqlFilePath1, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(sqlFilePath3, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(sqlFilePath4, Arg.Any<Stream>());
-            ruleVisitor.DidNotReceive().VisitRules(txtFilePath2, Arg.Any<Stream>());  // should not visit text files
-            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath5, Arg.Any<Stream>());  // should only visit files in current directory
+            ruleVisitor.Received().VisitRules(sqlFilePath1, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(sqlFilePath3, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(sqlFilePath4, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(txtFilePath2, new IRuleException[0], Arg.Any<Stream>());  // should not visit text files
+            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath5, new IRuleException[0], Arg.Any<Stream>());  // should only visit files in current directory
 
             Assert.AreEqual(3, processor.FileCount);
         }
@@ -361,7 +361,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessPath(@"c:\DBScripts\invalid*.*");
 
             // assert
-            ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath1, new IRuleException[0], Arg.Any<Stream>());
             reporter.DidNotReceive().Report(Arg.Any<string>());
             Assert.AreEqual(0, processor.FileCount);
         }
@@ -380,7 +380,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessList(new List<string>());
 
             // assert
-            ruleVisitor.DidNotReceive().VisitRules(Arg.Any<string>(), Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(Arg.Any<string>(), new IRuleException[0], Arg.Any<Stream>());
             Assert.AreEqual(0, processor.FileCount);
         }
 
@@ -419,10 +419,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessList(new List<string> { "\" c:\\dbscripts\\db2\\sproc , c:\\dbscripts\\db2\\file3.sql \"", @"c:\dbscripts\db1\" });             // tests quotes, extra spaces, commas, multiple items in the list
 
             // assert
-            ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath3, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath4, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<IEnumerable<IRuleException>>(), Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath2, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath3, new IRuleException[0], Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath4, new IRuleException[0], Arg.Any<Stream>());
             Assert.AreEqual(3, processor.FileCount);
         }
 
@@ -454,9 +454,9 @@ namespace TSQLLint.Tests.UnitTests.Parser
             processor.ProcessList(new List<string> { invalidFilePath, @"c:\dbscripts\db1\" });
 
             // assert
-            ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<Stream>());
-            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<Stream>());
+            ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<IEnumerable<IRuleException>>(), Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<IEnumerable<IRuleException>>(), Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath2, Arg.Any<IEnumerable<IRuleException>>(), Arg.Any<Stream>());
             reporter.Received().Report($@"{invalidFilePath} is not a valid file path.");
             Assert.AreEqual(2, processor.FileCount);
         }

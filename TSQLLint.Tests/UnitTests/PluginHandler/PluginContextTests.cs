@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
 using NSubstitute;
 using NUnit.Framework;
+using TSQLLint.Common;
 using TSQLLint.Lib.Plugins;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
@@ -15,7 +17,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var foo = Substitute.For<TextReader>();
 
             // act
-            var pluginContext = new PluginContext(path, foo);
+            var pluginContext = new PluginContext(path, new List<IRuleException>(), foo);
 
             // assert
             Assert.AreEqual(path, pluginContext.FilePath);

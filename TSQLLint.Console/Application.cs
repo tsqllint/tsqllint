@@ -6,6 +6,7 @@ using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Plugins;
 using TSQLLint.Lib.Plugins.Interfaces;
 using TSQLLint.Lib.Reporters;

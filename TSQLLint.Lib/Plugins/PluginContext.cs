@@ -6,10 +6,11 @@ namespace TSQLLint.Lib.Plugins
 {
     public class PluginContext : IPluginContext
     {
-        public PluginContext(string filePath, TextReader fileContents)
+        public PluginContext(string filePath, IEnumerable<IRuleException> ruleExceptions, TextReader fileContents)
         {
             FilePath = filePath;
             FileContents = fileContents;
+            RuleExceptions = ruleExceptions;
         }
 
         public string FilePath { get; }

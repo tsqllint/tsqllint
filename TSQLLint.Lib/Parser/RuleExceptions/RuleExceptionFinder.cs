@@ -33,6 +33,8 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
                 FindIgnoredRules(ruleExceptionList, lineNumber, match);
             }
 
+            fileStream.Seek(0, SeekOrigin.Begin);
+
             foreach (var ruleException in ruleExceptionList)
             {
                 if (ruleException.EndLine == 0)

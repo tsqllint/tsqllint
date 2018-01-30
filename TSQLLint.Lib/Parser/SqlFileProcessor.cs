@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Plugins;
 using TSQLLint.Lib.Plugins.Interfaces;
 
@@ -19,12 +21,15 @@ namespace TSQLLint.Lib.Parser
 
         private readonly IPluginHandler pluginHandler;
 
+        private readonly IRuleExceptionFinder ruleExceptionFinder;
+
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
             this.ruleVisitor = ruleVisitor;
             this.pluginHandler = pluginHandler;
             this.reporter = reporter;
             this.fileSystem = fileSystem;
+            ruleExceptionFinder = new RuleExceptionFinder();
         }
 
         public int FileCount { get; private set; }
@@ -73,8 +78,9 @@ namespace TSQLLint.Lib.Parser
         {
             using (var fileStream = GetFileContents(filePath))
             {
-                ProcessRules(fileStream, filePath);
-                ProcessPlugins(fileStream, filePath);
+                var ignoredRules = ruleExceptionFinder.GetIgnoredRuleList(fileStream).ToList();
+                ProcessRules(fileStream, ignoredRules, filePath);
+                ProcessPlugins(fileStream, ignoredRules, filePath);
             }
 
             FileCount++;
@@ -132,16 +138,15 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
-        private void ProcessRules(Stream fileStream, string filePath)
+        private void ProcessRules(Stream fileStream, IEnumerable<IRuleException> ignoredRules, string filePath)
         {
-            ruleVisitor.VisitRules(filePath, fileStream);
+            ruleVisitor.VisitRules(filePath, ignoredRules, fileStream);
         }
 
-        private void ProcessPlugins(Stream fileStream, string filePath)
+        private void ProcessPlugins(Stream fileStream, IEnumerable<IRuleException> ignoredRules, string filePath)
         {
-            fileStream.Seek(0, SeekOrigin.Begin);
             TextReader textReader = new StreamReader(fileStream);
-            pluginHandler.ActivatePlugins(new PluginContext(filePath, textReader));
+            pluginHandler.ActivatePlugins(new PluginContext(filePath, ignoredRules, textReader));
         }
 
         private Stream GetFileContents(string filePath)
