@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using TSQLLint.Common;
 
@@ -14,5 +15,7 @@ namespace TSQLLint.Lib.Plugins
         public string FilePath { get; }
 
         public TextReader FileContents { get; }
+
+        public IEnumerable<IRuleException> RuleExceptions { get; }
     }
 }
