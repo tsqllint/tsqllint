@@ -47,7 +47,7 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildTransactionVisitor : TSqlFragmentVisitor
         {
-            public List<TrackedTransaction> TransactionLists { get; set; } = new List<TrackedTransaction>();
+            public List<TrackedTransaction> TransactionLists { get; } = new List<TrackedTransaction>();
 
             public override void Visit(BeginTransactionStatement node)
             {
@@ -75,7 +75,7 @@ namespace TSQLLint.Lib.Rules
                 this.transaction = transaction;
             }
 
-            public HashSet<string> DatabasesUpdated { get; set; } = new HashSet<string>();
+            public HashSet<string> DatabasesUpdated { get; } = new HashSet<string>();
 
             public override void Visit(InsertStatement node)
             {
@@ -116,7 +116,7 @@ namespace TSQLLint.Lib.Rules
 
         public class ChildDatabaseNameVisitor : TSqlFragmentVisitor
         {
-            public HashSet<string> DatabasesUpdated { get; set; } = new HashSet<string>();
+            public HashSet<string> DatabasesUpdated { get; } = new HashSet<string>();
 
             public override void Visit(NamedTableReference node)
             {

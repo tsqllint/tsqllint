@@ -14,14 +14,16 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         {
             // arrange
             const string path = @"c:\foo\foo.sql";
-            var foo = Substitute.For<TextReader>();
+            var mockFileStream = Substitute.For<TextReader>();
+            var ruleExceptions = new List<IRuleException>();
 
             // act
-            var pluginContext = new PluginContext(path, new List<IRuleException>(), foo);
+            var pluginContext = new PluginContext(path, ruleExceptions, mockFileStream);
 
             // assert
             Assert.AreEqual(path, pluginContext.FilePath);
-            Assert.AreEqual(foo, pluginContext.FileContents);
+            Assert.AreEqual(mockFileStream, pluginContext.FileContents);
+            Assert.AreEqual(ruleExceptions, pluginContext.RuleExceptions);
         }
     }
 }

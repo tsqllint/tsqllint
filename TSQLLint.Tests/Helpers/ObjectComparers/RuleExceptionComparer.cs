@@ -32,6 +32,11 @@ namespace TSQLLint.Tests.Helpers.ObjectComparers
                 return -1;
             }
 
+            if (right != null && left != null && left.RuleName != right.RuleName)
+            {
+                return -1;
+            }
+
             if (right != null && left != null)
             {
                 if (left is RuleException lhs && right is RuleException rhs && lhs.RuleType != rhs.RuleType)
