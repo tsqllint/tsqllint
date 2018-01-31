@@ -20,6 +20,11 @@ namespace TSQLLint.Lib.Reporters
             Report($"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings");
         }
 
+        public void ReportFileResults()
+        {
+            throw new NotImplementedException();
+        }
+
         public void ReportViolation(IRuleViolation violation)
         {
             switch (violation.Severity)

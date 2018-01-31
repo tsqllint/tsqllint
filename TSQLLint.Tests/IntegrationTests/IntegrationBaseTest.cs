@@ -70,8 +70,6 @@ namespace TSQLLint.Tests.IntegrationTests
             }
         }
 
-        protected string DefaultConfigFile { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
-
         private static string TestFileBase => TestContext.CurrentContext.WorkDirectory;
 
         protected void PerformApplicationTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)

@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Lib.Parser.RuleExceptions
 {
     public class RuleExceptionFinder : IRuleExceptionFinder
     {
-        public IEnumerable<IRuleException> GetIgnoredRuleList(Stream fileStream)
+        public IEnumerable<IExtendedRuleException> GetIgnoredRuleList(Stream fileStream)
         {
             const string pattern = @"\/\*\s*(tsqllint-(?:dis|en)able)\s*(.*)(?:\s*\*\/)";
             var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
-            var ruleExceptionList = new List<IRuleException>();
+            var ruleExceptionList = new List<IExtendedRuleException>();
             TextReader reader = new StreamReader(fileStream);
 
             var lineNumber = 0;
@@ -32,6 +33,8 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
                 FindIgnoredRules(ruleExceptionList, lineNumber, match);
             }
 
+            fileStream.Seek(0, SeekOrigin.Begin);
+
             foreach (var ruleException in ruleExceptionList)
             {
                 if (ruleException.EndLine == 0)
@@ -43,7 +46,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
             return ruleExceptionList;
         }
 
-        private static void FindIgnoredRules(ICollection<IRuleException> ruleExceptionList, int lineNumber, Match match)
+        private static void FindIgnoredRules(ICollection<IExtendedRuleException> ruleExceptionList, int lineNumber, Match match)
         {
             var action = match.Groups[1].Value;
 

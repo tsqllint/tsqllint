@@ -23,7 +23,7 @@ namespace TSQLLint.Lib.Parser
             this.configReader = configReader;
         }
 
-        public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath, List<IRuleException> ignoredRules)
+        public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath, IEnumerable<IRuleException> ignoredRules)
         {
             void RuleViolationCallback(string ruleName, string ruleText, int startLne, int startColumn)
             {
@@ -49,7 +49,7 @@ namespace TSQLLint.Lib.Parser
             return configuredVisitors;
         }
 
-        private static bool IsRuleIgnored(List<IRuleException> ignoredRules, string ruleName, int startLne)
+        private static bool IsRuleIgnored(IEnumerable<IRuleException> ignoredRules, string ruleName, int startLne)
         {
             var friendlyNameToType = RuleVisitorFriendlyNameTypeMap.List.Where(x => x.Key == ruleName);
             var ruleType = friendlyNameToType.FirstOrDefault().Value;
@@ -66,7 +66,7 @@ namespace TSQLLint.Lib.Parser
             return rulesOnLine.Any() || globalRulesOnLine.Any();
         }
 
-        private void HandleRuleViolation(string sqlPath, List<IRuleException> ignoredRules, string ruleName, int startLne, string ruleText, int startColumn)
+        private void HandleRuleViolation(string sqlPath, IEnumerable<IRuleException> ignoredRules, string ruleName, int startLne, string ruleText, int startColumn)
         {
             if (ignoredRules.Any() && IsRuleIgnored(ignoredRules, ruleName, startLne))
             {

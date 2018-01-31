@@ -8,6 +8,7 @@ using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.Reporter
 {
+    [ExcludeFromCodeCoverage]
     public class ReporterTests
     {
         [Test]
@@ -28,6 +29,11 @@ namespace TSQLLint.Tests.UnitTests.Reporter
             reporter.Received().Report("foo.sql(1,1): warning rule name : rule text.");
             reporter.DidNotReceive().Report("foo.sql(1,1): off rule name : rule text.");
             reporter.Received().Report("\nLinted 3 files in 3661 seconds\n\n1 Errors.\n1 Warnings");
+
+            Assert.Throws<NotImplementedException>(() =>
+            {
+                reporter.ReportFileResults();
+            });
         }
     }
 }

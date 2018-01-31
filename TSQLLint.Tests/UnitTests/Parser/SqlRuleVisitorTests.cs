@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -7,6 +6,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Rules;
 using TSQLLint.Lib.Rules.RuleViolations;
 using TSQLLint.Lib.Utility;
@@ -43,7 +43,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, fragmentBuilder, mockReporter);
 
             // act
-            sqlRuleVisitor.VisitRules(Path, sqlStream);
+            sqlRuleVisitor.VisitRules(Path, new List<IRuleException>(), sqlStream);
 
             // assert
             Assert.AreEqual(1, ruleViolations.Count);
@@ -67,7 +67,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             });
 
             var mockRuleExceptionFinder = Substitute.For<IRuleExceptionFinder>();
-            mockRuleExceptionFinder.GetIgnoredRuleList(Arg.Any<Stream>()).Returns(new List<IRuleException>());
+            mockRuleExceptionFinder.GetIgnoredRuleList(Arg.Any<Stream>()).Returns(new List<IExtendedRuleException>());
 
             var visitors = new List<TSqlFragmentVisitor>
             {
@@ -77,10 +77,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
             mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
 
-            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, mockRuleExceptionFinder, mockFragmentBuilder, mockReporter);
+            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, mockFragmentBuilder, mockReporter);
 
             // act
-            sqlRuleVisitor.VisitRules(Path, sqlStream);
+            sqlRuleVisitor.VisitRules(Path, new List<IRuleException>(), sqlStream);
 
             // assert
             mockFragment.Received().Accept(Arg.Any<TSqlFragmentVisitor>());

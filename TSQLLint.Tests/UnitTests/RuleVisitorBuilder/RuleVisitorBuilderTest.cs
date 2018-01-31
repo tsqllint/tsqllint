@@ -8,6 +8,8 @@ using TSQLLint.Common;
 using TSQLLint.Lib.Config;
 using TSQLLint.Lib.Config.Interfaces;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
+using IRuleException = TSQLLint.Common.IRuleException;
 
 namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 {
@@ -50,7 +52,7 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
             configReader.LoadConfig(configFilePath);
             var ruleVisitorBuilder = new Lib.Parser.RuleVisitorBuilder(configReader, null);
 
-            var ignoredRuleList = new List<IRuleException>();
+            var ignoredRuleList = new List<IExtendedRuleException>();
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors("foo.sql", ignoredRuleList);
             Assert.AreEqual(2, activeRuleVisitors.Count);
         }
