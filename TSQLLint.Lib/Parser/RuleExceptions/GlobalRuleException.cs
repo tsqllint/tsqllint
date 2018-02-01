@@ -10,7 +10,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
 
         public int EndLine { get; private set; }
 
-        public string RuleName { get; }
+        public string RuleName => "Global";
 
         public int StartLine { get; }
 
