@@ -38,6 +38,7 @@ after_test:
   - cmd: 7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz
   - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\publish\publish.cmd
   - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\packageRuntimes\packageRuntimes.cmd
+  - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\tests\run-acceptance-tests.cmd
   - cmd: IF %APPVEYOR_REPO_TAG%==true npm pack
 
 deploy:
