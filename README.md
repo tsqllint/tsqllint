@@ -8,7 +8,7 @@
 
 # TSQLLint
 
-TSQLLint is a tool for describing, identifying, and reporting on undesirable patterns in TSQL scripts
+TSQLLint is a tool for describing, identifying, and reporting on undesirable patterns in TSQL scripts.
 
 ## Installation
 
@@ -16,32 +16,33 @@ The recommended method of installing tsqllint is to install the tool globally us
 
 This binary can be installed though [the `npm` registry](https://www.npmjs.com/). First, install [Node.js version 4 or higher](https://nodejs.org/en/download/), and then installation is done using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
-```bash
-$ npm install tsqllint -g
+``` bash
+npm install tsqllint -g
 ```
 
 ## Usage
-```bash
+
+``` bash
 # lint a single file
-$ tsqllint test.sql
+tsqllint test.sql
 
 # lint all files in a directory
-$ tsqllint c:\database_scripts
+tsqllint c:\database_scripts
 
 # lint a list of files and directories, paths with whitespace must be enclosed in quotes
-$ tsqllint file_one.sql file_two.sql "c:\database scripts"
+tsqllint file_one.sql file_two.sql "c:\database scripts"
 
 # lint using wild cards
-$ tsqllint c:\database_scripts\file*.sql
+tsqllint c:\database_scripts\file*.sql
 
 # print path to .tsqllintrc config file
-$ tsqllint --print-config
+tsqllint --print-config
 
 # display usage info
-$ tsqllint --help
+tsqllint --help
 
 # list the plugins loaded
-$ tsqllint --list-plugins
+tsqllint --list-plugins
 ```
 
 ## Integrating TSQLLint with other Tools
@@ -62,12 +63,19 @@ TSQLLint uses a common message format that allows for integration into off the s
 
 ```bash
 # generate a default .tsqllintrc file using the init flag (optional if just using a default configuration)
-$ tsqllint --init
+tsqllint --init
 ```
 
 ## Creating custom configurations
 
-Configure tsqllint by editing its config file, which is called .tsqllintrc, you can find its location with the "--print-confg" or "-p" option.  
+Configure tsqllint by editing its config file, ```.tsqllintrc``` you can find its location with the "--print-confg" or "-p" option.
+
+TSQLLint will load its config file in the following order or prescidence:
+
+1. The value passed with the ```-c``` command line argument
+2. An Environment Variable named ```TSQLLINTRC```
+3. A file named ```.tsqllintrc``` in the same local directory in which you are running TSQLLint
+4. A file named ```.tsqllintrc``` in the user's home directory
 
 Rules may be set to "off", "warning", or "error".
 
@@ -159,7 +167,7 @@ Once you complete your plugin, update your .tsqllintrc file to point to your ass
 
 This sample plugin notifies users that spaces should be used rather than tabs.
 
-```csharp
+``` csharp
 using System;
 using TSQLLint.Common;
 
