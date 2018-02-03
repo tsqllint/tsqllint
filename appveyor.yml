@@ -9,14 +9,16 @@ max_jobs: 2
 #---------------------------------#
 
 environment:
-  nodejs_version: "6"
+  nodejs_version: "9"
 
 image: Visual Studio 2017
 
 init:
   - git config --global core.autocrlf input
 
-# clone entire repository history if not defined
+install:
+  - ps: Install-Product node $env:nodejs_version 
+
 clone_depth: 5                      
 
 #---------------------------------#
@@ -25,6 +27,7 @@ clone_depth: 5
 
 before_build:
   - dotnet --info
+  - node -v
 
 build_script:
   - cmd: IF %APPVEYOR_REPO_TAG%==false dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp2.0
@@ -38,7 +41,6 @@ after_test:
   - cmd: 7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz
   - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\publish\publish.cmd
   - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\packageRuntimes\packageRuntimes.cmd
-  - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\tests\run-acceptance-tests.cmd
   - cmd: IF %APPVEYOR_REPO_TAG%==true npm pack
 
 deploy:

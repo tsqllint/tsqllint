@@ -57,7 +57,7 @@ function download (url, dest) {
   })
 };
 
-var version = 'v1.8.10'
+var version = 'v1.9.0'
 var urlBase = `https://github.com/tsqllint/tsqllint/releases/download/${version}`
 download(`${urlBase}/${runTime}.tgz`, `${runTime}.tgz`, (err) => {
   if (err) {
