@@ -65,6 +65,9 @@
     <None Update="IntegrationTests\Configuration\TestFiles\integration-test-one.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="IntegrationTests\Configuration\TestFiles\invalid-encoding.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="IntegrationTests\Configuration\TestFiles\invalid-syntax.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

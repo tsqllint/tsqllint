@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Lib.Parser
 {
@@ -26,11 +29,26 @@ namespace TSQLLint.Lib.Parser
             var sqlFragment = fragmentBuilder.GetFragment(sqlTextReader, out var errors);
             sqlFileStream.Seek(0, SeekOrigin.Begin);
 
+            if (errors.Any())
+            {
+                HandleParserErrors(sqlPath, errors);
+            }
+
             var ruleVisitors = ruleVisitorBuilder.BuildVisitors(sqlPath, ignoredRules);
             foreach (var visitor in ruleVisitors)
             {
-                sqlFragment.Accept(visitor);
+                sqlFragment?.Accept(visitor);
             }
+        }
+
+        private void HandleParserErrors(string sqlPath, IList<Microsoft.SqlServer.TransactSql.ScriptDom.ParseError> errors)
+        {
+            foreach (var error in errors)
+            {
+                reporter.ReportViolation(new RuleViolation(sqlPath, "invalid-syntax", error.Message, error.Line, error.Column, RuleViolationSeverity.Error));
+            }
+
+            Environment.ExitCode = 1;
         }
     }
 }
