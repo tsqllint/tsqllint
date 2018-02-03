@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/tsqllint/tsqllint/tree/HEAD)
-
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.10...HEAD)
+## [v1.9.0](https://github.com/tsqllint/tsqllint/tree/v1.9.0) (2018-02-03)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.10...v1.9.0)
 
 **Implemented enhancements:**
 
@@ -11,6 +10,12 @@
 
 **Merged pull requests:**
 
+- Document config file discovery features in readme [\#148](https://github.com/tsqllint/tsqllint/pull/148) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add acceptance testing scripts  [\#147](https://github.com/tsqllint/tsqllint/pull/147) ([nathan-boyd](https://github.com/nathan-boyd))
+- Set global rule exception name to GLOBAL [\#146](https://github.com/tsqllint/tsqllint/pull/146) ([nathan-boyd](https://github.com/nathan-boyd))
+- Pass rule exceptions to plugins [\#145](https://github.com/tsqllint/tsqllint/pull/145) ([nathan-boyd](https://github.com/nathan-boyd))
+- Read config file path from environment variable [\#144](https://github.com/tsqllint/tsqllint/pull/144) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add Change Log [\#141](https://github.com/tsqllint/tsqllint/pull/141) ([nathan-boyd](https://github.com/nathan-boyd))
 - Get config from local directory [\#138](https://github.com/tsqllint/tsqllint/pull/138) ([nathan-boyd](https://github.com/nathan-boyd))
 - Remove requirement for ELSE statements to be terminated with semicolons [\#134](https://github.com/tsqllint/tsqllint/pull/134) ([nathan-boyd](https://github.com/nathan-boyd))
 - Issue 131 END CATCH; [\#132](https://github.com/tsqllint/tsqllint/pull/132) ([danielgasperut](https://github.com/danielgasperut))
