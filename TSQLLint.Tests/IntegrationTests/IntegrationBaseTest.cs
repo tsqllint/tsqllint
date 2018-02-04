@@ -45,6 +45,12 @@ namespace TSQLLint.Tests.IntegrationTests
             new RuleViolation("set-nocount", 1, 1),
             new RuleViolation("set-quoted-identifier", 1, 1),
             new RuleViolation("set-transaction-isolation-level", 1, 1),
+            new RuleViolation("invalid-syntax", 1, 1),
+        };
+
+        protected static readonly IEnumerable<RuleViolation> TestFileInvalidEncodingRuleViolations = new List<RuleViolation>
+        {
+            new RuleViolation("invalid-syntax", 6, 23),
         };
 
         protected static readonly IEnumerable<RuleViolation> TestFileTwoRuleViolations = new List<RuleViolation>

@@ -21,7 +21,7 @@ namespace TSQLLint.Lib.Rules
 
         public override void Visit(TSqlScript node)
         {
-            for (var index = 0; index < node.ScriptTokenStream.Count; index++)
+            for (var index = 0; index < node.ScriptTokenStream?.Count; index++)
             {
                 var token = node.ScriptTokenStream[index];
                 if (!Constants.TSqlKeywords.Contains(token.Text, StringComparer.CurrentCultureIgnoreCase))
