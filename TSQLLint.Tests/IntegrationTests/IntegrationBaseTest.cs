@@ -48,11 +48,6 @@ namespace TSQLLint.Tests.IntegrationTests
             new RuleViolation("set-transaction-isolation-level", 1, 1),
         };
 
-        protected static readonly IEnumerable<RuleViolation> TestFileNotParseableRuleViolations = new List<RuleViolation>
-        {
-            new RuleViolation("TSQL file not parseable", 0, 0)
-        };
-
         protected static readonly IEnumerable<RuleViolation> TestFileTwoRuleViolations = new List<RuleViolation>
         {
             new RuleViolation("print-statement", 5, 1)
@@ -90,7 +85,6 @@ namespace TSQLLint.Tests.IntegrationTests
 
             var reportedViolations = new List<IRuleViolation>();
             mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => reportedViolations.Add(x.Arg<IRuleViolation>()));
-
             var reportedMessages = new List<string>();
             mockReporter.When(reporter => reporter.ReportFileResults()).Do(x =>
             {

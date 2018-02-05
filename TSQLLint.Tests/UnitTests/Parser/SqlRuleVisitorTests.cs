@@ -50,6 +50,52 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
+        public void VisitRules_UnParseableSql_ShouldNotLint()
+        {
+            // arrange
+            var mockReporter = Substitute.For<IReporter>();
+
+            var fragmentBuilder = new FragmentBuilder();
+            var errorCallbacks = new List<string>();
+
+            var ruleViolations = new List<IRuleViolation>();
+            mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => ruleViolations.Add(x.Arg<IRuleViolation>()));
+            void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
+            {
+                ruleViolations.Add(new RuleViolation(ruleName, startLine, startColumn));
+            }
+
+            var visitors = new List<TSqlFragmentVisitor>
+            {
+                new KeywordCapitalizationRule(ErrorCallback)
+            };
+
+            var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            var sqlStream = ParsingUtility.GenerateStreamFromString(@"PROMPT ***** Run_After.sql
+                                                                    PROMPT
+
+                                                                    @@Scripts\list_of_invalid_objects.sql
+
+                                                                    spool off
+                                                                    set termout off
+                                                                    disconnect
+                                                                    set termout on
+
+                                                                    prompt
+
+                                                                    pause press Enter to exit
+                                                                    exit");
+            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, fragmentBuilder, mockReporter);
+
+            // act
+            sqlRuleVisitor.VisitRules(Path, sqlStream);
+
+            // assert
+            Assert.AreEqual(1, ruleViolations.Count);
+        }
+
+        [Test]
         public void VisitRules_ValidSql_ShouldVisitRules()
         {
             // arrange
