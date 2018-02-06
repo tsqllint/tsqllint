@@ -1,9 +1,9 @@
 using System;
-using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Common;
 
 namespace TSQLLint.Lib.Parser.RuleExceptions
 {
-    public class RuleException : IRuleException
+    public class RuleException : IExtendedRuleException
     {
         public RuleException(Type ruleType, int startLine, int endLine)
         {
@@ -17,6 +17,8 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
         public int StartLine { get; }
 
         public int EndLine { get; private set; }
+
+        public string RuleName { get; }
 
         public void SetEndLine(int endLine)
         {

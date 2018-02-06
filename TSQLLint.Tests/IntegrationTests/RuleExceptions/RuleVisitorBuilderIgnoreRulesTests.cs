@@ -27,7 +27,7 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
             var mockConfigReader = Substitute.For<IConfigReader>();
             mockConfigReader.GetRuleSeverity("select-star").Returns(RuleViolationSeverity.Error);
 
-            var ignoredRuleList = new List<IRuleException>();
+            var ignoredRuleList = new List<IExtendedRuleException>();
 
             var pathString = "DoesntExist.sql";
             var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
@@ -63,7 +63,7 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
             var mockConfigReader = Substitute.For<IConfigReader>();
             mockConfigReader.GetRuleSeverity("select-star").Returns(RuleViolationSeverity.Error);
 
-            var ignoredRuleList = new List<IRuleException>
+            var ignoredRuleList = new List<IExtendedRuleException>
             {
                 new RuleException(typeof(SelectStarRule), 1, 10)
             };
@@ -99,7 +99,7 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
             mockConfigReader.GetRuleSeverity("select-star").Returns(RuleViolationSeverity.Error);
             mockConfigReader.GetRuleSeverity("semicolon-termination").Returns(RuleViolationSeverity.Error);
 
-            var ignoredRuleList = new List<IRuleException>
+            var ignoredRuleList = new List<IExtendedRuleException>
             {
                 new RuleException(typeof(SelectStarRule), 1, 10)
             };

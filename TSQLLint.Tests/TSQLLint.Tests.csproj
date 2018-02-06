@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;</TargetFrameworks>
-    <Version>1.8.10</Version>
+    <Version>1.9.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -63,6 +63,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="IntegrationTests\Configuration\TestFiles\integration-test-one.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="IntegrationTests\Configuration\TestFiles\invalid-encoding.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="IntegrationTests\Configuration\TestFiles\invalid-syntax.sql">

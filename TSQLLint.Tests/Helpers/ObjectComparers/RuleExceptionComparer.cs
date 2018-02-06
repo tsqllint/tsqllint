@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Common;
 using TSQLLint.Lib.Parser.RuleExceptions;
 
 namespace TSQLLint.Tests.Helpers.ObjectComparers
@@ -28,6 +28,11 @@ namespace TSQLLint.Tests.Helpers.ObjectComparers
             }
 
             if (right != null && left != null && left.EndLine != right.EndLine)
+            {
+                return -1;
+            }
+
+            if (right != null && left != null && left.RuleName != right.RuleName)
             {
                 return -1;
             }

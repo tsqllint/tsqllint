@@ -1,8 +1,6 @@
-using TSQLLint.Lib.Parser.Interfaces;
-
 namespace TSQLLint.Lib.Parser.RuleExceptions
 {
-    public class GlobalRuleException : IRuleException
+    public class GlobalRuleException : IExtendedRuleException
     {
         public GlobalRuleException(int startLine, int endLine)
         {
@@ -11,6 +9,8 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
         }
 
         public int EndLine { get; private set; }
+
+        public string RuleName => "Global";
 
         public int StartLine { get; }
 

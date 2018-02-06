@@ -46,6 +46,12 @@ namespace TSQLLint.Tests.IntegrationTests
             new RuleViolation("set-nocount", 1, 1),
             new RuleViolation("set-quoted-identifier", 1, 1),
             new RuleViolation("set-transaction-isolation-level", 1, 1),
+            new RuleViolation("invalid-syntax", 1, 1),
+        };
+
+        protected static readonly IEnumerable<RuleViolation> TestFileInvalidEncodingRuleViolations = new List<RuleViolation>
+        {
+            new RuleViolation("invalid-syntax", 6, 23),
         };
 
         protected static readonly IEnumerable<RuleViolation> TestFileTwoRuleViolations = new List<RuleViolation>
@@ -70,8 +76,6 @@ namespace TSQLLint.Tests.IntegrationTests
                 return fvi.FileVersion;
             }
         }
-
-        protected string DefaultConfigFile { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".tsqllintrc");
 
         private static string TestFileBase => TestContext.CurrentContext.WorkDirectory;
 

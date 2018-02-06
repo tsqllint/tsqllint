@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
 using NSubstitute;
 using NUnit.Framework;
+using TSQLLint.Common;
 using TSQLLint.Lib.Plugins;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
@@ -12,14 +14,16 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         {
             // arrange
             const string path = @"c:\foo\foo.sql";
-            var foo = Substitute.For<TextReader>();
+            var mockFileStream = Substitute.For<TextReader>();
+            var ruleExceptions = new List<IRuleException>();
 
             // act
-            var pluginContext = new PluginContext(path, foo);
+            var pluginContext = new PluginContext(path, ruleExceptions, mockFileStream);
 
             // assert
             Assert.AreEqual(path, pluginContext.FilePath);
-            Assert.AreEqual(foo, pluginContext.FileContents);
+            Assert.AreEqual(mockFileStream, pluginContext.FileContents);
+            Assert.AreEqual(ruleExceptions, pluginContext.RuleExceptions);
         }
     }
 }
