@@ -53,7 +53,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void VisitRules_ValidSql_ShouldVisitRules()
         {
             // arrange
-            var sqlStream = ParsingUtility.GenerateStreamFromString("SELECT 1");
+            var sqlStream = ParsingUtility.GenerateStreamFromString("SELECT 1;");
 
             var mockReporter = Substitute.For<IReporter>();
             var mockFragment = Substitute.For<TSqlFragment>();

@@ -1,1 +1,2 @@
-select;
+select;਍ഀ
+GO਍ഀ
