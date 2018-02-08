@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Parser.RuleExceptions;
 using TSQLLint.Lib.Rules.RuleViolations;
 
 namespace TSQLLint.Lib.Parser
@@ -31,7 +33,7 @@ namespace TSQLLint.Lib.Parser
 
             if (errors.Any())
             {
-                HandleParserErrors(sqlPath, errors);
+                HandleParserErrors(sqlPath, errors, ignoredRules);
             }
 
             var ruleVisitors = ruleVisitorBuilder.BuildVisitors(sqlPath, ignoredRules);
@@ -41,11 +43,18 @@ namespace TSQLLint.Lib.Parser
             }
         }
 
-        private void HandleParserErrors(string sqlPath, IList<Microsoft.SqlServer.TransactSql.ScriptDom.ParseError> errors)
+        private void HandleParserErrors(string sqlPath, IEnumerable<ParseError> errors, IEnumerable<IRuleException> ignoredRules)
         {
             foreach (var error in errors)
             {
-                reporter.ReportViolation(new RuleViolation(sqlPath, "invalid-syntax", error.Message, error.Line, error.Column, RuleViolationSeverity.Error));
+                var globalRulesOnLine = ignoredRules.OfType<GlobalRuleException>().Where(
+                    x => error.Line >= x.StartLine
+                    && error.Line <= x.EndLine);
+
+                if (!globalRulesOnLine.Any())
+                {
+                    reporter.ReportViolation(new RuleViolation(sqlPath, "invalid-syntax", error.Message, error.Line, error.Column, RuleViolationSeverity.Error));
+                }
             }
 
             Environment.ExitCode = 1;
