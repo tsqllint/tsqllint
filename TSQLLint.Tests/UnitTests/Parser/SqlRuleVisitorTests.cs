@@ -24,7 +24,6 @@ namespace TSQLLint.Tests.UnitTests.Parser
             // arrange
             var mockReporter = Substitute.For<IReporter>();
             var fragmentBuilder = new FragmentBuilder();
-            var errorCallbacks = new List<string>();
 
             var ruleViolations = new List<RuleViolation>();
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
@@ -84,6 +83,43 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             // assert
             mockFragment.Received().Accept(Arg.Any<TSqlFragmentVisitor>());
+        }
+
+        [Test]
+        public void VisitRules_InvaldEncodingWithRuleIgnore_ShouldNotReportErrors()
+        {
+            // arrange
+            var sqlStream = ParsingUtility.GenerateStreamFromString("SELECT 1;");
+
+            var mockReporter = Substitute.For<IReporter>();
+            var mockFragment = Substitute.For<TSqlFragment>();
+
+            var mockFragmentBuilder = Substitute.For<IFragmentBuilder>();
+            IList<ParseError> mockErrors = new List<ParseError>
+            {
+                new ParseError(4006, 0, 1, 1, "invalid syntax")
+            };
+
+            mockFragmentBuilder.GetFragment(Arg.Any<TextReader>(), out var errors).Returns(x =>
+            {
+                x[1] = mockErrors;
+                return mockFragment;
+            });
+
+            var visitors = new List<TSqlFragmentVisitor>
+            {
+                new SemicolonTerminationRule(null)
+            };
+
+            var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, mockFragmentBuilder, mockReporter);
+
+            // act
+            sqlRuleVisitor.VisitRules(Path, new List<IRuleException> { new GlobalRuleException(0, 99) }, sqlStream);
+
+            // assert
+            mockReporter.DidNotReceive().ReportViolation(Arg.Any<IRuleViolation>());
         }
     }
 }
