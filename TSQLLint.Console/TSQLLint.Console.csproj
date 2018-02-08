@@ -5,7 +5,7 @@
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
     <RuntimeIdentifiers>osx-x64,linux-x64,win-x64;win-x32</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
-    <Version>1.9.1</Version>
+    <Version>1.9.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
