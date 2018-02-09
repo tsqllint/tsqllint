@@ -121,5 +121,31 @@ namespace TSQLLint.Tests.UnitTests.Parser
             // assert
             mockReporter.DidNotReceive().ReportViolation(Arg.Any<IRuleViolation>());
         }
+
+        [Test]
+        public void VisitRules_GlobalIgnoreNoFragments_ShouldNotReportErrors()
+        {
+            // arrange
+            var sqlStream = ParsingUtility.GenerateStreamFromString(@"/* tsqllint-disable */
+@@Scripts\dfu_setutp_import_cleanup.sql");
+
+            var mockReporter = Substitute.For<IReporter>();
+            var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
+
+            var visitors = new List<TSqlFragmentVisitor>
+            {
+                new SetAnsiNullsRule(null)
+            };
+
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+
+            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(), mockReporter);
+
+            // act
+            sqlRuleVisitor.VisitRules(Path, new List<IRuleException> { new GlobalRuleException(0, 99) }, sqlStream);
+
+            // assert
+            mockReporter.DidNotReceive().ReportViolation(Arg.Any<IRuleViolation>());
+        }
     }
 }
