@@ -271,3 +271,6 @@ lib
 osx-x64
 win-x86
 win-x64
+
+.gitconfig
+tsqllint-acceptance-testing/*

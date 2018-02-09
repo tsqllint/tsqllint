@@ -13,11 +13,3 @@ dotnet: 2.0.0
 script:
 - dotnet build
 - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
-deploy:
-  provider: releases
-  api_key: $GithubToken
-  file_glob: true
-  file: /**\.tgz/
-  skip_cleanup: true
-  on:
-    tags: true
