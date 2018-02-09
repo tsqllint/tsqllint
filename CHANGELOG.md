@@ -1,5 +1,32 @@
 # Change Log
 
+## [v1.9.3](https://github.com/tsqllint/tsqllint/tree/v1.9.3) (2018-02-09)
+
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.2...HEAD)
+
+**Merged pull requests:**
+
+- Update Fragment builder and Configs [\#153](https://github.com/tsqllint/tsqllint/pull/153) ([nathan-boyd](https://github.com/nathan-boyd))
+
+## [v1.9.2](https://github.com/tsqllint/tsqllint/tree/v1.9.2) (2018-02-08)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.1...v1.9.2)
+
+**Implemented enhancements:**
+
+- Order error output by row number [\#130](https://github.com/tsqllint/tsqllint/issues/130)
+
+**Merged pull requests:**
+
+- Update Parse Error Handling To Support Global Rule Ignores [\#151](https://github.com/tsqllint/tsqllint/pull/151) ([nathan-boyd](https://github.com/nathan-boyd))
+- 130 outputsort it [\#150](https://github.com/tsqllint/tsqllint/pull/150) ([danielgasperut](https://github.com/danielgasperut))
+
+## [v1.9.1](https://github.com/tsqllint/tsqllint/tree/v1.9.1) (2018-02-04)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.0...v1.9.1)
+
+**Merged pull requests:**
+
+- Add Check for null SqlFragment in Parser [\#149](https://github.com/tsqllint/tsqllint/pull/149) ([nathan-boyd](https://github.com/nathan-boyd))
+
 ## [v1.9.0](https://github.com/tsqllint/tsqllint/tree/v1.9.0) (2018-02-03)
 [Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.10...v1.9.0)
 
