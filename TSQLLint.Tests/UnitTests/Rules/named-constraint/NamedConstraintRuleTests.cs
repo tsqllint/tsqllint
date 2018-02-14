@@ -28,7 +28,8 @@ namespace TSQLLint.Tests.UnitTests.Rules
                     new RuleViolation("named-constraint", 9, 1),
                     new RuleViolation("named-constraint", 16, 1),
                     new RuleViolation("named-constraint", 23, 1),
-                    new RuleViolation("named-constraint", 30, 1)
+                    new RuleViolation("named-constraint", 30, 1),
+                    new RuleViolation("named-constraint", 39, 1)
                 }
             }
         };
