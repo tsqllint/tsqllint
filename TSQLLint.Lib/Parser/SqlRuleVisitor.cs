@@ -45,6 +45,8 @@ namespace TSQLLint.Lib.Parser
 
         private void HandleParserErrors(string sqlPath, IEnumerable<ParseError> errors, IEnumerable<IRuleException> ignoredRules)
         {
+            var updatedExitCode = false;
+
             foreach (var error in errors)
             {
                 var globalRulesOnLine = ignoredRules.OfType<GlobalRuleException>().Where(
@@ -54,10 +56,15 @@ namespace TSQLLint.Lib.Parser
                 if (!globalRulesOnLine.Any())
                 {
                     reporter.ReportViolation(new RuleViolation(sqlPath, "invalid-syntax", error.Message, error.Line, error.Column, RuleViolationSeverity.Error));
+                    if (updatedExitCode)
+                    {
+                        continue;
+                    }
+
+                    updatedExitCode = true;
+                    Environment.ExitCode = 1;
                 }
             }
-
-            Environment.ExitCode = 1;
         }
     }
 }
