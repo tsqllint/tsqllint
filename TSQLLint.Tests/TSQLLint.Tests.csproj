@@ -85,6 +85,12 @@
     <None Update="IntegrationTests\RuleExceptions\TestFiles\integration-test-two.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Parser\invalid-characters-ignore-rules.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="UnitTests\Parser\invalid-characters.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\disable-rule-enable-rule.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

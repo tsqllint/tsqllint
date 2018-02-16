@@ -7,7 +7,7 @@ namespace TSQLLint.Lib.Parser
 {
     public class FragmentBuilder : IFragmentBuilder
     {
-        private readonly TSql120Parser parser;
+        private readonly TSqlParser parser;
 
         public FragmentBuilder()
         {
