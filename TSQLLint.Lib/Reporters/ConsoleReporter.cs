@@ -7,9 +7,10 @@ namespace TSQLLint.Lib.Reporters
 {
     public class ConsoleReporter : IReporter
     {
+        private readonly List<IRuleViolation> violationList = new List<IRuleViolation>();
+
         private int warningCount;
         private int errorCount;
-        private List<IRuleViolation> violationList = new List<IRuleViolation>();
 
         [ExcludeFromCodeCoverage]
         public virtual void Report(string message)
@@ -24,14 +25,9 @@ namespace TSQLLint.Lib.Reporters
 
         public void ReportFileResults()
         {
-            violationList.Sort((x, y) =>
-            {
-                var v = x.Line.CompareTo(y.Line);
-                if (v == 0) { v = x.Column.CompareTo(y.Column); }
-                return v;
-            });
+            violationList.Sort((x, y) => x.Line.CompareTo(y.Line).Equals(0) ? 0 : x.Column.CompareTo(y.Column));
 
-            foreach (IRuleViolation violation in violationList)
+            foreach (var violation in violationList)
             {
                 ReportViolation(
                     violation.FileName,

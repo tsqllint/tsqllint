@@ -28,7 +28,7 @@ namespace TSQLLint.Lib.Rules
             }
         }
 
-        public class ChildCompressionVisitor : TSqlFragmentVisitor
+        private class ChildCompressionVisitor : TSqlFragmentVisitor
         {
             public bool CompressionOptionExists
             {

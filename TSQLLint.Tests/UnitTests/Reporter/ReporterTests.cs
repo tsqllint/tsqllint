@@ -20,16 +20,18 @@ namespace TSQLLint.Tests.UnitTests.Reporter
 
             // act
             reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 1, RuleViolationSeverity.Error));
-            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 1, RuleViolationSeverity.Warning));
-            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 1, RuleViolationSeverity.Off)); // should not log
+            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 2, RuleViolationSeverity.Error));
+            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 3, RuleViolationSeverity.Warning));
+            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 4, RuleViolationSeverity.Off)); // should not log
             reporter.ReportFileResults();
-            reporter.ReportResults(new TimeSpan(1, 1, 1), 3);
+            reporter.ReportResults(new TimeSpan(1, 1, 1), 1);
 
             // assert
             reporter.Received().Report("foo.sql(1,1): error rule name : rule text.");
-            reporter.Received().Report("foo.sql(1,1): warning rule name : rule text.");
-            reporter.DidNotReceive().Report("foo.sql(1,1): off rule name : rule text.");
-            reporter.Received().Report("\nLinted 3 files in 3661 seconds\n\n1 Errors.\n1 Warnings");
+            reporter.Received().Report("foo.sql(1,2): error rule name : rule text.");
+            reporter.Received().Report("foo.sql(1,3): warning rule name : rule text.");
+            reporter.DidNotReceive().Report("foo.sql(1,3): off rule name : rule text.");
+            reporter.Received().Report("\nLinted 1 files in 3661 seconds\n\n2 Errors.\n1 Warnings");
         }
     }
 }
