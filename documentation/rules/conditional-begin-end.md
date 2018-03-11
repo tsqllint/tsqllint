@@ -8,14 +8,14 @@ Examples of **incorrect** code for this rule:
         
 ```sql
   IF (@parm = 1)
-  BEGIN
     SELECT @output = ‘foo’
-  END
 ```
 
 Examples of **correct** code for this rule:
 
 ```sql
   IF (@parm = 1)
+  BEGIN
     SELECT @output = ‘foo’
+  END
 ```
