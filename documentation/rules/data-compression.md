@@ -10,7 +10,6 @@ Examples of **incorrect** code for this rule:
   CREATE TABLE MyTable 
 	(ID INT, 
 	Name nvarchar(50))
-  WITH (DATA_COMPRESSION = ROW);
 ```
 
 Examples of **correct** code for this rule:
@@ -19,4 +18,5 @@ Examples of **correct** code for this rule:
   CREATE TABLE MyTable 
 	(ID INT, 
 	Name nvarchar(50))
+  WITH (DATA_COMPRESSION = ROW);
 ```
