@@ -2,7 +2,7 @@
 
 ## Rule Details
 
-Use of cursors introduces a pattern of row based operations, which less preferred to the more performant set based operations
+Use of cursors introduces a pattern of row based operations, which less preferred to better performing set based operations
 
 Examples of **incorrect** code for this rule:
 

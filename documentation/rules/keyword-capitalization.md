@@ -2,7 +2,7 @@
 
 ## Rule Details
 
-Capitalizing SQL keywords enhances readability and provides a more clear seperation between keywords and objects
+Capitalizing SQL keywords enhances readability and provides a clear seperation between keywords and objects
 
 ```sql
 select * from foo;
