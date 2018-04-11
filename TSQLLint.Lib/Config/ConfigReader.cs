@@ -11,7 +11,7 @@ namespace TSQLLint.Lib.Config
 {
     public class ConfigReader : IConfigReader
     {
-        private readonly Dictionary<string, RuleViolationSeverity> rules = new Dictionary<string, RuleViolationSeverity>();
+        private readonly Dictionary<string, RuleViolationSeverity> configuredRules = new Dictionary<string, RuleViolationSeverity>();
 
         private readonly Dictionary<string, string> pluginPaths = new Dictionary<string, string>();
 
@@ -54,7 +54,7 @@ namespace TSQLLint.Lib.Config
 
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
-            return rules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return configuredRules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
         }
 
         public Dictionary<string, string> GetPlugins()
@@ -154,7 +154,7 @@ namespace TSQLLint.Lib.Config
                         continue;
                     }
 
-                    this.rules.Add(prop.Name, severity);
+                    this.configuredRules.Add(prop.Name, severity);
                 }
             }
         }
