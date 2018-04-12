@@ -263,11 +263,9 @@ coverage
 # npm logs
 npm-debug.log*
 
-# ignore tsqllint packages
-tsqllint-*.tgz
+.gitconfig
 
 #ignore build and runtime artifacts
+*.tgz
 assemblies/*
 tsqllint-acceptance-testing/*
-
-.gitconfig

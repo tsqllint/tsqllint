@@ -44,6 +44,7 @@ test_script:
 after_test:
   - cmd: ./scripts/test/cover.cmd
   - cmd: 7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz
+  - cmd: 7z a -ttar -so acceptance-testing-results.tar ./tsqllint-acceptance-testing/mochawesome-report | 7z a -si acceptance-testing-results.tgz
 
 deploy:
   provider: GitHub
