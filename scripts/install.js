@@ -69,7 +69,7 @@ download(`${urlBase}/${runTime}.tgz`, `${runTime}.tgz`, (err) => {
     return
   }
 
-    decompress(`${runTime}.tgz`, './', {
+    decompress(`${runTime}.tgz`, './assemblies', {
     plugins: [
       decompressTargz()
     ]

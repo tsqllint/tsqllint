@@ -267,10 +267,7 @@ npm-debug.log*
 tsqllint-*.tgz
 
 #ignore build and runtime artifacts
-assemblies
-osx-x64
-win-x86
-win-x64
+assemblies/*
+tsqllint-acceptance-testing/*
 
 .gitconfig
-tsqllint-acceptance-testing/*

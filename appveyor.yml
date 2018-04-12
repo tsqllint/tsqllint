@@ -35,20 +35,20 @@ before_build:
 build_script:
   - cmd: ./scripts/build/build.cmd
   - cmd: ./scripts/build/package.cmd
+  - cmd: IF %APPVEYOR_REPO_TAG%==true npm pack
 
 test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
+  - cmd: ./scripts/test/run-acceptance-tests.cmd
 
 after_test:
   - cmd: ./scripts/test/cover.cmd
   - cmd: 7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz
-  - cmd: IF %APPVEYOR_REPO_TAG%==true npm pack
 
 deploy:
   provider: GitHub
   auth_token:
     secure: +ldQnV1tY0iQRt0oAaumSoPCc7J2VWvS5wnnCx8blmwsnKPWzqO9uHvZ+cRKBjAP
-  draft: true
-  prerelease: false
   on:
+    branch: master
     appveyor_repo_tag: true
