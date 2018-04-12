@@ -25,32 +25,31 @@ clone_depth: 5
 #       build configuration       #
 #---------------------------------#
 
+artifacts:
+  - path: /**\.tgz/
+
 before_build:
   - dotnet --info
   - node -v
 
 build_script:
-  - cmd: IF %APPVEYOR_REPO_TAG%==false dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp2.0
-  - cmd: IF %APPVEYOR_REPO_TAG%==false 7z a -ttar -so tsqllint.tar ./TSQLLint.Console/bin/Release | 7z a -si tsqllint.tgz
+  - cmd: ./scripts/build/build.cmd
+  - cmd: ./scripts/build/package.cmd
+  - cmd: IF %APPVEYOR_REPO_TAG%==true npm pack
 
 test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
+  - cmd: ./scripts/test/run-acceptance-tests.cmd
 
 after_test:
-  - cmd: ./scripts/cover.cmd
+  - cmd: ./scripts/test/cover.cmd
   - cmd: 7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz
-  - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\publish\publish.cmd
-  - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\packageRuntimes\packageRuntimes.cmd
-  - cmd: IF %APPVEYOR_REPO_TAG%==true npm pack
+  - cmd: 7z a -ttar -so acceptance-testing-results.tar ./tsqllint-acceptance-testing/mochawesome-report | 7z a -si acceptance-testing-results.tgz
 
 deploy:
   provider: GitHub
   auth_token:
     secure: +ldQnV1tY0iQRt0oAaumSoPCc7J2VWvS5wnnCx8blmwsnKPWzqO9uHvZ+cRKBjAP
-  draft: true
-  prerelease: false
   on:
+    branch: master
     appveyor_repo_tag: true
-
-artifacts:
-  - path: /**\.tgz/

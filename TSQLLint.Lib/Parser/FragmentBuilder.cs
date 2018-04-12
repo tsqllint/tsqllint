@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Lib.Parser.Interfaces;
+using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Lib.Parser
 {
@@ -9,15 +11,38 @@ namespace TSQLLint.Lib.Parser
     {
         private readonly TSqlParser parser;
 
-        public FragmentBuilder()
+        public FragmentBuilder(int compatabilityLevel)
         {
-            parser = new TSql120Parser(true);
+            parser = GetSqlParser(compatabilityLevel);
         }
 
         public TSqlFragment GetFragment(TextReader txtRdr, out IList<ParseError> errors)
         {
             var fragment = parser.Parse(txtRdr, out errors);
             return fragment?.FirstTokenIndex != -1 ? fragment : null;
+        }
+
+        private static TSqlParser GetSqlParser(int compatabilityLevel)
+        {
+            compatabilityLevel = CompatabilityLevelUtility.ValidateCompatabilityLevel(compatabilityLevel);
+
+            var fullyQualifiedName = string.Format("Microsoft.SqlServer.TransactSql.ScriptDom.TSql{0}Parser", compatabilityLevel);
+            var type = Type.GetType(fullyQualifiedName);
+            if (type != null)
+            {
+                return (TSqlParser)Activator.CreateInstance(type, new object[] { true });
+            }
+
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = asm.GetType(fullyQualifiedName);
+                if (type != null)
+                {
+                    return (TSqlParser)Activator.CreateInstance(type, new object[] { true });
+                }
+            }
+
+            return null;
         }
     }
 }

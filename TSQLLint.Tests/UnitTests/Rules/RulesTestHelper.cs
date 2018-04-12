@@ -28,7 +28,7 @@ namespace TSQLLint.Tests.UnitTests.Rules
             var visitor = (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, args: (Action<string, string, int, int>)ErrorCallback);
             var compareer = new RuleViolationComparer();
 
-            var fragmentBuilder = new FragmentBuilder();
+            var fragmentBuilder = new FragmentBuilder(120);
             var textReader = new StreamReader(fileStream);
             var sqlFragment = fragmentBuilder.GetFragment(textReader, out _);
 

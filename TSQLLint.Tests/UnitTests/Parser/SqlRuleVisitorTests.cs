@@ -23,7 +23,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         {
             // arrange
             var mockReporter = Substitute.For<IReporter>();
-            var fragmentBuilder = new FragmentBuilder();
+            var fragmentBuilder = new FragmentBuilder(120);
 
             var ruleViolations = new List<RuleViolation>();
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
@@ -102,7 +102,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
 
-            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(), mockReporter);
+            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(120), mockReporter);
 
             // act
             sqlRuleVisitor.VisitRules(Path, new List<IRuleException> { new GlobalRuleException(0, 99) }, sqlStream);
@@ -126,7 +126,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
             mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
-            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(), mockReporter);
+            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(120), mockReporter);
 
             // act
             sqlRuleVisitor.VisitRules(Path, new List<IRuleException>(), fileStream);
@@ -151,7 +151,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
             mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
 
-            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(), mockReporter);
+            var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(120), mockReporter);
 
             // act
             sqlRuleVisitor.VisitRules(Path, new List<IRuleException> { new GlobalRuleException(0, 99) }, fileStream);

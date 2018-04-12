@@ -6,12 +6,13 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Lib.Config
 {
     public class ConfigReader : IConfigReader
     {
-        private readonly Dictionary<string, RuleViolationSeverity> rules = new Dictionary<string, RuleViolationSeverity>();
+        private readonly Dictionary<string, RuleViolationSeverity> configuredRules = new Dictionary<string, RuleViolationSeverity>();
 
         private readonly Dictionary<string, string> pluginPaths = new Dictionary<string, string>();
 
@@ -35,6 +36,8 @@ namespace TSQLLint.Lib.Config
 
         public bool IsConfigLoaded { get; private set; }
 
+        public int CompatabilityLevel { get; private set; }
+
         public void ListPlugins()
         {
             var havePlugins = IsConfigLoaded && pluginPaths.Count > 0;
@@ -54,7 +57,7 @@ namespace TSQLLint.Lib.Config
 
         public RuleViolationSeverity GetRuleSeverity(string key)
         {
-            return rules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return configuredRules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
         }
 
         public Dictionary<string, string> GetPlugins()
@@ -117,6 +120,7 @@ namespace TSQLLint.Lib.Config
             {
                 SetupRules(token);
                 SetupPlugins(token);
+                SetupParser(token);
                 IsConfigLoaded = true;
             }
             else
@@ -154,9 +158,16 @@ namespace TSQLLint.Lib.Config
                         continue;
                     }
 
-                    this.rules.Add(prop.Name, severity);
+                    this.configuredRules.Add(prop.Name, severity);
                 }
             }
+        }
+
+        private void SetupParser(JToken jsonObject)
+        {
+            var compatabilityLevel = jsonObject.SelectTokens("..compatability_level").FirstOrDefault()?.ToString();
+            int.TryParse(compatabilityLevel, out var parsedCompatabilityLevel);
+            CompatabilityLevel = CompatabilityLevelUtility.ValidateCompatabilityLevel(parsedCompatabilityLevel);
         }
     }
 }

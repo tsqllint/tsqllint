@@ -230,6 +230,140 @@ namespace TSQLLint.Tests.UnitTests.Config
         }
 
         [Test]
+        public void ConfigReaderGetParserFromValidInt()
+        {
+            // arrange
+            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'compatability_level': 120
+                    }")
+                }
+            });
+
+            var mockReporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var configReader = new ConfigReader(mockReporter, mockFileSystem, environmentWrapper);
+            configReader.LoadConfig(configFilePath);
+
+            // assert
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            Assert.AreEqual(120, configReader.CompatabilityLevel);
+        }
+
+        [Test]
+        public void ConfigReaderGetParserFromValidString()
+        {
+            // arrange
+            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'compatability_level': '130'
+                    }")
+                }
+            });
+
+            var mockReporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var configReader = new ConfigReader(mockReporter, mockFileSystem, environmentWrapper);
+            configReader.LoadConfig(configFilePath);
+
+            // assert
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            Assert.AreEqual(130, configReader.CompatabilityLevel);
+        }
+
+        [Test]
+        public void ConfigReaderGetParserFromInValidInt()
+        {
+            // arrange
+            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'compatability_level': 10
+                    }")
+                }
+            });
+
+            var mockReporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var configReader = new ConfigReader(mockReporter, mockFileSystem, environmentWrapper);
+            configReader.LoadConfig(configFilePath);
+
+            // assert
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            Assert.AreEqual(120, configReader.CompatabilityLevel);
+        }
+
+        [Test]
+        public void ConfigReaderGetParserFromInValidString()
+        {
+            // arrange
+            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'compatability_level': 'foo'
+                    }")
+                }
+            });
+
+            var mockReporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var configReader = new ConfigReader(mockReporter, mockFileSystem, environmentWrapper);
+            configReader.LoadConfig(configFilePath);
+
+            // assert
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            Assert.AreEqual(120, configReader.CompatabilityLevel);
+        }
+
+        [Test]
+        public void ConfigReaderGetParserNotSet()
+        {
+            // arrange
+            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                    }")
+                }
+            });
+
+            var mockReporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var configReader = new ConfigReader(mockReporter, mockFileSystem, environmentWrapper);
+            configReader.LoadConfig(configFilePath);
+
+            // assert
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            Assert.AreEqual(120, configReader.CompatabilityLevel);
+        }
+
+        [Test]
         public void ConfigReaderNoRulesNoThrow()
         {
             // arrange
