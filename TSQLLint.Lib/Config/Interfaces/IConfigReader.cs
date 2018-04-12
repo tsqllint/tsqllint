@@ -7,6 +7,8 @@ namespace TSQLLint.Lib.Config.Interfaces
     {
         bool IsConfigLoaded { get; }
 
+        int CompatabilityLevel { get; }
+
         string ConfigFileLoadedFrom { get; }
 
         Dictionary<string, string> GetPlugins();

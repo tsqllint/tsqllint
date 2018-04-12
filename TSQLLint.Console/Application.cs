@@ -33,7 +33,7 @@ namespace TSQLLint.Console
             commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
             configReader = new ConfigReader(reporter);
             commandLineOptionHandler = new CommandLineOptionHandler(commandLineOptions, new ConfigFileGenerator(), configReader, reporter);
-            var fragmentBuilder = new FragmentBuilder();
+            var fragmentBuilder = new FragmentBuilder(configReader.CompatabilityLevel);
             var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter);
             IRuleVisitor ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
             pluginHandler = new PluginHandler(reporter);

@@ -15,7 +15,7 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
     [TestFixture]
     public class RuleVisitorBuilderIgnoreRulesTests
     {
-        private readonly IFragmentBuilder fragmentBuilder = new FragmentBuilder();
+        private readonly IFragmentBuilder fragmentBuilder = new FragmentBuilder(120);
 
         [Test]
         public void RuleVisitorEnforcesRule()
