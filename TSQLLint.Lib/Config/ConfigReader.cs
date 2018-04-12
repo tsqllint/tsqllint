@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using Newtonsoft.Json.Linq;
 using TSQLLint.Common;
 using TSQLLint.Lib.Config.Interfaces;
@@ -34,6 +35,8 @@ namespace TSQLLint.Lib.Config
         public string ConfigFileLoadedFrom { get; private set; }
 
         public bool IsConfigLoaded { get; private set; }
+
+        public TSqlParser ConfiguredParser { get; private set; }
 
         public void ListPlugins()
         {
@@ -97,6 +100,33 @@ namespace TSQLLint.Lib.Config
             }
         }
 
+        private TSqlParser GetSqlParser(string compatabilityLevel)
+        {
+            var validCompatibilityLevels = new List<string> { "80", "90", "100", "110", "120", "130" };
+            if (!validCompatibilityLevels.Contains(compatabilityLevel))
+            {
+                return GetDefaultParser();
+            }
+
+            var fullyQualifiedName = string.Format("Microsoft.SqlServer.TransactSql.ScriptDom.TSql{0}Parser", compatabilityLevel);
+            Type type = Type.GetType(fullyQualifiedName);
+            if (type != null)
+            {
+                return (TSqlParser)Activator.CreateInstance(type, new object[] { true });
+            }
+
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = asm.GetType(fullyQualifiedName);
+                if (type != null)
+                {
+                    return (TSqlParser)Activator.CreateInstance(type, new object[] { true });
+                }
+            }
+
+            return null;
+        }
+
         private void LoadConfigFromFile(string configFilePath)
         {
             if (fileSystem.File.Exists(configFilePath))
@@ -117,6 +147,7 @@ namespace TSQLLint.Lib.Config
             {
                 SetupRules(token);
                 SetupPlugins(token);
+                SetupParser(token);
                 IsConfigLoaded = true;
             }
             else
@@ -157,6 +188,17 @@ namespace TSQLLint.Lib.Config
                     this.configuredRules.Add(prop.Name, severity);
                 }
             }
+        }
+
+        private void SetupParser(JToken jsonObject)
+        {
+            var compatabilityLevel = jsonObject.SelectTokens("..compatability_level").FirstOrDefault()?.ToString();
+            ConfiguredParser = !string.IsNullOrWhiteSpace(compatabilityLevel) ? GetSqlParser(compatabilityLevel) : GetDefaultParser();
+        }
+
+        private TSqlParser GetDefaultParser()
+        {
+            return new TSql120Parser(true);
         }
     }
 }
