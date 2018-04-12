@@ -267,7 +267,7 @@ npm-debug.log*
 tsqllint-*.tgz
 
 #ignore build and runtime artifacts
-lib
+assemblies
 osx-x64
 win-x86
 win-x64

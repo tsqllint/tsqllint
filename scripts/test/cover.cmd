@@ -24,3 +24,5 @@ mkdir coverage
 %CODECOV% ^
     -f ".\coverage\coverage_results.xml" ^
     -t %codecov_token%
+
+7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz

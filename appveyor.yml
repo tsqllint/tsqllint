@@ -25,22 +25,23 @@ clone_depth: 5
 #       build configuration       #
 #---------------------------------#
 
+artifacts:
+  - path: /**\.tgz/
+
 before_build:
   - dotnet --info
   - node -v
 
 build_script:
-  - cmd: .\scripts\publish\publish.cmd
-  - cmd: IF %APPVEYOR_REPO_TAG%==false dotnet publish ./TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp2.0
-  - cmd: IF %APPVEYOR_REPO_TAG%==false 7z a -ttar -so tsqllint.tar ./TSQLLint.Console/bin/Release | 7z a -si tsqllint.tgz
+  - cmd: ./scripts/build/build.cmd
+  - cmd: ./scripts/build/package.cmd
 
 test_script:
   - dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
 
 after_test:
-  - cmd: ./scripts/cover.cmd
+  - cmd: ./scripts/test/cover.cmd
   - cmd: 7z a -ttar -so coverage.tar coverage | 7z a -si coverage.tgz
-  - cmd: IF %APPVEYOR_REPO_TAG%==true .\scripts\packageRuntimes\packageRuntimes.cmd
   - cmd: IF %APPVEYOR_REPO_TAG%==true npm pack
 
 deploy:
@@ -51,6 +52,3 @@ deploy:
   prerelease: false
   on:
     appveyor_repo_tag: true
-
-artifacts:
-  - path: /**\.tgz/
