@@ -1,8 +1,44 @@
 # Change Log
 
-## [v1.9.3](https://github.com/tsqllint/tsqllint/tree/v1.9.3) (2018-02-09)
+## [Unreleased](https://github.com/tsqllint/tsqllint/tree/HEAD)
 
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.2...HEAD)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.10.0...HEAD)
+
+**Merged pull requests:**
+
+- Rename compatability\_level for consistency [\#167](https://github.com/tsqllint/tsqllint/pull/167) ([nathan-boyd](https://github.com/nathan-boyd))
+
+## [v1.10.0](https://github.com/tsqllint/tsqllint/tree/v1.10.0) (2018-04-12)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.4...v1.10.0)
+
+**Merged pull requests:**
+
+- Add Configurable SQL Compatibility Level [\#166](https://github.com/tsqllint/tsqllint/pull/166) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add documentation for disallow-cursors rule [\#164](https://github.com/tsqllint/tsqllint/pull/164) ([nathan-boyd](https://github.com/nathan-boyd))
+-  Add documentation for data-type-length rule [\#163](https://github.com/tsqllint/tsqllint/pull/163) ([nathan-boyd](https://github.com/nathan-boyd))
+- Fix data compression rule documentation [\#162](https://github.com/tsqllint/tsqllint/pull/162) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add documentation for data-compression rule [\#161](https://github.com/tsqllint/tsqllint/pull/161) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add documentation for cross-database-transaction rule [\#160](https://github.com/tsqllint/tsqllint/pull/160) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add documentation for condition-begin-end rule [\#159](https://github.com/tsqllint/tsqllint/pull/159) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add rule for named constraints in temp table [\#155](https://github.com/tsqllint/tsqllint/pull/155) ([nathan-boyd](https://github.com/nathan-boyd))
+
+## [v1.9.4](https://github.com/tsqllint/tsqllint/tree/v1.9.4) (2018-02-14)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.3...v1.9.4)
+
+**Fixed bugs:**
+
+- TSqlLint fails \(report errors\) even is disabled in 1st line by  /\* tsqllint-disable \*/ if file contain "\" \(backslash\) symbol [\#152](https://github.com/tsqllint/tsqllint/issues/152)
+
+**Closed issues:**
+
+- Plugins should be given the option to honor inline disablements [\#142](https://github.com/tsqllint/tsqllint/issues/142)
+
+**Merged pull requests:**
+
+- Update to not set error code when file does not parse [\#157](https://github.com/tsqllint/tsqllint/pull/157) ([nathan-boyd](https://github.com/nathan-boyd))
+
+## [v1.9.3](https://github.com/tsqllint/tsqllint/tree/v1.9.3) (2018-02-09)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.2...v1.9.3)
 
 **Merged pull requests:**
 
