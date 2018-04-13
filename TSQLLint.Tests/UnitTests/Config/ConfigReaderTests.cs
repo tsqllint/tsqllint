@@ -239,7 +239,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability_level': 120
+                        'compatability-level': 120
                     }")
                 }
             });
@@ -266,7 +266,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability_level': '130'
+                        'compatability-level': '130'
                     }")
                 }
             });
@@ -293,7 +293,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability_level': 10
+                        'compatability-level': 10
                     }")
                 }
             });
@@ -320,7 +320,7 @@ namespace TSQLLint.Tests.UnitTests.Config
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability_level': 'foo'
+                        'compatability-level': 'foo'
                     }")
                 }
             });

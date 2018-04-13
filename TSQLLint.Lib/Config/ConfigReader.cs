@@ -165,7 +165,7 @@ namespace TSQLLint.Lib.Config
 
         private void SetupParser(JToken jsonObject)
         {
-            var compatabilityLevel = jsonObject.SelectTokens("..compatability_level").FirstOrDefault()?.ToString();
+            var compatabilityLevel = jsonObject.SelectTokens("..compatability-level").FirstOrDefault()?.ToString();
             int.TryParse(compatabilityLevel, out var parsedCompatabilityLevel);
             CompatabilityLevel = CompatabilityLevelUtility.ValidateCompatabilityLevel(parsedCompatabilityLevel);
         }

@@ -32,7 +32,8 @@ namespace TSQLLint.Lib.Config
         ""set-variable"": ""error"",
         ""upper-lower"": ""error"",
         ""unicode-string"" : ""error""
-    }
+    },
+    ""compatability-level"": 120
 }";
 
         private readonly IFileSystem fileSystem;
