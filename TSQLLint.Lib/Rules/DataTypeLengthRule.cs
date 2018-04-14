@@ -29,7 +29,7 @@ namespace TSQLLint.Lib.Rules
 
         public string RULE_NAME => "data-type-length";
 
-        public string RULE_TEXT => "Date type length not specified";
+        public string RULE_TEXT => "Data type length not specified";
 
         public override void Visit(SqlDataTypeReference node)
         {
