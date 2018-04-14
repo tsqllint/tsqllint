@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
@@ -13,7 +11,7 @@ namespace TSQLLint.Tests.UnitTests
 {
     public static class TestHelper
     {
-        private static RuleViolationComparer ruleViolationComparer = new RuleViolationComparer();
+        private static readonly RuleViolationComparer RuleViolationComparer = new RuleViolationComparer();
 
         public static void PerformApplicationTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
@@ -28,7 +26,7 @@ namespace TSQLLint.Tests.UnitTests
             var reportedMessages = new List<string>();
             mockReporter.When(reporter => reporter.ReportFileResults()).Do(x =>
             {
-                foreach (RuleViolation v in reportedViolations)
+                foreach (var v in reportedViolations)
                 {
                     reportedMessages.Add(v.Text);
                 }
@@ -46,7 +44,7 @@ namespace TSQLLint.Tests.UnitTests
 
             reportedViolations = reportedViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
-            CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, ruleViolationComparer);
+            CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, RuleViolationComparer);
         }
     }
 }

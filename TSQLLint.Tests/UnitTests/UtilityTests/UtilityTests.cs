@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace TSQLLint.Tests.UnitTests.Utility
+namespace TSQLLint.Tests.UnitTests.UtilityTests
 {
     public class UtilityTests
     {
