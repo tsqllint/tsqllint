@@ -1,14 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using NUnit.Framework;
+using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Tests.Helpers.ObjectComparers;
+using TSQLLint.Tests.UnitTests;
 
 namespace TSQLLint.Tests.IntegrationTests.Configuration
 {
     [TestFixture]
-    public class CommandLineOptionTests : IntegrationBaseTest
+    public class CommandLineOptionTests
     {
         private static readonly string InvalidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc-foo");
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
@@ -19,10 +24,71 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
         private static readonly string ConfigFoundMessage = $"Config file found at: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc")}";
         private static readonly string NoPluginsFound = "Did not find any plugins";
 
+        private static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
+        {
+            new RuleViolation("conditional-begin-end", 2, 1),
+            new RuleViolation("data-compression", 6, 1),
+            new RuleViolation("data-type-length", 13, 16),
+            new RuleViolation("disallow-cursors", 17, 1),
+            new RuleViolation("information-schema", 20, 27),
+            new RuleViolation("non-sargable", 38, 7),
+            new RuleViolation("keyword-capitalization", 23, 1),
+            new RuleViolation("multi-table-alias", 27, 10),
+            new RuleViolation("object-property", 38, 7),
+            new RuleViolation("print-statement", 42, 1),
+            new RuleViolation("schema-qualify", 45, 17),
+            new RuleViolation("select-star", 48, 8),
+            new RuleViolation("semicolon-termination", 51, 31),
+            new RuleViolation("set-ansi", 1, 1),
+            new RuleViolation("set-nocount", 1, 1),
+            new RuleViolation("set-quoted-identifier", 1, 1),
+            new RuleViolation("set-transaction-isolation-level", 1, 1),
+            new RuleViolation("upper-lower", 59, 1),
+            new RuleViolation("non-sargable", 59, 41)
+        };
+
+        private static readonly IEnumerable<RuleViolation> TestFileInvalidSyntaxRuleViolations = new List<RuleViolation>
+        {
+            new RuleViolation("keyword-capitalization", 1, 1),
+            new RuleViolation("set-ansi", 1, 1),
+            new RuleViolation("set-nocount", 1, 1),
+            new RuleViolation("set-quoted-identifier", 1, 1),
+            new RuleViolation("set-transaction-isolation-level", 1, 1),
+            new RuleViolation("invalid-syntax", 1, 1),
+        };
+
+        private static readonly IEnumerable<RuleViolation> TestFileInvalidEncodingRuleViolations = new List<RuleViolation>
+        {
+            new RuleViolation("invalid-syntax", 6, 23),
+        };
+
+        private static readonly IEnumerable<RuleViolation> TestFileTwoRuleViolations = new List<RuleViolation>
+        {
+            new RuleViolation("print-statement", 5, 1)
+        };
+
         private static List<RuleViolation> allRuleViolations;
         private static List<RuleViolation> multiFileRuleViolations;
 
-        public static IEnumerable<RuleViolation> MultiFileRuleViolations
+        private static string TestFileBase => TestContext.CurrentContext.WorkDirectory;
+
+        private static string TestFileDirectory => Path.Combine(TestFileBase, @"IntegrationTests/Configuration/TestFiles");
+
+        private static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
+
+        private static string UsageString => new CommandLineOptions(new string[] { }).GetUsage();
+
+        private static string TSqllVersion
+        {
+            get
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                return fvi.FileVersion;
+            }
+        }
+
+        private static IEnumerable<RuleViolation> MultiFileRuleViolations
         {
             get
             {
@@ -39,7 +105,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
             }
         }
 
-        public static IEnumerable<RuleViolation> AllRuleViolations
+        private static IEnumerable<RuleViolation> AllRuleViolations
         {
             get
             {
@@ -54,7 +120,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
             }
         }
 
-        public static IEnumerable CommandLineOptionTestCases
+        private static IEnumerable CommandLineOptionTestCases
         {
             get
             {
@@ -93,7 +159,7 @@ namespace TSQLLint.Tests.IntegrationTests.Configuration
         [TestCaseSource(nameof(CommandLineOptionTestCases))]
         public void RunExistingConfigTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
-            PerformApplicationTest(argumentsUnderTest, expectedMessage, expectedRuleViolations, expectedFileCount);
+            TestHelper.PerformApplicationTest(argumentsUnderTest, expectedMessage, expectedRuleViolations, expectedFileCount);
         }
     }
 }
