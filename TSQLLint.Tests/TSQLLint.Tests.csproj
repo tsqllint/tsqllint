@@ -70,19 +70,19 @@
     <None Update="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\integration-test-two.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\disable-rule-enable-rule.sql">
+    <None Update="UnitTests\RuleExceptions\TestFiles\disable-rule-enable-rule.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\enable-without-disbling.sql">
+    <None Update="UnitTests\RuleExceptions\TestFiles\enable-without-disbling.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\global-disable.sql">
+    <None Update="UnitTests\RuleExceptions\TestFiles\global-disable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\global-enable-without-disbling.sql">
+    <None Update="UnitTests\RuleExceptions\TestFiles\global-enable-without-disbling.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\integration-test-two.sql">
+    <None Update="UnitTests\RuleExceptions\TestFiles\integration-test-two.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Parser\invalid-characters-ignore-rules.sql">

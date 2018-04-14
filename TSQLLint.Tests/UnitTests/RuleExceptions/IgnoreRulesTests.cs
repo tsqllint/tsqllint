@@ -4,11 +4,10 @@ using System.IO;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Lib.Rules.RuleViolations;
-using TSQLLint.Tests.Helpers;
 
-namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
+namespace TSQLLint.Tests.UnitTests.RuleExceptions
 {
-    public class IgnoreRulesTests : IntegrationBaseTest
+    public class IgnoreRulesTests
     {
         protected static readonly IEnumerable<RuleViolation> IntegrationTestTwoRuleViolations = new List<RuleViolation>
         {
@@ -36,11 +35,15 @@ namespace TSQLLint.Tests.IntegrationTests.RuleExceptions
             }
         }
 
+        private static string TestFileBase => TestContext.CurrentContext.WorkDirectory;
+
+        private static string TestFileDirectory => Path.Combine(TestFileBase, @"IntegrationTests/Configuration/TestFiles");
+
         [TestCaseSource(nameof(ExistingConfigTestCases))]
         public void RunExistingConfigTest(string testFile, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {
-            testFile = $@"{TestContext.CurrentContext.TestDirectory}/IntegrationTests/RuleExceptions/TestFiles/{testFile}";
-            PerformApplicationTest(new List<string> { testFile }, expectedMessage, expectedRuleViolations, expectedFileCount);
+            testFile = $@"{TestContext.CurrentContext.TestDirectory}/UnitTests/RuleExceptions/TestFiles/{testFile}";
+            TestHelper.PerformApplicationTest(new List<string> { testFile }, expectedMessage, expectedRuleViolations, expectedFileCount);
         }
     }
 }
