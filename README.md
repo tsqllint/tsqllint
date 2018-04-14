@@ -61,6 +61,8 @@ TSQLLint uses a common message format that allows for integration into off the s
 
 ## Configuration
 
+TSQLLint utilizes a configuration file called `.tsqllintrc`. This file can be generated and edited by users to create their own configurations. To generate this file use the `-i` or `--init` flags. If no `.tsqllintrc` is found the tool with use a default configuration loaded in memory.
+
 ```bash
 # generate a default .tsqllintrc file using the init flag (optional if just using a default configuration)
 tsqllint --init
@@ -68,16 +70,18 @@ tsqllint --init
 
 ## Creating custom configurations
 
-Configure tsqllint by editing its config file, ```.tsqllintrc``` you can find its location with the "--print-confg" or "-p" option.
+You may configure TSQLLint by editing its config file `.tsqllintrc` you can find its location with the `--print-confg` or `-p` option.
 
-TSQLLint will load its config file in the following order or prescidence:
+TSQLLint will load its config file in the following order or precedence:
 
-1. The value passed with the ```-c``` command line argument
-2. An Environment Variable named ```TSQLLINTRC```
-3. A file named ```.tsqllintrc``` in the same local directory in which you are running TSQLLint
-4. A file named ```.tsqllintrc``` in the user's home directory
+1. The value passed with the `-c` command line argument, if one is passed
+2. An Environment Variable named `TSQLLINTRC`
+3. A file named `.tsqllintrc` in the same local directory in which you are executing TSQLLint
+4. A file named `.tsqllintrc` in the user's home directory
 
-Rules may be set to "off", "warning", or "error".
+## Rule configuration
+
+TSQLLint rules may be set to "off", "warning", or "error". Rules that are violated and are set to "error" will result in TSQLLint returning a non-zero exit code. Rules that are violated, but configured to "warning" will result in a zero exit code, but a warning message will be displayed in the shell output. Rules that are set to "off" will be completely ignored. Rules that are not present in the `.tsqllintrc` configuration are set to "off"
 
 ```json
 {
@@ -106,6 +110,19 @@ Rules may be set to "off", "warning", or "error".
         "set-variable": "error",
         "upper-lower": "error"
     }
+}
+```
+
+## SQL Compatibility Level
+
+TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc`. TSQLLint supports the following compatibility levels  80, 90, 100, 110, 120, and 130.
+
+```json
+{
+    "rules": {
+        "upper-lower": "error"
+    },
+    "compatability-level": 90
 }
 ```
 
