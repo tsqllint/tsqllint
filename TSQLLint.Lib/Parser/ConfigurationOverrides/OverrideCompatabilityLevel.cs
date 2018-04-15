@@ -1,3 +1,5 @@
+using TSQLLint.Lib.Rules.Common;
+
 namespace TSQLLint.Lib.Parser.ConfigurationOverrides
 {
     public class OverrideCompatabilityLevel : IOverride
@@ -6,7 +8,12 @@ namespace TSQLLint.Lib.Parser.ConfigurationOverrides
         {
             if (int.TryParse(value, out var parsedCompatabilityLevel))
             {
-                CompatabilityLevel = Utility.CompatabilityLevelUtility.ValidateCompatabilityLevel(parsedCompatabilityLevel);
+                CompatabilityLevel =
+                    Utility.CompatabilityLevelUtility.ValidateCompatabilityLevel(parsedCompatabilityLevel);
+            }
+            else
+            {
+                CompatabilityLevel = Constants.DefaultCompatabilityLevel;
             }
         }
 

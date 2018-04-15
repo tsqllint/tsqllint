@@ -34,11 +34,8 @@ namespace TSQLLint.Lib.Parser.ConfigurationOverrides
                     var details = overrideDetail.Split(' ').Select(p => p.Trim()).ToList();
                     if (OverrideTypeMap.List.ContainsKey(details[0]))
                     {
-                        var overrideTypeExists = OverrideTypeMap.List.TryGetValue(details[0], out var overrideType);
-                        if (overrideTypeExists)
-                        {
-                            overrideList.Add((IOverride)Activator.CreateInstance(overrideType, details[2]));
-                        }
+                        var overrideType = OverrideTypeMap.List.GetValueOrDefault(details[0]);
+                        overrideList.Add((IOverride)Activator.CreateInstance(overrideType, details[2]));
                     }
                 }
             }

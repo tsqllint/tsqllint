@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Lib.Parser.ConfigurationOverrides;
+using TSQLLint.Lib.Rules.Common;
 using TSQLLint.Lib.Utility;
 
 namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
@@ -51,6 +52,13 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
         {
             var overrides = testOverrideFinder.GetOverrideList(ParsingUtility.GenerateStreamFromString(testString));
             CollectionAssert.AreEqual(overrides, expectedResult, overrideComparer, message);
+        }
+
+        [Test]
+        public void TestInvalidCompatabilityLevels()
+        {
+            var testOverrideCompatabilityLevel = new OverrideCompatabilityLevel("foo");
+            Assert.AreEqual(Constants.DefaultCompatabilityLevel, testOverrideCompatabilityLevel.CompatabilityLevel);
         }
     }
 }
