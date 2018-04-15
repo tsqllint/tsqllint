@@ -52,37 +52,37 @@
     <None Update="FunctionalTests\TestFiles\with-warnings.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\Configuration\TestFiles\.tsqllintrc">
+    <None Update="UnitTests\CommandLineOptions\TestFiles\.tsqllintrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\Configuration\TestFiles\integration-test-one.sql">
+    <None Update="UnitTests\CommandLineOptions\TestFiles\integration-test-one.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\Configuration\TestFiles\invalid-encoding.sql">
+    <None Update="UnitTests\CommandLineOptions\TestFiles\invalid-encoding.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\Configuration\TestFiles\invalid-syntax.sql">
+    <None Update="UnitTests\CommandLineOptions\TestFiles\invalid-syntax.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\dontparse.txt">
+    <None Update="UnitTests\CommandLineOptions\TestFiles\TestFileSubDirectory\dontparse.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\Configuration\TestFiles\TestFileSubDirectory\integration-test-two.sql">
+    <None Update="UnitTests\CommandLineOptions\TestFiles\TestFileSubDirectory\integration-test-two.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\disable-rule-enable-rule.sql">
+    <None Update="UnitTests\LintingRuleExceptions\TestFiles\disable-rule-enable-rule.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\enable-without-disbling.sql">
+    <None Update="UnitTests\LintingRuleExceptions\TestFiles\enable-without-disbling.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\global-disable.sql">
+    <None Update="UnitTests\LintingRuleExceptions\TestFiles\global-disable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\global-enable-without-disbling.sql">
+    <None Update="UnitTests\LintingRuleExceptions\TestFiles\global-enable-without-disbling.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="IntegrationTests\RuleExceptions\TestFiles\integration-test-two.sql">
+    <None Update="UnitTests\LintingRuleExceptions\TestFiles\integration-test-two.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="UnitTests\Parser\invalid-characters-ignore-rules.sql">
@@ -112,298 +112,298 @@
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\globally-disable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-no-error.sql">
+    <None Update="UnitTests\LintingRules\conditional-begin-end\test-files\conditional-begin-end-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\conditional-begin-end\test-files\conditional-begin-end-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-one-error.sql">
+    <None Update="UnitTests\LintingRules\conditional-begin-end\test-files\conditional-begin-end-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\conditional-begin-end\test-files\conditional-begin-end-two-errors.sql">
+    <None Update="UnitTests\LintingRules\conditional-begin-end\test-files\conditional-begin-end-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-no-begintran-no-error.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-no-begintran-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-no-error.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-nested-two-errors.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-nested-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-multiple-errors.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-multiple-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-no-commit-no-error.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-no-commit-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-one-error-single-line.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-one-error-single-line.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-no-error-single-line.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-no-error-single-line.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\cross-database-transaction\test-files\cross-database-transaction-one-error.sql">
+    <None Update="UnitTests\LintingRules\cross-database-transaction\test-files\cross-database-transaction-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-no-error.sql">
+    <None Update="UnitTests\LintingRules\data-compression\test-files\data-compression-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\data-compression\test-files\data-compression-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-one-error.sql">
+    <None Update="UnitTests\LintingRules\data-compression\test-files\data-compression-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-compression\test-files\data-compression-two-errors.sql">
+    <None Update="UnitTests\LintingRules\data-compression\test-files\data-compression-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-all-errors.sql">
+    <None Update="UnitTests\LintingRules\data-type-length\test-files\data-type-length-all-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-no-error.sql">
+    <None Update="UnitTests\LintingRules\data-type-length\test-files\data-type-length-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\data-type-length\test-files\data-type-length-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-one-error.sql">
+    <None Update="UnitTests\LintingRules\data-type-length\test-files\data-type-length-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\data-type-length\test-files\data-type-length-two-errors.sql">
+    <None Update="UnitTests\LintingRules\data-type-length\test-files\data-type-length-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-no-error.sql">
+    <None Update="UnitTests\LintingRules\disallow-cursors\test-files\disallow-cursors-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\disallow-cursors\test-files\disallow-cursors-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-one-error.sql">
+    <None Update="UnitTests\LintingRules\disallow-cursors\test-files\disallow-cursors-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\disallow-cursors\test-files\disallow-cursors-two-errors.sql">
+    <None Update="UnitTests\LintingRules\disallow-cursors\test-files\disallow-cursors-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\full-text\test-files\full-text-no-error.sql">
+    <None Update="UnitTests\LintingRules\full-text\test-files\full-text-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\full-text\test-files\full-text-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\full-text\test-files\full-text-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\full-text\test-files\full-text-one-error.sql">
+    <None Update="UnitTests\LintingRules\full-text\test-files\full-text-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\full-text\test-files\full-text-two-errors.sql">
+    <None Update="UnitTests\LintingRules\full-text\test-files\full-text-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-no-error.sql">
+    <None Update="UnitTests\LintingRules\information-schema\test-files\information-schema-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\information-schema\test-files\information-schema-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-one-error.sql">
+    <None Update="UnitTests\LintingRules\information-schema\test-files\information-schema-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\information-schema\test-files\information-schema-two-errors.sql">
+    <None Update="UnitTests\LintingRules\information-schema\test-files\information-schema-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-multiple-errors-tabs.sql">
+    <None Update="UnitTests\LintingRules\keyword-capitalization\test-files\keyword-capitalization-multiple-errors-tabs.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-no-error.sql">
+    <None Update="UnitTests\LintingRules\keyword-capitalization\test-files\keyword-capitalization-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\keyword-capitalization\test-files\keyword-capitalization-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\keyword-capitalization\test-files\keyword-capitalization-one-error.sql">
+    <None Update="UnitTests\LintingRules\keyword-capitalization\test-files\keyword-capitalization-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\linked-server\test-files\linked-server-no-error.sql">
+    <None Update="UnitTests\LintingRules\linked-server\test-files\linked-server-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\linked-server\test-files\linked-server-one-error.sql">
+    <None Update="UnitTests\LintingRules\linked-server\test-files\linked-server-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-spaces.sql">
+    <None Update="UnitTests\LintingRules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-spaces.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-tabs.sql">
+    <None Update="UnitTests\LintingRules\multi-table-alias\test-files\multi-table-alias-multiple-errors-with-tabs.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-no-error.sql">
+    <None Update="UnitTests\LintingRules\multi-table-alias\test-files\multi-table-alias-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-spaces.sql">
+    <None Update="UnitTests\LintingRules\multi-table-alias\test-files\multi-table-alias-one-error-with-spaces.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\multi-table-alias\test-files\multi-table-alias-one-error-with-tabs.sql">
+    <None Update="UnitTests\LintingRules\multi-table-alias\test-files\multi-table-alias-one-error-with-tabs.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-isnull-multi-statement-one-error.sql">
+    <None Update="UnitTests\LintingRules\non-sargable\test-files\non-sargable-isnull-multi-statement-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-multi-error.sql">
+    <None Update="UnitTests\LintingRules\non-sargable\test-files\non-sargable-multi-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\named-constraint\test-files\named-constraint-one-error.sql">
+    <None Update="UnitTests\LintingRules\named-constraint\test-files\named-constraint-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\named-constraint\test-files\named-constraint-no-error.sql">
+    <None Update="UnitTests\LintingRules\named-constraint\test-files\named-constraint-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\named-constraint\test-files\named-constraint-multi-error.sql">
+    <None Update="UnitTests\LintingRules\named-constraint\test-files\named-constraint-multi-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-no-error.sql">
+    <None Update="UnitTests\LintingRules\non-sargable\test-files\non-sargable-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-isnull-one-clause-one-error.sql">
+    <None Update="UnitTests\LintingRules\non-sargable\test-files\non-sargable-isnull-one-clause-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error-join-table.sql">
+    <None Update="UnitTests\LintingRules\non-sargable\test-files\non-sargable-one-error-join-table.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\non-sargable\test-files\non-sargable-one-error-where-clause.sql">
+    <None Update="UnitTests\LintingRules\non-sargable\test-files\non-sargable-one-error-where-clause.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\object-property\test-files\object-property-no-error.sql">
+    <None Update="UnitTests\LintingRules\object-property\test-files\object-property-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\object-property\test-files\object-property-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\object-property\test-files\object-property-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\object-property\test-files\object-property-one-error.sql">
+    <None Update="UnitTests\LintingRules\object-property\test-files\object-property-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\object-property\test-files\object-property-two-errors.sql">
+    <None Update="UnitTests\LintingRules\object-property\test-files\object-property-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-no-error.sql">
+    <None Update="UnitTests\LintingRules\print-statement\test-files\print-statement-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\print-statement\test-files\print-statement-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-one-error.sql">
+    <None Update="UnitTests\LintingRules\print-statement\test-files\print-statement-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\print-statement\test-files\print-statement-two-errors.sql">
+    <None Update="UnitTests\LintingRules\print-statement\test-files\print-statement-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-no-error.sql">
+    <None Update="UnitTests\LintingRules\schema-qualify\test-files\schema-qualify-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\schema-qualify\test-files\schema-qualify-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-one-error.sql">
+    <None Update="UnitTests\LintingRules\schema-qualify\test-files\schema-qualify-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\schema-qualify\test-files\schema-qualify-two-errors.sql">
+    <None Update="UnitTests\LintingRules\schema-qualify\test-files\schema-qualify-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\select-star\test-files\select-star-no-error.sql">
+    <None Update="UnitTests\LintingRules\select-star\test-files\select-star-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\select-star\test-files\select-star-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\select-star\test-files\select-star-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\select-star\test-files\select-star-one-error.sql">
+    <None Update="UnitTests\LintingRules\select-star\test-files\select-star-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\select-star\test-files\select-star-two-errors.sql">
+    <None Update="UnitTests\LintingRules\select-star\test-files\select-star-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-multiple-errors-with-tab.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-multiple-errors-with-tab.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-multiple-errors.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-multiple-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error-waitfor.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-no-error-waitfor.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error-create-object.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-no-error-create-object.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-no-error.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-one-error.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\semicolon-termination\test-files\semicolon-termination-try-catch-while.sql">
+    <None Update="UnitTests\LintingRules\semicolon-termination\test-files\semicolon-termination-try-catch-while.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-no-error.sql">
+    <None Update="UnitTests\LintingRules\set-ansi\test-files\set-ansi-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-on-off-error.sql">
+    <None Update="UnitTests\LintingRules\set-ansi\test-files\set-ansi-on-off-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-on-off-no-error.sql">
+    <None Update="UnitTests\LintingRules\set-ansi\test-files\set-ansi-on-off-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-ansi\test-files\set-ansi-one-error.sql">
+    <None Update="UnitTests\LintingRules\set-ansi\test-files\set-ansi-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-no-error-ddl.sql">
+    <None Update="UnitTests\LintingRules\set-nocount\test-files\set-nocount-no-error-ddl.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-no-error.sql">
+    <None Update="UnitTests\LintingRules\set-nocount\test-files\set-nocount-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-no-rowset-action.sql">
+    <None Update="UnitTests\LintingRules\set-nocount\test-files\set-nocount-no-rowset-action.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-nocount\test-files\set-nocount-one-error-rowset-action.sql">
+    <None Update="UnitTests\LintingRules\set-nocount\test-files\set-nocount-one-error-rowset-action.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-quoted-identifier\test-files\set-quoted-identifier-no-error.sql">
+    <None Update="UnitTests\LintingRules\set-quoted-identifier\test-files\set-quoted-identifier-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-quoted-identifier\test-files\set-quoted-identifier-one-error.sql">
+    <None Update="UnitTests\LintingRules\set-quoted-identifier\test-files\set-quoted-identifier-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-transaction-isolation-level\test-files\set-transaction-isolation-level-no-error.sql">
+    <None Update="UnitTests\LintingRules\set-transaction-isolation-level\test-files\set-transaction-isolation-level-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-transaction-isolation-level\test-files\set-transaction-isolation-level-one-error.sql">
+    <None Update="UnitTests\LintingRules\set-transaction-isolation-level\test-files\set-transaction-isolation-level-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-no-error.sql">
+    <None Update="UnitTests\LintingRules\set-variable\test-files\set-variable-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\set-variable\test-files\set-variable-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-one-error.sql">
+    <None Update="UnitTests\LintingRules\set-variable\test-files\set-variable-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\set-variable\test-files\set-variable-two-errors.sql">
+    <None Update="UnitTests\LintingRules\set-variable\test-files\set-variable-two-errors.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\unicode-string\test-files\unicode-string-error.sql">
+    <None Update="UnitTests\LintingRules\unicode-string\test-files\unicode-string-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\unicode-string\test-files\unicode-string-no-error.sql">
+    <None Update="UnitTests\LintingRules\unicode-string\test-files\unicode-string-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-no-error.sql">
+    <None Update="UnitTests\LintingRules\upper-lower\test-files\upper-lower-no-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-one-error-mixed-state.sql">
+    <None Update="UnitTests\LintingRules\upper-lower\test-files\upper-lower-one-error-mixed-state.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="UnitTests\Rules\upper-lower\test-files\upper-lower-one-error.sql">
+    <None Update="UnitTests\LintingRules\upper-lower\test-files\upper-lower-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
