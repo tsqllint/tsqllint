@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using TSQLLint.Common;
 using TSQLLint.Lib.Parser.ConfigurationOverrides;
 using TSQLLint.Lib.Utility;
 
@@ -13,8 +12,33 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
         {
             new object[]
             {
+                "valid compatability-level override",
                 @"/* tsqllint-override: compatability-level = 130 */",
                 new List<IOverride> { new OverrideCompatabilityLevel("130") }
+            },
+            new object[]
+            {
+                "valid compatability-level override and unsupported 'foo' override",
+                @"/* tsqllint-override: compatability-level = 90, foo = bar */",
+                new List<IOverride> { new OverrideCompatabilityLevel("90") }
+            },
+            new object[]
+            {
+                "valid compatability-level override within multiline comment block",
+                @"/* 
+                   tsqllint-disable: select-star
+                   tsqllint-override: compatability-level = 80 
+                */",
+                new List<IOverride> { new OverrideCompatabilityLevel("80") }
+            },
+            new object[]
+            {
+                "valid compatability-level and unsupported override override within multiline comment block",
+                @"/* 
+                   tsqllint-disable: select-star
+                   tsqllint-override: compatability-level = 80, foo = bar 
+                */",
+                new List<IOverride> { new OverrideCompatabilityLevel("80") }
             }
         };
 
@@ -23,10 +47,10 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
 
         [Test]
         [TestCaseSource(nameof(TestCases))]
-        public void TestOverride(string testString, List<IOverride> expectedResult)
+        public void TestOverride(string message, string testString, List<IOverride> expectedResult)
         {
             var overrides = testOverrideFinder.GetOverrideList(ParsingUtility.GenerateStreamFromString(testString));
-            CollectionAssert.AreEqual(overrides, expectedResult, overrideComparer);
+            CollectionAssert.AreEqual(overrides, expectedResult, overrideComparer, message);
         }
     }
 }

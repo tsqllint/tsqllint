@@ -10,7 +10,7 @@ namespace TSQLLint.Lib.Parser.ConfigurationOverrides
     {
         public IEnumerable<IOverride> GetOverrideList(Stream fileStream)
         {
-            const string pattern = @"(\/\*) ?tsqllint-override: ?(.* += +.*)+(\*\/)";
+            const string pattern = @".*?tsqllint-override: ?(.* += +.*)+.*";
             var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
             var overrideList = new List<IOverride>();
@@ -28,7 +28,7 @@ namespace TSQLLint.Lib.Parser.ConfigurationOverrides
                     continue;
                 }
 
-                var overrideDetails = match.Groups[2].Value.Split(',').Select(p => p.Trim()).ToList();
+                var overrideDetails = match.Groups[1].Value.Split(',').Select(p => p.Trim()).ToList();
                 foreach (var overrideDetail in overrideDetails)
                 {
                     var details = overrideDetail.Split(' ').Select(p => p.Trim()).ToList();
