@@ -16,6 +16,14 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
         {
             new object[]
             {
+                "disable-rule-enable-another", new List<IRuleException>
+                {
+                    new RuleException(typeof(SelectStarRule), 1, 4),
+                    new RuleException(typeof(SetAnsiNullsRule), 1, 4)
+                }
+            },
+            new object[]
+            {
                 "disable-rule-enable-rule", new List<IRuleException>
                 {
                     new RuleException(typeof(SelectStarRule), 1, 5),

@@ -91,6 +91,9 @@
     <None Update="UnitTests\Parser\invalid-characters.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\disable-rule-enable-another.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UnitTests\Parser\RuleExceptionFinder\TestFiles\disable-rule-enable-rule.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

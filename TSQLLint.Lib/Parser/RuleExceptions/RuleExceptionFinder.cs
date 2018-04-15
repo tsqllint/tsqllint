@@ -82,7 +82,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
 
                 if (enableCommand)
                 {
-                    var ruleException = ruleExceptionList.OfType<RuleException>().FirstOrDefault(r => r.EndLine == 0);
+                    var ruleException = ruleExceptionList.OfType<RuleException>().FirstOrDefault(r => r.RuleName == matchedFriendlyName && r.EndLine == 0);
                     ruleException?.SetEndLine(lineNumber);
                 }
             }
