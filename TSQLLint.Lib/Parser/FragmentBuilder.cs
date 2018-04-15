@@ -13,7 +13,7 @@ namespace TSQLLint.Lib.Parser
 
         public FragmentBuilder(int compatabilityLevel)
         {
-            parser = GetSqlParser(compatabilityLevel);
+            parser = GetSqlParser(CompatabilityLevelUtility.ValidateCompatabilityLevel(compatabilityLevel));
         }
 
         public TSqlFragment GetFragment(TextReader txtRdr, out IList<ParseError> errors)
@@ -28,21 +28,20 @@ namespace TSQLLint.Lib.Parser
 
             var fullyQualifiedName = string.Format("Microsoft.SqlServer.TransactSql.ScriptDom.TSql{0}Parser", compatabilityLevel);
             var type = Type.GetType(fullyQualifiedName);
-            if (type != null)
-            {
-                return (TSqlParser)Activator.CreateInstance(type, new object[] { true });
-            }
+
+            TSqlParser parser = new TSql120Parser(true);
 
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
                 type = asm.GetType(fullyQualifiedName);
                 if (type != null)
                 {
-                    return (TSqlParser)Activator.CreateInstance(type, new object[] { true });
+                    parser = (TSqlParser)Activator.CreateInstance(type, new object[] { true });
+                    break;
                 }
             }
 
-            return null;
+            return parser;
         }
     }
 }
