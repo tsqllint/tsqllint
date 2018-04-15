@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using TSQLLint.Common;
 using TSQLLint.Lib.Parser.Interfaces;
 
 namespace TSQLLint.Lib.Parser.RuleExceptions
@@ -12,7 +11,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
     {
         public IEnumerable<IExtendedRuleException> GetIgnoredRuleList(Stream fileStream)
         {
-            const string pattern = @"\/\*\s*(tsqllint-(?:dis|en)able)\s*(.*)(?:\s*\*\/)";
+            const string pattern = @"(tsqllint-(?:dis|en)able)\s*(.*)";
             var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
             var ruleExceptionList = new List<IExtendedRuleException>();

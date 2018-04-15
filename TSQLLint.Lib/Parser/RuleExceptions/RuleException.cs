@@ -1,5 +1,4 @@
 using System;
-using TSQLLint.Common;
 
 namespace TSQLLint.Lib.Parser.RuleExceptions
 {
