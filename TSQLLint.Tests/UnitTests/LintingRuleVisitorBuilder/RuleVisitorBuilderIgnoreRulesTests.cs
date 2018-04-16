@@ -65,7 +65,7 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 
             var ignoredRuleList = new List<IExtendedRuleException>
             {
-                new RuleException(typeof(SelectStarRule), 1, 10)
+                new RuleException(typeof(SelectStarRule), "select-star", 1, 10)
             };
 
             var pathString = "DoesntExist.sql";
@@ -101,7 +101,7 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 
             var ignoredRuleList = new List<IExtendedRuleException>
             {
-                new RuleException(typeof(SelectStarRule), 1, 10)
+                new RuleException(typeof(SelectStarRule), "select-star", 1, 10)
             };
 
             var pathString = "DoesntExist.sql";

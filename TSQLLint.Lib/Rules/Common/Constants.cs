@@ -192,5 +192,7 @@ namespace TSQLLint.Lib.Rules.Common
         };
 
         public static int TabWidth => 4;
+
+        public static int DefaultCompatabilityLevel => 120;
     }
 }

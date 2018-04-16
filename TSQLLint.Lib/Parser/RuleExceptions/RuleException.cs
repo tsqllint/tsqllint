@@ -4,9 +4,10 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
 {
     public class RuleException : IExtendedRuleException
     {
-        public RuleException(Type ruleType, int startLine, int endLine)
+        public RuleException(Type ruleType, string ruleName, int startLine, int endLine)
         {
             RuleType = ruleType;
+            RuleName = ruleName;
             StartLine = startLine;
             EndLine = endLine;
         }
