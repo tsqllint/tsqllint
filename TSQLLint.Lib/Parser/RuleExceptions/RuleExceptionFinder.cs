@@ -76,7 +76,7 @@ namespace TSQLLint.Lib.Parser.RuleExceptions
 
                 if (disableCommand)
                 {
-                    var ruleException = new RuleException(matchedType, lineNumber, 0);
+                    var ruleException = new RuleException(matchedType, matchedFriendlyName, lineNumber, 0);
                     ruleExceptionList.Add(ruleException);
                 }
 

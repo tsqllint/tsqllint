@@ -18,25 +18,25 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
             {
                 "disable-rule-enable-another", new List<IRuleException>
                 {
-                    new RuleException(typeof(SelectStarRule), 1, 4),
-                    new RuleException(typeof(SetAnsiNullsRule), 1, 4)
+                    new RuleException(typeof(SelectStarRule), "select-star", 1, 4),
+                    new RuleException(typeof(SetAnsiNullsRule), "set-ansi", 1, 4)
                 }
             },
             new object[]
             {
                 "disable-rule-enable-rule", new List<IRuleException>
                 {
-                    new RuleException(typeof(SelectStarRule), 1, 5),
-                    new RuleException(typeof(SetAnsiNullsRule), 1, 5)
+                    new RuleException(typeof(SelectStarRule), "select-star", 1, 5),
+                    new RuleException(typeof(SetAnsiNullsRule), "set-ansi", 1, 5)
                 }
             },
             new object[]
             {
                 "disable-rule-whole-file", new List<IRuleException>
                 {
-                    new RuleException(typeof(SelectStarRule), 1, 9),
-                    new RuleException(typeof(SemicolonTerminationRule), 1, 9),
-                    new RuleException(typeof(PrintStatementRule), 5, 9)
+                    new RuleException(typeof(SelectStarRule), "select-star", 1, 9),
+                    new RuleException(typeof(SemicolonTerminationRule), "semicolon-termination", 1, 9),
+                    new RuleException(typeof(PrintStatementRule), "print-statement", 5, 9)
                 }
             },
             new object[]
@@ -59,15 +59,15 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
                 "globally-disable-re-enable", new List<IRuleException>
                 {
                     new GlobalRuleException(1, 5),
-                    new RuleException(typeof(SelectStarRule), 7, 9),
+                    new RuleException(typeof(SelectStarRule), "select-star", 7, 9),
                 }
             },
             new object[]
             {
                 "disable-rule-with-additional-comments", new List<IRuleException>
                 {
-                    new RuleException(typeof(SelectStarRule), 1, 3),
-                    new RuleException(typeof(LinkedServerRule), 1, 3)
+                    new RuleException(typeof(SelectStarRule), "select-star", 1, 3),
+                    new RuleException(typeof(LinkedServerRule), "linked-server", 1, 3)
                 }
             },
             new object[]
