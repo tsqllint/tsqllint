@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Reflection;
 using NSubstitute;
@@ -264,43 +265,29 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void ActivatePlugins_ThrowErrors_ShouldCatch_ShouldReport()
         {
             // arrange
-            const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
-            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
-            {
-                {
-                    filePath1, new MockFileData(string.Empty)
-                }
-            });
-
-            var assemblyWrapper = new TestAssemblyWrapper(defaultPlugin: typeof(TestPluginThrowsException));
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"UnitTests/PluginHandler/tsqllint-plugin-throws-exception.dll"));
+            var assemblyWrapper = new AssemblyWrapper();
 
             var pluginPaths = new Dictionary<string, string>
             {
                 {
-                    "my-plugin", filePath1
-                },
-                {
-                    "my-plugin-directories", @"c:\pluginDirectory"
-                },
-                {
-                    "my-plugin-invalid-path", @"c:\doesnt-exist"
+                    "my-plugin", path
                 }
             };
 
             var reporter = Substitute.For<IReporter>();
-            var context = Substitute.For<IPluginContext>();
-
             var versionWrapper = Substitute.For<IFileversionWrapper>();
+            var context = Substitute.For<IPluginContext>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, new FileSystem(), assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
+            pluginHandler.ActivatePlugins(context);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
-            Assert.Throws<NotImplementedException>(() => pluginHandler.ActivatePlugins(context));
-            reporter.Received().Report(Arg.Any<string>());
+            reporter.Received().Report(@"There was a problem with plugin: tsqllint_plugin_throws_exception.PluginThatThrows - something bad happened");
         }
 
         public class TestPlugin2 : TestPlugin

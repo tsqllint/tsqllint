@@ -113,9 +113,8 @@ namespace TSQLLint.Lib.Plugins
                 }
                 catch (Exception exception)
                 {
-                    reporter.Report($"\nThere was a problem with plugin: {plugin.Key}\n\n{exception}");
+                    reporter.Report($"There was a problem with plugin: {plugin.Key} - {exception.Message}");
                     Trace.WriteLine(exception);
-                    throw;
                 }
             }
         }
