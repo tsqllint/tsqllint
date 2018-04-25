@@ -35,10 +35,14 @@ namespace TSQLLint.Lib.Plugins
 
         public void ProcessPaths(Dictionary<string, string> pluginPaths)
         {
+            // process user specified plugins
             foreach (var pluginPath in pluginPaths)
             {
                 ProcessPath(pluginPath.Value);
             }
+
+            var assemblyPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            ProcessPath(Path.GetDirectoryName(assemblyPath));
         }
 
         public void ProcessPath(string path)
