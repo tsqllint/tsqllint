@@ -409,5 +409,8 @@
     <None Update="UnitTests\LintingRules\upper-lower\test-files\upper-lower-one-error.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UnitTests\PluginHandler\tsqllint-plugin-throws-exception.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

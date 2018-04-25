@@ -15,16 +15,18 @@ namespace TSQLLint.Lib.Plugins
         private readonly IReporter reporter;
         private readonly IAssemblyWrapper assemblyWrapper;
         private readonly IFileSystem fileSystem;
+        private readonly IFileversionWrapper versionWrapper;
         private Dictionary<Type, IPlugin> plugins;
 
         public PluginHandler(IReporter reporter)
-            : this(reporter, new FileSystem(), new AssemblyWrapper()) { }
+            : this(reporter, new FileSystem(), new AssemblyWrapper(), new VersionInfoWrapper()) { }
 
-        public PluginHandler(IReporter reporter, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper)
+        public PluginHandler(IReporter reporter, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper, IFileversionWrapper versionWrapper)
         {
             this.reporter = reporter;
             this.fileSystem = fileSystem;
             this.assemblyWrapper = assemblyWrapper;
+            this.versionWrapper = versionWrapper;
         }
 
         public IList<IPlugin> Plugins => plugins.Values.ToList();
@@ -33,10 +35,14 @@ namespace TSQLLint.Lib.Plugins
 
         public void ProcessPaths(Dictionary<string, string> pluginPaths)
         {
+            // process user specified plugins
             foreach (var pluginPath in pluginPaths)
             {
                 ProcessPath(pluginPath.Value);
             }
+
+            var assemblyPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            ProcessPath(Path.GetDirectoryName(assemblyPath));
         }
 
         public void ProcessPath(string path)
@@ -91,8 +97,8 @@ namespace TSQLLint.Lib.Plugins
                 if (!List.ContainsKey(type))
                 {
                     List.Add(type, (IPlugin)Activator.CreateInstance(type));
-                    var fvi = FileVersionInfo.GetVersionInfo(dll.Location);
-                    reporter.Report($"Loaded plugin: '{type.FullName}', Version: '{fvi.FileVersion}'");
+                    var version = versionWrapper.GetVersion(dll);
+                    reporter.Report($"Loaded plugin: '{type.FullName}', Version: '{version}'");
                 }
                 else
                 {
@@ -111,9 +117,8 @@ namespace TSQLLint.Lib.Plugins
                 }
                 catch (Exception exception)
                 {
-                    reporter.Report($"\nThere was a problem with plugin: {plugin.Key}\n\n{exception}");
+                    reporter.Report($"There was a problem with plugin: {plugin.Key} - {exception.Message}");
                     Trace.WriteLine(exception);
-                    throw;
                 }
             }
         }
