@@ -91,8 +91,8 @@ namespace TSQLLint.Lib.Plugins
                 if (!List.ContainsKey(type))
                 {
                     List.Add(type, (IPlugin)Activator.CreateInstance(type));
-
-                    reporter.Report($"Loaded plugin '{type.FullName}'");
+                    var fvi = FileVersionInfo.GetVersionInfo(dll.Location);
+                    reporter.Report($"Loaded plugin: '{type.FullName}', Version: '{fvi.FileVersion}'");
                 }
                 else
                 {
