@@ -3,6 +3,7 @@ using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Core.UseCases.Console;
 using TSQLLint.Infrastructure;
+using TSQLLint.Infrastructure.CommandLineOptions;
 using TSQLLint.Infrastructure.Config;
 using TSQLLint.Infrastructure.Plugins;
 using TSQLLint.Infrastructure.Reporters;
@@ -16,9 +17,9 @@ namespace TSQLLint.Console
         private readonly IConfigReader configReader;
         private readonly IReporter reporter;
         private readonly IConsoleTimer timer;
+
         private IPluginHandler pluginHandler;
         private ISqlFileProcessor fileProcessor;
-        private IFileSystemWrapper fileSystemWrapper;
 
         public Application(string[] args, IReporter reporter)
         {
@@ -28,8 +29,11 @@ namespace TSQLLint.Console
             this.reporter = reporter;
             commandLineOptions = new CommandLineOptions(args);
             configReader = new ConfigReader(reporter);
-            fileSystemWrapper = new FileSystemWrapper();
-            commandLineOptionHandler = new CommandLineOptionHandler(new ConfigFileGenerator(), configReader, reporter, fileSystemWrapper);
+            commandLineOptionHandler = new CommandLineOptionHandler(
+                new ConfigFileGenerator(),
+                configReader,
+                reporter,
+                new FileSystemWrapper());
         }
 
         public void Run()
@@ -38,7 +42,7 @@ namespace TSQLLint.Console
 
             var fragmentBuilder = new FragmentBuilder(configReader.CompatabilityLevel);
             var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter);
-            IRuleVisitor ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
+            var ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
             pluginHandler = new PluginHandler(reporter);
             fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
 

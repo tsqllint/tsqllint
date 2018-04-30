@@ -3,7 +3,7 @@ using CommandLine;
 using CommandLine.Text;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Console
+namespace TSQLLint.Infrastructure.CommandLineOptions
 {
     public class CommandLineOptions : ICommandLineOptions
     {

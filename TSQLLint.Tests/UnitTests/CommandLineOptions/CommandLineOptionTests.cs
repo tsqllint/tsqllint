@@ -73,7 +73,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
         private static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
-        private static string UsageString => new Console.CommandLineOptions(new string[] { }).GetUsage();
+        private static string UsageString => new Infrastructure.CommandLineOptions.CommandLineOptions(new string[] { }).GetUsage();
 
         private static string TSqllVersion
         {
