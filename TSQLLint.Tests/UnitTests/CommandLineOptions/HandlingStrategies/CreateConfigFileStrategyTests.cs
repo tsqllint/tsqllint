@@ -7,6 +7,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Core.UseCases.Console;
+using TSQLLint.Core.UseCases.Console.HandlerStrategies;
 
 namespace TSQLLint.Tests.UnitTests.CommandLineOptions.HandlingStrategies
 {

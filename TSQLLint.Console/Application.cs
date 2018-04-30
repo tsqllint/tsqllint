@@ -1,6 +1,8 @@
 using System.IO.Abstractions;
 using TSQLLint.Common;
+using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Core.Interfaces.Config.Contracts;
 using TSQLLint.Core.UseCases.Console;
 using TSQLLint.Infrastructure;
 using TSQLLint.Infrastructure.CommandLineOptions;
@@ -12,7 +14,7 @@ namespace TSQLLint.Console
 {
     public class Application
     {
-        private readonly ICommandLineOptionHandler commandLineOptionHandler;
+        private readonly IRequestHandler<CommandLineRequestMessage, HandlerResponseMessage> commandLineOptionHandler;
         private readonly ICommandLineOptions commandLineOptions;
         private readonly IConfigReader configReader;
         private readonly IReporter reporter;
@@ -47,7 +49,7 @@ namespace TSQLLint.Console
             fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
 
             pluginHandler.ProcessPaths(configReader.GetPlugins());
-            commandLineOptionHandler.HandleCommandLineOptions(commandLineOptions);
+            commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));
             fileProcessor.ProcessList(commandLineOptions.LintPath);
 
             if (fileProcessor.FileCount > 0)

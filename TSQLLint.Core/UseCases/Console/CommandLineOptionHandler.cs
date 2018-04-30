@@ -1,10 +1,13 @@
 using System.Linq;
 using TSQLLint.Common;
+using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Core.Interfaces.Config.Contracts;
+using TSQLLint.Core.UseCases.Console.HandlerStrategies;
 
 namespace TSQLLint.Core.UseCases.Console
 {
-    public class CommandLineOptionHandler : ICommandLineOptionHandler
+    public class CommandLineOptionHandler : IRequestHandler<CommandLineRequestMessage, HandlerResponseMessage>
     {
         private readonly IConfigFileGenerator configFileGenerator;
         private readonly IBaseReporter reporter;
@@ -23,8 +26,10 @@ namespace TSQLLint.Core.UseCases.Console
             this.fileSystemWrapper = fileSystemWrapper;
         }
 
-        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
+        public HandlerResponseMessage Handle(CommandLineRequestMessage message)
         {
+            var commandLineOptions = message.CommandLineOptions;
+            
             if (commandLineOptions.Args.Length == 0 || commandLineOptions.Help)
             {
                 var strategy = new PrintUsageStrategy(reporter);
@@ -60,6 +65,8 @@ namespace TSQLLint.Core.UseCases.Console
                 var strategy = new PrintUsageStrategy(reporter);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
+
+            return new HandlerResponseMessage();
         }
     }
 }

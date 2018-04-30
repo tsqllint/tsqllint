@@ -2,7 +2,7 @@ using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Core.UseCases.Console
+namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
 {
     public class LoadConfigFileStrategy : IHandlingStrategy
     {
