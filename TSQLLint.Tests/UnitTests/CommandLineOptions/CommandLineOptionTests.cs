@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules.RuleViolations;
+using TSQLLint.Tests.Helpers;
 
 namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 {
@@ -72,7 +73,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
         private static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
-        private static string UsageString => new Console.CommandLineOptions.CommandLineOptions(new string[] { }).GetUsage();
+        private static string UsageString => new Console.CommandLineOptions(new string[] { }).GetUsage();
 
         private static string TSqllVersion
         {

@@ -1,6 +1,5 @@
 using System.IO.Abstractions;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Core.UseCases.Console;
 using TSQLLint.Infrastructure;
@@ -19,6 +18,7 @@ namespace TSQLLint.Console
         private readonly IConsoleTimer timer;
         private IPluginHandler pluginHandler;
         private ISqlFileProcessor fileProcessor;
+        private IFileSystemWrapper fileSystemWrapper;
 
         public Application(string[] args, IReporter reporter)
         {
@@ -26,9 +26,10 @@ namespace TSQLLint.Console
             timer.Start();
 
             this.reporter = reporter;
-            commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
+            commandLineOptions = new CommandLineOptions(args);
             configReader = new ConfigReader(reporter);
-            commandLineOptionHandler = new CommandLineOptionHandler(new ConfigFileGenerator(), configReader, reporter);
+            fileSystemWrapper = new FileSystemWrapper();
+            commandLineOptionHandler = new CommandLineOptionHandler(new ConfigFileGenerator(), configReader, reporter, fileSystemWrapper);
         }
 
         public void Run()

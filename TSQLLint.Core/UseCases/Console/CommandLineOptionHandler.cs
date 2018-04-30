@@ -9,15 +9,18 @@ namespace TSQLLint.Core.UseCases.Console
         private readonly IConfigFileGenerator configFileGenerator;
         private readonly IBaseReporter reporter;
         private readonly IConfigReader configReader;
+        private readonly IFileSystemWrapper fileSystemWrapper;
 
         public CommandLineOptionHandler(
             IConfigFileGenerator configFileGenerator,
             IConfigReader configReader,
-            IBaseReporter reporter)
+            IBaseReporter reporter,
+            IFileSystemWrapper fileSystemWrapper)
         {
             this.configFileGenerator = configFileGenerator;
             this.configReader = configReader;
             this.reporter = reporter;
+            this.fileSystemWrapper = fileSystemWrapper;
         }
 
         public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
@@ -39,12 +42,12 @@ namespace TSQLLint.Core.UseCases.Console
             }
             else if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile))
             {
-                var strategy = new LoadConfigFileStrategy(reporter);
+                var strategy = new LoadConfigFileStrategy(reporter, fileSystemWrapper);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
             else if (commandLineOptions.Init)
             {
-                var strategy = new CreateConfigFileStrategy(reporter, configFileGenerator);
+                var strategy = new CreateConfigFileStrategy(reporter, configFileGenerator, fileSystemWrapper);
                 strategy.HandleCommandLineOptions(commandLineOptions);
             }
             else if (commandLineOptions.ListPlugins)

@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.ConfigurationOverrides;
 
-namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
+namespace TSQLLint.Tests.Helpers.ObjectComparers
 {
     [ExcludeFromCodeCoverage]
     public class OverrideComparer : IComparer, IComparer<IOverride>

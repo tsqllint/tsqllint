@@ -8,7 +8,7 @@ using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Config;
 
-namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
+namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
 {
     [TestFixture]
     public class RuleVisitorBuilderTest

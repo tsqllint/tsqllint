@@ -4,6 +4,7 @@ using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure;
 using TSQLLint.Infrastructure.ConfigurationOverrides;
+using TSQLLint.Tests.Helpers.ObjectComparers;
 
 namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
 {
