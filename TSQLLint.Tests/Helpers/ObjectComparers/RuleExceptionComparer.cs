@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser.RuleExceptions;
+using TSQLLint.Infrastructure.RuleExceptions;
 
 namespace TSQLLint.Tests.Helpers.ObjectComparers
 {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
-using TSQLLint.Console.Interfaces;
+using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions
 {

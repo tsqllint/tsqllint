@@ -3,8 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Reporters;
-using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Infrastructure.Reporters;
+using TSQLLint.Infrastructure.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.Reporter
 {

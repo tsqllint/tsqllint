@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Infrastructure.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.Helpers.ObjectComparers
 {

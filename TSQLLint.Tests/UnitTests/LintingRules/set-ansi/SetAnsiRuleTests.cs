@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using TSQLLint.Lib.Rules;
-using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Infrastructure.Rules;
+using TSQLLint.Infrastructure.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.LintingRules
 {

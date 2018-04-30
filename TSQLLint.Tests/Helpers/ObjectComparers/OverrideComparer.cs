@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using TSQLLint.Lib.Parser.ConfigurationOverrides;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.ConfigurationOverrides;
 
 namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
 {

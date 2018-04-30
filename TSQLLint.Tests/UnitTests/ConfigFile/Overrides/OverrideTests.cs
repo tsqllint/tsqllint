@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using TSQLLint.Lib.Parser.ConfigurationOverrides;
-using TSQLLint.Lib.Rules.Common;
-using TSQLLint.Lib.Utility;
+using TSQLLint.Core;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure;
+using TSQLLint.Infrastructure.ConfigurationOverrides;
 
 namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
 {

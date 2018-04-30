@@ -3,7 +3,7 @@ using System.IO;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Plugins;
+using TSQLLint.Infrastructure.Plugins;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {

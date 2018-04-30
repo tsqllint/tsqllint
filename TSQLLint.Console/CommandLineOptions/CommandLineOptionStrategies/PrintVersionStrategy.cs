@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using TSQLLint.Common;
-using TSQLLint.Console.Interfaces;
+using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {

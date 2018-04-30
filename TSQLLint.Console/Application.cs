@@ -1,23 +1,18 @@
 using System.IO.Abstractions;
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions;
-using TSQLLint.Console.Interfaces;
-using TSQLLint.Lib.Config;
-using TSQLLint.Lib.Config.Interfaces;
-using TSQLLint.Lib.Parser;
-using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Parser.RuleExceptions;
-using TSQLLint.Lib.Plugins;
-using TSQLLint.Lib.Plugins.Interfaces;
-using TSQLLint.Lib.Reporters;
-using TSQLLint.Lib.Reporters.Interfaces;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure;
+using TSQLLint.Infrastructure.Config;
+using TSQLLint.Infrastructure.Plugins;
+using TSQLLint.Infrastructure.Reporters;
 
 namespace TSQLLint.Console
 {
     public class Application
     {
         private readonly ICommandLineOptionHandler commandLineOptionHandler;
-        private readonly CommandLineOptions.CommandLineOptions commandLineOptions;
+        private readonly ICommandLineOptions commandLineOptions;
         private readonly IConfigReader configReader;
         private readonly IReporter reporter;
         private readonly IConsoleTimer timer;
@@ -32,7 +27,7 @@ namespace TSQLLint.Console
             this.reporter = reporter;
             commandLineOptions = new CommandLineOptions.CommandLineOptions(args);
             configReader = new ConfigReader(reporter);
-            commandLineOptionHandler = new CommandLineOptionHandler(commandLineOptions, new ConfigFileGenerator(), configReader, reporter);
+            commandLineOptionHandler = new CommandLineOptionHandler(new ConfigFileGenerator(), configReader, reporter);
         }
 
         public void Run()

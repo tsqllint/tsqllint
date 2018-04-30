@@ -5,9 +5,8 @@ using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Config;
-using TSQLLint.Lib.Config.Interfaces;
-using TSQLLint.Lib.Parser.RuleExceptions;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Config;
 
 namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 {
@@ -48,7 +47,7 @@ namespace TSQLLint.Tests.UnitTests.RuleVisitorBuilder
 
             var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
-            var ruleVisitorBuilder = new Lib.Parser.RuleVisitorBuilder(configReader, null);
+            var ruleVisitorBuilder = new Infrastructure.RuleVisitorBuilder(configReader, null);
 
             var ignoredRuleList = new List<IExtendedRuleException>();
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors("foo.sql", ignoredRuleList);

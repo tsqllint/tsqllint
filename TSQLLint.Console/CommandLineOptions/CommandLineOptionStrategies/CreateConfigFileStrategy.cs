@@ -1,8 +1,7 @@
 using System;
 using System.IO.Abstractions;
 using TSQLLint.Common;
-using TSQLLint.Console.Interfaces;
-using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
 {

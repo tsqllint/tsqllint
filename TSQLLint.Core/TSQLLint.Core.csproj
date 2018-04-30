@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;</TargetFrameworks>
+    <Version>1.10.1</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TSQLLint.Common" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\" />
+  </ItemGroup>
+
+</Project>

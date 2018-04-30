@@ -8,8 +8,9 @@ using System.Reflection;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Plugins;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure;
+using TSQLLint.Infrastructure.Plugins;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
@@ -82,7 +83,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -126,7 +127,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -166,7 +167,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -206,7 +207,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var reporter = Substitute.For<IReporter>();
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -238,14 +239,14 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             var reporter = Substitute.For<IReporter>();
-            var textReader = Lib.Utility.ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
+            var textReader = ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
             var context = new PluginContext(@"c:\scripts\foo.sql", new List<IRuleException>(), textReader);
 
             var versionWrapper = Substitute.For<IFileversionWrapper>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -281,7 +282,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, new FileSystem(), assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, new FileSystem(), assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
             pluginHandler.ActivatePlugins(context);
 

@@ -6,8 +6,8 @@ using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Config;
-using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Config;
 
 namespace TSQLLint.Tests.UnitTests.ConfigFile
 {

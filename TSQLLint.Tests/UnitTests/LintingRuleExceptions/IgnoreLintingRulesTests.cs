@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Infrastructure.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.LintingRuleExceptions
 {

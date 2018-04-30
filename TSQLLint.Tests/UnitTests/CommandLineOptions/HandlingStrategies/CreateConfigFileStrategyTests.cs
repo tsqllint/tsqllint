@@ -5,8 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies;
-using TSQLLint.Console.Interfaces;
-using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Tests.UnitTests.CommandLineOptions.HandlingStrategies
 {
