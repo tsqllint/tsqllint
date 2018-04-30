@@ -14,8 +14,4 @@
     <PackageReference Include="TSQLLint.Common" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\" />
-  </ItemGroup>
-
 </Project>

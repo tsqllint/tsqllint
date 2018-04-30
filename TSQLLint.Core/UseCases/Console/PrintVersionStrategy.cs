@@ -3,7 +3,7 @@ using System.Reflection;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
+namespace TSQLLint.Core.UseCases.Console
 {
     public class PrintVersionStrategy : IHandlingStrategy
     {

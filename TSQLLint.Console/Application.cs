@@ -2,6 +2,7 @@ using System.IO.Abstractions;
 using TSQLLint.Common;
 using TSQLLint.Console.CommandLineOptions;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Core.UseCases.Console;
 using TSQLLint.Infrastructure;
 using TSQLLint.Infrastructure.Config;
 using TSQLLint.Infrastructure.Plugins;

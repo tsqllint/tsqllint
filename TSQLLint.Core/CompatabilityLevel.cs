@@ -9,7 +9,7 @@ namespace TSQLLint.Core
             var validCompatibilityLevels = new List<int> { 80, 90, 100, 110, 120, 130, 140 };
             return validCompatibilityLevels.Contains(compatabilityLevel)
                 ? compatabilityLevel
-                : 120;
+                : Constants.DefaultCompatabilityLevel;
         }
     }
 }

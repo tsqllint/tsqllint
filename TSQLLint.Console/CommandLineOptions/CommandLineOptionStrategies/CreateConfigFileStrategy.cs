@@ -12,15 +12,12 @@ namespace TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies
         private readonly IFileSystem fileSystem;
         private readonly string defaultConfigFilePath;
 
-        public CreateConfigFileStrategy(IBaseReporter reporter, IConfigFileGenerator configFileGenerator)
-            : this(reporter, configFileGenerator, new FileSystem()) { }
-
         public CreateConfigFileStrategy(IBaseReporter reporter, IConfigFileGenerator configFileGenerator, IFileSystem fileSystem)
         {
             this.reporter = reporter;
             this.configFileGenerator = configFileGenerator;
             this.fileSystem = fileSystem;
-            defaultConfigFilePath = this.fileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
+            defaultConfigFilePath = fileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
         }
 
         public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)

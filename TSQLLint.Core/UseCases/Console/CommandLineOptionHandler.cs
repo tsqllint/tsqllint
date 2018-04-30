@@ -1,9 +1,8 @@
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Console.CommandLineOptions
+namespace TSQLLint.Core.UseCases.Console
 {
     public class CommandLineOptionHandler : ICommandLineOptionHandler
     {
