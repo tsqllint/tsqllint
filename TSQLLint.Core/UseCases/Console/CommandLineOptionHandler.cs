@@ -26,47 +26,51 @@ namespace TSQLLint.Core.UseCases.Console
             this.fileSystemWrapper = fileSystemWrapper;
         }
 
-        public HandlerResponseMessage Handle(CommandLineRequestMessage message)
+        public HandlerResponseMessage Handle(CommandLineRequestMessage request)
         {
-            var commandLineOptions = message.CommandLineOptions;
-            
-            if (commandLineOptions.Args.Length == 0 || commandLineOptions.Help)
+            if (request.CommandLineOptions.Args.Length == 0 || request.CommandLineOptions.Help)
             {
                 var strategy = new PrintUsageStrategy(reporter);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
-            else if (commandLineOptions.Version)
+            
+            if (request.CommandLineOptions.Version)
             {
                 var strategy = new PrintVersionStrategy(reporter);
-                strategy.HandleCommandLineOptions();
+                return strategy.HandleCommandLineOptions();
             }
-            else if (commandLineOptions.PrintConfig)
+            
+            if (request.CommandLineOptions.PrintConfig)
             {
                 var strategy = new PrintConfigStrategy(reporter, configReader);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
-            else if (!string.IsNullOrWhiteSpace(commandLineOptions.ConfigFile))
+            
+            if (!string.IsNullOrWhiteSpace(request.CommandLineOptions.ConfigFile))
             {
                 var strategy = new LoadConfigFileStrategy(reporter, fileSystemWrapper);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
-            else if (commandLineOptions.Init)
+            
+            if (request.CommandLineOptions.Init)
             {
                 var strategy = new CreateConfigFileStrategy(reporter, configFileGenerator, fileSystemWrapper);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
-            else if (commandLineOptions.ListPlugins)
+            
+            if (request.CommandLineOptions.ListPlugins)
             {
                 var strategy = new PrintPluginsStrategy(reporter, configReader);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
-            else if (!commandLineOptions.LintPath.Any())
+            
+            if (!request.CommandLineOptions.LintPath.Any())
             {
                 var strategy = new PrintUsageStrategy(reporter);
-                strategy.HandleCommandLineOptions(commandLineOptions);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
 
-            return new HandlerResponseMessage();
+            return new HandlerResponseMessage(true, true);
         }
     }
 }

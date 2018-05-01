@@ -1,5 +1,6 @@
 using System.Linq;
 using TSQLLint.Common;
+using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
@@ -15,7 +16,7 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
             this.fileSystem = fileSystem;
         }
 
-        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
+        public HandlerResponseMessage HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             commandLineOptions.ConfigFile = commandLineOptions.ConfigFile.Trim();
             if (!fileSystem.FileExists(commandLineOptions.ConfigFile))
@@ -26,7 +27,10 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
             if (!commandLineOptions.LintPath.Any())
             {
                 reporter.Report(commandLineOptions.GetUsage());
+                return new HandlerResponseMessage(true, false);
             }
+
+            return new HandlerResponseMessage(true, true);
         }
     }
 }

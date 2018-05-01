@@ -4,7 +4,7 @@ namespace TSQLLint.Core.Interfaces
     {
         public interface IRequestHandler<in TRequest, out TResponse> where TRequest : IRequest<TResponse>
         {
-            TResponse Handle(TRequest message);
+            TResponse Handle(TRequest request);
         }
 
         public interface IRequestHandler<in TRequest> where TRequest : IRequest

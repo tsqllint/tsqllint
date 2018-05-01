@@ -1,5 +1,6 @@
 using System;
 using TSQLLint.Common;
+using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
@@ -19,7 +20,7 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
             defaultConfigFilePath = fileSystem.CombinePath(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
         }
 
-        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
+        public HandlerResponseMessage HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             var configFileExists = fileSystem.FileExists(defaultConfigFilePath);
 
@@ -32,6 +33,8 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
             {
                 reporter.Report($"Default config file already exists at: {defaultConfigFilePath} use the '--init' option combined with the '--force' option to overwrite");
             }
+
+            return new HandlerResponseMessage(true, false);
         }
 
         private void CreateConfigFile()

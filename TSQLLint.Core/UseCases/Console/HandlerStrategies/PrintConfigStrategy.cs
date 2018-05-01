@@ -1,4 +1,5 @@
 using TSQLLint.Common;
+using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
@@ -14,10 +15,11 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
             this.configReader = configReader;
         }
 
-        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
+        public HandlerResponseMessage HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             reporter.Report(string.IsNullOrEmpty(configReader.ConfigFileLoadedFrom)
                     ? "Using default in memory config." : $"Config file found at: {configReader.ConfigFileLoadedFrom}");
+            return new HandlerResponseMessage(true, false);
         }
     }
 }

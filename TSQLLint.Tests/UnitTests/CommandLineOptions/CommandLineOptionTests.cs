@@ -133,9 +133,10 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
                 yield return new TestCaseData(new List<string> { "-p" }, ConfigFoundMessage, new List<RuleViolation>(), 0).SetName("Print Config Valid");
                 yield return new TestCaseData(new List<string> { "-l" }, NoPluginsFound, new List<RuleViolation>(), 0).SetName("List Plugins Valid");
                 yield return new TestCaseData(new List<string> { "-v" }, $"v{TSqllVersion}", new List<RuleViolation>(), 0).SetName("Print Version Valid");
-                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("Init Args Valid Missing Config File");
-                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("Init Args Valid Existing Config File");
+                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, new List<RuleViolation>(), 1).SetName("Init Args Valid Missing Config File");
+                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, new List<RuleViolation>(), 1).SetName("Init Args Valid Existing Config File");
                 yield return new TestCaseData(new List<string> { "-f", TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("Force Args Valid");
+                yield return new TestCaseData(new List<string> { "-l", TestFileOne }, null, new List<RuleViolation>(), 1).SetName("List plugins, valid lint path, should not lint");
 
                 // invalid linting targets
                 yield return new TestCaseData(new List<string> { @"invalid.sql" }, "invalid.sql is not a valid file path.", new List<RuleViolation>(), 0).SetName("File Args Invalid File Does Not Exist");

@@ -1,7 +1,9 @@
+using TSQLLint.Core.DTO;
+
 namespace TSQLLint.Core.Interfaces
 {
     public interface IHandlingStrategy
     {
-        void HandleCommandLineOptions(ICommandLineOptions commandLineOptions);
+        HandlerResponseMessage HandleCommandLineOptions(ICommandLineOptions commandLineOptions);
     }
 }

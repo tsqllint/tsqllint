@@ -1,4 +1,5 @@
 using TSQLLint.Common;
+using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
@@ -12,9 +13,10 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
             this.reporter = reporter;
         }
 
-        public void HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
+        public HandlerResponseMessage HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
             reporter.Report(string.Format(commandLineOptions.GetUsage()));
+            return new HandlerResponseMessage(true, false);
         }
     }
 }

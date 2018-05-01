@@ -49,8 +49,11 @@ namespace TSQLLint.Console
             fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
 
             pluginHandler.ProcessPaths(configReader.GetPlugins());
-            commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));
-            fileProcessor.ProcessList(commandLineOptions.LintPath);
+            var response = commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));
+            if (response.ShouldLint)
+            {
+                fileProcessor.ProcessList(commandLineOptions.LintPath);
+            }
 
             if (fileProcessor.FileCount > 0)
             {
