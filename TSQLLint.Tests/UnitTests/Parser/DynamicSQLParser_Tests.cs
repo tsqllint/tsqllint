@@ -25,6 +25,14 @@ namespace TSQLLint.Tests.UnitTests.Parser
             },
             new object[]
             {
+                "Execute var, dynamic object creation",
+                @"DECLARE @Sql nvarchar(4000);
+                    SET @Sql = 'CREATE PROCEDURE dbo.Foo AS RETURN 0';
+                    EXEC (@Sql);",
+                "CREATE PROCEDURE dbo.Foo AS RETURN 0"
+            },
+            new object[]
+            {
               "Multi-variable Concatenation",
               @"DECLARE @sqlCommandOne varchar(1000)
                   DECLARE @sqlCommandTwo varchar(1000)
