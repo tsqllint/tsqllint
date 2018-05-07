@@ -1,7 +1,7 @@
 using System;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Infrastructure.Config
+namespace TSQLLint.Infrastructure.Configuration
 {
     public class EnvironmentWrapper : IEnvironmentWrapper
     {

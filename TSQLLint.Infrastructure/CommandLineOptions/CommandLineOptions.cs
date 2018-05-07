@@ -10,7 +10,7 @@ namespace TSQLLint.Infrastructure.CommandLineOptions
         public CommandLineOptions(string[] args)
         {
             Args = args;
-            Parser.Default.ParseArgumentsStrict(args, this);
+            CommandLine.Parser.Default.ParseArgumentsStrict(args, this);
         }
 
         public string[] Args { get; set; }

@@ -5,10 +5,10 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Interfaces;
-using TSQLLint.Infrastructure.RuleExceptions;
+using TSQLLint.Infrastructure.Rules.RuleExceptions;
 using TSQLLint.Infrastructure.Rules.RuleViolations;
 
-namespace TSQLLint.Infrastructure
+namespace TSQLLint.Infrastructure.Parser
 {
     public class RuleVisitorBuilder : IRuleVisitorBuilder
     {

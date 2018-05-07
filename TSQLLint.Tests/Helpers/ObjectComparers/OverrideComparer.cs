@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Core.Interfaces;
-using TSQLLint.Infrastructure.ConfigurationOverrides;
+using TSQLLint.Infrastructure.Configuration.Overrides;
 
 namespace TSQLLint.Tests.Helpers.ObjectComparers
 {

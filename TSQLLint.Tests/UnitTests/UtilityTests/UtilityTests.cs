@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using TSQLLint.Infrastructure;
+using TSQLLint.Infrastructure.Parser;
 
 namespace TSQLLint.Tests.UnitTests.UtilityTests
 {

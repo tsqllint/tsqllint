@@ -8,7 +8,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
-using TSQLLint.Infrastructure;
+using TSQLLint.Infrastructure.Parser;
 
 namespace TSQLLint.Tests.UnitTests.Parser
 {

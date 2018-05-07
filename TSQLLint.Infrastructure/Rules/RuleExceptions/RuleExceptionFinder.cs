@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Parser;
 
-namespace TSQLLint.Infrastructure.RuleExceptions
+namespace TSQLLint.Infrastructure.Rules.RuleExceptions
 {
     public class RuleExceptionFinder : IRuleExceptionFinder
     {

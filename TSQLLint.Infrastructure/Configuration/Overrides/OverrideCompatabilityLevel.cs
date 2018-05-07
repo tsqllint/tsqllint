@@ -1,7 +1,7 @@
 using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Infrastructure.ConfigurationOverrides
+namespace TSQLLint.Infrastructure.Configuration.Overrides
 {
     public class OverrideCompatabilityLevel : IOverride
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using TSQLLint.Infrastructure.Rules;
 
-namespace TSQLLint.Infrastructure
+namespace TSQLLint.Infrastructure.Parser
 {
     public static class RuleVisitorFriendlyNameTypeMap
     {

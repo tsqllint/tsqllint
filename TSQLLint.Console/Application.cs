@@ -4,9 +4,9 @@ using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Core.Interfaces.Config.Contracts;
 using TSQLLint.Core.UseCases.Console;
-using TSQLLint.Infrastructure;
 using TSQLLint.Infrastructure.CommandLineOptions;
-using TSQLLint.Infrastructure.Config;
+using TSQLLint.Infrastructure.Configuration;
+using TSQLLint.Infrastructure.Parser;
 using TSQLLint.Infrastructure.Plugins;
 using TSQLLint.Infrastructure.Reporters;
 

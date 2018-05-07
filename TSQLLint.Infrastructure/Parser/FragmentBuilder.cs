@@ -5,11 +5,15 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core;
 using TSQLLint.Infrastructure.Interfaces;
 
-namespace TSQLLint.Infrastructure
+namespace TSQLLint.Infrastructure.Parser
 {
     public class FragmentBuilder : IFragmentBuilder
     {
         private readonly TSqlParser parser;
+
+        public FragmentBuilder() : this(Constants.DefaultCompatabilityLevel)
+        {
+        }
 
         public FragmentBuilder(int compatabilityLevel)
         {

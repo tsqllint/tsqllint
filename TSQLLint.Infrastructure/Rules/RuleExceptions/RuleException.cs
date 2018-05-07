@@ -1,7 +1,7 @@
 using System;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Infrastructure.RuleExceptions
+namespace TSQLLint.Infrastructure.Rules.RuleExceptions
 {
     public class RuleException : IExtendedRuleException
     {

@@ -6,8 +6,9 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Parser;
 
-namespace TSQLLint.Infrastructure.Config
+namespace TSQLLint.Infrastructure.Configuration
 {
     public class ConfigReader : IConfigReader
     {

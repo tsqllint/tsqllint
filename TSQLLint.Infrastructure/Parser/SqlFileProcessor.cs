@@ -6,9 +6,9 @@ using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Plugins;
-using TSQLLint.Infrastructure.RuleExceptions;
+using TSQLLint.Infrastructure.Rules.RuleExceptions;
 
-namespace TSQLLint.Infrastructure
+namespace TSQLLint.Infrastructure.Parser
 {
     public class SqlFileProcessor : ISqlFileProcessor
     {

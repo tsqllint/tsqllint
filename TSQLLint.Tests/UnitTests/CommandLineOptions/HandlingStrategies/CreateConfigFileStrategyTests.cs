@@ -1,12 +1,10 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
-using TSQLLint.Core.UseCases.Console;
 using TSQLLint.Core.UseCases.Console.HandlerStrategies;
 
 namespace TSQLLint.Tests.UnitTests.CommandLineOptions.HandlingStrategies

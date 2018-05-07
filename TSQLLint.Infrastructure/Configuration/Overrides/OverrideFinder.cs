@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Infrastructure.ConfigurationOverrides
+namespace TSQLLint.Infrastructure.Configuration.Overrides
 {
     public class OverrideFinder
     {

@@ -1,6 +1,6 @@
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Infrastructure.RuleExceptions
+namespace TSQLLint.Infrastructure.Rules.RuleExceptions
 {
     public class GlobalRuleException : IExtendedRuleException
     {

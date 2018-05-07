@@ -1,7 +1,7 @@
 using System.IO.Abstractions;
 using TSQLLint.Core.Interfaces;
 
-namespace TSQLLint.Infrastructure
+namespace TSQLLint.Infrastructure.Parser
 {
     public class FileSystemWrapper : IFileSystemWrapper
     {

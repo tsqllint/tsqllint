@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TSQLLint.Infrastructure.ConfigurationOverrides
+namespace TSQLLint.Infrastructure.Configuration.Overrides
 {
     public class OverrideTypeMap
     {

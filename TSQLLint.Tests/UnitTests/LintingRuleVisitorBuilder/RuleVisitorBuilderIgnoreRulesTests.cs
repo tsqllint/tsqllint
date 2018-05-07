@@ -4,10 +4,10 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
-using TSQLLint.Infrastructure;
 using TSQLLint.Infrastructure.Interfaces;
-using TSQLLint.Infrastructure.RuleExceptions;
+using TSQLLint.Infrastructure.Parser;
 using TSQLLint.Infrastructure.Rules;
+using TSQLLint.Infrastructure.Rules.RuleExceptions;
 
 namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
 {
@@ -29,7 +29,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
             var ignoredRuleList = new List<IExtendedRuleException>();
 
             var pathString = "DoesntExist.sql";
-            var ruleVisitorBuilder = new Infrastructure.RuleVisitorBuilder(mockConfigReader, mockReporter);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO;");
             var textReader = new StreamReader(testFileStream);
@@ -68,7 +68,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
             };
 
             var pathString = "DoesntExist.sql";
-            var ruleVisitorBuilder = new Infrastructure.RuleVisitorBuilder(mockConfigReader, mockReporter);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO;");
             var textReader = new StreamReader(testFileStream);
@@ -104,7 +104,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
             };
 
             var pathString = "DoesntExist.sql";
-            var ruleVisitorBuilder = new Infrastructure.RuleVisitorBuilder(mockConfigReader, mockReporter);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO");
             var textReader = new StreamReader(testFileStream);
