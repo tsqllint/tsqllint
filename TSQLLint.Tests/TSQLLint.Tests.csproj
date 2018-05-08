@@ -43,6 +43,9 @@
     <None Update="FunctionalTests\.tsqllintrc-plugins">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="FunctionalTests\TestFiles\linting-disabled.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="FunctionalTests\TestFiles\invalid-syntax.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
