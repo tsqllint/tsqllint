@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Parser;
@@ -17,9 +18,23 @@ namespace TSQLLint.Tests.UnitTests.Parser
             },
             new object[]
             {
+                "Execute binary expression containing string literals",
+                "EXEC('SELECT FOO' + ' FROM BAR')",
+                "SELECT FOO FROM BAR"
+            },
+            new object[]
+            {
                 "Execute var",
                 @"DECLARE @sqlCommand varchar(1000)
                     SET @sqlCommand = 'SELECT FOO FROM BAR'
+                    EXEC (@sqlCommand)",
+                "SELECT FOO FROM BAR"
+            },
+            new object[]
+            {
+                "Execute var consisting of binary expression",
+                @"DECLARE @sqlCommand varchar(1000)
+                    SET @sqlCommand = 'SELECT FOO' + ' FROM BAR'
                     EXEC (@sqlCommand)",
                 "SELECT FOO FROM BAR"
             },
@@ -72,6 +87,27 @@ namespace TSQLLint.Tests.UnitTests.Parser
             sqlFragment.Accept(visitor);
 
             Assert.IsTrue(callbackExecuted, "callback not executed");
+            CollectionAssert.IsEmpty(errors, "parsing errors were generated");
+        }
+
+        [ExcludeFromCodeCoverage]
+        [TestCase("SELECT 1")]
+        [TestCase("EXEC(@Foo)")]
+        public void ShouldIgnore(string testString)
+        {
+            var stream = ParsingUtility.GenerateStreamFromString(testString);
+
+            void DynamicCallback(string dynamicSQL)
+            {
+                Assert.Fail();
+            }
+
+            var visitor = new DynamicSQLParser(DynamicCallback);
+            var fragmentBuilder = new FragmentBuilder();
+            var textReader = new StreamReader(stream);
+            var sqlFragment = fragmentBuilder.GetFragment(textReader, out var errors);
+            sqlFragment.Accept(visitor);
+
             CollectionAssert.IsEmpty(errors, "parsing errors were generated");
         }
     }

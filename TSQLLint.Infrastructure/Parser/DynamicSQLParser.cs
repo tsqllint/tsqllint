@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLint.Infrastructure.Parser
@@ -28,13 +29,8 @@ namespace TSQLLint.Infrastructure.Parser
             node.Accept(visitor);
 
             var executableStrings = node.ExecuteSpecification.ExecutableEntity as ExecutableStringList;
-            if (executableStrings?.Strings == null)
-            {
-                return;
-            }
-
             var counter = 0;
-            foreach (var executableString in executableStrings.Strings)
+            foreach (var executableString in executableStrings?.Strings)
             {
                 counter++;
                 switch (executableString)
@@ -88,33 +84,12 @@ namespace TSQLLint.Infrastructure.Parser
             {
                 VariableValues.Add(node.Variable.Name, literal.Value);
             }
-            else if (node.Expression is BinaryExpression)
+            else if (node.Expression is BinaryExpression binaryExpression && binaryExpression.BinaryExpressionType == BinaryExpressionType.Add)
             {
-                var childVisitor = new BinaryExpressionVisitor();
-                node.AcceptChildren(childVisitor);
-                VariableValues.Add(childVisitor.Name, childVisitor.Value);
-            }
-        }
-
-        public class BinaryExpressionVisitor : TSqlFragmentVisitor
-        {
-            public string Name { get; private set; }
-            public string Value { get; private set; }
-
-            public override void Visit(VariableReference node)
-            {
-                if (string.IsNullOrEmpty(Name))
+                if (binaryExpression.FirstExpression is StringLiteral first && binaryExpression.SecondExpression is StringLiteral second)
                 {
-                    Name = node.Name;
-                    return;
+                    VariableValues.Add(node.Variable.Name, first.Value + second.Value);
                 }
-
-                Value = string.Format("{0} = {1}", Value, node.Name);
-            }
-
-            public override void Visit(StringLiteral node)
-            {
-                Value = string.Format("{0} {1}", Value, node.Value);
             }
         }
     }
