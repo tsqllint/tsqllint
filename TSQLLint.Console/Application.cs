@@ -1,3 +1,4 @@
+using System;
 using System.IO.Abstractions;
 using TSQLLint.Common;
 using TSQLLint.Core.DTO;
@@ -58,6 +59,11 @@ namespace TSQLLint.Console
             if (fileProcessor.FileCount > 0)
             {
                 reporter.ReportResults(timer.Stop(), fileProcessor.FileCount);
+            }
+
+            if (!response.Success)
+            {
+                Environment.ExitCode = 1;
             }
         }
     }

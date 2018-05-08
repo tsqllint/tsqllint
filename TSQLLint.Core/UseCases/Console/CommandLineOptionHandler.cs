@@ -70,7 +70,7 @@ namespace TSQLLint.Core.UseCases.Console
                 return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
 
-            return new HandlerResponseMessage(true, true);
+            return new HandlerResponseMessage(false, true);
         }
     }
 }

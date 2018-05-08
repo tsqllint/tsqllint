@@ -27,8 +27,8 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"-v", 0)]
         [TestCase(@"-h", 0)]
         [TestCase(@"-c .tsqllintrc", 0)]
-        [TestCase(@"invalid", 0)]
-        [TestCase(@"c:/foo_invalid.sql", 0)]
+        [TestCase(@"invalid", 1)]
+        [TestCase(@"c:/foo_invalid.sql", 1)]
         [TestCase(@"-foo", 1)]
         public void NoLintingPerformedExitCodeTest(string arguments, int expectedExitCode)
         {

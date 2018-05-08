@@ -15,6 +15,7 @@ mkdir coverage
     -output:".\coverage\coverage_results.xml" ^
     -target:"dotnet.exe" ^
     -targetargs:"test .\TSQLLint.Tests\TSQLLint.Tests.csproj" ^
+    -filter:"+[*TSQLLint*]*" ^
     -oldStyle
 
 %REPORTGENERATOR% ^
