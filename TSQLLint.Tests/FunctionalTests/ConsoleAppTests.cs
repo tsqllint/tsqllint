@@ -19,7 +19,6 @@ namespace TSQLLint.Tests.FunctionalTests
             testDirectoryPath = TestContext.CurrentContext.WorkDirectory;
         }
 
-        [TestCase(@"", 0)]
         [TestCase(@"-i", 0)]
         [TestCase(@"-l", 0)]
         [TestCase(@"-i -f", 0)]
@@ -27,10 +26,10 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"-v", 0)]
         [TestCase(@"-h", 0)]
         [TestCase(@"-c .tsqllintrc", 0)]
-        [TestCase(@"TestFiles/linting-disabled.sql", 0)]
         [TestCase(@"invalid", 1)]
         [TestCase(@"c:/foo_invalid.sql", 1)]
         [TestCase(@"-foo", 1)]
+        [TestCase(@"", 1)]
         public void NoLintingPerformedExitCodeTest(string arguments, int expectedExitCode)
         {
             void OutputHandler(object sender, DataReceivedEventArgs args) { }
@@ -51,6 +50,7 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"TestFiles/with-warnings.sql", 0)]
         [TestCase(@"TestFiles/with-errors.sql", 1)]
         [TestCase(@"TestFiles/invalid-syntax.sql", 1)]
+        [TestCase(@"TestFiles/linting-disabled.sql", 0)]
         public void LintingPerformedExitCodeTest(string testFile, int expectedExitCode)
         {
             var fileLinted = false;

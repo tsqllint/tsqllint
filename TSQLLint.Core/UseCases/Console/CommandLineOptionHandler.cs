@@ -28,7 +28,14 @@ namespace TSQLLint.Core.UseCases.Console
 
         public HandlerResponseMessage Handle(CommandLineRequestMessage request)
         {
-            if (request.CommandLineOptions.Args.Length == 0 || request.CommandLineOptions.Help)
+            if (request.CommandLineOptions.Args.Length == 0)
+            {
+                var strategy = new PrintUsageStrategy(reporter);
+                strategy.HandleCommandLineOptions(request.CommandLineOptions);
+                return new HandlerResponseMessage(false, false);
+            }
+            
+            if (request.CommandLineOptions.Help)
             {
                 var strategy = new PrintUsageStrategy(reporter);
                 return strategy.HandleCommandLineOptions(request.CommandLineOptions);
@@ -63,14 +70,17 @@ namespace TSQLLint.Core.UseCases.Console
                 var strategy = new PrintPluginsStrategy(reporter, configReader);
                 return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
-            
-            if (!request.CommandLineOptions.LintPath.Any())
+
+            if (request.CommandLineOptions.LintPath.Any())
+            {
+                var strategy = new ValidatePathStrategy(reporter, fileSystemWrapper);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
+            }
+            else
             {
                 var strategy = new PrintUsageStrategy(reporter);
                 return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
-
-            return new HandlerResponseMessage(false, true);
         }
     }
 }

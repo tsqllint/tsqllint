@@ -139,9 +139,9 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
                 yield return new TestCaseData(new List<string> { "-l", TestFileOne }, null, new List<RuleViolation>(), 1).SetName("List plugins, valid lint path, should not lint");
 
                 // invalid linting targets
-                yield return new TestCaseData(new List<string> { @"invalid.sql" }, "invalid.sql is not a valid file path.", new List<RuleViolation>(), 0).SetName("File Args Invalid File Does Not Exist");
+                yield return new TestCaseData(new List<string> { @"invalid.sql" }, "No valid file paths provided", new List<RuleViolation>(), 0).SetName("File Args Invalid File Does Not Exist");
                 yield return new TestCaseData(new List<string> { @"c:/invalid/foo*.sql" }, $"Directory does not exist: {Path.Combine($"c:{Path.DirectorySeparatorChar}", "invalid")}", new List<RuleViolation>(), 0).SetName("File Args Invalid Directory Does Not Exist");
-                yield return new TestCaseData(new List<string> { @"c:/invalid.sql" }, @"c:/invalid.sql is not a valid file path.", new List<RuleViolation>(), 0).SetName("File Args Invalid due to Path Does Not Exist");
+                yield return new TestCaseData(new List<string> { @"c:/invalid.sql", TestFileOne }, @"c:/invalid.sql is not a valid file path.", TestFileOneRuleViolations, 19).SetName("Multiple File Args, One Valid, One Valid");
 
                 // valid linting files and directories
                 yield return new TestCaseData(new List<string> { TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("File Args Valid Lint One File");
