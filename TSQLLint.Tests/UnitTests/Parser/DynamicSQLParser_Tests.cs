@@ -8,19 +8,33 @@ namespace TSQLLint.Tests.UnitTests.Parser
     [TestFixture]
     public class DynamicSQLParser_Tests
     {
+        private const bool ShouldCallBack = true;
+        private const bool ShouldNotCallback = false;
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
                 "Execute string",
                 "EXEC('SELECT FOO FROM BAR')",
-                "SELECT FOO FROM BAR"
+                "SELECT FOO FROM BAR",
+                ShouldCallBack
             },
             new object[]
             {
                 "Execute binary expression containing string literals",
                 "EXEC('SELECT FOO' + ' FROM BAR')",
-                "SELECT FOO FROM BAR"
+                "SELECT FOO FROM BAR",
+                ShouldCallBack
+            },
+            new object[]
+            {
+                "Execute string consisting of scalar command, should not callback",
+                @"DECLARE @sqlCommand int
+                    SET @sqlCommand = 1 - 1
+                    EXEC ('SELECT ' +  @sqlCommand)",
+                string.Empty,
+                ShouldNotCallback
             },
             new object[]
             {
@@ -28,7 +42,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 @"DECLARE @sqlCommand varchar(1000)
                     SET @sqlCommand = 'SELECT FOO FROM BAR'
                     EXEC (@sqlCommand)",
-                "SELECT FOO FROM BAR"
+                "SELECT FOO FROM BAR",
+                ShouldCallBack
             },
             new object[]
             {
@@ -36,7 +51,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 @"DECLARE @sqlCommand varchar(1000)
                     SET @sqlCommand = 'SELECT FOO' + ' FROM BAR'
                     EXEC (@sqlCommand)",
-                "SELECT FOO FROM BAR"
+                "SELECT FOO FROM BAR",
+                ShouldCallBack
             },
             new object[]
             {
@@ -44,7 +60,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 @"DECLARE @Sql nvarchar(4000);
                     SET @Sql = 'CREATE PROCEDURE dbo.Foo AS RETURN 0';
                     EXEC (@Sql);",
-                "CREATE PROCEDURE dbo.Foo AS RETURN 0"
+                "CREATE PROCEDURE dbo.Foo AS RETURN 0",
+                ShouldCallBack
             },
             new object[]
             {
@@ -55,7 +72,19 @@ namespace TSQLLint.Tests.UnitTests.Parser
                   SET @sqlCommandTwo = ' FROM BAR'
                   SET @sqlCommandThree = ' WHERE BAR IS NULL'
                   EXEC (@sqlCommandOne + @sqlCommandTwo + @sqlCommandThree)",
-              "SELECT FOO FROM BAR WHERE BAR IS NULL"
+              "SELECT FOO FROM BAR WHERE BAR IS NULL",
+              ShouldCallBack
+            },
+            new object[]
+            {
+                "Execute var mixed expression types",
+                @"DECLARE @sqlCommandOne varchar(1000)
+                      DECLARE @sqlCommandTwo int
+                      SET @sqlCommandOne = 'SELECT '
+                      SET @sqlCommandTwo = 1
+                      EXEC (@sqlCommandOne + @sqlCommandTwo)",
+                "SELECT 1",
+                ShouldCallBack
             },
             new object[]
             {
@@ -64,30 +93,33 @@ namespace TSQLLint.Tests.UnitTests.Parser
                   DECLARE @sqlCommandTwo varchar(1000)
                   SET @sqlCommandOne = 'SELECT FOO '
                   EXEC (@sqlCommandOne + 'FROM BAR')",
-            "SELECT FOO FROM BAR"
+            "SELECT FOO FROM BAR",
+            ShouldCallBack
             }
         };
 
         [TestCaseSource(nameof(TestCases))]
-        public void ShouldParse(string description, string executeStatement, string innerSql)
+        public void ShouldParse(string description, string executeStatement, string innerSql, bool expectCallback = true)
         {
             var stream = ParsingUtility.GenerateStreamFromString(executeStatement);
 
-            var callbackExecuted = false;
+            var receivedCallback = false;
             void DynamicCallback(string dynamicSQL)
             {
                 Assert.AreEqual(innerSql, dynamicSQL);
-                callbackExecuted = true;
+                receivedCallback = true;
             }
 
             var visitor = new DynamicSQLParser(DynamicCallback);
             var fragmentBuilder = new FragmentBuilder();
             var textReader = new StreamReader(stream);
+
             var sqlFragment = fragmentBuilder.GetFragment(textReader, out var errors);
+            CollectionAssert.IsEmpty(errors, "parsing errors were generated");
+
             sqlFragment.Accept(visitor);
 
-            Assert.IsTrue(callbackExecuted, "callback not executed");
-            CollectionAssert.IsEmpty(errors, "parsing errors were generated");
+            Assert.AreEqual(receivedCallback, expectCallback);
         }
 
         [ExcludeFromCodeCoverage]

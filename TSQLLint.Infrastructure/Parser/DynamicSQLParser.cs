@@ -80,16 +80,20 @@ namespace TSQLLint.Infrastructure.Parser
         
         public override void Visit(SetVariableStatement node)
         {
-            if (node.Expression is StringLiteral literal)
+            switch (node.Expression)
             {
-                VariableValues.Add(node.Variable.Name, literal.Value);
-            }
-            else if (node.Expression is BinaryExpression binaryExpression && binaryExpression.BinaryExpressionType == BinaryExpressionType.Add)
-            {
-                if (binaryExpression.FirstExpression is StringLiteral first && binaryExpression.SecondExpression is StringLiteral second)
-                {
-                    VariableValues.Add(node.Variable.Name, first.Value + second.Value);
-                }
+                case StringLiteral strLiteral:
+                    VariableValues.Add(node.Variable.Name, strLiteral.Value);
+                    break;
+                case IntegerLiteral intLiteral:
+                    VariableValues.Add(node.Variable.Name, intLiteral.Value);
+                    break;
+                case BinaryExpression binaryExpression
+                    when binaryExpression.BinaryExpressionType == BinaryExpressionType.Add
+                    && binaryExpression.FirstExpression is StringLiteral first
+                    && binaryExpression.SecondExpression is StringLiteral second:
+                        VariableValues.Add(node.Variable.Name, first.Value + second.Value);
+                    break;
             }
         }
     }
