@@ -86,7 +86,6 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
 ```json
 {
     "rules": {
-        "concat-strings": "error",
         "conditional-begin-end": "error",
         "cross-database-transaction": "error",
         "data-compression": "error",
@@ -97,6 +96,7 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
         "keyword-capitalization": "error",
         "linked-server": "error",
         "multi-table-alias": "error",
+        "named-constraint": "error",
         "non-sargable": "error",
         "object-property": "error",
         "print-statement": "error",
@@ -108,7 +108,8 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
         "set-quoted-identifier": "error",
         "set-transaction-isolation-level": "error",
         "set-variable": "error",
-        "upper-lower": "error"
+        "upper-lower": "error",
+        "unicode-string" : "error"
     }
 }
 ```
