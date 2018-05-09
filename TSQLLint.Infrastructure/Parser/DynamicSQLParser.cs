@@ -29,18 +29,22 @@ namespace TSQLLint.Infrastructure.Parser
             node.Accept(visitor);
 
             var executableStrings = node.ExecuteSpecification.ExecutableEntity as ExecutableStringList;
+            if (executableStrings?.Strings == null)
+            {
+                return;
+            }
+
             var counter = 0;
-            foreach (var executableString in executableStrings?.Strings)
+            foreach (var executableString in executableStrings.Strings)
             {
                 counter++;
-                switch (executableString)
+                if (executableString is StringLiteral literal)
                 {
-                    case StringLiteral literal:
-                        HandleLiteral(counter, executableStrings.Strings.Count, literal);
-                        break;
-                    case VariableReference variableReference:
-                        HandleVariable(counter, executableStrings.Strings.Count, variableReference);
-                        break;
+                    HandleLiteral(counter, executableStrings.Strings.Count, literal);
+                }
+                else if (executableString is VariableReference variableReference)
+                {
+                    HandleVariable(counter, executableStrings.Strings.Count, variableReference);
                 }
             }
         }
@@ -80,20 +84,31 @@ namespace TSQLLint.Infrastructure.Parser
         
         public override void Visit(SetVariableStatement node)
         {
-            switch (node.Expression)
+            if (node.Expression is StringLiteral strLiteral)
             {
-                case StringLiteral strLiteral:
-                    VariableValues.Add(node.Variable.Name, strLiteral.Value);
-                    break;
-                case IntegerLiteral intLiteral:
-                    VariableValues.Add(node.Variable.Name, intLiteral.Value);
-                    break;
-                case BinaryExpression binaryExpression
-                    when binaryExpression.BinaryExpressionType == BinaryExpressionType.Add
-                    && binaryExpression.FirstExpression is StringLiteral first
-                    && binaryExpression.SecondExpression is StringLiteral second:
-                        VariableValues.Add(node.Variable.Name, first.Value + second.Value);
-                    break;
+                VariableValues.Add(node.Variable.Name, strLiteral.Value);
+            }
+            else if (node.Expression is IntegerLiteral intLiteral)
+            {
+                VariableValues.Add(node.Variable.Name, intLiteral.Value);
+            }
+            else if (node.Expression is BinaryExpression binaryExpression)
+            {
+                HandleBinaryExpression(node.Variable.Name, binaryExpression);
+            }
+        }
+
+        private void HandleBinaryExpression(string name, BinaryExpression expression)
+        {
+            if (expression.BinaryExpressionType != BinaryExpressionType.Add)
+            {
+                return;
+            }
+            
+            if (expression.FirstExpression is StringLiteral first
+                && expression.SecondExpression is StringLiteral second)
+            {
+                VariableValues.Add(name, first.Value + second.Value);
             }
         }
     }

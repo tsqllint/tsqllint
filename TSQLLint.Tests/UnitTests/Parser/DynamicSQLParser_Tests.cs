@@ -38,6 +38,37 @@ namespace TSQLLint.Tests.UnitTests.Parser
             },
             new object[]
             {
+                "Execute string consisting of mixed string and scalar, should not callback",
+                @"DECLARE @sqlCommand int
+                    SET @sqlCommand = '1' - 1
+                    EXEC ('SELECT ' +  @sqlCommand)",
+                string.Empty,
+                ShouldNotCallback
+            },
+            new object[]
+            {
+                "Execute var containing binary literal",
+                @"DECLARE @sqlCommand varchar(1000)
+                    SET @sqlCommand = 0x + 0x
+                    EXEC (@sqlCommand)",
+                string.Empty,
+                ShouldNotCallback
+            },
+            new object[]
+            {
+                "Execute var containing boolean literal",
+                @"DECLARE @bitvar BIT 
+                    DECLARE @search_term varchar(128)
+                    set @search_term = 'abc'
+                    SET @bitvar = CASE 
+                        WHEN (@search_term = 'abc') THEN 1
+                        ELSE 0
+                    END",
+                string.Empty,
+                ShouldNotCallback
+            },
+            new object[]
+            {
                 "Execute var",
                 @"DECLARE @sqlCommand varchar(1000)
                     SET @sqlCommand = 'SELECT FOO FROM BAR'
@@ -77,6 +108,15 @@ namespace TSQLLint.Tests.UnitTests.Parser
             },
             new object[]
             {
+                "Exec call containing null literal",
+                 @"DECLARE @returnstatus nvarchar(15);
+                    SET @returnstatus = NULL;
+                    EXEC @returnstatus = dbo.ufnGetSalesOrderStatusText @Status = 2;",
+                string.Empty,
+                ShouldNotCallback
+            },
+            new object[]
+            {
                 "Execute var mixed expression types",
                 @"DECLARE @sqlCommandOne varchar(1000)
                       DECLARE @sqlCommandTwo int
@@ -88,13 +128,13 @@ namespace TSQLLint.Tests.UnitTests.Parser
             },
             new object[]
             {
-            "Variable String Concatenation",
-            @"DECLARE @sqlCommandOne varchar(1000)
-                  DECLARE @sqlCommandTwo varchar(1000)
-                  SET @sqlCommandOne = 'SELECT FOO '
-                  EXEC (@sqlCommandOne + 'FROM BAR')",
-            "SELECT FOO FROM BAR",
-            ShouldCallBack
+                "Variable String Concatenation",
+                @"DECLARE @sqlCommandOne varchar(1000)
+                      DECLARE @sqlCommandTwo varchar(1000)
+                      SET @sqlCommandOne = 'SELECT FOO '
+                      EXEC (@sqlCommandOne + 'FROM BAR')",
+                "SELECT FOO FROM BAR",
+                ShouldCallBack
             }
         };
 
@@ -123,15 +163,18 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [ExcludeFromCodeCoverage]
-        [TestCase("SELECT 1")]
-        [TestCase("EXEC(@Foo)")]
-        public void ShouldIgnore(string testString)
+        [TestCase("Not running exec", "SELECT 1")]
+        [TestCase("Executing out of scope var", "EXEC(@Foo)")]
+        [TestCase("Executing stored proc", "EXEC sp_help")]
+        [TestCase("Executing stored proc with params", "EXEC dbo.GetUsersByType 6")]
+        [TestCase("Executing statement with global var", "EXECUTE('SELECT ' + @@RowCount)")]
+        public void ShouldIgnore(string description, string testString)
         {
             var stream = ParsingUtility.GenerateStreamFromString(testString);
 
             void DynamicCallback(string dynamicSQL)
             {
-                Assert.Fail();
+                Assert.Fail("should not perform callback");
             }
 
             var visitor = new DynamicSQLParser(DynamicCallback);
