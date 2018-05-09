@@ -5,8 +5,8 @@ using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using TSQLLint.Lib.Config;
-using TSQLLint.Lib.Utility;
+using TSQLLint.Infrastructure.Configuration;
+using TSQLLint.Infrastructure.Parser;
 
 namespace TSQLLint.Tests.UnitTests.ConfigFile
 {

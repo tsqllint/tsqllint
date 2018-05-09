@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
-using TSQLLint.Lib.Plugins;
+using TSQLLint.Infrastructure.Plugins;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {

@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Reflection;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Plugins;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Parser;
+using TSQLLint.Infrastructure.Plugins;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
@@ -67,6 +69,9 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var reporter = Substitute.For<IReporter>();
 
+            var versionWrapper = Substitute.For<IFileversionWrapper>();
+            versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+
             var pluginPaths = new Dictionary<string, string>
             {
                 {
@@ -78,7 +83,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -111,6 +116,9 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var reporter = Substitute.For<IReporter>();
 
+            var versionWrapper = Substitute.For<IFileversionWrapper>();
+            versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+
             var pluginPaths = new Dictionary<string, string>
             {
                 {
@@ -119,7 +127,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -148,6 +156,9 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var reporter = Substitute.For<IReporter>();
 
+            var versionWrapper = Substitute.For<IFileversionWrapper>();
+            versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+
             var pluginPaths = new Dictionary<string, string>
             {
                 {
@@ -156,7 +167,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -190,16 +201,19 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 }
             };
 
+            var versionWrapper = Substitute.For<IFileversionWrapper>();
+            versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+
             var reporter = Substitute.For<IReporter>();
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
             var type = typeof(TestPluginThrowsException);
-            reporter.Received().Report($"Loaded plugin: '{type.FullName}', Version: '1.10.1.0'");
+            reporter.Received().Report($"Loaded plugin: '{type.FullName}', Version: '1.2.3'");
             reporter.Received().Report($"Already loaded plugin with type '{type.FullName}'");
         }
 
@@ -225,11 +239,14 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             var reporter = Substitute.For<IReporter>();
-            var textReader = Lib.Utility.ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
+            var textReader = ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
             var context = new PluginContext(@"c:\scripts\foo.sql", new List<IRuleException>(), textReader);
 
+            var versionWrapper = Substitute.For<IFileversionWrapper>();
+            versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -249,40 +266,29 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void ActivatePlugins_ThrowErrors_ShouldCatch_ShouldReport()
         {
             // arrange
-            const string filePath1 = @"c:\pluginDirectory\plugin_one.dll";
-            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
-            {
-                {
-                    filePath1, new MockFileData(string.Empty)
-                }
-            });
-
-            var assemblyWrapper = new TestAssemblyWrapper(defaultPlugin: typeof(TestPluginThrowsException));
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"UnitTests/PluginHandler/tsqllint-plugin-throws-exception.dll"));
+            var assemblyWrapper = new AssemblyWrapper();
 
             var pluginPaths = new Dictionary<string, string>
             {
                 {
-                    "my-plugin", filePath1
-                },
-                {
-                    "my-plugin-directories", @"c:\pluginDirectory"
-                },
-                {
-                    "my-plugin-invalid-path", @"c:\doesnt-exist"
+                    "my-plugin", path
                 }
             };
 
             var reporter = Substitute.For<IReporter>();
+            var versionWrapper = Substitute.For<IFileversionWrapper>();
             var context = Substitute.For<IPluginContext>();
+            versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
 
             // act
-            var pluginHandler = new Lib.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, new FileSystem(), assemblyWrapper, versionWrapper);
             pluginHandler.ProcessPaths(pluginPaths);
+            pluginHandler.ActivatePlugins(context);
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
-            Assert.Throws<NotImplementedException>(() => pluginHandler.ActivatePlugins(context));
-            reporter.Received().Report(Arg.Any<string>());
+            reporter.Received().Report(@"There was a problem with plugin: tsqllint_plugin_throws_exception.PluginThatThrows - something bad happened");
         }
 
         public class TestPlugin2 : TestPlugin

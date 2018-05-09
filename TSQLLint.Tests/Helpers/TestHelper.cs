@@ -4,10 +4,10 @@ using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Console;
-using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Infrastructure.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
-namespace TSQLLint.Tests.UnitTests
+namespace TSQLLint.Tests.Helpers
 {
     public static class TestHelper
     {

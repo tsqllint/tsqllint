@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
-using TSQLLint.Lib.Reporters;
+using TSQLLint.Infrastructure.Reporters;
 
 namespace TSQLLint.Console
 {

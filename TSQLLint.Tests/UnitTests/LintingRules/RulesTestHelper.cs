@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NUnit.Framework;
-using TSQLLint.Lib.Parser;
-using TSQLLint.Lib.Rules.RuleViolations;
+using TSQLLint.Infrastructure.Parser;
+using TSQLLint.Infrastructure.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
 namespace TSQLLint.Tests.UnitTests.LintingRules

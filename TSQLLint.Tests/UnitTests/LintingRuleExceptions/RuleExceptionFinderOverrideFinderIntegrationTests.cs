@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using TSQLLint.Lib.Parser.ConfigurationOverrides;
-using TSQLLint.Lib.Parser.RuleExceptions;
-using TSQLLint.Lib.Rules;
-using TSQLLint.Lib.Utility;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Configuration.Overrides;
+using TSQLLint.Infrastructure.Parser;
+using TSQLLint.Infrastructure.Rules;
+using TSQLLint.Infrastructure.Rules.RuleExceptions;
 using TSQLLint.Tests.Helpers.ObjectComparers;
-using TSQLLint.Tests.UnitTests.ConfigFile.Overrides;
 
 namespace TSQLLint.Tests.UnitTests.LintingRuleExceptions
 {

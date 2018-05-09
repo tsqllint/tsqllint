@@ -1,12 +1,11 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO.Abstractions.TestingHelpers;
+using System.IO;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Console.CommandLineOptions.CommandLineOptionStrategies;
-using TSQLLint.Console.Interfaces;
-using TSQLLint.Lib.Config.Interfaces;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Core.UseCases.Console.HandlerStrategies;
 
 namespace TSQLLint.Tests.UnitTests.CommandLineOptions.HandlingStrategies
 {
@@ -35,11 +34,15 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions.HandlingStrategies
             var mockCommandLineOptions = Substitute.For<ICommandLineOptions>();
             mockCommandLineOptions.Init = true;
 
-            var mockFileSystem = new MockFileSystem();
-            var configFilePath = mockFileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
-            mockFileSystem.AddFile(configFilePath, new MockFileData(string.Empty));
+            var userprofilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            const string filename = @".tsqllintrc";
+            var configFilePath = Path.Combine(userprofilePath, filename);
 
-            var testCreateConfigFileStrategy = new CreateConfigFileStrategy(mockReporter, mockConfigFileGenerator, mockFileSystem);
+            var fileSystemWrapper = Substitute.For<IFileSystemWrapper>();
+            fileSystemWrapper.CombinePath(Arg.Is<string>(x => x == userprofilePath), Arg.Is<string>(x => x == filename)).Returns(configFilePath);
+            fileSystemWrapper.FileExists(Arg.Is<string>(x => x == configFilePath)).Returns(true);
+
+            var testCreateConfigFileStrategy = new CreateConfigFileStrategy(mockReporter, mockConfigFileGenerator, fileSystemWrapper);
 
             // act
             testCreateConfigFileStrategy.HandleCommandLineOptions(mockCommandLineOptions);
@@ -62,11 +65,15 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions.HandlingStrategies
             mockCommandLineOptions.Init = true;
             mockCommandLineOptions.Force = true;
 
-            var mockFileSystem = new MockFileSystem();
-            var configFilePath = mockFileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
-            mockFileSystem.AddFile(configFilePath, new MockFileData(string.Empty));
+            var userprofilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            const string filename = @".tsqllintrc";
+            var configFilePath = Path.Combine(userprofilePath, filename);
 
-            var testCreateConfigFileStrategy = new CreateConfigFileStrategy(mockReporter, mockConfigFileGenerator, mockFileSystem);
+            var fileSystemWrapper = Substitute.For<IFileSystemWrapper>();
+            fileSystemWrapper.CombinePath(Arg.Is<string>(x => x == userprofilePath), Arg.Is<string>(x => x == filename)).Returns(configFilePath);
+            fileSystemWrapper.FileExists(Arg.Is<string>(x => x == configFilePath)).Returns(true);
+
+            var testCreateConfigFileStrategy = new CreateConfigFileStrategy(mockReporter, mockConfigFileGenerator, fileSystemWrapper);
 
             // act
             testCreateConfigFileStrategy.HandleCommandLineOptions(mockCommandLineOptions);
@@ -89,10 +96,15 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions.HandlingStrategies
             mockCommandLineOptions.Init = true;
             mockCommandLineOptions.Force = true;
 
-            var mockFileSystem = new MockFileSystem();
-            var configFilePath = mockFileSystem.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
+            var userprofilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            const string filename = @".tsqllintrc";
+            var configFilePath = Path.Combine(userprofilePath, filename);
 
-            var testCreateConfigFileStrategy = new CreateConfigFileStrategy(mockReporter, mockConfigFileGenerator, mockFileSystem);
+            var fileSystemWrapper = Substitute.For<IFileSystemWrapper>();
+            fileSystemWrapper.CombinePath(Arg.Is<string>(x => x == userprofilePath), Arg.Is<string>(x => x == filename)).Returns(configFilePath);
+            fileSystemWrapper.FileExists(Arg.Is<string>(x => x == configFilePath)).Returns(false);
+
+            var testCreateConfigFileStrategy = new CreateConfigFileStrategy(mockReporter, mockConfigFileGenerator, fileSystemWrapper);
 
             // act
             testCreateConfigFileStrategy.HandleCommandLineOptions(mockCommandLineOptions);

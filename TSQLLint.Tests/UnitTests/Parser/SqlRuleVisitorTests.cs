@@ -4,12 +4,12 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser;
-using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Parser.RuleExceptions;
-using TSQLLint.Lib.Rules;
-using TSQLLint.Lib.Rules.RuleViolations;
-using TSQLLint.Lib.Utility;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Interfaces;
+using TSQLLint.Infrastructure.Parser;
+using TSQLLint.Infrastructure.Rules;
+using TSQLLint.Infrastructure.Rules.RuleExceptions;
+using TSQLLint.Infrastructure.Rules.RuleViolations;
 
 namespace TSQLLint.Tests.UnitTests.Parser
 {

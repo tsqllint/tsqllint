@@ -7,11 +7,8 @@ using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Lib.Parser;
-using TSQLLint.Lib.Parser.Interfaces;
-using TSQLLint.Lib.Parser.RuleExceptions;
-using TSQLLint.Lib.Plugins.Interfaces;
-using TSQLLint.Lib.Utility;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Parser;
 
 namespace TSQLLint.Tests.UnitTests.Parser
 {

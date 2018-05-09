@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using TSQLLint.Infrastructure.Parser;
 
 namespace TSQLLint.Tests.UnitTests.UtilityTests
 {
@@ -11,7 +12,7 @@ namespace TSQLLint.Tests.UnitTests.UtilityTests
         [TestCase("ShouldLogWhenLoggingEnables")]
         public void InvalidJson(string testString)
         {
-            Assert.IsFalse(Lib.Utility.ParsingUtility.TryParseJson(testString, out var token));
+            Assert.IsFalse(ParsingUtility.TryParseJson(testString, out var token));
             Assert.IsNull(token);
         }
 
@@ -20,7 +21,7 @@ namespace TSQLLint.Tests.UnitTests.UtilityTests
         [TestCase("99")]
         public void ValidJson(string testString)
         {
-            Assert.IsTrue(Lib.Utility.ParsingUtility.TryParseJson(testString, out var token));
+            Assert.IsTrue(ParsingUtility.TryParseJson(testString, out var token));
             Assert.IsNotNull(token);
         }
     }
