@@ -1,6 +1,11 @@
 create table #foo
 ( 
-	ID varchar(64) not null
-	, Name varchar(128) NOT NULL
-	, Value varchar(256) NOT NULL
+	ID VARCHAR(64) not null
+	, Name VARCHAR(128) NOT NULL
+	, Value VARCHAR(256) NOT NULL
+);
+
+CREATE TABLE #bar
+( 
+	ID varchar(64)
 );

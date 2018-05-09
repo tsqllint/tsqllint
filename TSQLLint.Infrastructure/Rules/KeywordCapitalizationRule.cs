@@ -22,10 +22,11 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(TSqlScript node)
         {
+            var typesToUpcase = Constants.TSqlKeywords.Concat(Constants.TSqlDataTypes).ToArray();
             for (var index = 0; index < node.ScriptTokenStream?.Count; index++)
             {
                 var token = node.ScriptTokenStream[index];
-                if (!Constants.TSqlKeywords.Contains(token.Text, StringComparer.CurrentCultureIgnoreCase))
+                if (!typesToUpcase.Contains(token.Text, StringComparer.CurrentCultureIgnoreCase))
                 {
                     continue;
                 }

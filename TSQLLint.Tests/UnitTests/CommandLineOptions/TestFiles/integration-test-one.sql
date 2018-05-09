@@ -5,12 +5,12 @@ IF(1 = 1)
 -- data-compression
 CREATE TABLE [dbo].[MyTable]
 	([ID] INT, 
-	 [Name] nvarchar(64));
+	 [Name] NVARCHAR(64));
 
 -- data-type-length
 CREATE TABLE MyTable 
 	(ID INT, 
-	 Name nvarchar)
+	 Name NVARCHAR)
 WITH (DATA_COMPRESSION = ROW);
 
 -- disallow-cursors
