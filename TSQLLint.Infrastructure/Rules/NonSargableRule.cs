@@ -30,21 +30,21 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(JoinTableReference node)
         {
-            var childBinaryExpressionVisitor = new ChildPredicateExpressionVisitor();
-            node.Accept(childBinaryExpressionVisitor);
-            multiClauseQuery = childBinaryExpressionVisitor.PredicatesFound;
+            var predicateExpressionVisitor = new PredicateExpressionVisitor();
+            node.Accept(predicateExpressionVisitor);
+            multiClauseQuery = predicateExpressionVisitor.PredicatesFound;
 
-            var childVisitor = new ChildFunctionCallVisitor(ChildCallback, multiClauseQuery);
+            var childVisitor = new FunctionCallVisitor(ChildCallback, multiClauseQuery);
             node.Accept(childVisitor);
         }
 
         public override void Visit(WhereClause node)
         {
-            var childBinaryExpressionVisitor = new ChildPredicateExpressionVisitor();
-            node.Accept(childBinaryExpressionVisitor);
-            multiClauseQuery = childBinaryExpressionVisitor.PredicatesFound;
+            var predicateExpressionVisitor = new PredicateExpressionVisitor();
+            node.Accept(predicateExpressionVisitor);
+            multiClauseQuery = predicateExpressionVisitor.PredicatesFound;
 
-            var childVisitor = new ChildFunctionCallVisitor(ChildCallback, multiClauseQuery);
+            var childVisitor = new FunctionCallVisitor(ChildCallback, multiClauseQuery);
             node.Accept(childVisitor);
         }
 
@@ -59,7 +59,7 @@ namespace TSQLLint.Infrastructure.Rules
             errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode));
         }
 
-        public class ChildPredicateExpressionVisitor : TSqlFragmentVisitor
+        public class PredicateExpressionVisitor : TSqlFragmentVisitor
         {
             public bool PredicatesFound { get; private set; }
 
@@ -69,12 +69,12 @@ namespace TSQLLint.Infrastructure.Rules
             }
         }
 
-        public class ChildFunctionCallVisitor : TSqlFragmentVisitor
+        public class FunctionCallVisitor : TSqlFragmentVisitor
         {
             private readonly bool isMultiClause;
             private readonly Action<TSqlFragment> childCallback;
 
-            public ChildFunctionCallVisitor(Action<TSqlFragment> errorCallback, bool isMultiClause)
+            public FunctionCallVisitor(Action<TSqlFragment> errorCallback, bool isMultiClause)
             {
                 childCallback = errorCallback;
                 this.isMultiClause = isMultiClause;
@@ -88,32 +88,32 @@ namespace TSQLLint.Infrastructure.Rules
                     return;
                 }
 
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(LeftFunctionCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(RightFunctionCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(ConvertCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(CastCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
-            private void VisitChildren(TSqlFragment node)
+            private void FindColumnReferences(TSqlFragment node)
             {
-                var columnReferenceVisitor = new ChildColumnReferenceVisitor();
+                var columnReferenceVisitor = new ColumnReferenceVisitor();
                 node.AcceptChildren(columnReferenceVisitor);
 
                 if (columnReferenceVisitor.ColumnReferenceFound)
@@ -123,7 +123,7 @@ namespace TSQLLint.Infrastructure.Rules
             }
         }
 
-        public class ChildColumnReferenceVisitor : TSqlFragmentVisitor
+        public class ColumnReferenceVisitor : TSqlFragmentVisitor
         {
             public bool ColumnReferenceFound { get; private set; }
 
