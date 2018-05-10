@@ -167,7 +167,7 @@ SELECT * FROM FOO;
 
 ## Plugins
 
-You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are .Net assemblies that implement the IPlugin interface from TSQLLint.Common.
+You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from TSQLLint.Common.
 
 Once you complete your plugin, update your .tsqllintrc file to point to your assembly.
 
