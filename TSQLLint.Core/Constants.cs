@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace TSQLLint.Core
 {
     public static class Constants
@@ -189,6 +191,40 @@ namespace TSQLLint.Core
             "WITH",
             "WITHIN GROUP",
             "WRITETEXT"
+        };
+
+        public static readonly string[] TSqlDataTypes =
+        {
+            "BIGINT",
+            "BIT",
+            "DECIMAL",
+            "INT",
+            "MONEY",
+            "NUMERIC",
+            "SMALLINT",
+            "SMALLMONEY",
+            "TINYINT",
+            "FLOAT",
+            "REAL",
+            "DATE",
+            "DATETIME2",
+            "DATETIME",
+            "DATETIMEOFFSET",
+            "SMALLDATETIME",
+            "TIME",
+            "CHAR",
+            "TEXT",
+            "VARCHAR",
+            "NCHAR",
+            "NTEXT",
+            "NVARCHAR",
+            "BINARY",
+            "IMAGE",
+            "VARBINARY",
+            "CURSOR",
+            "ROWVERSION",
+            "UNIQUEIDENTIFIER",
+            "XML"
         };
 
         public static int TabWidth => 4;

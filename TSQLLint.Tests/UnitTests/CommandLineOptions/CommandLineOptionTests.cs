@@ -148,7 +148,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
                 yield return new TestCaseData(new List<string> { TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("File Args Valid Lint One File");
                 yield return new TestCaseData(new List<string> { TestFileOne, TestFileTwo }, null, MultiFileRuleViolations, 2).SetName("File Args Valid Lint Two Files");
                 yield return new TestCaseData(new List<string> { TestFileTwo, TestFileOne }, null, MultiFileRuleViolations, 2).SetName("File Args Valid Lint Two Files, Changed Order");
-                yield return new TestCaseData(new List<string> { TestFileDirectory }, null, AllRuleViolations, 3).SetName("File Args Valid Lint Directory");
+                yield return new TestCaseData(new List<string> { "UnitTests/CommandLineOptions/TestFiles/TestFileSubDirectory" }, null, TestFileTwoRuleViolations, 3).SetName("File Args Valid Lint Directory");
                 yield return new TestCaseData(new List<string> { TestFileInvalidSyntax }, null, TestFileInvalidSyntaxRuleViolations, 1).SetName("Invalid sql script");
                 yield return new TestCaseData(new List<string> { TestFileInvalidEncoding }, null, TestFileInvalidEncodingRuleViolations, 1).SetName("File encoding not valid");
             }

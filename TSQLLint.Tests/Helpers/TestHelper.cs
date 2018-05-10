@@ -40,6 +40,7 @@ namespace TSQLLint.Tests.Helpers
 
             // assert
             Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
+            Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
             Assert.IsTrue(string.IsNullOrEmpty(expectedMessage) || reportedMessages.Contains(expectedMessage), $"Expected: '{expectedMessage}', Received: '{string.Join(" ", reportedMessages)}'");
 
             reportedViolations = reportedViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
