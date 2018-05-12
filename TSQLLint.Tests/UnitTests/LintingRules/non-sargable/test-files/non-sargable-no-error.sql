@@ -1,5 +1,7 @@
 SELECT ISNULL(Name, 0) FROM Foo;
+
 SELECT * FROM Foo WHERE Foo.name = UPPER('foo');
+
 SELECT * FROM Foo WHERE UPPER('foo') = Foo.name;
 
 SELECT Name
@@ -9,7 +11,7 @@ WHERE ProductSubcategoryID IN
      FROM Production.ProductSubcategory
      WHERE UPPER('foo') = Foo.name);
 
--- no errors with isnull and an additional where clause
+-- no errors with isnull and an additional where clause (that could hit index)
 SELECT Name FROM Foo 
 WHERE Foo.Value = 'Active'
 AND ISNULL(ID, 0) != 0

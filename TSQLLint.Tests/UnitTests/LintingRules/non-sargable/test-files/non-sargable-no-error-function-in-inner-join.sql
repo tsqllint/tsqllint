@@ -1,3 +1,5 @@
+-- function call within fields, not predicate. should not error
+
 SELECT 
 Con.ID AS ContactId, 
 Addr.Address
