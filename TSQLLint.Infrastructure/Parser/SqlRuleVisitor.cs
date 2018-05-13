@@ -32,11 +32,13 @@ namespace TSQLLint.Infrastructure.Parser
             var sqlFragment = fragmentBuilder.GetFragment(sqlTextReader, out var errors);
             sqlFileStream.Seek(0, SeekOrigin.Begin);
 
+            // notify user of syntax errors
             if (errors.Any())
             {
                 HandleParserErrors(sqlPath, errors, ignoredRules);
             }
 
+            // lint what can be linted, even if there are errors
             var ruleVisitors = ruleVisitorBuilder.BuildVisitors(sqlPath, ignoredRules);
             foreach (var visitor in ruleVisitors)
             {
