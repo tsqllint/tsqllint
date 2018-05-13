@@ -16,7 +16,8 @@
     ],
     "bin": "./tsqllint.js",
     "scripts": {
-        "install": "node ./scripts/install.js"
+        "install": "node ./scripts/install.js",
+        "build-changelog": "conventional-changelog -i CHANGELOG.md -u -s -r 0 && git add CHANGELOG.md"
     },
     "os": [
         "win32",
