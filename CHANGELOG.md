@@ -1,427 +1,365 @@
-# Change Log
+<a name="1.10.1"></a>
+## <small>1.10.1 (2018-04-14)</small>
 
-## [Unreleased](https://github.com/tsqllint/tsqllint/tree/HEAD)
+* Release v1.10.1 ([9f0e242](https://github.com/tsqllint/tsqllint/commit/9f0e242))
+* Rename compatability_level for consistency (#167) ([a1e657d](https://github.com/tsqllint/tsqllint/commit/a1e657d)), closes [#167](https://github.com/tsqllint/tsqllint/issues/167)
+* Update Documentation & Versioning Script (#168) ([31d206b](https://github.com/tsqllint/tsqllint/commit/31d206b)), closes [#168](https://github.com/tsqllint/tsqllint/issues/168)
 
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.10.1...HEAD)
 
-**Implemented enhancements:**
 
-- Search the working directory for plugins [\#174](https://github.com/tsqllint/tsqllint/issues/174)
-- DROP IF EXISTS syntax doesn't appear to be supported [\#165](https://github.com/tsqllint/tsqllint/issues/165)
-- Add configurable tab width [\#4](https://github.com/tsqllint/tsqllint/issues/4)
-- Implement configurable parser selection [\#3](https://github.com/tsqllint/tsqllint/issues/3)
+<a name="1.10.0"></a>
+## 1.10.0 (2018-04-12)
 
-**Fixed bugs:**
+*  Add documentation for data-type-length rule (#163) ([8ca0bf1](https://github.com/tsqllint/tsqllint/commit/8ca0bf1)), closes [#163](https://github.com/tsqllint/tsqllint/issues/163)
+* Add Configurable SQL Compatibility Level (#166) ([ec2a0ef](https://github.com/tsqllint/tsqllint/commit/ec2a0ef)), closes [#166](https://github.com/tsqllint/tsqllint/issues/166)
+* Add documentation for condition-begin-end rule (#159) ([26cc1ad](https://github.com/tsqllint/tsqllint/commit/26cc1ad)), closes [#159](https://github.com/tsqllint/tsqllint/issues/159)
+* Add documentation for cross-database-transaction rule (#160) ([55fa61d](https://github.com/tsqllint/tsqllint/commit/55fa61d)), closes [#160](https://github.com/tsqllint/tsqllint/issues/160)
+* Add documentation for data-compression rule (#161) ([5056b72](https://github.com/tsqllint/tsqllint/commit/5056b72)), closes [#161](https://github.com/tsqllint/tsqllint/issues/161)
+* Add documentation for disallow-cursors rule (#164) ([c10dc15](https://github.com/tsqllint/tsqllint/commit/c10dc15)), closes [#164](https://github.com/tsqllint/tsqllint/issues/164)
+* Add documentation for full-text rule ([8035d8e](https://github.com/tsqllint/tsqllint/commit/8035d8e))
+* Add documentation for information-schema rule ([27e6864](https://github.com/tsqllint/tsqllint/commit/27e6864))
+* Add documentation for keyword-capitalization rule ([410880b](https://github.com/tsqllint/tsqllint/commit/410880b))
+* Add documentation for linked-server rule ([2a9901c](https://github.com/tsqllint/tsqllint/commit/2a9901c))
+* Add rule for named constraints in temp table (#155) ([13fa236](https://github.com/tsqllint/tsqllint/commit/13fa236)), closes [#155](https://github.com/tsqllint/tsqllint/issues/155)
+* Fix data compression rule documentation (#162) ([872535d](https://github.com/tsqllint/tsqllint/commit/872535d)), closes [#162](https://github.com/tsqllint/tsqllint/issues/162)
+* Fix spelling and gramatical errors in rules documentation ([d84dfc8](https://github.com/tsqllint/tsqllint/commit/d84dfc8))
+* Release v1.10.0 ([1d52f0d](https://github.com/tsqllint/tsqllint/commit/1d52f0d))
 
-- Add support for compatibility level 140 [\#172](https://github.com/tsqllint/tsqllint/issues/172)
-- running 'tsqllint -i .' executes a lint rather than a simple init [\#136](https://github.com/tsqllint/tsqllint/issues/136)
-- Typo in Data Type length Rule [\#133](https://github.com/tsqllint/tsqllint/issues/133)
 
-**Closed issues:**
 
-- Data types are omitted from recognized as reserved \(capitalized\) [\#181](https://github.com/tsqllint/tsqllint/issues/181)
-- .tsqllintrc documentation seems a little out of step with the actual set of implemented rules [\#180](https://github.com/tsqllint/tsqllint/issues/180)
-- Not able to run tsqllint in Docker container [\#178](https://github.com/tsqllint/tsqllint/issues/178)
-- Display version number of plugin [\#156](https://github.com/tsqllint/tsqllint/issues/156)
+<a name="1.9.4"></a>
+## <small>1.9.4 (2018-02-14)</small>
 
-**Merged pull requests:**
+* Release v1.9.4 ([a19ede7](https://github.com/tsqllint/tsqllint/commit/a19ede7))
+* Update to not set error code when file does not parse (#157) ([7007432](https://github.com/tsqllint/tsqllint/commit/7007432)), closes [#157](https://github.com/tsqllint/tsqllint/issues/157)
 
-- Update non-sargable rule to ignore functions in join queries with multiple predicates [\#185](https://github.com/tsqllint/tsqllint/pull/185) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update test project to always copy test files to build dir [\#183](https://github.com/tsqllint/tsqllint/pull/183) ([nathan-boyd](https://github.com/nathan-boyd))
-- Remove external dependencies from TSQLLint.Core [\#182](https://github.com/tsqllint/tsqllint/pull/182) ([nathan-boyd](https://github.com/nathan-boyd))
-- Print plugin version during load [\#175](https://github.com/tsqllint/tsqllint/pull/175) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update to allow Compatability-Level 140 [\#173](https://github.com/tsqllint/tsqllint/pull/173) ([nathan-boyd](https://github.com/nathan-boyd))
-- Improvements to testing [\#171](https://github.com/tsqllint/tsqllint/pull/171) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add support for ignored rules within multi-line comment blocks [\#170](https://github.com/tsqllint/tsqllint/pull/170) ([nathan-boyd](https://github.com/nathan-boyd))
-- Refactor test directory structure [\#169](https://github.com/tsqllint/tsqllint/pull/169) ([nathan-boyd](https://github.com/nathan-boyd))
 
-## [v1.10.1](https://github.com/tsqllint/tsqllint/tree/v1.10.1) (2018-04-14)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.10.0...v1.10.1)
 
-**Merged pull requests:**
+<a name="1.9.3"></a>
+## <small>1.9.3 (2018-02-09)</small>
 
-- Update Documentation & Versioning Script [\#168](https://github.com/tsqllint/tsqllint/pull/168) ([nathan-boyd](https://github.com/nathan-boyd))
-- Rename compatability\_level for consistency [\#167](https://github.com/tsqllint/tsqllint/pull/167) ([nathan-boyd](https://github.com/nathan-boyd))
+* Release v1.9.3 ([49cf200](https://github.com/tsqllint/tsqllint/commit/49cf200))
+* Update Fragment builder and Configs (#153) ([6f45e34](https://github.com/tsqllint/tsqllint/commit/6f45e34)), closes [#153](https://github.com/tsqllint/tsqllint/issues/153)
 
-## [v1.10.0](https://github.com/tsqllint/tsqllint/tree/v1.10.0) (2018-04-12)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.4...v1.10.0)
 
-**Merged pull requests:**
 
-- Add Configurable SQL Compatibility Level [\#166](https://github.com/tsqllint/tsqllint/pull/166) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add documentation for disallow-cursors rule [\#164](https://github.com/tsqllint/tsqllint/pull/164) ([nathan-boyd](https://github.com/nathan-boyd))
--  Add documentation for data-type-length rule [\#163](https://github.com/tsqllint/tsqllint/pull/163) ([nathan-boyd](https://github.com/nathan-boyd))
-- Fix data compression rule documentation [\#162](https://github.com/tsqllint/tsqllint/pull/162) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add documentation for data-compression rule [\#161](https://github.com/tsqllint/tsqllint/pull/161) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add documentation for cross-database-transaction rule [\#160](https://github.com/tsqllint/tsqllint/pull/160) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add documentation for condition-begin-end rule [\#159](https://github.com/tsqllint/tsqllint/pull/159) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add rule for named constraints in temp table [\#155](https://github.com/tsqllint/tsqllint/pull/155) ([nathan-boyd](https://github.com/nathan-boyd))
+<a name="1.9.2"></a>
+## <small>1.9.2 (2018-02-08)</small>
 
-## [v1.9.4](https://github.com/tsqllint/tsqllint/tree/v1.9.4) (2018-02-14)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.3...v1.9.4)
+* Release v1.9.2 ([060a2d7](https://github.com/tsqllint/tsqllint/commit/060a2d7))
+* Sort Rule Violation Output ([b2a3e6c](https://github.com/tsqllint/tsqllint/commit/b2a3e6c))
+* Update Parse Error Handling To Support Global Rule Ignores (#151) ([4a567c5](https://github.com/tsqllint/tsqllint/commit/4a567c5)), closes [#151](https://github.com/tsqllint/tsqllint/issues/151)
 
-**Fixed bugs:**
 
-- TSqlLint fails \(report errors\) even is disabled in 1st line by  /\* tsqllint-disable \*/ if file contain "\" \(backslash\) symbol [\#152](https://github.com/tsqllint/tsqllint/issues/152)
 
-**Closed issues:**
+<a name="1.9.1"></a>
+## <small>1.9.1 (2018-02-04)</small>
 
-- Plugins should be given the option to honor inline disablements [\#142](https://github.com/tsqllint/tsqllint/issues/142)
+* Add check for null sqlFragment in parser (#149) ([d64a369](https://github.com/tsqllint/tsqllint/commit/d64a369)), closes [#149](https://github.com/tsqllint/tsqllint/issues/149)
+* Release v1.9.1 ([24bb510](https://github.com/tsqllint/tsqllint/commit/24bb510))
+* Update changelog ([e636892](https://github.com/tsqllint/tsqllint/commit/e636892))
 
-**Merged pull requests:**
 
-- Update to not set error code when file does not parse [\#157](https://github.com/tsqllint/tsqllint/pull/157) ([nathan-boyd](https://github.com/nathan-boyd))
 
-## [v1.9.3](https://github.com/tsqllint/tsqllint/tree/v1.9.3) (2018-02-09)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.2...v1.9.3)
+<a name="1.9.0"></a>
+## 1.9.0 (2018-02-03)
 
-**Merged pull requests:**
+* Add acceptance tests ([f4176da](https://github.com/tsqllint/tsqllint/commit/f4176da))
+* Add Change Log (#141) ([33297df](https://github.com/tsqllint/tsqllint/commit/33297df)), closes [#141](https://github.com/tsqllint/tsqllint/issues/141)
+* Add documentation for VS Code Extension ([d924020](https://github.com/tsqllint/tsqllint/commit/d924020))
+* Allow files with syntax errors to be linted (#129) ([caf1417](https://github.com/tsqllint/tsqllint/commit/caf1417)), closes [#129](https://github.com/tsqllint/tsqllint/issues/129)
+* Document new config file discover features in readme (#148) ([7a0d1d3](https://github.com/tsqllint/tsqllint/commit/7a0d1d3)), closes [#148](https://github.com/tsqllint/tsqllint/issues/148)
+* Get config from local directory (#138) ([fdb54c4](https://github.com/tsqllint/tsqllint/commit/fdb54c4)), closes [#138](https://github.com/tsqllint/tsqllint/issues/138)
+* Pass rule exceptions to plugins (#145) ([eff2ce6](https://github.com/tsqllint/tsqllint/commit/eff2ce6)), closes [#145](https://github.com/tsqllint/tsqllint/issues/145)
+* Read config file path from environment variable (#144) ([cd1d757](https://github.com/tsqllint/tsqllint/commit/cd1d757)), closes [#144](https://github.com/tsqllint/tsqllint/issues/144)
+* Release v1.9.0 ([070eed4](https://github.com/tsqllint/tsqllint/commit/070eed4))
+* Remove requirement for ELSE statements to be terminated with semicolons (#134) ([c8d5c4f](https://github.com/tsqllint/tsqllint/commit/c8d5c4f)), closes [#134](https://github.com/tsqllint/tsqllint/issues/134)
+* Set global rule exception name to GLOBAL (#146) ([a3b2f6c](https://github.com/tsqllint/tsqllint/commit/a3b2f6c)), closes [#146](https://github.com/tsqllint/tsqllint/issues/146)
+* throw semicolon error when missing from end catch (#132) ([413fb45](https://github.com/tsqllint/tsqllint/commit/413fb45)), closes [#132](https://github.com/tsqllint/tsqllint/issues/132)
 
-- Update Fragment builder and Configs [\#153](https://github.com/tsqllint/tsqllint/pull/153) ([nathan-boyd](https://github.com/nathan-boyd))
 
-## [v1.9.2](https://github.com/tsqllint/tsqllint/tree/v1.9.2) (2018-02-08)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.1...v1.9.2)
 
-**Implemented enhancements:**
+<a name="1.8.10"></a>
+## <small>1.8.10 (2018-01-12)</small>
 
-- Order error output by row number [\#130](https://github.com/tsqllint/tsqllint/issues/130)
+* Release v1.8.10 ([4b21dee](https://github.com/tsqllint/tsqllint/commit/4b21dee))
+* Update tsqllint.js to emit exit code from wrapped dotnet call (#126) ([c8484b6](https://github.com/tsqllint/tsqllint/commit/c8484b6)), closes [#126](https://github.com/tsqllint/tsqllint/issues/126)
 
-**Merged pull requests:**
 
-- Update Parse Error Handling To Support Global Rule Ignores [\#151](https://github.com/tsqllint/tsqllint/pull/151) ([nathan-boyd](https://github.com/nathan-boyd))
-- 130 outputsort it [\#150](https://github.com/tsqllint/tsqllint/pull/150) ([danielgasperut](https://github.com/danielgasperut))
 
-## [v1.9.1](https://github.com/tsqllint/tsqllint/tree/v1.9.1) (2018-02-04)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.9.0...v1.9.1)
+<a name="1.8.9"></a>
+## <small>1.8.9 (2018-01-11)</small>
 
-**Merged pull requests:**
+* Create tests for inline rule disablements that contain additional metadata (#123) ([b3b112a](https://github.com/tsqllint/tsqllint/commit/b3b112a)), closes [#123](https://github.com/tsqllint/tsqllint/issues/123)
+* Release v1.8.9 ([ea3127b](https://github.com/tsqllint/tsqllint/commit/ea3127b))
+* Update to return 1 when passed invalid SQL (#125) ([4af706c](https://github.com/tsqllint/tsqllint/commit/4af706c)), closes [#125](https://github.com/tsqllint/tsqllint/issues/125)
 
-- Add Check for null SqlFragment in Parser [\#149](https://github.com/tsqllint/tsqllint/pull/149) ([nathan-boyd](https://github.com/nathan-boyd))
 
-## [v1.9.0](https://github.com/tsqllint/tsqllint/tree/v1.9.0) (2018-02-03)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.10...v1.9.0)
 
-**Implemented enhancements:**
+<a name="1.8.8"></a>
+## <small>1.8.8 (2018-01-09)</small>
 
-- Rule for End Catch; [\#131](https://github.com/tsqllint/tsqllint/issues/131)
-- Visual Studio Extension [\#116](https://github.com/tsqllint/tsqllint/issues/116)
+* another reference to x32 (#122) ([1166e51](https://github.com/tsqllint/tsqllint/commit/1166e51)), closes [#122](https://github.com/tsqllint/tsqllint/issues/122)
+* Release v1.8.8 ([72de319](https://github.com/tsqllint/tsqllint/commit/72de319))
 
-**Merged pull requests:**
 
-- Document config file discovery features in readme [\#148](https://github.com/tsqllint/tsqllint/pull/148) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add acceptance testing scripts  [\#147](https://github.com/tsqllint/tsqllint/pull/147) ([nathan-boyd](https://github.com/nathan-boyd))
-- Set global rule exception name to GLOBAL [\#146](https://github.com/tsqllint/tsqllint/pull/146) ([nathan-boyd](https://github.com/nathan-boyd))
-- Pass rule exceptions to plugins [\#145](https://github.com/tsqllint/tsqllint/pull/145) ([nathan-boyd](https://github.com/nathan-boyd))
-- Read config file path from environment variable [\#144](https://github.com/tsqllint/tsqllint/pull/144) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add Change Log [\#141](https://github.com/tsqllint/tsqllint/pull/141) ([nathan-boyd](https://github.com/nathan-boyd))
-- Get config from local directory [\#138](https://github.com/tsqllint/tsqllint/pull/138) ([nathan-boyd](https://github.com/nathan-boyd))
-- Remove requirement for ELSE statements to be terminated with semicolons [\#134](https://github.com/tsqllint/tsqllint/pull/134) ([nathan-boyd](https://github.com/nathan-boyd))
-- Issue 131 END CATCH; [\#132](https://github.com/tsqllint/tsqllint/pull/132) ([danielgasperut](https://github.com/danielgasperut))
-- Allow files with syntax errors to be linted [\#129](https://github.com/tsqllint/tsqllint/pull/129) ([ostreifel](https://github.com/ostreifel))
 
-## [v1.8.10](https://github.com/tsqllint/tsqllint/tree/v1.8.10) (2018-01-12)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.9...v1.8.10)
+<a name="1.8.7"></a>
+## <small>1.8.7 (2018-01-09)</small>
 
-**Merged pull requests:**
+* Modify JS to use syntax for Node.js 4+ (#120) ([02111af](https://github.com/tsqllint/tsqllint/commit/02111af)), closes [#120](https://github.com/tsqllint/tsqllint/issues/120)
+* Release v1.8.7 ([a790a93](https://github.com/tsqllint/tsqllint/commit/a790a93))
+* Update install.js (#121) ([d5be486](https://github.com/tsqllint/tsqllint/commit/d5be486)), closes [#121](https://github.com/tsqllint/tsqllint/issues/121)
 
-- Update tsqllint.js to emit exit code from wrapped dotnet call [\#126](https://github.com/tsqllint/tsqllint/pull/126) ([nathan-boyd](https://github.com/nathan-boyd))
 
-## [v1.8.9](https://github.com/tsqllint/tsqllint/tree/v1.8.9) (2018-01-11)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.8...v1.8.9)
 
-**Fixed bugs:**
+<a name="1.8.6"></a>
+## <small>1.8.6 (2017-12-30)</small>
 
-- When Passed Invalid SQL TSQLLint Reports Error But Does not Return non-null Status Code [\#124](https://github.com/tsqllint/tsqllint/issues/124)
+* Release v1.8.6 ([c3b2d48](https://github.com/tsqllint/tsqllint/commit/c3b2d48))
+* Update appveyor publish command ([8b38952](https://github.com/tsqllint/tsqllint/commit/8b38952))
 
-**Merged pull requests:**
 
-- Update to return 1 when passed invalid SQL [\#125](https://github.com/tsqllint/tsqllint/pull/125) ([nathan-boyd](https://github.com/nathan-boyd))
-- Create more tests for inline rule disablements  [\#123](https://github.com/tsqllint/tsqllint/pull/123) ([nathan-boyd](https://github.com/nathan-boyd))
 
-## [v1.8.8](https://github.com/tsqllint/tsqllint/tree/v1.8.8) (2018-01-09)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.7...v1.8.8)
+<a name="1.8.5"></a>
+## <small>1.8.5 (2017-12-30)</small>
 
-**Merged pull requests:**
+* Add standard and update js to comply (#115) ([759cb9f](https://github.com/tsqllint/tsqllint/commit/759cb9f)), closes [#115](https://github.com/tsqllint/tsqllint/issues/115)
+* Add versioning script (#107) ([acdffff](https://github.com/tsqllint/tsqllint/commit/acdffff)), closes [#107](https://github.com/tsqllint/tsqllint/issues/107)
+* Change downloaded zipped tar file to tgz ([e15282b](https://github.com/tsqllint/tsqllint/commit/e15282b))
+* Fix Semicolon Termination Waitfor Bug (#118) ([caa9d81](https://github.com/tsqllint/tsqllint/commit/caa9d81)), closes [#118](https://github.com/tsqllint/tsqllint/issues/118)
+* Implement Stylecop Analyzer (#113) ([26b0358](https://github.com/tsqllint/tsqllint/commit/26b0358)), closes [#113](https://github.com/tsqllint/tsqllint/issues/113)
+* Release v1.8.5 ([700e8e8](https://github.com/tsqllint/tsqllint/commit/700e8e8))
+* Remove .net framework from build targets (#109) ([35d7597](https://github.com/tsqllint/tsqllint/commit/35d7597)), closes [#109](https://github.com/tsqllint/tsqllint/issues/109)
+* Remove path from dotnet argument in cover script ([f3e0fb0](https://github.com/tsqllint/tsqllint/commit/f3e0fb0))
+* Remove unused templates, configs, and files (#110) ([ce45ffb](https://github.com/tsqllint/tsqllint/commit/ce45ffb)), closes [#110](https://github.com/tsqllint/tsqllint/issues/110)
+* Tooling Updates (#108) ([b2fcd4e](https://github.com/tsqllint/tsqllint/commit/b2fcd4e)), closes [#108](https://github.com/tsqllint/tsqllint/issues/108)
+* Update appveyor to publish tags only (#114) ([2fdc6a4](https://github.com/tsqllint/tsqllint/commit/2fdc6a4)), closes [#114](https://github.com/tsqllint/tsqllint/issues/114)
+* Update dependecies & Reduce Complexity (#112) ([8b3237f](https://github.com/tsqllint/tsqllint/commit/8b3237f)), closes [#112](https://github.com/tsqllint/tsqllint/issues/112)
+* Update dependencies and reduce complexity (#111) ([d00093f](https://github.com/tsqllint/tsqllint/commit/d00093f)), closes [#111](https://github.com/tsqllint/tsqllint/issues/111)
+* Update tsqllint.js to use self contained binary ([f769a36](https://github.com/tsqllint/tsqllint/commit/f769a36))
 
-- another reference to x32 [\#122](https://github.com/tsqllint/tsqllint/pull/122) ([danielgasperut](https://github.com/danielgasperut))
 
-## [v1.8.7](https://github.com/tsqllint/tsqllint/tree/v1.8.7) (2018-01-09)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.6...v1.8.7)
 
-**Merged pull requests:**
+<a name="1.8.4"></a>
+## <small>1.8.4 (2017-12-12)</small>
 
-- pr process.arch bug in setup script.  [\#121](https://github.com/tsqllint/tsqllint/pull/121) ([danielgasperut](https://github.com/danielgasperut))
-- Modify JS to use syntax for Node.js 4+ [\#120](https://github.com/tsqllint/tsqllint/pull/120) ([dougwilson](https://github.com/dougwilson))
+* Add exclusion for Goto & Label Statements to SemicolonTermination Rule (#98) ([0031ea6](https://github.com/tsqllint/tsqllint/commit/0031ea6)), closes [#98](https://github.com/tsqllint/tsqllint/issues/98)
+* Add functional test for plugins (#96) ([25e4dab](https://github.com/tsqllint/tsqllint/commit/25e4dab)), closes [#96](https://github.com/tsqllint/tsqllint/issues/96)
+* Add unicode-string rule ([3eed3f8](https://github.com/tsqllint/tsqllint/commit/3eed3f8))
+* Push artifacts to Github on Tag ([2c15c23](https://github.com/tsqllint/tsqllint/commit/2c15c23))
+* Push artifacts to Github on Tag ([256c737](https://github.com/tsqllint/tsqllint/commit/256c737))
+* Release v1.8.3 ([e1a481b](https://github.com/tsqllint/tsqllint/commit/e1a481b))
+* Release v1.8.4 ([6b8341d](https://github.com/tsqllint/tsqllint/commit/6b8341d))
+* Remove unused scripts (#103) ([d17a485](https://github.com/tsqllint/tsqllint/commit/d17a485)), closes [#103](https://github.com/tsqllint/tsqllint/issues/103)
+* Update build configuration ([fc7d042](https://github.com/tsqllint/tsqllint/commit/fc7d042))
+* Update Code Coverage Checks and Reporting (#99) ([f6fca2b](https://github.com/tsqllint/tsqllint/commit/f6fca2b)), closes [#99](https://github.com/tsqllint/tsqllint/issues/99)
+* Update dependencies (#94) ([3aabc7a](https://github.com/tsqllint/tsqllint/commit/3aabc7a)), closes [#94](https://github.com/tsqllint/tsqllint/issues/94)
+* Update install script to rely upon self contained deployment (#104) ([ed84c32](https://github.com/tsqllint/tsqllint/commit/ed84c32)), closes [#104](https://github.com/tsqllint/tsqllint/issues/104)
+* Upgrade to net47 (#101) ([27a31b7](https://github.com/tsqllint/tsqllint/commit/27a31b7)), closes [#101](https://github.com/tsqllint/tsqllint/issues/101)
 
-## [v1.8.6](https://github.com/tsqllint/tsqllint/tree/v1.8.6) (2017-12-30)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.5...v1.8.6)
 
-## [v1.8.5](https://github.com/tsqllint/tsqllint/tree/v1.8.5) (2017-12-30)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.4...v1.8.5)
 
-**Fixed bugs:**
+<a name="1.8.2"></a>
+## <small>1.8.2 (2017-11-30)</small>
 
-- Incorrect Semicolon Termination Within Waitfor [\#117](https://github.com/tsqllint/tsqllint/issues/117)
+* Release v1.8.1 ([93ae19c](https://github.com/tsqllint/tsqllint/commit/93ae19c))
+* Release v1.8.2 ([2747988](https://github.com/tsqllint/tsqllint/commit/2747988))
+* Update cross-database-transaction to handle uncommited transactions (#89) ([8d132a3](https://github.com/tsqllint/tsqllint/commit/8d132a3)), closes [#89](https://github.com/tsqllint/tsqllint/issues/89)
+* Update upper-lower rule to only flag comparisons in select statements (#91) ([96bd6eb](https://github.com/tsqllint/tsqllint/commit/96bd6eb)), closes [#91](https://github.com/tsqllint/tsqllint/issues/91)
 
-**Closed issues:**
 
-- Relax transaction isolation level read uncommitted for "table scripts" [\#65](https://github.com/tsqllint/tsqllint/issues/65)
 
-**Merged pull requests:**
+<a name="1.8.0"></a>
+## 1.8.0 (2017-11-29)
 
-- Fix Semicolon Termination Waitfor Bug [\#118](https://github.com/tsqllint/tsqllint/pull/118) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add standard and update js to comply [\#115](https://github.com/tsqllint/tsqllint/pull/115) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update appveyor to publish tags only [\#114](https://github.com/tsqllint/tsqllint/pull/114) ([nathan-boyd](https://github.com/nathan-boyd))
-- Implement Stylecop Analyzer [\#113](https://github.com/tsqllint/tsqllint/pull/113) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update dependecies [\#112](https://github.com/tsqllint/tsqllint/pull/112) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update dependencies and reduce complexity [\#111](https://github.com/tsqllint/tsqllint/pull/111) ([nathan-boyd](https://github.com/nathan-boyd))
-- Remove unused templates, configs, and files [\#110](https://github.com/tsqllint/tsqllint/pull/110) ([nathan-boyd](https://github.com/nathan-boyd))
-- Remove .net framework from build targets [\#109](https://github.com/tsqllint/tsqllint/pull/109) ([nathan-boyd](https://github.com/nathan-boyd))
-- Tooling Updates [\#108](https://github.com/tsqllint/tsqllint/pull/108) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add versioning script [\#107](https://github.com/tsqllint/tsqllint/pull/107) ([nathan-boyd](https://github.com/nathan-boyd))
+* Add concat-strings rule ([e08750a](https://github.com/tsqllint/tsqllint/commit/e08750a))
+* Add cross-database-transaction rule ([f5af8f0](https://github.com/tsqllint/tsqllint/commit/f5af8f0))
+* Release v1.8.0 ([23c0c7f](https://github.com/tsqllint/tsqllint/commit/23c0c7f))
 
-## [v1.8.4](https://github.com/tsqllint/tsqllint/tree/v1.8.4) (2017-12-12)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.2...v1.8.4)
 
-**Implemented enhancements:**
 
-- The application is limited by the version of .net framework installed on host machine [\#100](https://github.com/tsqllint/tsqllint/issues/100)
-- Add a linting rule for nvachar / varchar concatenation  [\#64](https://github.com/tsqllint/tsqllint/issues/64)
+<a name="1.7.0"></a>
+## 1.7.0 (2017-11-28)
 
-**Fixed bugs:**
+* Add Full Text Rule (#81) ([2e14485](https://github.com/tsqllint/tsqllint/commit/2e14485)), closes [#81](https://github.com/tsqllint/tsqllint/issues/81)
+* Improve rule visitor builder performance (#83) ([bd79dbe](https://github.com/tsqllint/tsqllint/commit/bd79dbe)), closes [#83](https://github.com/tsqllint/tsqllint/issues/83)
+* Release v1.7.0 ([8ab72fc](https://github.com/tsqllint/tsqllint/commit/8ab72fc))
+* Remove newlines from plugin reporting (#79) ([3ee05bb](https://github.com/tsqllint/tsqllint/commit/3ee05bb)), closes [#79](https://github.com/tsqllint/tsqllint/issues/79)
+* Update CommandLineOptionsTests file paths to work cross platform (#80) ([1386888](https://github.com/tsqllint/tsqllint/commit/1386888)), closes [#80](https://github.com/tsqllint/tsqllint/issues/80)
+* Update full text rule column source (#82) ([de6848b](https://github.com/tsqllint/tsqllint/commit/de6848b)), closes [#82](https://github.com/tsqllint/tsqllint/issues/82)
+* Update non-sargable rule to allow isnull when other filters exist (#85) ([4f80c4e](https://github.com/tsqllint/tsqllint/commit/4f80c4e)), closes [#85](https://github.com/tsqllint/tsqllint/issues/85)
 
-- Linter expect semicolons after goto 'Label:' [\#97](https://github.com/tsqllint/tsqllint/issues/97)
-- Microsoft.SqlServer.TransactSql.ScriptDom throws stack overflow for visitors accepting fragments with large numbers of tokens. [\#95](https://github.com/tsqllint/tsqllint/issues/95)
-- Concat strings rule Object reference not set to an instance of an object. [\#88](https://github.com/tsqllint/tsqllint/issues/88)
 
-**Merged pull requests:**
 
-- Create release from Appveyor [\#105](https://github.com/tsqllint/tsqllint/pull/105) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update install script to rely upon self contained deployment [\#104](https://github.com/tsqllint/tsqllint/pull/104) ([nathan-boyd](https://github.com/nathan-boyd))
-- Remove unused scripts [\#103](https://github.com/tsqllint/tsqllint/pull/103) ([nathan-boyd](https://github.com/nathan-boyd))
-- Upgrade to net47 [\#101](https://github.com/tsqllint/tsqllint/pull/101) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update Code Coverage Checks and Reporting [\#99](https://github.com/tsqllint/tsqllint/pull/99) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add exclusion for Goto & Label Statements to SemicolonTermination Rule [\#98](https://github.com/tsqllint/tsqllint/pull/98) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add functional test for plugins [\#96](https://github.com/tsqllint/tsqllint/pull/96) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update dependencies [\#94](https://github.com/tsqllint/tsqllint/pull/94) ([nathan-boyd](https://github.com/nathan-boyd))
-- New rule to check for unicode strings [\#93](https://github.com/tsqllint/tsqllint/pull/93) ([geoffbaker](https://github.com/geoffbaker))
+<a name="1.6.1"></a>
+## <small>1.6.1 (2017-11-17)</small>
 
-## [v1.8.2](https://github.com/tsqllint/tsqllint/tree/v1.8.2) (2017-11-30)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.1...v1.8.2)
+*  Remove un-needed public methods from SQLFileProcessor (#71) ([744743b](https://github.com/tsqllint/tsqllint/commit/744743b)), closes [#71](https://github.com/tsqllint/tsqllint/issues/71)
+* Add TravisCi Badge ([89e94a8](https://github.com/tsqllint/tsqllint/commit/89e94a8))
+* Ensure plugin does not load twice ([035424d](https://github.com/tsqllint/tsqllint/commit/035424d))
+* Improve RuleExceptionFinder Code Coverage (#69) ([8457e4d](https://github.com/tsqllint/tsqllint/commit/8457e4d)), closes [#69](https://github.com/tsqllint/tsqllint/issues/69)
+* Port to project to dotnet standard ([aa735a2](https://github.com/tsqllint/tsqllint/commit/aa735a2))
+* Refactor Command Line Parameter Parsing (#68) ([93dcf78](https://github.com/tsqllint/tsqllint/commit/93dcf78)), closes [#68](https://github.com/tsqllint/tsqllint/issues/68)
+* Refactor to Prepare for Strategy Pattern Implementation (#66) ([0cd6da6](https://github.com/tsqllint/tsqllint/commit/0cd6da6)), closes [#66](https://github.com/tsqllint/tsqllint/issues/66)
+* Release v1.6.0 ([ee5e680](https://github.com/tsqllint/tsqllint/commit/ee5e680))
+* Release v1.6.1 ([60e99b5](https://github.com/tsqllint/tsqllint/commit/60e99b5))
+* Remove unused constructor in SqlFileProcessor (#70) ([cbd2209](https://github.com/tsqllint/tsqllint/commit/cbd2209)), closes [#70](https://github.com/tsqllint/tsqllint/issues/70)
+* Swap exec to spawn in tsqllint.js ([631bfe6](https://github.com/tsqllint/tsqllint/commit/631bfe6))
+* Update build and install process to support osx (#77) ([66e26b1](https://github.com/tsqllint/tsqllint/commit/66e26b1)), closes [#77](https://github.com/tsqllint/tsqllint/issues/77)
+* Update code coverage for dotnet core ([ef31247](https://github.com/tsqllint/tsqllint/commit/ef31247))
 
-**Closed issues:**
 
-- upper-lower rule incorrectly flags situations where case matters \(despite case-insensitive mode\) [\#90](https://github.com/tsqllint/tsqllint/issues/90)
 
-**Merged pull requests:**
+<a name="1.5.0"></a>
+## 1.5.0 (2017-11-10)
 
-- Update upper-lower rule to only flag comparisons in select statements [\#91](https://github.com/tsqllint/tsqllint/pull/91) ([nathan-boyd](https://github.com/nathan-boyd))
+* Add Feature to Allow Rule Disablement ([b9522e4](https://github.com/tsqllint/tsqllint/commit/b9522e4))
+* Add feature to list plugins ([cfd71f9](https://github.com/tsqllint/tsqllint/commit/cfd71f9))
+* Add Lib and Test assemblies to Costura Exclusion ([0184c6d](https://github.com/tsqllint/tsqllint/commit/0184c6d))
+* Add package artifacts to .gitignore (#55) ([573ec07](https://github.com/tsqllint/tsqllint/commit/573ec07)), closes [#55](https://github.com/tsqllint/tsqllint/issues/55)
+* Add rule for non-sargable queries ([1965ed4](https://github.com/tsqllint/tsqllint/commit/1965ed4))
+* Add support for relative plugin paths (#63) ([abad3d9](https://github.com/tsqllint/tsqllint/commit/abad3d9)), closes [#63](https://github.com/tsqllint/tsqllint/issues/63)
+* Add tracing ([5974363](https://github.com/tsqllint/tsqllint/commit/5974363))
+* Consolodate tests into substitutes ([8dcdd18](https://github.com/tsqllint/tsqllint/commit/8dcdd18))
+* Exclude test utility from coverage ([016afaa](https://github.com/tsqllint/tsqllint/commit/016afaa))
+* Fix solution file name casing ([6945d7e](https://github.com/tsqllint/tsqllint/commit/6945d7e))
+* Improve code statistics ([8f5a0ea](https://github.com/tsqllint/tsqllint/commit/8f5a0ea))
+* Improve column calculation for non-sargable rule ([7bad81c](https://github.com/tsqllint/tsqllint/commit/7bad81c))
+* Move RuleVisitor Type List to AutoGenerated Class ([d5d9336](https://github.com/tsqllint/tsqllint/commit/d5d9336))
+* Refactor column counter for readability ([733a677](https://github.com/tsqllint/tsqllint/commit/733a677))
+* Release v1.5.0 ([87c5009](https://github.com/tsqllint/tsqllint/commit/87c5009))
+* Remove local variable in test helper ([c11427d](https://github.com/tsqllint/tsqllint/commit/c11427d))
+* Remove single line comment validation from StyleCop ([ff8909a](https://github.com/tsqllint/tsqllint/commit/ff8909a))
+* Rename line variables in column position function ([910f754](https://github.com/tsqllint/tsqllint/commit/910f754))
+* Report failure to find plugin (#56) ([65ef30f](https://github.com/tsqllint/tsqllint/commit/65ef30f)), closes [#56](https://github.com/tsqllint/tsqllint/issues/56)
+* Suppress help text during config file init ([9f72993](https://github.com/tsqllint/tsqllint/commit/9f72993))
+* Update AssemblyInfo ([5d1cab0](https://github.com/tsqllint/tsqllint/commit/5d1cab0))
+* Update readme ([1398432](https://github.com/tsqllint/tsqllint/commit/1398432))
+* Update README.md ([1f79e8c](https://github.com/tsqllint/tsqllint/commit/1f79e8c))
 
-## [v1.8.1](https://github.com/tsqllint/tsqllint/tree/v1.8.1) (2017-11-30)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.8.0...v1.8.1)
 
-**Merged pull requests:**
 
-- Update cross-database-transaction to handle uncommitted transactions [\#89](https://github.com/tsqllint/tsqllint/pull/89) ([nathan-boyd](https://github.com/nathan-boyd))
+<a name="1.4.1"></a>
+## <small>1.4.1 (2017-10-19)</small>
 
-## [v1.8.0](https://github.com/tsqllint/tsqllint/tree/v1.8.0) (2017-11-29)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.7.0...v1.8.0)
+* Release v1.4.1 ([6de9614](https://github.com/tsqllint/tsqllint/commit/6de9614))
+* Remove cross database error reporting for linked server queries ([4745c6c](https://github.com/tsqllint/tsqllint/commit/4745c6c))
+* Update README, add new rules ([71ca03b](https://github.com/tsqllint/tsqllint/commit/71ca03b))
 
-**Merged pull requests:**
 
-- Update README code blocks to display syntax highlighting [\#87](https://github.com/tsqllint/tsqllint/pull/87) ([nathan-boyd](https://github.com/nathan-boyd))
-- Concat strings rule [\#84](https://github.com/tsqllint/tsqllint/pull/84) ([geoffbaker](https://github.com/geoffbaker))
 
-## [v1.7.0](https://github.com/tsqllint/tsqllint/tree/v1.7.0) (2017-11-28)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.6.1...v1.7.0)
+<a name="1.4.0"></a>
+## 1.4.0 (2017-10-14)
 
-**Fixed bugs:**
+* Add cross database rule ([3ea6647](https://github.com/tsqllint/tsqllint/commit/3ea6647))
+* Add linked server rule ([7c19fe6](https://github.com/tsqllint/tsqllint/commit/7c19fe6))
+* Create template for new rules ([875367c](https://github.com/tsqllint/tsqllint/commit/875367c))
+* Improve CommandLineOptionHandler readability ([79a0a78](https://github.com/tsqllint/tsqllint/commit/79a0a78))
+* Refactor rules tests into separate files ([ceb1fb0](https://github.com/tsqllint/tsqllint/commit/ceb1fb0))
+* Release v1.4.0 ([66648bc](https://github.com/tsqllint/tsqllint/commit/66648bc))
+* Remove dead code in rule visitor ([8e3ba9b](https://github.com/tsqllint/tsqllint/commit/8e3ba9b))
+* Remove unused directives ([4c218cf](https://github.com/tsqllint/tsqllint/commit/4c218cf))
 
-- Stodout buffer too small, truncating output [\#78](https://github.com/tsqllint/tsqllint/issues/78)
 
-**Merged pull requests:**
 
-- Update non-sargable rule to allow isnull when other predicates exist [\#85](https://github.com/tsqllint/tsqllint/pull/85) ([nathan-boyd](https://github.com/nathan-boyd))
-- Improve rule visitor builder performance [\#83](https://github.com/tsqllint/tsqllint/pull/83) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update full text rule column source [\#82](https://github.com/tsqllint/tsqllint/pull/82) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add Full Text Rule [\#81](https://github.com/tsqllint/tsqllint/pull/81) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update CommandLineOptionsTests file paths to work cross platform [\#80](https://github.com/tsqllint/tsqllint/pull/80) ([nathan-boyd](https://github.com/nathan-boyd))
-- Remove newlines from plugin reporting [\#79](https://github.com/tsqllint/tsqllint/pull/79) ([nathan-boyd](https://github.com/nathan-boyd))
+<a name="1.3.0"></a>
+## 1.3.0 (2017-10-11)
 
-## [v1.6.1](https://github.com/tsqllint/tsqllint/tree/v1.6.1) (2017-11-17)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.6.0...v1.6.1)
+* Create CODE_OF_CONDUCT.md ([a4d20b4](https://github.com/tsqllint/tsqllint/commit/a4d20b4))
+* Document usage in external tools ([9ad3a74](https://github.com/tsqllint/tsqllint/commit/9ad3a74))
+* Release v1.3.0 ([2ba3110](https://github.com/tsqllint/tsqllint/commit/2ba3110))
+* Remove BEGIN semicolon termination requirement ([8b948ac](https://github.com/tsqllint/tsqllint/commit/8b948ac))
+* Remove violations list from rule visitor ([68f1026](https://github.com/tsqllint/tsqllint/commit/68f1026))
+* Update exit status code to return 1 for linting errors ([5091ffa](https://github.com/tsqllint/tsqllint/commit/5091ffa))
 
-## [v1.6.0](https://github.com/tsqllint/tsqllint/tree/v1.6.0) (2017-11-17)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.5.0...v1.6.0)
 
-**Implemented enhancements:**
 
-- Don't allow duplicate plugins to be loaded [\#62](https://github.com/tsqllint/tsqllint/issues/62)
-- add relative path support for plugins [\#54](https://github.com/tsqllint/tsqllint/issues/54)
-- Port to dotnet standard [\#73](https://github.com/tsqllint/tsqllint/pull/73) ([nathan-boyd](https://github.com/nathan-boyd))
+<a name="1.2.0"></a>
+## 1.2.0 (2017-10-08)
 
-**Closed issues:**
+* Add coverage for config reader ([da26ca2](https://github.com/tsqllint/tsqllint/commit/da26ca2))
+* Add coverage for integration tests ([12b06de](https://github.com/tsqllint/tsqllint/commit/12b06de))
+* Add plugin framework (#48) ([ab46f96](https://github.com/tsqllint/tsqllint/commit/ab46f96)), closes [#48](https://github.com/tsqllint/tsqllint/issues/48)
+* Add test for create partioned view ([13a63c2](https://github.com/tsqllint/tsqllint/commit/13a63c2))
+* Add tests for in memory config ([f2a227b](https://github.com/tsqllint/tsqllint/commit/f2a227b))
+* Automatically create config file (#47) ([0c0c084](https://github.com/tsqllint/tsqllint/commit/0c0c084)), closes [#47](https://github.com/tsqllint/tsqllint/issues/47)
+* Clean up dead code ([29a891c](https://github.com/tsqllint/tsqllint/commit/29a891c))
+* Document Plugin config and usage ([b28fa68](https://github.com/tsqllint/tsqllint/commit/b28fa68))
+* Refactor functional tests ([6ad4e3c](https://github.com/tsqllint/tsqllint/commit/6ad4e3c))
+* Release v1.2.0 ([00d8315](https://github.com/tsqllint/tsqllint/commit/00d8315))
+* Remove caching from appveyor config ([3fd33c1](https://github.com/tsqllint/tsqllint/commit/3fd33c1))
+* Remove Global Nuget ([c3dfa84](https://github.com/tsqllint/tsqllint/commit/c3dfa84))
+* Simplify command line and parsing and config handling ([af7ce65](https://github.com/tsqllint/tsqllint/commit/af7ce65))
+* Standardize styling (#49) ([189c16a](https://github.com/tsqllint/tsqllint/commit/189c16a)), closes [#49](https://github.com/tsqllint/tsqllint/issues/49)
+* Update IntegrationTests ([3380ca9](https://github.com/tsqllint/tsqllint/commit/3380ca9))
+* Update project namespaces ([97517f4](https://github.com/tsqllint/tsqllint/commit/97517f4))
+* Update reference to TSQLLint.Common ([fd787b9](https://github.com/tsqllint/tsqllint/commit/fd787b9))
 
-- Enable cross platform installation [\#75](https://github.com/tsqllint/tsqllint/issues/75)
-- TSQL Lint node pkg expects win32 \(not installable on OS X 'darwin'\) [\#74](https://github.com/tsqllint/tsqllint/issues/74)
 
-**Merged pull requests:**
 
-- Update build and install process to support osx [\#77](https://github.com/tsqllint/tsqllint/pull/77) ([nathan-boyd](https://github.com/nathan-boyd))
-- Update coverage script for dotnet core [\#76](https://github.com/tsqllint/tsqllint/pull/76) ([nathan-boyd](https://github.com/nathan-boyd))
-- Does not load a plugin in twice [\#72](https://github.com/tsqllint/tsqllint/pull/72) ([geoffbaker](https://github.com/geoffbaker))
--  Remove un-needed public methods from SQLFileProcessor [\#71](https://github.com/tsqllint/tsqllint/pull/71) ([nathan-boyd](https://github.com/nathan-boyd))
-- Remove unused constructor in SqlFileProcessor [\#70](https://github.com/tsqllint/tsqllint/pull/70) ([nathan-boyd](https://github.com/nathan-boyd))
-- Improve RuleExceptionFinder Code Coverage [\#69](https://github.com/tsqllint/tsqllint/pull/69) ([nathan-boyd](https://github.com/nathan-boyd))
-- Refactor Command Line Parameter Parsing [\#68](https://github.com/tsqllint/tsqllint/pull/68) ([nathan-boyd](https://github.com/nathan-boyd))
-- Refactor to Prepare for Strategy Pattern Implementation [\#66](https://github.com/tsqllint/tsqllint/pull/66) ([nathan-boyd](https://github.com/nathan-boyd))
+<a name="1.1.5"></a>
+## <small>1.1.5 (2017-09-18)</small>
 
-## [v1.5.0](https://github.com/tsqllint/tsqllint/tree/v1.5.0) (2017-11-10)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.4.1...v1.5.0)
+* Add set variable rule (#40) ([c8554d1](https://github.com/tsqllint/tsqllint/commit/c8554d1)), closes [#40](https://github.com/tsqllint/tsqllint/issues/40)
+* Fix directory doesnt exist bug (#39) ([587765b](https://github.com/tsqllint/tsqllint/commit/587765b)), closes [#39](https://github.com/tsqllint/tsqllint/issues/39)
+* Fix special character bug in keyword-capitalization rule ([f50a749](https://github.com/tsqllint/tsqllint/commit/f50a749))
+* Release v1.1.5 ([8257f47](https://github.com/tsqllint/tsqllint/commit/8257f47))
+* Update semicolon rule to correctly parse subqueries in create statements ([a5c82b7](https://github.com/tsqllint/tsqllint/commit/a5c82b7))
 
-**Implemented enhancements:**
 
-- The init and force options display help even if they work as expected [\#59](https://github.com/tsqllint/tsqllint/issues/59)
-- Add feature to display configured plugins [\#58](https://github.com/tsqllint/tsqllint/issues/58)
-- Add ability to turn off rules in source files [\#29](https://github.com/tsqllint/tsqllint/issues/29)
 
-**Closed issues:**
+<a name="1.1.4"></a>
+## <small>1.1.4 (2017-08-30)</small>
 
-- Process exit-code 0 with errors in syntax [\#53](https://github.com/tsqllint/tsqllint/issues/53)
-- CrossDb rule fires on LinkedServer [\#52](https://github.com/tsqllint/tsqllint/issues/52)
+* Add more instructions to installation (#34) ([3d37684](https://github.com/tsqllint/tsqllint/commit/3d37684)), closes [#34](https://github.com/tsqllint/tsqllint/issues/34)
+* Fix exit code for help option (#30) ([07e5944](https://github.com/tsqllint/tsqllint/commit/07e5944)), closes [#30](https://github.com/tsqllint/tsqllint/issues/30)
+* Fix references to APPDATA (#36) ([7cee690](https://github.com/tsqllint/tsqllint/commit/7cee690)), closes [#36](https://github.com/tsqllint/tsqllint/issues/36)
+* Release v1.1.4 ([c638d49](https://github.com/tsqllint/tsqllint/commit/c638d49))
+* Specify node engine in package.json (#35) ([16dfff2](https://github.com/tsqllint/tsqllint/commit/16dfff2)), closes [#35](https://github.com/tsqllint/tsqllint/issues/35)
 
-**Merged pull requests:**
 
-- Added support for relative paths in plugin paths [\#63](https://github.com/tsqllint/tsqllint/pull/63) ([geoffbaker](https://github.com/geoffbaker))
-- Ability to list plugins [\#61](https://github.com/tsqllint/tsqllint/pull/61) ([geoffbaker](https://github.com/geoffbaker))
-- Init/Force changes [\#60](https://github.com/tsqllint/tsqllint/pull/60) ([geoffbaker](https://github.com/geoffbaker))
-- Report failure to find plugin [\#56](https://github.com/tsqllint/tsqllint/pull/56) ([jamisonr](https://github.com/jamisonr))
-- add TSQLLint package artifacts to .gitignore [\#55](https://github.com/tsqllint/tsqllint/pull/55) ([jamisonr](https://github.com/jamisonr))
 
-## [v1.4.1](https://github.com/tsqllint/tsqllint/tree/v1.4.1) (2017-10-19)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.4.0...v1.4.1)
+<a name="1.1.3"></a>
+## <small>1.1.3 (2017-08-24)</small>
 
-**Implemented enhancements:**
+* Add download badge ([d0b3d7b](https://github.com/tsqllint/tsqllint/commit/d0b3d7b))
+* Build package in CI (#20) ([cb984ec](https://github.com/tsqllint/tsqllint/commit/cb984ec)), closes [#20](https://github.com/tsqllint/tsqllint/issues/20)
+* Cache the final NuGet package installed files (#13) ([f555f8a](https://github.com/tsqllint/tsqllint/commit/f555f8a)), closes [#13](https://github.com/tsqllint/tsqllint/issues/13)
+* Fix assembly versioning script ([218bb20](https://github.com/tsqllint/tsqllint/commit/218bb20))
+* Fix syntax error to show "error" instead of "off" (#11) ([217cb42](https://github.com/tsqllint/tsqllint/commit/217cb42)), closes [#11](https://github.com/tsqllint/tsqllint/issues/11)
+* Fix Windows Git Bash Install (#17) ([d47d0e8](https://github.com/tsqllint/tsqllint/commit/d47d0e8)), closes [#17](https://github.com/tsqllint/tsqllint/issues/17)
+* Improve error reporting (#15) ([9cc4c58](https://github.com/tsqllint/tsqllint/commit/9cc4c58)), closes [#15](https://github.com/tsqllint/tsqllint/issues/15)
+* Install ScriptDom dependency when it doesnt exist on host machine (#22) ([175b25c](https://github.com/tsqllint/tsqllint/commit/175b25c)), closes [#22](https://github.com/tsqllint/tsqllint/issues/22)
+* Release v1.1.2 ([70848f9](https://github.com/tsqllint/tsqllint/commit/70848f9))
+* Release v1.1.3 ([517cd6b](https://github.com/tsqllint/tsqllint/commit/517cd6b))
+* Remove the NuGet IP from AppVeyor (#12) ([f8803ac](https://github.com/tsqllint/tsqllint/commit/f8803ac)), closes [#12](https://github.com/tsqllint/tsqllint/issues/12)
+* Use npm config prefix for postinstall script (#28) ([c5fa835](https://github.com/tsqllint/tsqllint/commit/c5fa835)), closes [#28](https://github.com/tsqllint/tsqllint/issues/28)
+* Use repository short-hand in package.json (#14) ([c813eed](https://github.com/tsqllint/tsqllint/commit/c813eed)), closes [#14](https://github.com/tsqllint/tsqllint/issues/14)
+* Wildcards (#26) ([b0f9ed9](https://github.com/tsqllint/tsqllint/commit/b0f9ed9)), closes [#26](https://github.com/tsqllint/tsqllint/issues/26)
 
-- create rule for linked server calls [\#50](https://github.com/tsqllint/tsqllint/issues/50)
 
-## [v1.4.0](https://github.com/tsqllint/tsqllint/tree/v1.4.0) (2017-10-14)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.3.0...v1.4.0)
 
-## [v1.3.0](https://github.com/tsqllint/tsqllint/tree/v1.3.0) (2017-10-11)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.2.0...v1.3.0)
+<a name="1.1.1"></a>
+## <small>1.1.1 (2017-08-04)</small>
 
-**Implemented enhancements:**
+* Add default rules ([3d0d5bb](https://github.com/tsqllint/tsqllint/commit/3d0d5bb))
+* Add directory walking to sqlparser ([1844db2](https://github.com/tsqllint/tsqllint/commit/1844db2))
+* Add file list processing ([6fb35e1](https://github.com/tsqllint/tsqllint/commit/6fb35e1))
+* Add guardrail to prevent config file clobbering ([dfd9049](https://github.com/tsqllint/tsqllint/commit/dfd9049))
+* Change error response for missing lint path ([e684da8](https://github.com/tsqllint/tsqllint/commit/e684da8))
+* Create linting and confing handler ([1d1708c](https://github.com/tsqllint/tsqllint/commit/1d1708c))
+* Fix bug with MultiTableAliasRule and CTE ([a0b86b5](https://github.com/tsqllint/tsqllint/commit/a0b86b5))
+* Improve command line interactions ([2f6120c](https://github.com/tsqllint/tsqllint/commit/2f6120c))
+* Improve commandline option handling ([d3ec93b](https://github.com/tsqllint/tsqllint/commit/d3ec93b))
+* Init ([aa8cc30](https://github.com/tsqllint/tsqllint/commit/aa8cc30))
+* Release 0.1.30 ([9b158c4](https://github.com/tsqllint/tsqllint/commit/9b158c4))
+* Release v1.0.0 ([6d14826](https://github.com/tsqllint/tsqllint/commit/6d14826))
+* Release v1.0.1 ([9d36e5e](https://github.com/tsqllint/tsqllint/commit/9d36e5e))
+* Release v1.0.2 ([e3f7a74](https://github.com/tsqllint/tsqllint/commit/e3f7a74))
+* Release v1.1.0 ([ca614f3](https://github.com/tsqllint/tsqllint/commit/ca614f3))
+* Release v1.1.1 ([9bd7eb4](https://github.com/tsqllint/tsqllint/commit/9bd7eb4))
+* Standardize rule text ([197a3b8](https://github.com/tsqllint/tsqllint/commit/197a3b8))
 
-- Linter shouldn't expect semicolons after "BEGIN" [\#51](https://github.com/tsqllint/tsqllint/issues/51)
 
-## [v1.2.0](https://github.com/tsqllint/tsqllint/tree/v1.2.0) (2017-10-08)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.1.5...v1.2.0)
 
-**Implemented enhancements:**
-
-- Consider making easier to use in Script Review process [\#42](https://github.com/tsqllint/tsqllint/issues/42)
-- Implement Self Init [\#25](https://github.com/tsqllint/tsqllint/issues/25)
-
-**Merged pull requests:**
-
-- Standardize styling [\#49](https://github.com/tsqllint/tsqllint/pull/49) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add plugin framework [\#48](https://github.com/tsqllint/tsqllint/pull/48) ([nathan-boyd](https://github.com/nathan-boyd))
-- Automatically create config file [\#47](https://github.com/tsqllint/tsqllint/pull/47) ([geoffbaker](https://github.com/geoffbaker))
-
-## [v1.1.5](https://github.com/tsqllint/tsqllint/tree/v1.1.5) (2017-09-18)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.1.4...v1.1.5)
-
-**Fixed bugs:**
-
-- IDENTITY\_INSERT Capitalization not handled correctly [\#44](https://github.com/tsqllint/tsqllint/issues/44)
-- Incorrect semicolon-termination detection [\#43](https://github.com/tsqllint/tsqllint/issues/43)
-- Crash when given a path to a non-existent directory [\#38](https://github.com/tsqllint/tsqllint/issues/38)
-
-**Closed issues:**
-
-- Illegal Unexpected Token  [\#33](https://github.com/tsqllint/tsqllint/issues/33)
-
-**Merged pull requests:**
-
-- Add set variable rule [\#40](https://github.com/tsqllint/tsqllint/pull/40) ([nathan-boyd](https://github.com/nathan-boyd))
-- Fix directory doesnt exist bug [\#39](https://github.com/tsqllint/tsqllint/pull/39) ([nathan-boyd](https://github.com/nathan-boyd))
-
-## [v1.1.4](https://github.com/tsqllint/tsqllint/tree/v1.1.4) (2017-08-30)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.1.3...v1.1.4)
-
-**Implemented enhancements:**
-
-- Implement return codes [\#24](https://github.com/tsqllint/tsqllint/issues/24)
-
-**Merged pull requests:**
-
-- Fix references to APPDATA [\#36](https://github.com/tsqllint/tsqllint/pull/36) ([dougwilson](https://github.com/dougwilson))
-- Specify node engine in package.json [\#35](https://github.com/tsqllint/tsqllint/pull/35) ([nathan-boyd](https://github.com/nathan-boyd))
-- Add more instructions to installation [\#34](https://github.com/tsqllint/tsqllint/pull/34) ([dougwilson](https://github.com/dougwilson))
-- Stylecop [\#32](https://github.com/tsqllint/tsqllint/pull/32) ([geoffbaker](https://github.com/geoffbaker))
-- Fix exit code for help option [\#30](https://github.com/tsqllint/tsqllint/pull/30) ([nathan-boyd](https://github.com/nathan-boyd))
-
-## [v1.1.3](https://github.com/tsqllint/tsqllint/tree/v1.1.3) (2017-08-24)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.1.2...v1.1.3)
-
-**Fixed bugs:**
-
-- Post Install Script Doesn't Work With NPM prefix other than AppData -\> Roaming [\#27](https://github.com/tsqllint/tsqllint/issues/27)
-
-**Merged pull requests:**
-
-- Use npm config prefix for postinstall script [\#28](https://github.com/tsqllint/tsqllint/pull/28) ([dougwilson](https://github.com/dougwilson))
-- Wildcards [\#26](https://github.com/tsqllint/tsqllint/pull/26) ([geoffbaker](https://github.com/geoffbaker))
-
-## [v1.1.2](https://github.com/tsqllint/tsqllint/tree/v1.1.2) (2017-08-16)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.1.1...v1.1.2)
-
-**Fixed bugs:**
-
-- ScriptDom Not Found [\#21](https://github.com/tsqllint/tsqllint/issues/21)
-- Git Bash Shell NPM installation doesn't work out of the box in Windows [\#16](https://github.com/tsqllint/tsqllint/issues/16)
-- Install ScriptDom dependency when it doesnt exist on host machine [\#22](https://github.com/tsqllint/tsqllint/pull/22) ([nathan-boyd](https://github.com/nathan-boyd))
-
-**Merged pull requests:**
-
-- Build package in CI [\#20](https://github.com/tsqllint/tsqllint/pull/20) ([nathan-boyd](https://github.com/nathan-boyd))
-- Fix Windows Git Bash Install [\#17](https://github.com/tsqllint/tsqllint/pull/17) ([nathan-boyd](https://github.com/nathan-boyd))
-- Improve error reporting [\#15](https://github.com/tsqllint/tsqllint/pull/15) ([nathan-boyd](https://github.com/nathan-boyd))
-- Use repository short-hand in package.json [\#14](https://github.com/tsqllint/tsqllint/pull/14) ([dougwilson](https://github.com/dougwilson))
-- Cache the final NuGet package installed files [\#13](https://github.com/tsqllint/tsqllint/pull/13) ([dougwilson](https://github.com/dougwilson))
-- Remove the NuGet IP from AppVeyor [\#12](https://github.com/tsqllint/tsqllint/pull/12) ([dougwilson](https://github.com/dougwilson))
-- Fix syntax error to show "error" instead of "off" [\#11](https://github.com/tsqllint/tsqllint/pull/11) ([dougwilson](https://github.com/dougwilson))
-
-## [v1.1.1](https://github.com/tsqllint/tsqllint/tree/v1.1.1) (2017-08-04)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.1.0...v1.1.1)
-
-**Fixed bugs:**
-
-- CTE's used with derived table asking for aliasing. [\#9](https://github.com/tsqllint/tsqllint/issues/9)
-- Fix bug with MultiTableAliasRule and CTE [\#10](https://github.com/tsqllint/tsqllint/pull/10) ([nathan-boyd](https://github.com/nathan-boyd))
-
-## [v1.1.0](https://github.com/tsqllint/tsqllint/tree/v1.1.0) (2017-07-28)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.0.2...v1.1.0)
-
-**Implemented enhancements:**
-
-- add guard rail to prevent clobbering pre-existing config file when using init command line option [\#7](https://github.com/tsqllint/tsqllint/issues/7)
-
-## [v1.0.2](https://github.com/tsqllint/tsqllint/tree/v1.0.2) (2017-07-25)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.0.1...v1.0.2)
-
-## [v1.0.1](https://github.com/tsqllint/tsqllint/tree/v1.0.1) (2017-07-24)
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.0.0...v1.0.1)
-
-## [v1.0.0](https://github.com/tsqllint/tsqllint/tree/v1.0.0) (2017-07-23)
-**Implemented enhancements:**
-
-- update config file creation to write file to users directory [\#6](https://github.com/tsqllint/tsqllint/issues/6)
-- Add new rules to integration test [\#5](https://github.com/tsqllint/tsqllint/issues/5)
-- add code coverage tooling and reporting [\#2](https://github.com/tsqllint/tsqllint/issues/2)
-- need better .gitignore [\#1](https://github.com/tsqllint/tsqllint/issues/1)
-
-
-
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
