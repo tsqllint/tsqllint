@@ -382,6 +382,8 @@
 
 
 
+=======
+>>>>>>> Update version script to include new project files
 <a name="1.10.1"></a>
 ## <small>1.10.1 (2018-04-14)</small>
 
