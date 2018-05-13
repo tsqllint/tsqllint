@@ -16,6 +16,10 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             },
             new object[]
             {
+                "non-sargable", "non-sargable-no-error-function-in-inner-join",  typeof(NonSargableRule), new List<RuleViolation>()
+            },
+            new object[]
+            {
                 "non-sargable", "non-sargable-one-error-where-clause",  typeof(NonSargableRule), new List<RuleViolation>
                 {
                     new RuleViolation("non-sargable", 1, 25)

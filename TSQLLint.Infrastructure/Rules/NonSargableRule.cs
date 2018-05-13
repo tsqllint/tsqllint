@@ -23,32 +23,27 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Performing functions on filter clauses or join predicates can cause performance problems";
 
-        public override void Visit(TSqlStatement node)
-        {
-            multiClauseQuery = false;
-        }
-
         public override void Visit(JoinTableReference node)
         {
-            var childBinaryExpressionVisitor = new ChildPredicateExpressionVisitor();
-            node.Accept(childBinaryExpressionVisitor);
-            multiClauseQuery = childBinaryExpressionVisitor.PredicatesFound;
-
-            var childVisitor = new ChildFunctionCallVisitor(ChildCallback, multiClauseQuery);
-            node.Accept(childVisitor);
+            var predicateExpressionVisitor = new PredicateVisitor();
+            node.AcceptChildren(predicateExpressionVisitor);
+            var multiClauseQuery = predicateExpressionVisitor.PredicatesFound;
+            
+            var joinVisitor = new JoinQueryVisitor(VisitorCallback, multiClauseQuery);
+            node.AcceptChildren(joinVisitor);
         }
 
         public override void Visit(WhereClause node)
         {
-            var childBinaryExpressionVisitor = new ChildPredicateExpressionVisitor();
-            node.Accept(childBinaryExpressionVisitor);
-            multiClauseQuery = childBinaryExpressionVisitor.PredicatesFound;
+            var predicateExpressionVisitor = new PredicateVisitor();
+            node.Accept(predicateExpressionVisitor);
+            multiClauseQuery = predicateExpressionVisitor.PredicatesFound;
 
-            var childVisitor = new ChildFunctionCallVisitor(ChildCallback, multiClauseQuery);
+            var childVisitor = new FunctionVisitor(VisitorCallback, multiClauseQuery);
             node.Accept(childVisitor);
         }
-
-        private void ChildCallback(TSqlFragment childNode)
+        
+        private void VisitorCallback(TSqlFragment childNode)
         {
             if (errorsReported.Contains(childNode))
             {
@@ -59,7 +54,25 @@ namespace TSQLLint.Infrastructure.Rules
             errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode));
         }
 
-        public class ChildPredicateExpressionVisitor : TSqlFragmentVisitor
+        private class JoinQueryVisitor : TSqlFragmentVisitor
+        {
+            private readonly Action<TSqlFragment> childCallback;
+            private readonly bool isMultiClauseQuery;
+
+            public JoinQueryVisitor(Action<TSqlFragment> childCallback, bool multiClauseQuery)
+            {
+                this.childCallback = childCallback;
+                isMultiClauseQuery = multiClauseQuery;
+            }
+
+            public override void Visit(BooleanComparisonExpression node)
+            {
+                var childVisitor = new FunctionVisitor(childCallback, isMultiClauseQuery);
+                node.Accept(childVisitor);
+            }
+        }
+
+        private class PredicateVisitor : TSqlFragmentVisitor
         {
             public bool PredicatesFound { get; private set; }
 
@@ -69,12 +82,12 @@ namespace TSQLLint.Infrastructure.Rules
             }
         }
 
-        public class ChildFunctionCallVisitor : TSqlFragmentVisitor
+        private class FunctionVisitor : TSqlFragmentVisitor
         {
             private readonly bool isMultiClause;
             private readonly Action<TSqlFragment> childCallback;
 
-            public ChildFunctionCallVisitor(Action<TSqlFragment> errorCallback, bool isMultiClause)
+            public FunctionVisitor(Action<TSqlFragment> errorCallback, bool isMultiClause)
             {
                 childCallback = errorCallback;
                 this.isMultiClause = isMultiClause;
@@ -88,32 +101,32 @@ namespace TSQLLint.Infrastructure.Rules
                     return;
                 }
 
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(LeftFunctionCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(RightFunctionCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(ConvertCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
             public override void Visit(CastCall node)
             {
-                VisitChildren(node);
+                FindColumnReferences(node);
             }
 
-            private void VisitChildren(TSqlFragment node)
+            private void FindColumnReferences(TSqlFragment node)
             {
-                var columnReferenceVisitor = new ChildColumnReferenceVisitor();
+                var columnReferenceVisitor = new ColumnReferenceVisitor();
                 node.AcceptChildren(columnReferenceVisitor);
 
                 if (columnReferenceVisitor.ColumnReferenceFound)
@@ -123,7 +136,7 @@ namespace TSQLLint.Infrastructure.Rules
             }
         }
 
-        public class ChildColumnReferenceVisitor : TSqlFragmentVisitor
+        private class ColumnReferenceVisitor : TSqlFragmentVisitor
         {
             public bool ColumnReferenceFound { get; private set; }
 
