@@ -2,10 +2,45 @@
 
 ## [Unreleased](https://github.com/tsqllint/tsqllint/tree/HEAD)
 
-[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.10.0...HEAD)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.10.1...HEAD)
+
+**Implemented enhancements:**
+
+- Search the working directory for plugins [\#174](https://github.com/tsqllint/tsqllint/issues/174)
+- DROP IF EXISTS syntax doesn't appear to be supported [\#165](https://github.com/tsqllint/tsqllint/issues/165)
+- Add configurable tab width [\#4](https://github.com/tsqllint/tsqllint/issues/4)
+- Implement configurable parser selection [\#3](https://github.com/tsqllint/tsqllint/issues/3)
+
+**Fixed bugs:**
+
+- Add support for compatibility level 140 [\#172](https://github.com/tsqllint/tsqllint/issues/172)
+- running 'tsqllint -i .' executes a lint rather than a simple init [\#136](https://github.com/tsqllint/tsqllint/issues/136)
+- Typo in Data Type length Rule [\#133](https://github.com/tsqllint/tsqllint/issues/133)
+
+**Closed issues:**
+
+- Data types are omitted from recognized as reserved \(capitalized\) [\#181](https://github.com/tsqllint/tsqllint/issues/181)
+- .tsqllintrc documentation seems a little out of step with the actual set of implemented rules [\#180](https://github.com/tsqllint/tsqllint/issues/180)
+- Not able to run tsqllint in Docker container [\#178](https://github.com/tsqllint/tsqllint/issues/178)
+- Display version number of plugin [\#156](https://github.com/tsqllint/tsqllint/issues/156)
 
 **Merged pull requests:**
 
+- Update non-sargable rule to ignore functions in join queries with multiple predicates [\#185](https://github.com/tsqllint/tsqllint/pull/185) ([nathan-boyd](https://github.com/nathan-boyd))
+- Update test project to always copy test files to build dir [\#183](https://github.com/tsqllint/tsqllint/pull/183) ([nathan-boyd](https://github.com/nathan-boyd))
+- Remove external dependencies from TSQLLint.Core [\#182](https://github.com/tsqllint/tsqllint/pull/182) ([nathan-boyd](https://github.com/nathan-boyd))
+- Print plugin version during load [\#175](https://github.com/tsqllint/tsqllint/pull/175) ([nathan-boyd](https://github.com/nathan-boyd))
+- Update to allow Compatability-Level 140 [\#173](https://github.com/tsqllint/tsqllint/pull/173) ([nathan-boyd](https://github.com/nathan-boyd))
+- Improvements to testing [\#171](https://github.com/tsqllint/tsqllint/pull/171) ([nathan-boyd](https://github.com/nathan-boyd))
+- Add support for ignored rules within multi-line comment blocks [\#170](https://github.com/tsqllint/tsqllint/pull/170) ([nathan-boyd](https://github.com/nathan-boyd))
+- Refactor test directory structure [\#169](https://github.com/tsqllint/tsqllint/pull/169) ([nathan-boyd](https://github.com/nathan-boyd))
+
+## [v1.10.1](https://github.com/tsqllint/tsqllint/tree/v1.10.1) (2018-04-14)
+[Full Changelog](https://github.com/tsqllint/tsqllint/compare/v1.10.0...v1.10.1)
+
+**Merged pull requests:**
+
+- Update Documentation & Versioning Script [\#168](https://github.com/tsqllint/tsqllint/pull/168) ([nathan-boyd](https://github.com/nathan-boyd))
 - Rename compatability\_level for consistency [\#167](https://github.com/tsqllint/tsqllint/pull/167) ([nathan-boyd](https://github.com/nathan-boyd))
 
 ## [v1.10.0](https://github.com/tsqllint/tsqllint/tree/v1.10.0) (2018-04-12)
