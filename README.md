@@ -132,7 +132,7 @@ Setting the compatability level within the `.tsqllintrc` file configures the def
 
 ### Setting Compatability Level Using Inline Comments
 
-Setting the compatability level within the `.tsqllintrc` file configures Compatability Level for just that file. Overrides should be placed at the top of files.
+Setting the compatability level using inline comments configures the Compatability Level for just that file. Overrides should be placed at the top of files.
 
 ```sql
 /* tsqllint-override: compatability-level = 130 */
