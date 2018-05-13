@@ -116,8 +116,11 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
 
 ## SQL Compatibility Level
 
-TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc`. TSQLLint supports the following compatibility levels  80, 90, 100, 110, 120, and 130.
+TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments withing the SQL file. TSQLLint supports the following compatibility levels  80, 90, 100, 110, 120, and 130. 
 
+### Setting Compatability Level Using `.tsqllintrc`
+
+Setting the compatability level within the `.tsqllintrc` file configures the default Compatability Level for all files.
 ```json
 {
     "rules": {
@@ -125,6 +128,16 @@ TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Ser
     },
     "compatability-level": 90
 }
+```
+
+### Setting Compatability Level Using Inline Comments
+
+Setting the compatability level within the `.tsqllintrc` file configures Compatability Level for just that file. Overrides should be placed at the top of files.
+
+```sql
+/* tsqllint-override: compatability-level = 130 */
+
+SELECT * FROM FOO;
 ```
 
 ## Disabling Rules with Inline Comments

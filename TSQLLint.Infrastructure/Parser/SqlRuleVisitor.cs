@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Configuration.Overrides;
 using TSQLLint.Infrastructure.Interfaces;
 using TSQLLint.Infrastructure.Rules.RuleExceptions;
 using TSQLLint.Infrastructure.Rules.RuleViolations;
@@ -19,6 +20,8 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly IReporter reporter;
 
+        private readonly OverrideFinder overrideFinder = new OverrideFinder();
+
         public SqlRuleVisitor(IRuleVisitorBuilder ruleVisitorBuilder, IFragmentBuilder fragmentBuilder, IReporter reporter)
         {
             this.fragmentBuilder = fragmentBuilder;
@@ -28,12 +31,15 @@ namespace TSQLLint.Infrastructure.Parser
 
         public void VisitRules(string sqlPath, IEnumerable<IRuleException> ignoredRules, Stream sqlFileStream)
         {
-            TextReader sqlTextReader = new StreamReader(sqlFileStream);
-            var sqlFragment = fragmentBuilder.GetFragment(sqlTextReader, out var errors);
+            var overrides = overrideFinder.GetOverrideList(sqlFileStream);
+            var sqlFragment = fragmentBuilder.GetFragment(
+                new StreamReader(sqlFileStream),
+                out var errors,
+                overrides);
             sqlFileStream.Seek(0, SeekOrigin.Begin);
 
             // notify user of syntax errors
-            if (errors.Any())
+            if (errors != null && errors.Any())
             {
                 HandleParserErrors(sqlPath, errors, ignoredRules);
             }
