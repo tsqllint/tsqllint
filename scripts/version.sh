@@ -2,7 +2,7 @@
 
 version=$1
 
-csprojFiles=( "./TSQLLint.Console/TSQLLint.Console.csproj" "./TSQLLint.Lib/TSQLLint.Lib.csproj" "./TSQLLint.Tests/TSQLLint.Tests.csproj")
+csprojFiles=( "./TSQLLint.Console/TSQLLint.Console.csproj" "./TSQLLint.Core/TSQLLint.Core.csproj" "./TSQLLint.Infrastructure/TSQLLint.Infrastructure.csproj" "./TSQLLint.Tests/TSQLLint.Tests.csproj")
 for i in "${csprojFiles[@]}"
 do
 	sed -E -i .bak "s/\<Version\>([0-9]+\.){2}[0-9]+\<\/Version\>/\<Version\>$version\<\/Version\>/g" $i
