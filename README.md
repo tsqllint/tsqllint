@@ -8,13 +8,13 @@
 
 # TSQLLint
 
-TSQLLint is a tool for describing, identifying, and reporting on undesirable patterns in TSQL scripts.
+TSQLLint is a tool for describing, identifying, and reporting the presence o anti-patterns in TSQL scripts.
 
 ## Installation
 
 The recommended method of installing tsqllint is to install the tool globally using NPM.
 
-This binary can be installed though [the `npm` registry](https://www.npmjs.com/). First, install [Node.js version 4 or higher](https://nodejs.org/en/download/), and then installation is done using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+This binary can be installed though [the `npm` registry](https://www.npmjs.com/). First, install [Node.js version 4 or higher](https://nodejs.org/en/download/), and then install using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ``` bash
 npm install tsqllint -g
@@ -33,7 +33,7 @@ tsqllint c:\database_scripts
 tsqllint file_one.sql file_two.sql "c:\database scripts"
 
 # lint using wild cards
-tsqllint c:\database_scripts\file*.sql
+tsqllint c:\database_scripts\sp_*.sql
 
 # print path to .tsqllintrc config file
 tsqllint --print-config
@@ -49,7 +49,7 @@ tsqllint --list-plugins
 
 ### Visual Studio Code Extension
 
-TSQLLint is built into a [Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=tsqllint.tsqllint). This extension can be installed from within the VS Code Extension Interface or from the VS Code Extension marketplace.
+In addition to the CLI tool, TSQLLint is built into a [Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=tsqllint.tsqllint). This extension can be installed from within the VS Code Extension Interface or from the VS Code Extension marketplace.
 
 ![Usage Example](documentation/usage-animation.gif?raw=true)
 
@@ -61,7 +61,7 @@ TSQLLint uses a common message format that allows for integration into off the s
 
 ## Configuration
 
-TSQLLint utilizes a configuration file called `.tsqllintrc`. This file can be generated and edited by users to create their own configurations. To generate this file use the `-i` or `--init` flags. If no `.tsqllintrc` is found the tool with use a default configuration loaded in memory.
+TSQLLint utilizes a configuration file called `.tsqllintrc`. This file can be generated and edited by users to create their own configurations. To generate this file use the `-i` or `--init` flags. If no `.tsqllintrc` is found the tool will use a default configuration loaded in memory.
 
 ```bash
 # generate a default .tsqllintrc file using the init flag (optional if just using a default configuration)
@@ -70,13 +70,13 @@ tsqllint --init
 
 ## Creating custom configurations
 
-You may configure TSQLLint by editing its config file `.tsqllintrc` you can find its location with the `--print-confg` or `-p` option.
+To configure TSQLLint edit its config file, which is named `.tsqllintrc`. To find its location run `tsqllint` with the `--print-confg` or `-p` option.
 
 TSQLLint will load its config file in the following order or precedence:
 
 1. The value passed with the `-c` command line argument, if one is passed
 2. An Environment Variable named `TSQLLINTRC`
-3. A file named `.tsqllintrc` in the same local directory in which you are executing TSQLLint
+3. A file named `.tsqllintrc` in the same local directory in which TSQLLint is executing
 4. A file named `.tsqllintrc` in the user's home directory
 
 ## Rule configuration
@@ -114,35 +114,9 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
 }
 ```
 
-## SQL Compatibility Level
-
-TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments withing the SQL file. TSQLLint supports the following compatibility levels  80, 90, 100, 110, 120, and 130. 
-
-### Setting Compatability Level Using `.tsqllintrc`
-
-Setting the compatability level within the `.tsqllintrc` file configures the default Compatability Level for all files.
-```json
-{
-    "rules": {
-        "upper-lower": "error"
-    },
-    "compatability-level": 90
-}
-```
-
-### Setting Compatability Level Using Inline Comments
-
-Setting the compatability level using inline comments configures the Compatability Level for just that file. Overrides should be placed at the top of files.
-
-```sql
-/* tsqllint-override: compatability-level = 130 */
-
-SELECT * FROM FOO;
-```
-
 ## Disabling Rules with Inline Comments
 
-To temporarily disable rule warnings in a script, use comments in the following format:
+To temporarily disable all rule warnings in a script, use comments in the following format:
 
 ```sql
 /* tsqllint-disable */
@@ -152,7 +126,7 @@ SELECT * FROM FOO;
 /* tsqllint-enable */
 ```
 
-You can also disable or enable warnings for specific rules:
+To disable or enable warnings for specific rules:
 
 ```sql
 /* tsqllint-disable select-star */
@@ -177,12 +151,37 @@ To disable specific rule warnings for the entire script place a comment similar 
 
 SELECT * FROM FOO;
 ```
+## SQL Compatibility Level
+
+TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments withing the SQL file. TSQLLint supports the following compatibility levels  80, 90, 100, 110, 120, 130, and 140. 
+
+### Setting a default Compatability Level using .tsqllintrc
+
+Setting the compatability level within the `.tsqllintrc` file configures the default Compatability Level for all files.
+```json
+{
+    "rules": {
+        "upper-lower": "error"
+    },
+    "compatability-level": 90
+}
+```
+
+### Setting Compatability Level Using Inline Comments
+
+Setting the compatability level using inline comments configures the Compatability Level for just that file. Overrides should be placed at the top of files.
+
+```sql
+/* tsqllint-override compatability-level = 130 */
+
+SELECT * FROM FOO;
+```
 
 ## Plugins
 
-You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from TSQLLint.Common.
+You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/).
 
-Once you complete your plugin, update your .tsqllintrc file to point to your assembly.
+After developing the plugin, update the .tsqllintrc file to point to its `.dll`.
 
 ```json
 {
