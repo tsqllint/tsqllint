@@ -1,3 +1,24 @@
+<a name="1.11.0"></a>
+## 1.11.0 (2018-05-14)
+
+* Add inline compatibility level overrides (#187) ([fad6e05](https://github.com/tsqllint/tsqllint/commit/fad6e05)), closes [#187](https://github.com/tsqllint/tsqllint/issues/187)
+* Add support for ignored rules within multi-line comment blocks (#170) ([b60e9bf](https://github.com/tsqllint/tsqllint/commit/b60e9bf)), closes [#170](https://github.com/tsqllint/tsqllint/issues/170)
+* Improvements to testing (#171) ([a9bc0b3](https://github.com/tsqllint/tsqllint/commit/a9bc0b3)), closes [#171](https://github.com/tsqllint/tsqllint/issues/171)
+* Print plugin version during load (#175) ([bca2aac](https://github.com/tsqllint/tsqllint/commit/bca2aac)), closes [#175](https://github.com/tsqllint/tsqllint/issues/175)
+* Refactor test directory structure (#169) ([2717b8a](https://github.com/tsqllint/tsqllint/commit/2717b8a)), closes [#169](https://github.com/tsqllint/tsqllint/issues/169)
+* Remove acceptance testing repo ([4d55ee2](https://github.com/tsqllint/tsqllint/commit/4d55ee2))
+* Remove external dependencies from TSQLLint.Core (#182) ([030cdd8](https://github.com/tsqllint/tsqllint/commit/030cdd8)), closes [#182](https://github.com/tsqllint/tsqllint/issues/182) [#174](https://github.com/tsqllint/tsqllint/issues/174) [#136](https://github.com/tsqllint/tsqllint/issues/136)
+* Update .tsqllintrc example in README ([be437b9](https://github.com/tsqllint/tsqllint/commit/be437b9))
+* Update changelog ([0bda1f9](https://github.com/tsqllint/tsqllint/commit/0bda1f9))
+* Update non-sargable rule to ignore functions in join queries with multiple predicates (#185) ([3cef1e4](https://github.com/tsqllint/tsqllint/commit/3cef1e4)), closes [#185](https://github.com/tsqllint/tsqllint/issues/185)
+* Update README.md ([0948cfe](https://github.com/tsqllint/tsqllint/commit/0948cfe))
+* Update release-it tag pattern ([9c51ea6](https://github.com/tsqllint/tsqllint/commit/9c51ea6))
+* Update test project to always copy test files to build dir (#183) ([d8d23df](https://github.com/tsqllint/tsqllint/commit/d8d23df)), closes [#183](https://github.com/tsqllint/tsqllint/issues/183)
+* Update to allow Compatability-Level 140 (#173) ([260568a](https://github.com/tsqllint/tsqllint/commit/260568a)), closes [#173](https://github.com/tsqllint/tsqllint/issues/173)
+* Update version and release tooling (#186) ([37c1d08](https://github.com/tsqllint/tsqllint/commit/37c1d08)), closes [#186](https://github.com/tsqllint/tsqllint/issues/186)
+
+
+
 <a name="1.10.1"></a>
 ## <small>1.10.1 (2018-04-14)</small>
 
