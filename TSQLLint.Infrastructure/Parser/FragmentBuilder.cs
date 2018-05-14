@@ -52,23 +52,21 @@ namespace TSQLLint.Infrastructure.Parser
         private static TSqlParser GetSqlParser(int compatabilityLevel)
         {
             compatabilityLevel = CompatabilityLevel.Validate(compatabilityLevel);
-
             var fullyQualifiedName = string.Format("Microsoft.SqlServer.TransactSql.ScriptDom.TSql{0}Parser", compatabilityLevel);
-            var type = Type.GetType(fullyQualifiedName);
 
-            TSqlParser parser = new TSql120Parser(true);
+            TSqlParser parser = null;
 
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                type = asm.GetType(fullyQualifiedName);
-                if (type != null)
+                var parserType = asm.GetType(fullyQualifiedName);
+                if (parserType != null)
                 {
-                    parser = (TSqlParser)Activator.CreateInstance(type, new object[] { true });
+                    parser = (TSqlParser)Activator.CreateInstance(parserType, new object[] { true });
                     break;
                 }
             }
 
-            return parser;
+            return parser ?? new TSql120Parser(true);
         }
     }
 }
