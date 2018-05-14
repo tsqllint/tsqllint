@@ -16,21 +16,21 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
             new object[]
             {
                 "valid compatability-level override",
-                @"/* tsqllint-override: compatability-level = 130 */",
+                @"/* tsqllint-override compatability-level = 130 */",
                 new List<IOverride> { new OverrideCompatabilityLevel("130") }
             },
             new object[]
             {
                 "valid compatability-level override and unsupported 'foo' override",
-                @"/* tsqllint-override: compatability-level = 90, foo = bar */",
+                @"/* tsqllint-override compatability-level = 90, foo = bar */",
                 new List<IOverride> { new OverrideCompatabilityLevel("90") }
             },
             new object[]
             {
                 "valid compatability-level override within multiline comment block",
                 @"/* 
-                   tsqllint-disable: select-star
-                   tsqllint-override: compatability-level = 80 
+                   tsqllint-disable select-star
+                   tsqllint-override compatability-level = 80 
                 */",
                 new List<IOverride> { new OverrideCompatabilityLevel("80") }
             },
@@ -38,8 +38,8 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
             {
                 "valid compatability-level and unsupported override override within multiline comment block",
                 @"/* 
-                   tsqllint-disable: select-star
-                   tsqllint-override: compatability-level = 80, foo = bar 
+                   tsqllint-disable select-star
+                   tsqllint-override compatability-level = 80, foo = bar 
                 */",
                 new List<IOverride> { new OverrideCompatabilityLevel("80") }
             }

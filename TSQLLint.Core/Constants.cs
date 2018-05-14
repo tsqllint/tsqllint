@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace TSQLLint.Core
 {
     public static class Constants

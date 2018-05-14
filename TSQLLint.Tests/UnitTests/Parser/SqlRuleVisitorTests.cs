@@ -59,7 +59,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             var mockFragmentBuilder = Substitute.For<IFragmentBuilder>();
             IList<ParseError> mockErrors = new List<ParseError>();
-            mockFragmentBuilder.GetFragment(Arg.Any<TextReader>(), out var errors).Returns(x =>
+            mockFragmentBuilder.GetFragment(Arg.Any<TextReader>(), out var errors, Arg.Any<IEnumerable<IOverride>>()).Returns(x =>
             {
                 x[1] = mockErrors;
                 return mockFragment;

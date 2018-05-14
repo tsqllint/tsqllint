@@ -11,7 +11,7 @@ namespace TSQLLint.Infrastructure.Configuration.Overrides
     {
         public IEnumerable<IOverride> GetOverrideList(Stream fileStream)
         {
-            const string pattern = @".*?tsqllint-override: ?(.* += +.*)+.*";
+            const string pattern = @".*?tsqllint-override ?(.* += +.*)+.*";
             var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
             var overrideList = new List<IOverride>();
