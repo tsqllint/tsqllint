@@ -39,7 +39,7 @@ namespace TSQLLint.Infrastructure.Parser
             sqlFileStream.Seek(0, SeekOrigin.Begin);
 
             // notify user of syntax errors
-            if (errors != null && errors.Any())
+            if (errors.Any())
             {
                 HandleParserErrors(sqlPath, errors, ignoredRules);
             }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
@@ -27,17 +26,23 @@ namespace TSQLLint.Infrastructure.Parser
         {
             TSqlFragment fragment;
 
+            OverrideCompatabilityLevel compatibilityLevel = null;
             if (overrides != null)
             {
                 foreach (var lintingOverride in overrides)
                 {
                     if (lintingOverride is OverrideCompatabilityLevel overrideCompatability)
                     {
-                        var tempParser = GetSqlParser(overrideCompatability.CompatabilityLevel);
-                        fragment = tempParser.Parse(txtRdr, out errors);
-                        return fragment?.FirstTokenIndex != -1 ? fragment : null;
+                        compatibilityLevel = overrideCompatability;
                     }
                 }
+            }
+
+            if (compatibilityLevel != null )
+            {
+                var tempParser = GetSqlParser(compatibilityLevel.CompatabilityLevel);
+                fragment = tempParser.Parse(txtRdr, out errors);
+                return fragment?.FirstTokenIndex != -1 ? fragment : null;
             }
 
             fragment = parser.Parse(txtRdr, out errors);
