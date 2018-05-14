@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLint.Infrastructure.Parser

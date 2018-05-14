@@ -45,8 +45,37 @@ namespace TSQLLint.Infrastructure.Parser
             var ruleVisitors = ruleVisitorBuilder.BuildVisitors(sqlPath, ruleExceptions);
             foreach (var visitor in ruleVisitors)
             {
-                sqlFragment?.Accept(visitor);
+                VisitFragment(sqlFragment, visitor, overrides);
             }
+        }
+
+        private void VisitFragment(TSqlFragment sqlFragment, TSqlFragmentVisitor visitor, IEnumerable<IOverride> overrides)
+        {
+            sqlFragment?.Accept(visitor);
+
+            if (!VisitorIsBlackListedForDynamicSql(visitor))
+            {
+                var dynamicSqlVisitor = new DynamicSQLParser(DynamicSqlCallback);
+                sqlFragment?.Accept(dynamicSqlVisitor);
+            }
+
+            void DynamicSqlCallback(string dynamicSQL)
+            {
+                var dynamicSqlStream = ParsingUtility.GenerateStreamFromString(dynamicSQL);
+                var dynamicFragment = fragmentBuilder.GetFragment(GetSqlTextReader(dynamicSqlStream), out var errors, overrides);
+                dynamicFragment?.Accept(visitor);
+            }
+        }
+
+        private static bool VisitorIsBlackListedForDynamicSql(TSqlFragmentVisitor visitor)
+        {
+            return new List<string>
+            {
+                "SetAnsiNullsRule",
+                "SetNoCountRule",
+                "SetQuotedIdentifierRule",
+                "SetTransactionIsolationLevelRule"
+            }.Any(x => visitor.GetType().ToString().Contains(x));
         }
 
         private static StreamReader GetSqlTextReader(Stream sqlFileStream)
