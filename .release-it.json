@@ -1,4 +1,7 @@
 {
+  "src": {
+    "tagName": "v%s"
+  },
   "increment": "conventional:angular",
   "beforeChangelogCommand": "scripts/version.sh ${version} && conventional-changelog -i CHANGELOG.md -s" ,
   "changelogCommand": "conventional-changelog -p angular | tail -n +3",
