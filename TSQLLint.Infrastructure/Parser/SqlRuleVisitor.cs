@@ -32,33 +32,38 @@ namespace TSQLLint.Infrastructure.Parser
         public void VisitRules(string sqlPath, IEnumerable<IRuleException> ignoredRules, Stream sqlFileStream)
         {
             var overrides = overrideFinder.GetOverrideList(sqlFileStream);
-            var sqlFragment = fragmentBuilder.GetFragment(
-                new StreamReader(sqlFileStream),
-                out var errors,
-                overrides);
-            sqlFileStream.Seek(0, SeekOrigin.Begin);
-
+            var sqlFragment = fragmentBuilder.GetFragment(GetSqlTextReader(sqlFileStream), out var errors, overrides);
+            
             // notify user of syntax errors
+            var ruleExceptions = ignoredRules as IRuleException[] ?? ignoredRules.ToArray();
             if (errors.Any())
             {
-                HandleParserErrors(sqlPath, errors, ignoredRules);
+                HandleParserErrors(sqlPath, errors, ruleExceptions);
             }
 
             // lint what can be linted, even if there are errors
-            var ruleVisitors = ruleVisitorBuilder.BuildVisitors(sqlPath, ignoredRules);
+            var ruleVisitors = ruleVisitorBuilder.BuildVisitors(sqlPath, ruleExceptions);
             foreach (var visitor in ruleVisitors)
             {
                 sqlFragment?.Accept(visitor);
             }
         }
 
+        private static StreamReader GetSqlTextReader(Stream sqlFileStream)
+        {
+            var sqlText = new StreamReader(sqlFileStream);
+            sqlFileStream.Seek(0, SeekOrigin.Begin);
+            return sqlText;
+        }
+
         private void HandleParserErrors(string sqlPath, IEnumerable<ParseError> errors, IEnumerable<IRuleException> ignoredRules)
         {
             var updatedExitCode = false;
+            var ruleExceptions = ignoredRules as IRuleException[] ?? ignoredRules.ToArray();
 
             foreach (var error in errors)
             {
-                var globalRulesOnLine = ignoredRules.OfType<GlobalRuleException>().Where(
+                var globalRulesOnLine = ruleExceptions.OfType<GlobalRuleException>().Where(
                     x => error.Line >= x.StartLine
                     && error.Line <= x.EndLine);
 

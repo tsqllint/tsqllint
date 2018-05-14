@@ -37,7 +37,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             };
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
-            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<IEnumerable<IRuleException>>()).Returns(visitors);
             var sqlStream = ParsingUtility.GenerateStreamFromString("select");
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, fragmentBuilder, mockReporter);
 
@@ -74,7 +74,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             };
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
-            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<IEnumerable<IRuleException>>()).Returns(visitors);
 
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, mockFragmentBuilder, mockReporter);
 
@@ -100,7 +100,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 new SetAnsiNullsRule(null)
             };
 
-            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<IEnumerable<IRuleException>>()).Returns(visitors);
 
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(120), mockReporter);
 
@@ -125,7 +125,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             };
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
-            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<IEnumerable<IRuleException>>()).Returns(visitors);
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(120), mockReporter);
 
             // act
@@ -149,7 +149,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             };
 
             var mockRuleVisitorBuilder = Substitute.For<IRuleVisitorBuilder>();
-            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<List<IRuleException>>()).Returns(visitors);
+            mockRuleVisitorBuilder.BuildVisitors(Arg.Any<string>(), Arg.Any<IEnumerable<IRuleException>>()).Returns(visitors);
 
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, new FragmentBuilder(120), mockReporter);
 
