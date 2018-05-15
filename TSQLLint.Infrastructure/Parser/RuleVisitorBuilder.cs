@@ -30,6 +30,7 @@ namespace TSQLLint.Infrastructure.Parser
             }
 
             var configuredVisitors = new List<TSqlFragmentVisitor>();
+
             foreach (var visitor in RuleVisitorFriendlyNameTypeMap.List)
             {
                 var visitorInstance = (ISqlRule)Activator.CreateInstance(

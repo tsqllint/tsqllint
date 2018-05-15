@@ -158,7 +158,7 @@ namespace TSQLLint.Infrastructure.Configuration
                         continue;
                     }
 
-                    this.configuredRules.Add(prop.Name, severity);
+                    configuredRules.Add(prop.Name, severity);
                 }
             }
         }

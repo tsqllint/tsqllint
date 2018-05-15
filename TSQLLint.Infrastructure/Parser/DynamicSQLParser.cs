@@ -85,11 +85,11 @@ namespace TSQLLint.Infrastructure.Parser
         {
             if (node.Expression is StringLiteral strLiteral)
             {
-                VariableValues.Add(node.Variable.Name, strLiteral.Value);
+                VariableValues[node.Variable.Name] = strLiteral.Value;
             }
             else if (node.Expression is IntegerLiteral intLiteral)
             {
-                VariableValues.Add(node.Variable.Name, intLiteral.Value);
+                VariableValues[node.Variable.Name] = intLiteral.Value;
             }
             else if (node.Expression is BinaryExpression binaryExpression)
             {

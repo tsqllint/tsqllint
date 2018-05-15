@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
@@ -32,7 +33,9 @@ namespace TSQLLint.Infrastructure.Parser
         public void VisitRules(string sqlPath, IEnumerable<IRuleException> ignoredRules, Stream sqlFileStream)
         {
             var overrides = overrideFinder.GetOverrideList(sqlFileStream);
-            var sqlFragment = fragmentBuilder.GetFragment(GetSqlTextReader(sqlFileStream), out var errors, overrides);
+            var overrideArray = overrides as IOverride[] ?? overrides.ToArray();
+
+            var sqlFragment = fragmentBuilder.GetFragment(GetSqlTextReader(sqlFileStream), out var errors, overrideArray);
             
             // notify user of syntax errors
             var ruleExceptions = ignoredRules as IRuleException[] ?? ignoredRules.ToArray();
@@ -45,7 +48,7 @@ namespace TSQLLint.Infrastructure.Parser
             var ruleVisitors = ruleVisitorBuilder.BuildVisitors(sqlPath, ruleExceptions);
             foreach (var visitor in ruleVisitors)
             {
-                VisitFragment(sqlFragment, visitor, overrides);
+                VisitFragment(sqlFragment, visitor, overrideArray);
             }
         }
 
@@ -69,6 +72,11 @@ namespace TSQLLint.Infrastructure.Parser
 
         private static bool VisitorIsBlackListedForDynamicSql(TSqlFragmentVisitor visitor)
         {
+            if (visitor == null)
+            {
+                return false;
+            }
+            
             return new List<string>
             {
                 "SetAnsiNullsRule",
