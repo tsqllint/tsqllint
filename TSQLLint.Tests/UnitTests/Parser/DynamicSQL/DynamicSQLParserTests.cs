@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Parser;
@@ -6,7 +6,7 @@ using TSQLLint.Infrastructure.Parser;
 namespace TSQLLint.Tests.UnitTests.Parser
 {
     [TestFixture]
-    public class DynamicSQLParser_Tests
+    public class DynamicSQLParserTests
     {
         private const bool ShouldCallBack = true;
         private const bool ShouldNotCallback = false;

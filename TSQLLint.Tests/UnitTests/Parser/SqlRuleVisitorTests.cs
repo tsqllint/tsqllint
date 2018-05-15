@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NSubstitute;
 using NUnit.Framework;
