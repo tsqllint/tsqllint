@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
@@ -8,22 +7,24 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class ObjectPropertyRuleTests
     {
+        private const string RuleName = "object-property";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "object-property", "object-property-no-error",  typeof(ObjectPropertyRule), new List<RuleViolation>()
+                "object-property-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "object-property", "object-property-one-error", typeof(ObjectPropertyRule), new List<RuleViolation>
+                "object-property-one-error", new List<RuleViolation>
                 {
                     new RuleViolation("object-property", 3, 7)
                 }
             },
             new object[]
             {
-                "object-property", "object-property-two-errors", typeof(ObjectPropertyRule), new List<RuleViolation>
+                "object-property-two-errors", new List<RuleViolation>
                 {
                     new RuleViolation("object-property", 3, 7),
                     new RuleViolation("object-property", 8, 7)
@@ -31,18 +32,47 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             },
             new object[]
             {
-                "object-property", "object-property-one-error-mixed-state", typeof(ObjectPropertyRule), new List<RuleViolation>
+                "object-property-one-error-mixed-state", new List<RuleViolation>
                 {
                     new RuleViolation("object-property", 5, 7)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('SELECT name, object_id, type_desc FROM sys.objects WHERE OBJECTPROPERTY(object_id, N''SchemaId'') = SCHEMA_ID(N''Production'') ORDER BY type_desc, name;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 64),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    SELECT name, object_id, type_desc  
+                    FROM sys.objects   
+                    WHERE OBJECTPROPERTY(object_id, N''SchemaId'') = SCHEMA_ID(N''Production'')  
+                    ORDER BY type_desc, name;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 4, 27),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(ObjectPropertyRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(ObjectPropertyRule), sql, expectedVioalations);
         }
     }
 }
