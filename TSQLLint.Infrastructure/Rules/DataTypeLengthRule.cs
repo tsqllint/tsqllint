@@ -39,8 +39,15 @@ namespace TSQLLint.Infrastructure.Rules
         {
             if (typesThatRequireLength.Any(option => Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1))
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + node.FragmentLength);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? (node.StartColumn + node.FragmentLength + DynamicSqlStartColumn)
+                : (node.StartColumn + node.FragmentLength);
         }
     }
 }
