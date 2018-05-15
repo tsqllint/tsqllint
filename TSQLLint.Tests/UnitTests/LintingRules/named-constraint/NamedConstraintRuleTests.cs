@@ -8,37 +8,69 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class NamedConstraintRuleTests
     {
+        private const string RuleName = "named-constraint";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "named-constraint", "named-constraint-no-error",  typeof(NamedContraintRule), new List<RuleViolation>()
+                "named-constraint-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "named-constraint", "named-constraint-one-error",  typeof(NamedContraintRule), new List<RuleViolation>
+                "named-constraint-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation("named-constraint", 7, 1)
+                    new RuleViolation(RuleName, 7, 1)
                 }
             },
             new object[]
             {
-                "named-constraint", "named-constraint-multi-error",  typeof(NamedContraintRule), new List<RuleViolation>
+                "named-constraint-multi-error", new List<RuleViolation>
                 {
-                    new RuleViolation("named-constraint", 9, 1),
-                    new RuleViolation("named-constraint", 16, 1),
-                    new RuleViolation("named-constraint", 23, 1),
-                    new RuleViolation("named-constraint", 30, 1),
-                    new RuleViolation("named-constraint", 39, 1)
+                    new RuleViolation(RuleName, 9, 1),
+                    new RuleViolation(RuleName, 16, 1),
+                    new RuleViolation(RuleName, 23, 1),
+                    new RuleViolation(RuleName, 30, 1),
+                    new RuleViolation(RuleName, 39, 1)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('CREATE TABLE #MyTable (ID UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, VALUE INT NOT NULL, ModifiedDate DATETIME NOT NULL CONSTRAINT DF_ModifiedDate DEFAULT GETDATE()) WITH(DATA_COMPRESSION = ROW);');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 7),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                CREATE TABLE #MyTable (
+                  ID UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+                  VALUE INT NOT NULL,
+                  ModifiedDate DATETIME NOT NULL CONSTRAINT DF_ModifiedDate DEFAULT GETDATE()
+                ) WITH(DATA_COMPRESSION = ROW);');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 17),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(NamedContraintRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(NamedContraintRule), sql, expectedVioalations);
         }
     }
 }

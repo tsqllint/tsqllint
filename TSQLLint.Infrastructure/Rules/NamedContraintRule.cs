@@ -34,7 +34,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (constraintVisitor.NamedConstraintExists)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
         }
 
@@ -55,6 +55,13 @@ namespace TSQLLint.Infrastructure.Rules
 
                 NamedConstraintExists = node.ConstraintIdentifier != null;
             }
+        }
+        
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
     }
 }
