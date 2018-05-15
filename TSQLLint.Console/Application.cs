@@ -68,14 +68,6 @@ namespace TSQLLint.Console
             {
                 Environment.ExitCode = 1;
             }
-
-            Task.Run(() =>
-            {
-                while (NonBlockingConsole.messageQueue.Count > 0)
-                {
-                    Thread.Sleep(1);
-                }
-            }).Wait();
         }
     }
 }
