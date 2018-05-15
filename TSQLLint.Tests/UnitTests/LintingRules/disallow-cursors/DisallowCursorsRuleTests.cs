@@ -8,22 +8,24 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class DisallowCursorsRuleTests
     {
+        private const string RuleName = "disallow-cursors";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "disallow-cursors", "disallow-cursors-no-error",  typeof(DisallowCursorRule), new List<RuleViolation>()
+                "disallow-cursors-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "disallow-cursors", "disallow-cursors-one-error", typeof(DisallowCursorRule), new List<RuleViolation>
+                "disallow-cursors-one-error", new List<RuleViolation>
                 {
                     new RuleViolation("disallow-cursors", 3, 1)
                 }
             },
             new object[]
             {
-                "disallow-cursors", "disallow-cursors-two-errors", typeof(DisallowCursorRule), new List<RuleViolation>
+                "disallow-cursors-two-errors", new List<RuleViolation>
                 {
                     new RuleViolation("disallow-cursors", 3, 1),
                     new RuleViolation("disallow-cursors", 4, 1)
@@ -31,18 +33,44 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             },
             new object[]
             {
-                "disallow-cursors", "disallow-cursors-one-error-mixed-state", typeof(DisallowCursorRule), new List<RuleViolation>
+                "disallow-cursors-one-error-mixed-state", new List<RuleViolation>
                 {
                     new RuleViolation("disallow-cursors", 4, 1)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('OPEN some_cursor;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 7),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    OPEN some_cursor;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 21),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(DisallowCursorRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(DisallowCursorRule), sql, expectedVioalations);
         }
     }
 }
