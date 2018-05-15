@@ -31,6 +31,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Data type length not specified";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(SqlDataTypeReference node)
         {
             if (typesThatRequireLength.Any(option => Equals(option, node.SqlDataTypeOption) && node.Parameters.Count < 1))

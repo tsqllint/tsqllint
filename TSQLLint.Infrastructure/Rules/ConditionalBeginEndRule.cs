@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected BEGIN and END statement within conditional logic block";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(IfStatement node)
         {
             var childBeginEndVisitor = new ChildBeginEndVisitor();

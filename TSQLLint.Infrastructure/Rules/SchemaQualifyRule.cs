@@ -25,6 +25,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Object name not schema qualified";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(TSqlStatement node)
         {
             var childAliasVisitor = new ChildAliasVisitor();

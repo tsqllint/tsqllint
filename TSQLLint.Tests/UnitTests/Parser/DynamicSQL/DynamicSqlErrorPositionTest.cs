@@ -23,7 +23,24 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 @"EXEC('SELECT 1');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation("semicolon-termination", 1, 9),
+                    new RuleViolation("semicolon-termination", 1, 15),
+                }
+            },
+            new object[]
+            {
+                @"EXECUTE('SELECT 1');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation("semicolon-termination", 1, 18),
+                }
+            },
+            new object[]
+            {
+                @"EXECUTE('SELECT 1')", // inner and outer statements missing semicolon
+                new List<RuleViolation>
+                {
+                    new RuleViolation("semicolon-termination", 1, 18),
+                    new RuleViolation("semicolon-termination", 1, 20),
                 }
             }
         };
@@ -35,16 +52,14 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleViolations = new List<RuleViolation>();
             var mockReporter = Substitute.For<IReporter>();
             var mockPath = string.Empty;
-            var mockIgnoredRules = new List<IRuleException>();
+            var compareer = new RuleViolationComparer();
+            var fragmentBuilder = new FragmentBuilder();
+            var sqlStream = ParsingUtility.GenerateStreamFromString(sql);
 
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
             {
                 ruleViolations.Add(new RuleViolation(ruleName, startLine, startColumn));
             }
-
-            var compareer = new RuleExceptionComparer();
-            var fragmentBuilder = new FragmentBuilder();
-            var sqlStream = ParsingUtility.GenerateStreamFromString(sql);
 
             var visitors = new List<TSqlFragmentVisitor>
             {
@@ -57,14 +72,13 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var sqlRuleVisitor = new SqlRuleVisitor(mockRuleVisitorBuilder, fragmentBuilder, mockReporter);
 
             // act
-            sqlRuleVisitor.VisitRules(mockPath, mockIgnoredRules, sqlStream);
+            sqlRuleVisitor.VisitRules(mockPath, new List<IRuleException>(), sqlStream);
 
-            ruleViolations = ruleViolations.OrderBy(o => o.Line).ToList();
-            expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
+            ruleViolations = ruleViolations.OrderBy(o => o.Line).ThenBy(o => o.Column).ToList();
+            expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.Column).ToList();
 
             // assert
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
-            Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
         }
     }
 }

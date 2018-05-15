@@ -33,6 +33,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Statement not terminated with semicolon";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(WaitForStatement node)
         {
             waitForStatements.Add(node.Statement);
@@ -50,7 +52,7 @@ namespace TSQLLint.Infrastructure.Rules
             var lastToken = node.ScriptTokenStream[node.LastTokenIndex];
             var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(lastToken.Line, node.LastTokenIndex, node.ScriptTokenStream);
             var column = ColumnNumberCalculator.GetColumnNumberAfterToken(tabsOnLine, lastToken);
-            errorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column);
+            errorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column + DynamicSqlOffset);
         }
 
         private static bool EndsWithSemicolon(TSqlFragment node)

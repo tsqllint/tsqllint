@@ -19,6 +19,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Cross database inserts or updates enclosed in a transaction can lead to data corruption";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(TSqlBatch node)
         {
             var childTransactionVisitor = new ChildTransactionVisitor();

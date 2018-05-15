@@ -20,6 +20,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected TSQL Keyword to be capitalized";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(TSqlScript node)
         {
             var typesToUpcase = Constants.TSqlKeywords.Concat(Constants.TSqlDataTypes).ToArray();

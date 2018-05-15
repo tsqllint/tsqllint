@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(SchemaObjectName node)
         {
             var schemaIdentifier = node.SchemaIdentifier?.Value != null;

@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Full text predicate found, this can cause performance problems";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(FullTextPredicate node)
         {
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);

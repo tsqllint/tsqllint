@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected use of SYS.COLUMNS rather than ObjectProperty function";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(FunctionCall node)
         {
             if (node.FunctionName.Value.Equals("OBJECTPROPERTY", StringComparison.OrdinalIgnoreCase))

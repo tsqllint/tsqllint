@@ -19,6 +19,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected column names in SELECT";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(ExistsPredicate node)
         {
             // count select star expressions in predicate

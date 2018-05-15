@@ -61,8 +61,9 @@ namespace TSQLLint.Infrastructure.Parser
                 sqlFragment?.Accept(dynamicSqlVisitor);
             }
 
-            void DynamicSqlCallback(string dynamicSQL)
+            void DynamicSqlCallback(string dynamicSQL, int DynamicSqlStartColumn)
             {
+                ((ISqlRule)visitor).DynamicSqlOffset = DynamicSqlStartColumn;
                 var dynamicSqlStream = ParsingUtility.GenerateStreamFromString(dynamicSQL);
                 var dynamicFragment = fragmentBuilder.GetFragment(GetSqlTextReader(dynamicSqlStream), out var errors, overrides);
                 dynamicFragment?.Accept(visitor);

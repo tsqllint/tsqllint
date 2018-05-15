@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected variable to be set using SELECT statement";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(SetVariableStatement node)
         {
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);

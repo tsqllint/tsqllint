@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "PRINT statement found";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(PrintStatement node)
         {
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);

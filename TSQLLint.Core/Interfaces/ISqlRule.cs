@@ -5,5 +5,7 @@ namespace TSQLLint.Core.Interfaces
         string RULE_NAME { get; }
 
         string RULE_TEXT { get; }
+
+        int DynamicSqlOffset { get; set; }
     }
 }

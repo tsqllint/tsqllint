@@ -6,11 +6,13 @@ namespace TSQLLint.Infrastructure.Parser
 {
     public class DynamicSQLParser : TSqlFragmentVisitor
     {
-        private readonly Action<string> callback;
+        private readonly Action<string, int> callback;
         private string executableSql = string.Empty;
         private Dictionary<string, string> VariableValues = new Dictionary<string, string>();
 
-        public DynamicSQLParser(Action<string> callback)
+        public int DynamicSQLColumnNumberStart { get; private set; }
+
+        public DynamicSQLParser(Action<string, int> callback)
         {
             this.callback = callback;
         }
@@ -24,6 +26,8 @@ namespace TSQLLint.Infrastructure.Parser
 
         public override void Visit(ExecuteStatement node)
         {
+            DynamicSQLColumnNumberStart = node.ExecuteSpecification.ExecutableEntity.StartColumn;
+
             var visitor = new VariableVisitor();
             node.Accept(visitor);
 
@@ -58,7 +62,7 @@ namespace TSQLLint.Infrastructure.Parser
             executableSql += value;
             if (counter == executableCount)
             {
-                callback(executableSql);
+                callback(executableSql, DynamicSQLColumnNumberStart);
             }
         }
 
@@ -67,7 +71,7 @@ namespace TSQLLint.Infrastructure.Parser
             executableSql += literal.Value;
             if (counter == executableCount)
             {
-                callback(executableSql);
+                callback(executableSql, DynamicSQLColumnNumberStart);
             }
         }
     }

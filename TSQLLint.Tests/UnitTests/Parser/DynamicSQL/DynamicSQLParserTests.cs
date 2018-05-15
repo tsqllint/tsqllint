@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Parser;
@@ -144,7 +144,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var stream = ParsingUtility.GenerateStreamFromString(executeStatement);
 
             var receivedCallback = false;
-            void DynamicCallback(string dynamicSQL)
+            void DynamicCallback(string dynamicSQL, int dynamicStartColumn)
             {
                 Assert.AreEqual(innerSql, dynamicSQL);
                 receivedCallback = true;
@@ -172,7 +172,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         {
             var stream = ParsingUtility.GenerateStreamFromString(testString);
 
-            void DynamicCallback(string dynamicSQL)
+            void DynamicCallback(string dynamicSQL, int dynamicStartColumn)
             {
                 Assert.Fail("should not perform callback");
             }

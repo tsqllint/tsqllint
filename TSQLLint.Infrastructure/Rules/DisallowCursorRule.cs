@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Found use of CURSOR statement";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(CursorStatement node)
         {
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);

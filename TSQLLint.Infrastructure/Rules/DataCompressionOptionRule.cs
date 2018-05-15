@@ -17,6 +17,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected table to use data compression";
 
+        public int DynamicSqlOffset { get; set; }
+
         public override void Visit(CreateTableStatement node)
         {
             var childCompressionVisitor = new ChildCompressionVisitor();
