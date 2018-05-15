@@ -54,8 +54,12 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
+            var dynamicSqlColumnAdjustment = childNode.StartLine == DynamicSqlStartLine
+                ? DynamicSqlStartColumn
+                : 0;
+
             errorsReported.Add(childNode);
-            errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode));
+            errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode) + dynamicSqlColumnAdjustment);
         }
 
         private class JoinQueryVisitor : TSqlFragmentVisitor
