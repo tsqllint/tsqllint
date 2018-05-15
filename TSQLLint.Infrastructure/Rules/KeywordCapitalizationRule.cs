@@ -22,6 +22,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public int DynamicSqlStartColumn { get; set; }
 
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(TSqlScript node)
         {
             var typesToUpcase = Constants.TSqlKeywords.Concat(Constants.TSqlDataTypes).ToArray();

@@ -7,5 +7,7 @@ namespace TSQLLint.Core.Interfaces
         string RULE_TEXT { get; }
 
         int DynamicSqlStartColumn { get; set; }
+
+        int DynamicSqlStartLine { get; set; }
     }
 }

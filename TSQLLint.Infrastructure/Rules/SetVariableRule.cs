@@ -19,6 +19,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public int DynamicSqlStartColumn { get; set; }
 
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(SetVariableStatement node)
         {
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);

@@ -21,6 +21,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public int DynamicSqlStartColumn { get; set; }
 
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(ExistsPredicate node)
         {
             // count select star expressions in predicate

@@ -35,6 +35,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public int DynamicSqlStartColumn { get; set; }
 
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(WaitForStatement node)
         {
             waitForStatements.Add(node.Statement);

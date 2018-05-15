@@ -23,6 +23,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public int DynamicSqlStartColumn { get; set; }
 
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(TSqlStatement node)
         {
             var childCommonTableExpressionVisitor = new ChildCommonTableExpressionVisitor();

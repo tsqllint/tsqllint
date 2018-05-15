@@ -19,6 +19,8 @@ namespace TSQLLint.Infrastructure.Rules
 
         public int DynamicSqlStartColumn { get; set; }
 
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(NamedTableReference node)
         {
             if (node.SchemaObject.ServerIdentifier == null)
