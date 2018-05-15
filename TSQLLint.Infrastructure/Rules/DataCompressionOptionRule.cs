@@ -26,7 +26,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (!childCompressionVisitor.CompressionOptionExists)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlOffset);
             }
         }
 
