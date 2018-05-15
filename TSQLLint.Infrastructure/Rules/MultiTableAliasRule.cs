@@ -36,9 +36,10 @@ namespace TSQLLint.Infrastructure.Rules
         {
             void ChildCallback(TSqlFragment childNode)
             {
+                var dynamicSqlAdjustment = AdjustColumnForDymamicSQL(childNode);
                 var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(childNode.StartLine, childNode.LastTokenIndex, childNode.ScriptTokenStream);
                 var column = ColumnNumberCalculator.GetColumnNumberBeforeToken(tabsOnLine, childNode.ScriptTokenStream[childNode.FirstTokenIndex]);
-                errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column);
+                errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, column + dynamicSqlAdjustment);
             }
 
             var childTableJoinVisitor = new ChildTableJoinVisitor();
@@ -51,6 +52,13 @@ namespace TSQLLint.Infrastructure.Rules
 
             var childTableAliasVisitor = new ChildTableAliasVisitor(ChildCallback, cteNames);
             node.AcceptChildren(childTableAliasVisitor);
+        }
+
+        private int AdjustColumnForDymamicSQL(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? DynamicSqlStartColumn
+                : 0;
         }
 
         public class ChildCommonTableExpressionVisitor : TSqlFragmentVisitor
