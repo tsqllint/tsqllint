@@ -28,8 +28,15 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (!childCompressionVisitor.CompressionOptionExists)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlStartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
 
         private class ChildCompressionVisitor : TSqlFragmentVisitor

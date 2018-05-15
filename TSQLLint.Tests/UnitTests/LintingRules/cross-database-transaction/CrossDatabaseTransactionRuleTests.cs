@@ -71,6 +71,18 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 1, 7),
                 }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    BEGIN TRANSACTION;
+                        UPDATE DB1.dbo.Table1 SET Value = 1;
+                        UPDATE DB2.dbo.Table2 SET Value = 1;
+                    COMMIT TRANSACTION;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 21),
+                }
             }
         };
 

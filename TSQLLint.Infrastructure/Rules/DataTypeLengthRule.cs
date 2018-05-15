@@ -46,8 +46,8 @@ namespace TSQLLint.Infrastructure.Rules
         private int GetColumnNumber(TSqlFragment node)
         {
             return node.StartLine == DynamicSqlStartLine
-                ? (node.StartColumn + node.FragmentLength + DynamicSqlStartColumn)
-                : (node.StartColumn + node.FragmentLength);
+                ? node.StartColumn + node.FragmentLength + DynamicSqlStartColumn
+                : node.StartColumn + node.FragmentLength;
         }
     }
 }

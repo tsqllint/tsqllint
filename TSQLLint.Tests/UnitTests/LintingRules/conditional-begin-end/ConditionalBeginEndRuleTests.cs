@@ -58,6 +58,25 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 1, 11),
                 }
+            },
+            new object[]
+            {
+                @"EXEC('SELECT 1
+                    IF(1 = 1)
+                        SELECT 2;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 21),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('SELECT 1; IF(1 = 1)
+                        SELECT 2;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 17),
+                }
             }
         };
 

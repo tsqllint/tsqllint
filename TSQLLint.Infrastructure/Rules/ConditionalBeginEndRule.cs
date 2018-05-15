@@ -31,7 +31,7 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlStartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
         }
 
         public class ChildBeginEndVisitor : TSqlFragmentVisitor
@@ -46,6 +46,13 @@ namespace TSQLLint.Infrastructure.Rules
             {
                 BeginEndBlockFound = true;
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
     }
 }

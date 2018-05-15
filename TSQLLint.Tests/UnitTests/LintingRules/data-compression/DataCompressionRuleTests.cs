@@ -50,6 +50,17 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 1, 10),
                 }
+            },
+            new object[]
+            {
+                @"EXECUTE('
+                    CREATE TABLE MyTable 
+	                    (ID INT, 
+	                Name nvarchar(50))');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 21),
+                }
             }
         };
 
