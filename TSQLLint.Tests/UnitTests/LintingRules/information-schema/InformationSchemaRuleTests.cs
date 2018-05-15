@@ -46,7 +46,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 @"EXEC('SELECT TABLE_CATALOG FROM SomeDatabase.INFORMATION_SCHEMA.COLUMNS;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 33),
+                    new RuleViolation(RuleName, 1, 33)
                 }
             },
             new object[]
@@ -55,7 +55,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     SELECT TABLE_CATALOG FROM SomeDatabase.INFORMATION_SCHEMA.COLUMNS;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 2, 47),
+                    new RuleViolation(RuleName, 2, 47)
                 }
             }
         };
