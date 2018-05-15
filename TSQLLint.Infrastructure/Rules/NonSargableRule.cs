@@ -23,7 +23,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Performing functions on filter clauses or join predicates can cause performance problems";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(JoinTableReference node)
         {

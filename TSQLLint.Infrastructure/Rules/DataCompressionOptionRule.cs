@@ -17,7 +17,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected table to use data compression";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(CreateTableStatement node)
         {
@@ -26,7 +26,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (!childCompressionVisitor.CompressionOptionExists)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlOffset);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlStartColumn);
             }
         }
 

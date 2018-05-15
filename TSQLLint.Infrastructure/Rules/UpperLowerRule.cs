@@ -17,7 +17,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Use of the UPPER or LOWER functions when performing comparisons in SELECT statements is not required when running database in case insensitive mode";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(SelectStatement node)
         {

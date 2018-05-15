@@ -19,7 +19,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected SET QUOTED_IDENTIFIER ON near top of file";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(TSqlScript node)
         {

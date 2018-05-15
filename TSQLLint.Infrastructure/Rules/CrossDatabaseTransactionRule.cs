@@ -19,7 +19,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Cross database inserts or updates enclosed in a transaction can lead to data corruption";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(TSqlBatch node)
         {
@@ -35,7 +35,7 @@ namespace TSQLLint.Infrastructure.Rules
                         RULE_NAME,
                         RULE_TEXT,
                         transaction.Begin.StartLine,
-                        transaction.Begin.StartColumn + DynamicSqlOffset);
+                        transaction.Begin.StartColumn + DynamicSqlStartColumn);
                 }
             }
         }

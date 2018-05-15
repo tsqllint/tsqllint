@@ -17,7 +17,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Named constraints in temp tables can cause collisions when run in parallel";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(CreateTableStatement node)
         {

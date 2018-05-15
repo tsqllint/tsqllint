@@ -21,7 +21,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Unaliased table found in multi table joins";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(TSqlStatement node)
         {

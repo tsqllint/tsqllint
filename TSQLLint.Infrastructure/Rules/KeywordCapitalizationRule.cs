@@ -20,7 +20,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected TSQL Keyword to be capitalized";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(TSqlScript node)
         {

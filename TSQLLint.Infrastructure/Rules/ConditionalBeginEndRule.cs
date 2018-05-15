@@ -17,7 +17,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected BEGIN and END statement within conditional logic block";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(IfStatement node)
         {
@@ -29,7 +29,7 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlOffset);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlStartColumn);
         }
 
         public class ChildBeginEndVisitor : TSqlFragmentVisitor

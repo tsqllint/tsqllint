@@ -18,7 +18,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Use of unicode characters in a non unicode string";
 
-        public int DynamicSqlOffset { get; set; }
+        public int DynamicSqlStartColumn { get; set; }
 
         public override void Visit(StringLiteral node)
         {

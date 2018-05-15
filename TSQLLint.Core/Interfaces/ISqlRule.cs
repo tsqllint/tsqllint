@@ -6,6 +6,6 @@ namespace TSQLLint.Core.Interfaces
 
         string RULE_TEXT { get; }
 
-        int DynamicSqlOffset { get; set; }
+        int DynamicSqlStartColumn { get; set; }
     }
 }
