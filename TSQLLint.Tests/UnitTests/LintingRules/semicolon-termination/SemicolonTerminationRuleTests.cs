@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
 using TSQLLint.Infrastructure.Rules.RuleViolations;
@@ -64,7 +65,35 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
           }
         };
 
-        [Test]
+        private static readonly object[] DynamicSqlTestCases =
+        {
+            new object[]
+            {
+                @"EXEC('SELECT 1');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation("semicolon-termination", 1, 15),
+                }
+            },
+            new object[]
+            {
+                @"EXECUTE('SELECT 1');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation("semicolon-termination", 1, 18),
+                }
+            },
+            new object[]
+            {
+                @"EXECUTE('SELECT 1')", // inner and outer statements missing semicolon
+                new List<RuleViolation>
+                {
+                    new RuleViolation("semicolon-termination", 1, 18),
+                    new RuleViolation("semicolon-termination", 1, 20),
+                }
+            }
+        };
+
         [TestCaseSource(nameof(TestCases))]
         public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
         {

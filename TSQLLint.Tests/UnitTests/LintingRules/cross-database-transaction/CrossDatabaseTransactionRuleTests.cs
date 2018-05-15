@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
@@ -8,61 +7,83 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class CrossDatabaseTransactionRuleTests
     {
+        private const string RuleName = "cross-database-transaction";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-no-error",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>()
+                "cross-database-transaction-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-no-commit-no-error",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>()
+                "cross-database-transaction-no-commit-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-no-begintran-no-error",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>()
+                "cross-database-transaction-no-begintran-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-no-error-single-line",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>()
+                "cross-database-transaction-no-error-single-line", new List<RuleViolation>()
             },
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-one-error",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>
+                "cross-database-transaction-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation("cross-database-transaction", 1, 1)
+                    new RuleViolation(RuleName, 1, 1)
                 }
             },
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-multiple-errors",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>
+                "cross-database-transaction-multiple-errors", new List<RuleViolation>
                 {
-                    new RuleViolation("cross-database-transaction", 1, 1),
-                    new RuleViolation("cross-database-transaction", 6, 1)
+                    new RuleViolation(RuleName, 1, 1),
+                    new RuleViolation(RuleName, 6, 1)
                 }
             },
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-nested-two-errors",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>
+                "cross-database-transaction-nested-two-errors", new List<RuleViolation>
                 {
-                    new RuleViolation("cross-database-transaction", 1, 1),
-                    new RuleViolation("cross-database-transaction", 5, 5)
+                    new RuleViolation(RuleName, 1, 1),
+                    new RuleViolation(RuleName, 5, 5)
                 }
             },
             new object[]
             {
-                "cross-database-transaction", "cross-database-transaction-one-error-single-line",  typeof(CrossDatabaseTransactionRule), new List<RuleViolation>
+                "cross-database-transaction-one-error-single-line", new List<RuleViolation>
                 {
-                    new RuleViolation("cross-database-transaction", 1, 1)
+                    new RuleViolation(RuleName, 1, 1)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('BEGIN TRANSACTION;
+                    UPDATE DB1.dbo.Table1 SET Value = 1;
+                    UPDATE DB2.dbo.Table2 SET Value = 1;
+                COMMIT TRANSACTION;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 7),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(CrossDatabaseTransactionRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(CrossDatabaseTransactionRule), sql, expectedVioalations);
         }
     }
 }

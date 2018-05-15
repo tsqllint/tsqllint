@@ -35,7 +35,7 @@ namespace TSQLLint.Infrastructure.Rules
                         RULE_NAME,
                         RULE_TEXT,
                         transaction.Begin.StartLine,
-                        transaction.Begin.StartColumn);
+                        transaction.Begin.StartColumn + DynamicSqlOffset);
                 }
             }
         }

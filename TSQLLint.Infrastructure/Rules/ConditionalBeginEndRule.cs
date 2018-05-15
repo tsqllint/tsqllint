@@ -29,7 +29,7 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn + DynamicSqlOffset);
         }
 
         public class ChildBeginEndVisitor : TSqlFragmentVisitor
