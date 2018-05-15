@@ -27,8 +27,15 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (schemaIdentifier && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
     }
 }
