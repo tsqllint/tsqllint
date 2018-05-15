@@ -8,41 +8,69 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class PrintStatementRuleTests
     {
+        private const string RuleName = "print-statement";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "print-statement", "print-statement-no-error",  typeof(PrintStatementRule), new List<RuleViolation>()
+                 "print-statement-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "print-statement", "print-statement-one-error", typeof(PrintStatementRule), new List<RuleViolation>
+                "print-statement-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation("print-statement", 1, 1)
+                    new RuleViolation(RuleName, 1, 1)
                 }
             },
             new object[]
             {
-                "print-statement", "print-statement-two-errors", typeof(PrintStatementRule), new List<RuleViolation>
+                "print-statement-two-errors", new List<RuleViolation>
                 {
-                    new RuleViolation("print-statement", 1, 1),
-                    new RuleViolation("print-statement", 2, 1)
+                    new RuleViolation(RuleName, 1, 1),
+                    new RuleViolation(RuleName, 2, 1)
                 }
             },
             new object[]
             {
-                "print-statement", "print-statement-one-error-mixed-state", typeof(PrintStatementRule), new List<RuleViolation>
+                "print-statement-one-error-mixed-state", new List<RuleViolation>
                 {
-                    new RuleViolation("print-statement", 3, 5)
+                    new RuleViolation(RuleName, 3, 5)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('PRINT ''Foo''');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 7),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    PRINT ''Foo''');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 21),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(PrintStatementRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(PrintStatementRule), sql, expectedVioalations);
         }
     }
 }
