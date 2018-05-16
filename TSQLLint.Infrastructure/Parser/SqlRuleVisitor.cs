@@ -84,7 +84,8 @@ namespace TSQLLint.Infrastructure.Parser
                 "SetAnsiNullsRule",
                 "SetNoCountRule",
                 "SetQuotedIdentifierRule",
-                "SetTransactionIsolationLevelRule"
+                "SetTransactionIsolationLevelRule",
+                "UnicodeStringRule"
             }.Any(x => visitor.GetType().ToString().Contains(x));
         }
 
