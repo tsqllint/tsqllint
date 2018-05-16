@@ -19,6 +19,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED near top of file";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(TSqlScript node)
         {
             var childTransactionIsolationLevelVisitor = new ChildTransactionIsolationLevelVisitor();

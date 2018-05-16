@@ -17,14 +17,25 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(SchemaObjectName node)
         {
             var schemaIdentifier = node.SchemaIdentifier?.Value != null;
 
             if (schemaIdentifier && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
     }
 }

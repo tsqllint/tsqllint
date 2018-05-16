@@ -17,6 +17,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected table to use data compression";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(CreateTableStatement node)
         {
             var childCompressionVisitor = new ChildCompressionVisitor();
@@ -24,8 +28,15 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (!childCompressionVisitor.CompressionOptionExists)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
 
         private class ChildCompressionVisitor : TSqlFragmentVisitor

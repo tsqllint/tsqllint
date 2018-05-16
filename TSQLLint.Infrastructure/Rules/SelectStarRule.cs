@@ -19,6 +19,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected column names in SELECT";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(ExistsPredicate node)
         {
             // count select star expressions in predicate
@@ -35,7 +39,14 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
 
         public class ChildVisitor : TSqlFragmentVisitor

@@ -6,7 +6,7 @@ using TSQLLint.Infrastructure.Parser;
 namespace TSQLLint.Tests.UnitTests.Parser
 {
     [TestFixture]
-    public class DynamicSQLParser_Tests
+    public class DynamicSQLParserTests
     {
         private const bool ShouldCallBack = true;
         private const bool ShouldNotCallback = false;
@@ -144,7 +144,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var stream = ParsingUtility.GenerateStreamFromString(executeStatement);
 
             var receivedCallback = false;
-            void DynamicCallback(string dynamicSQL)
+            void DynamicCallback(string dynamicSQL, int dynamicStartLine, int dynamicStartColumn)
             {
                 Assert.AreEqual(innerSql, dynamicSQL);
                 receivedCallback = true;
@@ -172,7 +172,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         {
             var stream = ParsingUtility.GenerateStreamFromString(testString);
 
-            void DynamicCallback(string dynamicSQL)
+            void DynamicCallback(string dynamicSQL, int dynamicStartLine, int dynamicStartColumn)
             {
                 Assert.Fail("should not perform callback");
             }

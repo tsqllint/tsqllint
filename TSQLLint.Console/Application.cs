@@ -1,5 +1,8 @@
 using System;
 using System.IO.Abstractions;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;

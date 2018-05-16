@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using TSQLLint.Common;
 
 namespace TSQLLint.Infrastructure.Reporters
@@ -15,7 +16,7 @@ namespace TSQLLint.Infrastructure.Reporters
         [ExcludeFromCodeCoverage]
         public virtual void Report(string message)
         {
-            System.Console.WriteLine("{0}", message);
+            NonBlockingConsole.WriteLine(message);
         }
 
         public void ReportResults(TimeSpan timespan, int fileCount)
@@ -26,7 +27,6 @@ namespace TSQLLint.Infrastructure.Reporters
         public void ReportFileResults()
         {
             violationList.Sort((x, y) => x.Line.CompareTo(y.Line).Equals(0) ? 0 : x.Column.CompareTo(y.Column));
-
             foreach (var violation in violationList)
             {
                 ReportViolation(

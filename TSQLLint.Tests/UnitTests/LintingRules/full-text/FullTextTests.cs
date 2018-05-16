@@ -9,29 +9,31 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
     [TestFixture]
     public class FullTextTests
     {
+        private const string RuleName = "full-text";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "full-text", "full-text-no-error", typeof(FullTextRule), new List<RuleViolation>()
+                "full-text-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "full-text", "full-text-one-error-mixed-state", typeof(FullTextRule), new List<RuleViolation>
+                "full-text-one-error-mixed-state", new List<RuleViolation>
                 {
                     new RuleViolation("full-text", 6, 8)
                 }
             },
             new object[]
             {
-                "full-text", "full-text-one-error", typeof(FullTextRule), new List<RuleViolation>
+                "full-text-one-error", new List<RuleViolation>
                 {
                     new RuleViolation("full-text", 4, 8),
                 }
             },
             new object[]
             {
-                "full-text", "full-text-two-errors", typeof(FullTextRule), new List<RuleViolation>
+                "full-text-two-errors", new List<RuleViolation>
                 {
                     new RuleViolation("full-text", 4, 8),
                     new RuleViolation("full-text", 11, 7)
@@ -39,11 +41,40 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('SELECT Name, ListPrice FROM Production.Product WHERE ListPrice = 80.99 AND CONTAINS(Name, ''Mountain'')');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 82),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    SELECT Name, ListPrice
+                    FROM Production.Product
+                    WHERE ListPrice = 80.99
+                       AND CONTAINS(Name, ''Mountain'')');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 5, 28),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(FullTextRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(FullTextRule), sql, expectedVioalations);
         }
     }
 }

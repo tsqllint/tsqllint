@@ -19,6 +19,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Cross database inserts or updates enclosed in a transaction can lead to data corruption";
 
+        public int DynamicSqlStartColumn { get; set; }
+        
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(TSqlBatch node)
         {
             var childTransactionVisitor = new ChildTransactionVisitor();
@@ -33,7 +37,7 @@ namespace TSQLLint.Infrastructure.Rules
                         RULE_NAME,
                         RULE_TEXT,
                         transaction.Begin.StartLine,
-                        transaction.Begin.StartColumn);
+                        GetColumnNumber(transaction));
                 }
             }
         }
@@ -125,6 +129,13 @@ namespace TSQLLint.Infrastructure.Rules
                     DatabasesUpdated.Add(node.SchemaObject.DatabaseIdentifier.Value);
                 }
             }
+        }
+
+        private int GetColumnNumber(TrackedTransaction transaction)
+        {
+            return transaction.Begin.StartLine == DynamicSqlStartLine
+                ? transaction.Begin.StartColumn + DynamicSqlStartColumn
+                : transaction.Begin.StartColumn;
         }
     }
 }

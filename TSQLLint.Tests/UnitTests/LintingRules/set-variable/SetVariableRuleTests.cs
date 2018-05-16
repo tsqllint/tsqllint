@@ -8,41 +8,69 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class SetVariableRuleTests
     {
+        private const string RuleName = "set-variable";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "set-variable", "set-variable-no-error",  typeof(SetVariableRule), new List<RuleViolation>()
+                "set-variable-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "set-variable", "set-variable-one-error-mixed-state", typeof(SetVariableRule), new List<RuleViolation>
+                "set-variable-one-error-mixed-state", new List<RuleViolation>
                 {
-                    new RuleViolation("set-variable", 6, 1)
+                    new RuleViolation(RuleName, 6, 1)
                 }
             },
             new object[]
             {
-                "set-variable", "set-variable-one-error", typeof(SetVariableRule), new List<RuleViolation>
+                "set-variable-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation("set-variable", 4, 1)
+                    new RuleViolation(RuleName, 4, 1)
                 }
             },
             new object[]
             {
-                "set-variable", "set-variable-two-errors", typeof(SetVariableRule), new List<RuleViolation>
+                "set-variable-two-errors", new List<RuleViolation>
                 {
-                    new RuleViolation("set-variable", 2, 1),
-                    new RuleViolation("set-variable", 7, 1)
+                    new RuleViolation(RuleName, 2, 1),
+                    new RuleViolation(RuleName, 7, 1)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('SET @var1 = ''bar'';');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 7),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    SET @var1 = ''bar'';');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 21),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(SetVariableRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(SetVariableRule), sql, expectedVioalations);
         }
     }
 }

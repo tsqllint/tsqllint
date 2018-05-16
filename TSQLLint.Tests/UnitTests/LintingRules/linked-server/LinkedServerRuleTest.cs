@@ -8,23 +8,54 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class LinkedServerRuleTest
     {
+        private const string RuleName = "linked-server";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "linked-server", "linked-server-one-error", typeof(LinkedServerRule), new List<RuleViolation>
+                "linked-server-one-error", new List<RuleViolation>
                 {
                     new RuleViolation("linked-server", 1, 17)
                 }
             },
-            new object[] { "linked-server", "linked-server-no-error", typeof(LinkedServerRule), new List<RuleViolation>() }
+            new object[]
+            {
+                "linked-server-no-error", new List<RuleViolation>()
+            }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('SELECT Foo FROM MyServer.MyDatabase.MySchema.MyTable;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 23),
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    SELECT Foo FROM MyServer.MyDatabase.MySchema.MyTable;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 37),
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(LinkedServerRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(LinkedServerRule), sql, expectedVioalations);
         }
     }
 }

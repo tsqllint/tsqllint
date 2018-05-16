@@ -17,6 +17,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Named constraints in temp tables can cause collisions when run in parallel";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(CreateTableStatement node)
         {
             // only apply rule to temp tables
@@ -30,7 +34,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (constraintVisitor.NamedConstraintExists)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
         }
 
@@ -51,6 +55,13 @@ namespace TSQLLint.Infrastructure.Rules
 
                 NamedConstraintExists = node.ConstraintIdentifier != null;
             }
+        }
+        
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
     }
 }

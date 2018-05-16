@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
@@ -8,41 +7,69 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class InformationSchemaRuleTests
     {
+        private const string RuleName = "information-schema";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "information-schema", "information-schema-no-error",  typeof(InformationSchemaRule), new List<RuleViolation>()
+                "information-schema-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "information-schema", "information-schema-one-error", typeof(InformationSchemaRule), new List<RuleViolation>
+                "information-schema-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation("information-schema", 2, 27)
+                    new RuleViolation(RuleName, 2, 27)
                 }
             },
             new object[]
             {
-                "information-schema", "information-schema-two-errors", typeof(InformationSchemaRule), new List<RuleViolation>
+                "information-schema-two-errors", new List<RuleViolation>
                 {
-                    new RuleViolation("information-schema", 5, 26),
-                    new RuleViolation("information-schema", 2, 27)
+                    new RuleViolation(RuleName, 5, 26),
+                    new RuleViolation(RuleName, 2, 27)
                 }
             },
             new object[]
             {
-                "information-schema", "information-schema-one-error-mixed-state", typeof(InformationSchemaRule), new List<RuleViolation>
+                "information-schema-one-error-mixed-state", new List<RuleViolation>
                 {
-                    new RuleViolation("information-schema", 2, 27)
+                    new RuleViolation(RuleName, 2, 27)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"EXEC('SELECT TABLE_CATALOG FROM SomeDatabase.INFORMATION_SCHEMA.COLUMNS;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 33)
+                }
+            },
+            new object[]
+            {
+                @"EXEC('
+                    SELECT TABLE_CATALOG FROM SomeDatabase.INFORMATION_SCHEMA.COLUMNS;');",
+                new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 2, 47)
+                }
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(InformationSchemaRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(InformationSchemaRule), sql, expectedVioalations);
         }
     }
 }

@@ -1,17 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLint.Infrastructure.Parser
 {
     public class DynamicSQLParser : TSqlFragmentVisitor
     {
-        private readonly Action<string> callback;
+        private readonly Action<string, int, int> callback;
         private string executableSql = string.Empty;
         private Dictionary<string, string> VariableValues = new Dictionary<string, string>();
 
-        public DynamicSQLParser(Action<string> callback)
+        private int DynamicSQLStartingLine { get; set; }
+        
+        private int DynamicSQLStartingColumn { get; set; }
+
+        public DynamicSQLParser(Action<string, int, int> callback)
         {
             this.callback = callback;
         }
@@ -25,6 +28,9 @@ namespace TSQLLint.Infrastructure.Parser
 
         public override void Visit(ExecuteStatement node)
         {
+            DynamicSQLStartingColumn = node.ExecuteSpecification.ExecutableEntity.StartColumn;
+            DynamicSQLStartingLine = node.ExecuteSpecification.ExecutableEntity.StartLine;
+
             var visitor = new VariableVisitor();
             node.Accept(visitor);
 
@@ -59,7 +65,7 @@ namespace TSQLLint.Infrastructure.Parser
             executableSql += value;
             if (counter == executableCount)
             {
-                callback(executableSql);
+                callback(executableSql, DynamicSQLStartingLine, DynamicSQLStartingColumn);
             }
         }
 
@@ -68,7 +74,7 @@ namespace TSQLLint.Infrastructure.Parser
             executableSql += literal.Value;
             if (counter == executableCount)
             {
-                callback(executableSql);
+                callback(executableSql, DynamicSQLStartingLine, DynamicSQLStartingColumn);
             }
         }
     }
@@ -86,11 +92,11 @@ namespace TSQLLint.Infrastructure.Parser
         {
             if (node.Expression is StringLiteral strLiteral)
             {
-                VariableValues.Add(node.Variable.Name, strLiteral.Value);
+                VariableValues[node.Variable.Name] = strLiteral.Value;
             }
             else if (node.Expression is IntegerLiteral intLiteral)
             {
-                VariableValues.Add(node.Variable.Name, intLiteral.Value);
+                VariableValues[node.Variable.Name] = intLiteral.Value;
             }
             else if (node.Expression is BinaryExpression binaryExpression)
             {

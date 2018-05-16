@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Threading.Tasks;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Plugins;
@@ -89,15 +90,15 @@ namespace TSQLLint.Infrastructure.Parser
         private void ProcessDirectory(string path)
         {
             var subDirectories = fileSystem.Directory.GetDirectories(path);
-            foreach (var t in subDirectories)
+            foreach (var filePath in subDirectories)
             {
-                ProcessPath(t);
+                ProcessPath(filePath);
             }
 
             var fileEntries = fileSystem.Directory.GetFiles(path);
-            foreach (var t in fileEntries)
+            foreach (var file in fileEntries)
             {
-                ProcessIfSqlFile(t);
+                ProcessIfSqlFile(file);
             }
         }
 

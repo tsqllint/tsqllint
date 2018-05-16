@@ -17,14 +17,25 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Use of the UPPER or LOWER functions when performing comparisons in SELECT statements is not required when running database in case insensitive mode";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(SelectStatement node)
         {
             var visitor = new ChildQueryComparisonVisitor();
             node.Accept(visitor);
             if (visitor.QueryExpressionUpperLowerFunctionFound)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
 
         public class ChildQueryComparisonVisitor : TSqlFragmentVisitor

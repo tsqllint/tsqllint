@@ -17,9 +17,20 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Found use of CURSOR statement";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(CursorStatement node)
         {
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
     }
 }

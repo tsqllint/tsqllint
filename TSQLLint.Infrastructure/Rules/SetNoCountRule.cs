@@ -17,6 +17,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected SET NOCOUNT ON near top of file";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(TSqlScript node)
         {
             var childNoCountVisitor = new ChildNoCountVisitor();

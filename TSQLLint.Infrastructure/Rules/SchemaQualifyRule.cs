@@ -25,6 +25,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Object name not schema qualified";
 
+        public int DynamicSqlStartLine { get; set; }
+
+        public int DynamicSqlStartColumn { get; set; }
+
         public override void Visit(TSqlStatement node)
         {
             var childAliasVisitor = new ChildAliasVisitor();
@@ -51,7 +55,14 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
 
         public class ChildAliasVisitor : TSqlFragmentVisitor

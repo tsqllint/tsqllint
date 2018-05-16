@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TSQLLint.Infrastructure.Reporters;
 
@@ -21,6 +22,11 @@ namespace TSQLLint.Console
             try
             {
                 application.Run();
+
+                Task.Run(() =>
+                {
+                    while (NonBlockingConsole.messageQueue.Count > 0) { }
+                }).Wait();
             }
             catch (Exception exception)
             {

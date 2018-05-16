@@ -8,34 +8,54 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class SetNocountRuleTests
     {
+        private const string RuleName = "set-nocount";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "set-nocount", "set-nocount-no-error",  typeof(SetNoCountRule), new List<RuleViolation>()
+                "set-nocount-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "set-nocount", "set-nocount-no-error-ddl", typeof(SetNoCountRule), new List<RuleViolation>()
+                "set-nocount-no-error-ddl", new List<RuleViolation>()
             },
             new object[]
             {
-                "set-nocount", "set-nocount-one-error-rowset-action", typeof(SetNoCountRule), new List<RuleViolation>
+                "set-nocount-one-error-rowset-action", new List<RuleViolation>
                 {
                     new RuleViolation("set-nocount", 1, 1)
                 }
             },
             new object[]
             {
-                "set-nocount", "set-nocount-no-rowset-action",  typeof(SetNoCountRule), new List<RuleViolation>()
+                "set-nocount-no-rowset-action", new List<RuleViolation>()
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"SET NOCOUNT ON;
+                EXEC('SET ANSI_NULLS ON;
+                    SET QUOTED_IDENTIFIER ON;
+                    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+                    SELECT FOO FROM BAR;');",
+                new List<RuleViolation>()
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(SetNoCountRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(SetNoCountRule), sql, expectedVioalations);
         }
     }
 }

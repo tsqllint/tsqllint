@@ -23,6 +23,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Performing functions on filter clauses or join predicates can cause performance problems";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(JoinTableReference node)
         {
             var predicateExpressionVisitor = new PredicateVisitor();
@@ -50,8 +54,12 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
+            var dynamicSqlColumnAdjustment = childNode.StartLine == DynamicSqlStartLine
+                ? DynamicSqlStartColumn
+                : 0;
+
             errorsReported.Add(childNode);
-            errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode));
+            errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode) + dynamicSqlColumnAdjustment);
         }
 
         private class JoinQueryVisitor : TSqlFragmentVisitor

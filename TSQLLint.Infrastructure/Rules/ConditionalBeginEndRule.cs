@@ -17,6 +17,10 @@ namespace TSQLLint.Infrastructure.Rules
 
         public string RULE_TEXT => "Expected BEGIN and END statement within conditional logic block";
 
+        public int DynamicSqlStartColumn { get; set; }
+
+        public int DynamicSqlStartLine { get; set; }
+
         public override void Visit(IfStatement node)
         {
             var childBeginEndVisitor = new ChildBeginEndVisitor();
@@ -27,7 +31,7 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
         }
 
         public class ChildBeginEndVisitor : TSqlFragmentVisitor
@@ -42,6 +46,13 @@ namespace TSQLLint.Infrastructure.Rules
             {
                 BeginEndBlockFound = true;
             }
+        }
+
+        private int GetColumnNumber(TSqlFragment node)
+        {
+            return node.StartLine == DynamicSqlStartLine
+                ? node.StartColumn + DynamicSqlStartColumn
+                : node.StartColumn;
         }
     }
 }
