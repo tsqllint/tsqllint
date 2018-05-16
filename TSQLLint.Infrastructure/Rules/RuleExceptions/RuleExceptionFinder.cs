@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Parser;
 
@@ -10,6 +11,8 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
 {
     public class RuleExceptionFinder : IRuleExceptionFinder
     {
+        public static Regex RuleExceptionRegex = new Regex(@".*?tsqllint-override ?(.* += +.*)+.*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        
         public IEnumerable<IExtendedRuleException> GetIgnoredRuleList(Stream fileStream)
         {
             const string pattern = @"(tsqllint-(?:dis|en)able)\s*(.*)";
@@ -23,8 +26,13 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
             while ((line = reader.ReadLine()) != null)
             {
                 lineNumber++;
+                
+                if (line.Length > Constants.MaxLineWidthForRegexEval)
+                {
+                    continue;
+                }
+                
                 var match = regex.Match(line);
-
                 if (!match.Success)
                 {
                     continue;
