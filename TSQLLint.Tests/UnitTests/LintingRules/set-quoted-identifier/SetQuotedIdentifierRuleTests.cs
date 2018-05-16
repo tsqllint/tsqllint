@@ -8,26 +8,46 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 {
     public class SetQuotedIdentifierRuleTests
     {
+        private const string RuleName = "set-quoted-identifier";
+
         private static readonly object[] TestCases =
         {
             new object[]
             {
-                "set-quoted-identifier", "set-quoted-identifier-no-error",  typeof(SetQuotedIdentifierRule), new List<RuleViolation>()
+                "set-quoted-identifier-no-error", new List<RuleViolation>()
             },
             new object[]
             {
-                "set-quoted-identifier", "set-quoted-identifier-one-error", typeof(SetQuotedIdentifierRule), new List<RuleViolation>
+                "set-quoted-identifier-one-error", new List<RuleViolation>
                 {
                     new RuleViolation("set-quoted-identifier", 1, 1)
                 }
             }
         };
 
-        [Test]
-        [TestCaseSource(nameof(TestCases))]
-        public void TestRule(string rule, string testFileName, Type ruleType, List<RuleViolation> expectedRuleViolations)
+        private static readonly object[] DynamicSqlTestCases =
         {
-            RulesTestHelper.RunRulesTest(rule, testFileName, ruleType, expectedRuleViolations);
+            new object[]
+            {
+                @"SET QUOTED_IDENTIFIER ON;
+                    EXEC('SET ANSI_NULLS ON;
+                    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED  
+                    SET NOCOUNT ON;
+                    SELECT FOO FROM BAR;');",
+                new List<RuleViolation>()
+            }
+        };
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(SetQuotedIdentifierRule), expectedRuleViolations);
+        }
+
+        [TestCaseSource(nameof(DynamicSqlTestCases))]
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        {
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(SetQuotedIdentifierRule), sql, expectedVioalations);
         }
     }
 }
