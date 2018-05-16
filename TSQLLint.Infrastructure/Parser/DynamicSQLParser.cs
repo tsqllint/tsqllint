@@ -114,7 +114,7 @@ namespace TSQLLint.Infrastructure.Parser
             if (expression.FirstExpression is StringLiteral first
                 && expression.SecondExpression is StringLiteral second)
             {
-                VariableValues.Add(name, first.Value + second.Value);
+                VariableValues[name] = first.Value + second.Value;
             }
         }
     }
