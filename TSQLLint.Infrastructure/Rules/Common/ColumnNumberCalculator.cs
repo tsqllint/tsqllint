@@ -40,18 +40,24 @@ namespace TSQLLint.Infrastructure.Rules.Common
         }
 
         // count all tabs on a line up to the last token index
-        public static int CountTabsBeforeToken(int lastTokenLine, int lastTokenIndex, IList<TSqlParserToken> tokens)
+        public static int CountTabsBeforeToken(int lastTokenLine, int lastTokenIndex, IEnumerable<TSqlParserToken> tokens)
         {
             var tabCount = 0;
             for (var tokenIndex = 0; tokenIndex < lastTokenIndex; tokenIndex++)
             {
-                var token = tokens[tokenIndex];
+                var token = tokens.ElementAt(tokenIndex);
                 if (token.Line != lastTokenLine || string.IsNullOrEmpty(token.Text))
                 {
                     continue;
                 }
 
-                tabCount += token.Text.Count(t => t == '\t');
+                foreach (var c in token.Text)
+                {
+                    if (c == '\t')
+                    {
+                        tabCount++;
+                    }
+                }
             }
 
             return tabCount;
