@@ -32,32 +32,42 @@ namespace TSQLLint.Infrastructure.Rules.Common
                 offSet = 1;
             }
 
-            var tabCount = charactersBeforeNode.Count(t => t == '\t');
+            var tabCount = CountTabs(charactersBeforeNode);
             var totalTabLentgh = tabCount * Constants.TabWidth;
 
             var nodePosition = totalTabLentgh + (charactersBeforeNode.Length - tabCount) + offSet;
             return nodePosition;
         }
 
+        private static int CountTabs(string charactersBeforeNode)
+        {
+            int tabCount = 0;
+            foreach (var c in charactersBeforeNode)
+            {
+                if (c == '\t')
+                {
+                    tabCount++;
+                }
+            }
+
+            return tabCount;
+        }
+
         // count all tabs on a line up to the last token index
         public static int CountTabsBeforeToken(int lastTokenLine, int lastTokenIndex, IEnumerable<TSqlParserToken> tokens)
         {
             var tabCount = 0;
+            var sqlParserTokens = tokens as TSqlParserToken[] ?? tokens.ToArray();
+
             for (var tokenIndex = 0; tokenIndex < lastTokenIndex; tokenIndex++)
             {
-                var token = tokens.ElementAt(tokenIndex);
+                var token = sqlParserTokens.ElementAt(tokenIndex);
                 if (token.Line != lastTokenLine || string.IsNullOrEmpty(token.Text))
                 {
                     continue;
                 }
 
-                foreach (var c in token.Text)
-                {
-                    if (c == '\t')
-                    {
-                        tabCount++;
-                    }
-                }
+                tabCount += CountTabs(token.Text);
             }
 
             return tabCount;
