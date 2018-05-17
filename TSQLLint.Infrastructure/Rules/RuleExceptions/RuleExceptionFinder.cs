@@ -11,13 +11,10 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
 {
     public class RuleExceptionFinder : IRuleExceptionFinder
     {
-        public static Regex RuleExceptionRegex = new Regex(@".*?tsqllint-override ?(.* += +.*)+.*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static Regex RuleExceptionRegex = new Regex(@"(tsqllint-(?:dis|en)able)\s*(.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         
         public IEnumerable<IExtendedRuleException> GetIgnoredRuleList(Stream fileStream)
         {
-            const string pattern = @"(tsqllint-(?:dis|en)able)\s*(.*)";
-            var regex = new Regex(pattern, RegexOptions.IgnoreCase);
-
             var ruleExceptionList = new List<IExtendedRuleException>();
             TextReader reader = new StreamReader(fileStream);
 
@@ -26,13 +23,12 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
             while ((line = reader.ReadLine()) != null)
             {
                 lineNumber++;
-                
-                if (line.Length > Constants.MaxLineWidthForRegexEval)
+                if (line.Length > Constants.MaxLineWidthForRegexEval || !line.Contains("tsqllint-"))
                 {
                     continue;
                 }
                 
-                var match = regex.Match(line);
+                var match = RuleExceptionRegex.Match(line);
                 if (!match.Success)
                 {
                     continue;

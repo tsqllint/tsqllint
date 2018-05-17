@@ -20,7 +20,7 @@ namespace TSQLLint.Infrastructure.Configuration.Overrides
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                if (line.Length > Constants.MaxLineWidthForRegexEval)
+                if (line.Length > Constants.MaxLineWidthForRegexEval || ! line.Contains("tsqllint-override"))
                 {
                     continue;
                 }
