@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "https://github.com/tsqllint/tsqllint/master/schema.json",
+  "title": "Configuration for TSQLLint tool",
+  "type": "object",
+  "definitions": {
+    "rule": {
+      "type": "string",
+      "enum": ["off", "warning", "error"],
+      "default": "off"
+    }
+  },
+  "properties": {
+    "rules": {
+      "type": "object",
+      "properties": {
+        "conditional-begin-end": {
+          "$ref": "#/definitions/rule",
+          "description":
+            "Enforce use of BEGIN and END symbols inside condition statements"
+        },
+        "cross-database-transaction": {
+          "$ref": "#/definitions/rule",
+          "description":
+            "Discourages inserts or updates that create transactions in more than one database"
+        },
+        "data-compression": {
+          "$ref": "#/definitions/rule",
+          "description":
+            "Requires use of compression option during table creation"
+        },
+        "data-type-length": {
+          "$ref": "#/definitions/rule",
+          "description":
+            "Requires use of length when declaring data types with variable length"
+        },
+        "disallow-cursors": {
+          "$ref": "#/definitions/rule",
+          "description": "Disallows use of cursors"
+        },
+        "full-text": {
+          "$ref": "#/definitions/rule",
+          "description": "Disallows use of Full Text"
+        },
+        "information-schema": {
+          "$ref": "#/definitions/rule",
+          "description": "Disallows use of INFORMATION_SCHEMA views"
+        },
+        "keyword-capitalization": {
+          "$ref": "#/definitions/rule",
+          "description": "Requires use of capitalized keywords"
+        },
+        "linked-server": {
+          "$ref": "#/definitions/rule",
+          "description": "Disallows user of linked server calls"
+        },
+        "multi-table-alias": {
+          "$ref": "#/definitions/rule"
+        },
+        "named-constraint": {
+          "$ref": "#/definitions/rule"
+        },
+        "non-sargable": {
+          "$ref": "#/definitions/rule"
+        },
+        "object-property": {
+          "$ref": "#/definitions/rule"
+        },
+        "print-statement": {
+          "$ref": "#/definitions/rule"
+        },
+        "schema-qualify": {
+          "$ref": "#/definitions/rule"
+        },
+        "select-star": {
+          "$ref": "#/definitions/rule"
+        },
+        "semicolon-termination": {
+          "$ref": "#/definitions/rule"
+        },
+        "set-ansi": {
+          "$ref": "#/definitions/rule"
+        },
+        "set-nocount": {
+          "$ref": "#/definitions/rule"
+        },
+        "set-quoted-identifier": {
+          "$ref": "#/definitions/rule"
+        },
+        "set-transaction-isolation-level": {
+          "$ref": "#/definitions/rule"
+        },
+        "set-variable": {
+          "$ref": "#/definitions/rule"
+        },
+        "upper-lower": {
+          "$ref": "#/definitions/rule"
+        },
+        "unicode-string": {
+          "$ref": "#/definitions/rule"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/rule"
+      }
+    },
+    "plugins": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["rules"]
+}
