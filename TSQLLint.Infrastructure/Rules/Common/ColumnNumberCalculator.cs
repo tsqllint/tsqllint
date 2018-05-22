@@ -61,7 +61,7 @@ namespace TSQLLint.Infrastructure.Rules.Common
 
             for (var tokenIndex = 0; tokenIndex < lastTokenIndex; tokenIndex++)
             {
-                var token = sqlParserTokens.ElementAt(tokenIndex);
+                var token = sqlParserTokens[tokenIndex];
                 if (token.Line != lastTokenLine || string.IsNullOrEmpty(token.Text))
                 {
                     continue;

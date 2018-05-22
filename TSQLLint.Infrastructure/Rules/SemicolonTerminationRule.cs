@@ -44,7 +44,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(TSqlStatement node)
         {
-            if (typesToSkip.Contains(node.GetType()) ||
+            if (Array.IndexOf(typesToSkip, node.GetType()) > -1 ||
                 EndsWithSemicolon(node) ||
                 waitForStatements.Contains(node))
             {
