@@ -24,13 +24,6 @@ namespace TSQLLint.Tests.Helpers
             var reportedViolations = new List<IRuleViolation>();
             mockReporter.When(reporter => reporter.ReportViolation(Arg.Any<IRuleViolation>())).Do(x => reportedViolations.Add(x.Arg<IRuleViolation>()));
             var reportedMessages = new List<string>();
-            mockReporter.When(reporter => reporter.ReportFileResults()).Do(x =>
-            {
-                foreach (var v in reportedViolations)
-                {
-                    reportedMessages.Add(v.Text);
-                }
-            });
 
             mockReporter.When(reporter => reporter.Report(Arg.Any<string>())).Do(x => reportedMessages.Add(x.Arg<string>()));
             var application = new Application(appArgs, mockReporter);
@@ -39,12 +32,10 @@ namespace TSQLLint.Tests.Helpers
             application.Run();
 
             // assert
-            Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
-            Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
-            Assert.IsTrue(string.IsNullOrEmpty(expectedMessage) || reportedMessages.Contains(expectedMessage), $"Expected: '{expectedMessage}', Received: '{string.Join(" ", reportedMessages)}'");
-
             reportedViolations = reportedViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
+            Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
+            Assert.IsTrue(string.IsNullOrEmpty(expectedMessage) || reportedMessages.Contains(expectedMessage), $"Expected: '{expectedMessage}', Received: '{string.Join(" ", reportedMessages)}'");
             CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, RuleViolationComparer);
         }
     }

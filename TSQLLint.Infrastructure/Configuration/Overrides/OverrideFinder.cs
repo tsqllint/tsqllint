@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Infrastructure.Configuration.Overrides
 {
     public class OverrideFinder
     {
+        private static Regex OverrideRegex = new Regex(@".*?tsqllint-override ?(.* += +.*)+.*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         public IEnumerable<IOverride> GetOverrideList(Stream fileStream)
         {
-            const string pattern = @".*?tsqllint-override ?(.* += +.*)+.*";
-            var regex = new Regex(pattern, RegexOptions.IgnoreCase);
-
             var overrideList = new List<IOverride>();
             TextReader reader = new StreamReader(fileStream);
 
-            var lineNumber = 0;
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                lineNumber++;
-                var match = regex.Match(line);
-
+                if (line.Length > Constants.MaxLineWidthForRegexEval || ! line.Contains("tsqllint-override"))
+                {
+                    continue;
+                }
+                
+                var match = OverrideRegex.Match(line);
                 if (!match.Success)
                 {
                     continue;

@@ -8,8 +8,6 @@ namespace TSQLLint.Infrastructure.Reporters
 {
     public class ConsoleReporter : IReporter
     {
-        private readonly List<IRuleViolation> violationList = new List<IRuleViolation>();
-
         private int warningCount;
         private int errorCount;
 
@@ -26,20 +24,6 @@ namespace TSQLLint.Infrastructure.Reporters
 
         public void ReportFileResults()
         {
-            violationList.Sort((x, y) => x.Line.CompareTo(y.Line).Equals(0) ? 0 : x.Column.CompareTo(y.Column));
-            foreach (var violation in violationList)
-            {
-                ReportViolation(
-                    violation.FileName,
-                    violation.Line.ToString(),
-                    violation.Column.ToString(),
-                    violation.Severity.ToString().ToLowerInvariant(),
-                    violation.RuleName,
-                    violation.Text);
-            }
-
-            violationList.Clear();
-            violationList.TrimExcess();
         }
 
         public void ReportViolation(IRuleViolation violation)
@@ -56,7 +40,13 @@ namespace TSQLLint.Infrastructure.Reporters
                     return;
             }
 
-            violationList.Add(violation);
+            ReportViolation(
+                violation.FileName,
+                violation.Line.ToString(),
+                violation.Column.ToString(),
+                violation.Severity.ToString().ToLowerInvariant(),
+                violation.RuleName,
+                violation.Text);
         }
 
         public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)

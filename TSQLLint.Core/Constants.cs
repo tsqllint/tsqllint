@@ -228,5 +228,7 @@ namespace TSQLLint.Core
         public static int TabWidth => 4;
 
         public static int DefaultCompatabilityLevel => 120;
+
+        public static int MaxLineWidthForRegexEval => 300;
     }
 }

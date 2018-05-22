@@ -83,7 +83,6 @@ namespace TSQLLint.Infrastructure.Parser
                 ProcessPlugins(fileStream, ignoredRules, filePath);
             }
 
-            reporter.ReportFileResults();
             FileCount++;
         }
 

@@ -23,7 +23,6 @@ namespace TSQLLint.Tests.UnitTests.Reporter
             reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 2, RuleViolationSeverity.Error));
             reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 3, RuleViolationSeverity.Warning));
             reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 4, RuleViolationSeverity.Off)); // should not log
-            reporter.ReportFileResults();
             reporter.ReportResults(new TimeSpan(1, 1, 1), 1);
 
             // assert
