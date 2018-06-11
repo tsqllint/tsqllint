@@ -39,8 +39,8 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             // act
             sqlFragment.Accept(visitor);
 
-            ruleViolations = ruleViolations.OrderBy(o => o.Line).ToList();
-            expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ToList();
+            ruleViolations = ruleViolations.OrderBy(o => o.Line).ThenBy(o => o.Column).ToList();
+            expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.Column).ToList();
 
             // assert
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
