@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;</TargetFrameworks>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <Version>1.11.0</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
