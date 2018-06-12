@@ -13,12 +13,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0-preview2-final" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta007" />
     <PackageReference Include="TSQLLint.Common" Version="2.0.0" />
     <PackageReference Include="Mono.Cecil" Version="0.10.0" />
   </ItemGroup>
