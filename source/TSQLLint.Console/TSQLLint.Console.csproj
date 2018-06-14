@@ -3,7 +3,7 @@
   <PropertyGroup>
     <StartupObject>TSQLLint.Console.Program</StartupObject>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <Version>1.11.0</Version>
+    <Version>1.11.1</Version>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   

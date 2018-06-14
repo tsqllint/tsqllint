@@ -1,3 +1,23 @@
+<a name="1.11.1"></a>
+## <small>1.11.1 (2018-06-14)</small>
+
+* Add JSON schema for .tsqllintrc files (#190) ([69cbb96](https://github.com/tsqllint/tsqllint/commit/69cbb96)), closes [#190](https://github.com/tsqllint/tsqllint/issues/190)
+* Add package lock file (#192) ([cab06a6](https://github.com/tsqllint/tsqllint/commit/cab06a6)), closes [#192](https://github.com/tsqllint/tsqllint/issues/192)
+* Add release and changelog tooling to dev dependencies ([2bfb203](https://github.com/tsqllint/tsqllint/commit/2bfb203))
+* Implement streaming error reports (#191) ([f55d29c](https://github.com/tsqllint/tsqllint/commit/f55d29c)), closes [#191](https://github.com/tsqllint/tsqllint/issues/191)
+* Integrate Dynamic Sql Parsing (#188) ([8e7058b](https://github.com/tsqllint/tsqllint/commit/8e7058b)), closes [#188](https://github.com/tsqllint/tsqllint/issues/188)
+* Move dotnet source files to their own directory ([e9a071a](https://github.com/tsqllint/tsqllint/commit/e9a071a))
+* Update appveyor to use new dotnet source location ([d4edaaa](https://github.com/tsqllint/tsqllint/commit/d4edaaa))
+* Update build scripts to target dotnet core 2.1 ([9cd5ab5](https://github.com/tsqllint/tsqllint/commit/9cd5ab5))
+* Update contribution guidelines ([3c0fbdd](https://github.com/tsqllint/tsqllint/commit/3c0fbdd))
+* Update coverage script to redirect artifact cleanup output to null ([14b2708](https://github.com/tsqllint/tsqllint/commit/14b2708))
+* Update dependencies ([c7551a5](https://github.com/tsqllint/tsqllint/commit/c7551a5))
+* Update projects to dotnet core 2.1 ([98ace84](https://github.com/tsqllint/tsqllint/commit/98ace84))
+* Update Rules Test Helper to Order by Line then by Column (#193) ([4fb5584](https://github.com/tsqllint/tsqllint/commit/4fb5584)), closes [#193](https://github.com/tsqllint/tsqllint/issues/193)
+* Update version script to use new source location ([fa3cb2a](https://github.com/tsqllint/tsqllint/commit/fa3cb2a))
+
+
+
 <a name="1.11.0"></a>
 ## 1.11.0 (2018-05-14)
 
