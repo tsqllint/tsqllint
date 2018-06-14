@@ -33,6 +33,8 @@
         "progress": "^2.0.0"
     },
     "devDependencies": {
+        "conventional-changelog": "^2.0.1",
+        "release-it": "^7.4.7",
         "standard": "^10.0.3"
     }
 }
