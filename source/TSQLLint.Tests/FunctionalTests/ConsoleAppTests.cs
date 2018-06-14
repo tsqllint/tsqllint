@@ -80,7 +80,7 @@ namespace TSQLLint.Tests.FunctionalTests
             Assert.IsTrue(fileLinted);
         }
 
-        [TestCase(@"-l", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin', Version: '1.11.0.0'", 0)]
+        [TestCase(@"-l", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
         public void LoadPluginTest(string testArgs, string expectedMessage, int expectedExitCode)
         {
             var pluginLoaded = false;
