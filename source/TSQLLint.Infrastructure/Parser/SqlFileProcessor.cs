@@ -78,12 +78,47 @@ namespace TSQLLint.Infrastructure.Parser
         {
             using (var fileStream = GetFileContents(filePath))
             {
-                var ignoredRules = ruleExceptionFinder.GetIgnoredRuleList(fileStream).ToList();
-                ProcessRules(fileStream, ignoredRules, filePath);
-                ProcessPlugins(fileStream, ignoredRules, filePath);
+                HandleProcessing(filePath, fileStream);
             }
 
             FileCount++;
+        }
+
+        private bool IsWholeFileIgnored(string filePath, IEnumerable<IExtendedRuleException> ignoredRules)
+        {
+            var ignoredRulesEnum = ignoredRules.ToArray();
+            if (!ignoredRulesEnum.Any())
+            {
+                return false;
+            }
+            
+            var lineOneRuleIgnores = ignoredRulesEnum.OfType<GlobalRuleException>().Where(x => 1 == x.StartLine).ToArray();
+            if (!lineOneRuleIgnores.Any())
+            {
+                return false;
+            }
+
+            var lineCount = 0;
+            using (var reader = new StreamReader(GetFileContents(filePath)))
+            {
+                while (reader.ReadLine() != null)
+                {
+                    lineCount++;
+                }
+            }
+
+            return lineOneRuleIgnores.Any(x => x.EndLine == lineCount);
+        }
+
+        private void HandleProcessing(string filePath, Stream fileStream)
+        {
+            var ignoredRules = ruleExceptionFinder.GetIgnoredRuleList(fileStream).ToList();
+            if (IsWholeFileIgnored(filePath, ignoredRules))
+            {
+                return;
+            }
+            ProcessRules(fileStream, ignoredRules, filePath);
+            ProcessPlugins(fileStream, ignoredRules, filePath);
         }
 
         private void ProcessDirectory(string path)
