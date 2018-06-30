@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+
 namespace TSQLLint.Core
 {
     public static class Constants
     {
-        public static readonly string[] TSqlKeywords =
+        public static readonly string[] _TSqlKeywords =
         {
             "ADD",
             "ALL",
@@ -191,7 +193,7 @@ namespace TSQLLint.Core
             "WRITETEXT"
         };
 
-        public static readonly string[] TSqlDataTypes =
+        public static readonly string[] _TSqlDataTypes =
         {
             "BIGINT",
             "BIT",
@@ -224,6 +226,10 @@ namespace TSQLLint.Core
             "UNIQUEIDENTIFIER",
             "XML"
         };
+
+        public static HashSet<string> TSqlKeywords = new HashSet<string>(_TSqlKeywords);
+
+        public static HashSet<string> TSqlDataTypes = new HashSet<string>(_TSqlDataTypes);
 
         public static int TabWidth => 4;
 

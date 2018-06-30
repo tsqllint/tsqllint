@@ -4,12 +4,15 @@ dist: trusty
 mono: none
 os:
 - linux
-solution: TSQLLint.sln
+solution: ./source/TSQLLint.sln
+branches:
+  only:
+  - master
+  - dev
 addons:
   apt:
     packages:
     - libunwind8
 dotnet: 2.0.0
 script:
-- dotnet build
-- dotnet test ./TSQLLint.Tests/TSQLLint.Tests.csproj
+- dotnet test ./source/TSQLLint.Tests/TSQLLint.Tests.csproj
