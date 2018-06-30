@@ -13,6 +13,6 @@ addons:
   apt:
     packages:
     - libunwind8
-dotnet: 2.0.0
+dotnet: 2.1.300-preview2-008530
 script:
 - dotnet test ./source/TSQLLint.Tests/TSQLLint.Tests.csproj
