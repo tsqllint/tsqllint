@@ -23,6 +23,17 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(IfStatement node)
         {
+            Foo(node);
+
+            if (node.ElseStatement != null)
+            {
+                Foo(node.ElseStatement);
+            }
+
+        }
+
+        private void Foo(TSqlFragment node)
+        {
             var childBeginEndVisitor = new ChildBeginEndVisitor();
             node.AcceptChildren(childBeginEndVisitor);
 
@@ -34,7 +45,7 @@ namespace TSQLLint.Infrastructure.Rules
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
         }
 
-        public class ChildBeginEndVisitor : TSqlFragmentVisitor
+        private class ChildBeginEndVisitor : TSqlFragmentVisitor
         {
             public bool BeginEndBlockFound
             {

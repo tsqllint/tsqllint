@@ -32,9 +32,10 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             },
             new object[]
             {
-                "conditional-begin-end-one-error-mixed-state", new List<RuleViolation>
+                "conditional-begin-end-multi-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 6, 1)
+                    new RuleViolation(RuleName, 6, 1),
+                    new RuleViolation(RuleName, 14, 5)
                 }
             }
         };
