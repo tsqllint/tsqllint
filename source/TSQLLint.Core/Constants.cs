@@ -227,9 +227,9 @@ namespace TSQLLint.Core
             "XML"
         };
 
-        public static HashSet<string> TSqlKeywords = new HashSet<string>(_TSqlKeywords);
+        public static readonly HashSet<string> TSqlKeywords = new HashSet<string>(_TSqlKeywords);
 
-        public static HashSet<string> TSqlDataTypes = new HashSet<string>(_TSqlDataTypes);
+        public static readonly HashSet<string> TSqlDataTypes = new HashSet<string>(_TSqlDataTypes);
 
         public static int TabWidth => 4;
 
