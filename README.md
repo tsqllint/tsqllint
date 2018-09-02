@@ -8,7 +8,7 @@
 
 # TSQLLint
 
-TSQLLint is a tool for describing, identifying, and reporting the presence o anti-patterns in TSQL scripts.
+TSQLLint is a tool for describing, identifying, and reporting the presence of anti-patterns in TSQL scripts.
 
 ## Installation
 
