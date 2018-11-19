@@ -179,7 +179,7 @@ SELECT * FROM FOO;
 
 ## Plugins
 
-You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/).
+You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/).  Ensure the plugin is targeting `netcoreapp2.0`.
 
 After developing the plugin, update the .tsqllintrc file to point to its `.dll`.
 
@@ -211,7 +211,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             string line;
             var lineNumber = 0;
 
-            var reader = new IO.StreamReader(File.OpenRead(context.FilePath));
+			var reader = new IO.StreamReader(File.OpenRead(context.FilePath));
 
             while ((line = reader.ReadLine()) != null)
             {
