@@ -200,6 +200,7 @@ This sample plugin notifies users that spaces should be used rather than tabs.
 ``` csharp
 using System;
 using TSQLLint.Common;
+using System.IO;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
@@ -210,7 +211,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             string line;
             var lineNumber = 0;
 
-			var reader = new System.IO.StreamReader(System.IO.File.OpenRead(context.FilePath));
+			var reader = new IO.StreamReader(File.OpenRead(context.FilePath));
 
             while ((line = reader.ReadLine()) != null)
             {
