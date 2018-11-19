@@ -210,7 +210,9 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             string line;
             var lineNumber = 0;
 
-            while ((line = context.FileContents.ReadLine()) != null)
+			var reader = new System.IO.StreamReader(System.IO.File.OpenRead(context.FilePath));
+
+            while ((line = reader.ReadLine()) != null)
             {
                 lineNumber++;
                 var column = line.IndexOf("\t", StringComparison.Ordinal);
@@ -234,7 +236,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public RuleViolationSeverity Severity { get; private set; }
         public string Text { get; private set; }
 
-        public TestRuleViolation(string fileName, string ruleName, string text, int lineNumber, int column, RuleViolationSeverity ruleViolationSeverity)
+        public SampleRuleViolation(string fileName, string ruleName, string text, int lineNumber, int column, RuleViolationSeverity ruleViolationSeverity)
         {
             FileName = fileName;
             RuleName = ruleName;
