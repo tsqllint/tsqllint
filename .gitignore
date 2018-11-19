@@ -269,3 +269,5 @@ npm-debug.log*
 *.tgz
 assemblies/*
 tsqllint-acceptance-testing/*
+
+.DS_Store
