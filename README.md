@@ -179,7 +179,7 @@ SELECT * FROM FOO;
 
 ## Plugins
 
-You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/).
+You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/).  Ensure the plugin is targeting `netcoreapp2.0`.
 
 After developing the plugin, update the .tsqllintrc file to point to its `.dll`.
 
@@ -200,6 +200,7 @@ This sample plugin notifies users that spaces should be used rather than tabs.
 ``` csharp
 using System;
 using TSQLLint.Common;
+using System.IO;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
@@ -210,7 +211,9 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             string line;
             var lineNumber = 0;
 
-            while ((line = context.FileContents.ReadLine()) != null)
+			var reader = new IO.StreamReader(File.OpenRead(context.FilePath));
+
+            while ((line = reader.ReadLine()) != null)
             {
                 lineNumber++;
                 var column = line.IndexOf("\t", StringComparison.Ordinal);
@@ -234,7 +237,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public RuleViolationSeverity Severity { get; private set; }
         public string Text { get; private set; }
 
-        public TestRuleViolation(string fileName, string ruleName, string text, int lineNumber, int column, RuleViolationSeverity ruleViolationSeverity)
+        public SampleRuleViolation(string fileName, string ruleName, string text, int lineNumber, int column, RuleViolationSeverity ruleViolationSeverity)
         {
             FileName = fileName;
             RuleName = ruleName;
