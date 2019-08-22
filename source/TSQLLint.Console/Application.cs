@@ -1,8 +1,5 @@
 using System;
 using System.IO.Abstractions;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
@@ -27,13 +24,13 @@ namespace TSQLLint.Console
         private IPluginHandler pluginHandler;
         private ISqlFileProcessor fileProcessor;
 
-        public Application(string[] args, IReporter reporter)
+        public Application(ICommandLineOptions options, IReporter reporter)
         {
             timer = new ConsoleTimer();
             timer.Start();
 
             this.reporter = reporter;
-            commandLineOptions = new CommandLineOptions(args);
+            this.commandLineOptions = options;
             configReader = new ConfigReader(reporter);
             commandLineOptionHandler = new CommandLineOptionHandler(
                 new ConfigFileGenerator(),
@@ -50,7 +47,7 @@ namespace TSQLLint.Console
             var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter);
             var ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
             pluginHandler = new PluginHandler(reporter);
-            fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
+            fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem(), commandLineOptions.Threads ?? 1);
 
             pluginHandler.ProcessPaths(configReader.GetPlugins());
             var response = commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));

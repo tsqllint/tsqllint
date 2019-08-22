@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using TSQLLint.Common;
 
 namespace TSQLLint.Infrastructure.Reporters
 {
-    public class ConsoleReporter : IReporter
+    public class ConsoleReporter : IAwaitableReporter
     {
         private int warningCount;
         private int errorCount;
@@ -31,10 +32,10 @@ namespace TSQLLint.Infrastructure.Reporters
             switch (violation.Severity)
             {
                 case RuleViolationSeverity.Warning:
-                    warningCount++;
+                    Interlocked.Increment(ref warningCount);
                     break;
                 case RuleViolationSeverity.Error:
-                    errorCount++;
+                    Interlocked.Increment(ref errorCount);
                     break;
                 default:
                     return;
@@ -53,5 +54,7 @@ namespace TSQLLint.Infrastructure.Reporters
         {
             Report($"{fileName}({line},{column}): {severity} {ruleName} : {violationText}.");
         }
+
+        public Task ReportingTask => Task.Run(() => { while (NonBlockingConsole.messageQueue.Count > 0) { } });
     }
 }

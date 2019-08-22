@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
@@ -23,23 +24,27 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly IRuleExceptionFinder ruleExceptionFinder;
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
+        private readonly SemaphoreSlim processingLock;
+
+        private int fileCount;
+
+        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem, int maxThreads)
         {
             this.ruleVisitor = ruleVisitor;
             this.pluginHandler = pluginHandler;
             this.reporter = reporter;
             this.fileSystem = fileSystem;
             ruleExceptionFinder = new RuleExceptionFinder();
+            System.Console.WriteLine($"Linting with {maxThreads} threads");
+            processingLock = new SemaphoreSlim(maxThreads, maxThreads);
         }
 
-        public int FileCount { get; private set; }
+        public int FileCount => fileCount;
 
         public void ProcessList(List<string> filePaths)
         {
-            foreach (var path in filePaths)
-            {
-                ProcessPath(path);
-            }
+
+            Parallel.ForEach(filePaths, ProcessPath);
         }
 
         public void ProcessPath(string path)
@@ -54,7 +59,7 @@ namespace TSQLLint.Infrastructure.Parser
                 filePathList[index] = filePathList[index].Trim();
             }
 
-            foreach (var filePath in filePathList)
+            Parallel.ForEach(filePathList, filePath =>
             {
                 if (!fileSystem.File.Exists(filePath))
                 {
@@ -71,17 +76,18 @@ namespace TSQLLint.Infrastructure.Parser
                 {
                     ProcessFile(filePath);
                 }
-            }
+            });
         }
 
         private void ProcessFile(string filePath)
         {
+            processingLock.Wait();
             using (var fileStream = GetFileContents(filePath))
             {
                 HandleProcessing(filePath, fileStream);
             }
-
-            FileCount++;
+            processingLock.Release();
+            Interlocked.Increment(ref fileCount);
         }
 
         private bool IsWholeFileIgnored(string filePath, IEnumerable<IExtendedRuleException> ignoredRules)
@@ -91,7 +97,7 @@ namespace TSQLLint.Infrastructure.Parser
             {
                 return false;
             }
-            
+
             var lineOneRuleIgnores = ignoredRulesEnum.OfType<GlobalRuleException>().Where(x => 1 == x.StartLine).ToArray();
             if (!lineOneRuleIgnores.Any())
             {

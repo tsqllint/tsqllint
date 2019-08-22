@@ -17,16 +17,17 @@ namespace TSQLLint.Console
 
             var configuration = builder.Build();
             var debug = configuration.GetValue("debug", false);
-            var application = new Application(args, new ConsoleReporter());
 
+            ICommandLineOptions options = new CommandLineOptions(args);
+
+                reporter = new ConsoleReporter();
+            var application = new Application(options, reporter);
             try
             {
                 application.Run();
 
-                Task.Run(() =>
-                {
-                    while (NonBlockingConsole.messageQueue.Count > 0) { }
-                }).Wait();
+                // wait for the reporter to finish
+                reporter.ReportingTask.Wait();
             }
             catch (Exception exception)
             {

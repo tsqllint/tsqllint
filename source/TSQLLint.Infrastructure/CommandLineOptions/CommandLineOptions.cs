@@ -67,6 +67,12 @@ namespace TSQLLint.Infrastructure.CommandLineOptions
             HelpText = "Display this help dialog")]
         public bool Help { get; set; }
 
+        [Option(
+            't',
+            longName: "threads",
+            Required = false,
+            HelpText = "Specify how many threads to process concurrently, defaults to 1")]
+        public int? Threads { get; set; }
         [HelpVerbOption]
         public string GetUsage()
         {

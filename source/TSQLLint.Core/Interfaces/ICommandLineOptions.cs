@@ -22,6 +22,7 @@ namespace TSQLLint.Core.Interfaces
 
         bool Version { get; set; }
 
+        int? Threads { get; set; }
         string GetUsage();
     }
 }
