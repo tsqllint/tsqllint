@@ -36,7 +36,9 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var fileSystem = Substitute.For<IFileSystem>();
             var fileBase = Substitute.For<FileBase>();
             var pluginHandler = Substitute.For<IPluginHandler>();
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var maxThreads = 1;
+
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             fileBase.Exists(filePath).Returns(true);
             fileBase.OpenRead(filePath).Returns(ParsingUtility.GenerateStreamFromString("Some Sql To Parse"));
@@ -48,7 +50,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             // assert
             fileBase.Received().Exists(filePath);
             fileBase.Received().OpenRead(filePath);
-            ruleVisitor.Received().VisitRules(filePath, Arg.Any<IEnumerable<IExtendedRuleException>>(),  Arg.Any<Stream>());
+            ruleVisitor.Received().VisitRules(filePath, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
             Assert.AreEqual(1, processor.FileCount);
         }
 
@@ -64,6 +66,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var pluginHandler = Substitute.For<IPluginHandler>();
             var reporter = Substitute.For<IReporter>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -81,7 +84,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath("\" " + @"c:\DBScripts" + " \"");
@@ -106,6 +109,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -123,7 +127,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath(@"c:\DBScripts");
@@ -147,6 +151,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var fileSystem = Substitute.For<IFileSystem>();
             var fileBase = Substitute.For<FileBase>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             fileBase.Exists(filePath).Returns(false);
             fileSystem.File.Returns(fileBase);
@@ -154,7 +159,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             directoryBase.Exists(filePath).Returns(false);
             fileSystem.Directory.Returns(directoryBase);
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath(filePath);
@@ -179,6 +184,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -196,7 +202,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath(@"c:\DBScripts\file?.sql");
@@ -222,6 +228,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -242,7 +249,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath(@"c:\DBScripts\file*.*");
@@ -265,6 +272,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(
                 new Dictionary<string, MockFileData>
@@ -275,7 +283,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 },
                 @"c:\dbscripts");
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath(@"c:\doesntExist\file*.*");
@@ -299,6 +307,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(
                 new Dictionary<string, MockFileData>
@@ -321,7 +330,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 },
                 @"c:\dbscripts");
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath(@"file*.*");
@@ -345,6 +354,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -353,7 +363,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessPath(@"c:\DBScripts\invalid*.*");
@@ -372,7 +382,9 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var reporter = Substitute.For<IReporter>();
             var fileSystem = Substitute.For<IFileSystem>();
             var pluginHandler = Substitute.For<IPluginHandler>();
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var maxThreads = 1;
+
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessList(new List<string>());
@@ -394,6 +406,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -411,7 +424,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessList(new List<string> { "\" c:\\dbscripts\\db2\\sproc , c:\\dbscripts\\db2\\file3.sql \"", @"c:\dbscripts\db1\" });             // tests quotes, extra spaces, commas, multiple items in the list
@@ -435,6 +448,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
             var pluginHandler = Substitute.For<IPluginHandler>();
+            var maxThreads = 1;
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -446,7 +460,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, maxThreads);
 
             // act
             processor.ProcessList(new List<string> { invalidFilePath, @"c:\dbscripts\db1\" });
