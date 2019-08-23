@@ -1,7 +1,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.CommandLineOptions;
 using TSQLLint.Infrastructure.Reporters;
 
 namespace TSQLLint.Console
@@ -20,8 +21,10 @@ namespace TSQLLint.Console
 
             ICommandLineOptions options = new CommandLineOptions(args);
 
-                reporter = new ConsoleReporter();
+            IAwaitableReporter reporter = new ConsoleReporter();
+
             var application = new Application(options, reporter);
+
             try
             {
                 application.Run();
