@@ -124,16 +124,16 @@ namespace TSQLLint.Infrastructure.Parser
         private void ProcessDirectory(string path)
         {
             var subDirectories = fileSystem.Directory.GetDirectories(path);
-            foreach (var filePath in subDirectories)
+            Parallel.ForEach(subDirectories, (filePath) =>
             {
                 ProcessPath(filePath);
-            }
-
+            });
+            
             var fileEntries = fileSystem.Directory.GetFiles(path);
-            foreach (var file in fileEntries)
+            Parallel.ForEach(fileEntries, (file) =>
             {
                 ProcessIfSqlFile(file);
-            }
+            });
         }
 
         private void ProcessIfSqlFile(string fileName)
