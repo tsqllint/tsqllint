@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
@@ -23,6 +24,8 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly IRuleExceptionFinder ruleExceptionFinder;
 
+        private readonly ConcurrentBag<string> exclusionPaths = new ConcurrentBag<string>();
+
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
             this.ruleVisitor = ruleVisitor;
@@ -36,6 +39,7 @@ namespace TSQLLint.Infrastructure.Parser
 
         public void ProcessList(List<string> filePaths)
         {
+            var exclusionPaths = new List<string>();
             Parallel.ForEach(filePaths, (path) =>
             {
                 ProcessPath(path);
@@ -48,13 +52,31 @@ namespace TSQLLint.Infrastructure.Parser
             path = path.Replace("\"", string.Empty);
 
             var filePathList = path.Split(',');
+            var noramlizedFilePaths = new List<string>();
+            
             for (var index = 0; index < filePathList.Length; index++)
             {
                 // remove leading and trailing whitespace
-                filePathList[index] = filePathList[index].Trim();
+                var normalizedPath = filePathList[index].Trim().TrimEnd('\\');
+
+                if (normalizedPath.StartsWith('!'))
+                {
+                    var normalizedExclusionPath = normalizedPath.Replace("!", "");
+
+                    if (!exclusionPaths.Contains(normalizedExclusionPath))
+                    {
+                        exclusionPaths.Add(normalizedExclusionPath);
+                    }
+                    //Console.WriteLine($"!!!!!!! {exclusionPaths.Count}");
+                    //Console.WriteLine($"!!!!!!! {normalizedExclusionPath}");
+                }
+                else
+                {
+                    noramlizedFilePaths.Add(normalizedPath);
+                }
             }
 
-            Parallel.ForEach(filePathList, (filePath) =>
+            Parallel.ForEach(noramlizedFilePaths, (filePath) =>
             {
                 if (!fileSystem.File.Exists(filePath))
                 {
@@ -76,6 +98,11 @@ namespace TSQLLint.Infrastructure.Parser
 
         private void ProcessFile(string filePath)
         {
+            if (exclusionPaths.Any(exc => filePath.StartsWith(exc)))
+            {
+                return;
+            }
+
             using (var fileStream = GetFileContents(filePath))
             {
                 HandleProcessing(filePath, fileStream);

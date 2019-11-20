@@ -137,6 +137,41 @@ namespace TSQLLint.Tests.UnitTests.Parser
         }
 
         [Test]
+        public void ProcessPath_Exclusions()
+        {
+            // arrange
+            const string filePath1 = @"f:\wagit6\AAPT-Antares-Websites\out\debug-amd64\hosting\1.sql";
+            const string filePath2 = @"!f:\wagit6\AAPT-Antares-Websites\out\debug-amd64\hosting\Azure\RDTools\Tools\Antares\Database\HostingAdmin\2.sql";
+            const string filePath3 = @" !f:\wagit6\AAPT-Antares-Websites\out\debug-amd64\hosting\Test\TestCases\HostingBvt\TestData\MySql\3.sql";
+
+            var ruleVisitor = Substitute.For<IRuleVisitor>();
+            var reporter = Substitute.For<IReporter>();
+            var pluginHandler = Substitute.For<IPluginHandler>();
+
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    filePath1, new MockFileData("File1SQL")
+                },
+                {
+                    filePath2, new MockFileData("File2SQL")
+                },
+                {
+                    filePath3, new MockFileData("File3SQL")
+                }
+            });
+
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+
+            // act
+            processor.ProcessPath(@"f:\wagit6\AAPT-Antares-Websites\out\debug-amd64\hosting\,!f:\wagit6\AAPT-Antares-Websites\out\debug-amd64\hosting\Azure\RDTools\Tools\Antares\Database\HostingAdmin\,!f:\wagit6\AAPT-Antares-Websites\out\debug-amd64\hosting\Test\TestCases\HostingBvt\TestData\MySql");
+
+            // assert
+            ruleVisitor.Received().VisitRules(filePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
+            Assert.AreEqual(1, processor.FileCount);
+        }
+
+        [Test]
         public void ProcessPath_InvalidPathSpecified_ShouldNotProcessFiles()
         {
             // arrange
