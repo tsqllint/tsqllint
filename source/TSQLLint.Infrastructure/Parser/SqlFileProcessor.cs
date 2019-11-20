@@ -36,10 +36,10 @@ namespace TSQLLint.Infrastructure.Parser
 
         public void ProcessList(List<string> filePaths)
         {
-            foreach (var path in filePaths)
+            Parallel.ForEach(filePaths, (path) =>
             {
                 ProcessPath(path);
-            }
+            });
         }
 
         public void ProcessPath(string path)
@@ -54,7 +54,7 @@ namespace TSQLLint.Infrastructure.Parser
                 filePathList[index] = filePathList[index].Trim();
             }
 
-            foreach (var filePath in filePathList)
+            Parallel.ForEach(filePathList, (filePath) =>
             {
                 if (!fileSystem.File.Exists(filePath))
                 {
@@ -71,7 +71,7 @@ namespace TSQLLint.Infrastructure.Parser
                 {
                     ProcessFile(filePath);
                 }
-            }
+            });
         }
 
         private void ProcessFile(string filePath)
@@ -167,10 +167,10 @@ namespace TSQLLint.Infrastructure.Parser
 
             var searchPattern = fileSystem.Path.GetFileName(filePath);
             var files = fileSystem.Directory.EnumerateFiles(dirPath, searchPattern, SearchOption.TopDirectoryOnly);
-            foreach (var file in files)
+            Parallel.ForEach(files, (file) =>
             {
                 ProcessIfSqlFile(file);
-            }
+            });
         }
 
         private void ProcessRules(Stream fileStream, IEnumerable<IRuleException> ignoredRules, string filePath)
