@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
@@ -23,6 +25,8 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly IRuleExceptionFinder ruleExceptionFinder;
 
+        private ConcurrentDictionary<string, Stream> fileStreams = new ConcurrentDictionary<string, Stream>();
+
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
             this.ruleVisitor = ruleVisitor;
@@ -32,17 +36,40 @@ namespace TSQLLint.Infrastructure.Parser
             ruleExceptionFinder = new RuleExceptionFinder();
         }
 
-        public int FileCount { get; private set; }
+        private int _fileCount;
+        public int FileCount
+        {
+            get
+            {
+                return _fileCount;
+            }
+        }
 
         public void ProcessList(List<string> filePaths)
         {
             Parallel.ForEach(filePaths, (path) =>
             {
-                ProcessPath(path);
+                processPath(path);
             });
+
+            foreach (var sqlFile in fileStreams)
+            {
+                HandleProcessing(sqlFile.Key, sqlFile.Value);
+                sqlFile.Value.Dispose();
+            }
         }
 
         public void ProcessPath(string path)
+        {
+            processPath(path);
+            foreach (var sqlFile in fileStreams)
+            {
+                HandleProcessing(sqlFile.Key, sqlFile.Value);
+                sqlFile.Value.Dispose();
+            }
+        }
+
+        private void processPath(string path)
         {
             // remove quotes from filePaths
             path = path.Replace("\"", string.Empty);
@@ -76,12 +103,10 @@ namespace TSQLLint.Infrastructure.Parser
 
         private void ProcessFile(string filePath)
         {
-            using (var fileStream = GetFileContents(filePath))
-            {
-                HandleProcessing(filePath, fileStream);
-            }
-
-            FileCount++;
+            var fileStream = GetFileContents(filePath);
+            AddToProcessing(filePath, fileStream);
+            
+            Interlocked.Increment(ref _fileCount);
         }
 
         private bool IsWholeFileIgnored(string filePath, IEnumerable<IExtendedRuleException> ignoredRules)
@@ -110,6 +135,11 @@ namespace TSQLLint.Infrastructure.Parser
             return lineOneRuleIgnores.Any(x => x.EndLine == lineCount);
         }
 
+        private void AddToProcessing(string filePath, Stream fileStream)
+        {
+            fileStreams.TryAdd(filePath, fileStream);
+        }
+
         private void HandleProcessing(string filePath, Stream fileStream)
         {
             var ignoredRules = ruleExceptionFinder.GetIgnoredRuleList(fileStream).ToList();
@@ -126,7 +156,7 @@ namespace TSQLLint.Infrastructure.Parser
             var subDirectories = fileSystem.Directory.GetDirectories(path);
             Parallel.ForEach(subDirectories, (filePath) =>
             {
-                ProcessPath(filePath);
+                processPath(filePath);
             });
             
             var fileEntries = fileSystem.Directory.GetFiles(path);
