@@ -98,7 +98,7 @@ namespace TSQLLint.Infrastructure.Parser
 
         private void ProcessFile(string filePath)
         {
-            if (exclusionPaths.Any(exc => filePath.StartsWith(exc)))
+            if (exclusionPaths.Any(exc => filePath.StartsWith(exc, StringComparison.InvariantCultureIgnoreCase)))
             {
                 return;
             }
