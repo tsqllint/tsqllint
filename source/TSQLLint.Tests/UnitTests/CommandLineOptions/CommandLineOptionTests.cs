@@ -12,16 +12,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
     [TestFixture]
     public class CommandLineOptionTests
     {
-        [SetUp]
-        public void Setup()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.Win32S ||
-            Environment.OSVersion.Platform == PlatformID.Win32Windows ||
-            Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                Assert.Ignore("Tests ignored on windows due to file path issues");
-            }
-        }
+
 
         private static readonly string InvalidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc-foo");
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
@@ -31,6 +22,17 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         private static readonly string ConfigNotFoundMessage = $"Config file not found at: {InvalidConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite";
         private static readonly string ConfigFoundMessage = $"Config file found at: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc")}";
         private static readonly string NoPluginsFound = "Did not find any plugins";
+
+        [SetUp]
+        public void Setup()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32S ||
+                Environment.OSVersion.Platform == PlatformID.Win32Windows ||
+                Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Assert.Ignore("Tests ignored on windows due to file path issues");
+            }
+        }
 
         private static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
         {
