@@ -16,6 +16,13 @@ namespace TSQLLint.Tests.FunctionalTests
         [SetUp]
         public void Setup()
         {
+            if (Environment.OSVersion.Platform == PlatformID.Win32S ||
+                Environment.OSVersion.Platform == PlatformID.Win32Windows ||
+                Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Assert.Ignore("Tests ignored on windows due to file path issues");
+            }
+
             testDirectoryPath = TestContext.CurrentContext.WorkDirectory;
         }
 
