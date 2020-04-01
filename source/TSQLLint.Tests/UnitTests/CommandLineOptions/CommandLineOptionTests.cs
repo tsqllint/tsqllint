@@ -12,6 +12,17 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
     [TestFixture]
     public class CommandLineOptionTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32S ||
+            Environment.OSVersion.Platform == PlatformID.Win32Windows ||
+            Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Assert.Ignore("Tests ignored on windows due to file path issues");
+            }
+        }
+
         private static readonly string InvalidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc-foo");
         private static readonly string ValidConfigFile = Path.Combine(TestFileDirectory, @".tsqllintrc");
         private static readonly string TestFileTwo = Path.Combine(TestFileDirectory, @"TestFileSubDirectory/integration-test-two.sql");
