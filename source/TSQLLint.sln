@@ -9,17 +9,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{396E960A-A8E0-4636-A790-457CB273976B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.gitignore = .gitignore
-		.npmignore = .npmignore
-		.travis.yml = .travis.yml
-		appveyor.yml = appveyor.yml
-		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
-		codecov.yml = codecov.yml
-		CONTRIBUTING.MD = CONTRIBUTING.MD
+		..\.gitignore = ..\.gitignore
+		..\.npmignore = ..\.npmignore
+		..\.travis.yml = ..\.travis.yml
+		..\appveyor.yml = ..\appveyor.yml
+		..\CODE_OF_CONDUCT.md = ..\CODE_OF_CONDUCT.md
+		..\codecov.yml = ..\codecov.yml
+		..\CONTRIBUTING.MD = ..\CONTRIBUTING.MD
 		.stylecop\custom-dictionary.xml = .stylecop\custom-dictionary.xml
-		LICENSE = LICENSE
-		package.json = package.json
-		README.md = README.md
+		..\LICENSE = ..\LICENSE
+		..\package.json = ..\package.json
+		..\README.md = ..\README.md
 		.stylecop\stylecop.json = .stylecop\stylecop.json
 		.stylecop\stylecop.ruleset = .stylecop\stylecop.ruleset
 	EndProjectSection
