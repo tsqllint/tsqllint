@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
@@ -21,13 +20,19 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly IReporter reporter;
 
+        private readonly ISqlStreamReaderBuilder sqlStreamReaderBuilder;
+
         private readonly OverrideFinder overrideFinder = new OverrideFinder();
 
         public SqlRuleVisitor(IRuleVisitorBuilder ruleVisitorBuilder, IFragmentBuilder fragmentBuilder, IReporter reporter)
+            : this(ruleVisitorBuilder, fragmentBuilder, reporter, new SqlStreamReaderBuilder()) { }
+
+        public SqlRuleVisitor(IRuleVisitorBuilder ruleVisitorBuilder, IFragmentBuilder fragmentBuilder, IReporter reporter, ISqlStreamReaderBuilder sqlStreamReaderBuilder)
         {
             this.fragmentBuilder = fragmentBuilder;
             this.reporter = reporter;
             this.ruleVisitorBuilder = ruleVisitorBuilder;
+            this.sqlStreamReaderBuilder = sqlStreamReaderBuilder;
         }
 
         public void VisitRules(string sqlPath, IEnumerable<IRuleException> ignoredRules, Stream sqlFileStream)
@@ -90,11 +95,9 @@ namespace TSQLLint.Infrastructure.Parser
             }.Any(x => visitor.GetType().ToString().Contains(x));
         }
 
-        private static StreamReader GetSqlTextReader(Stream sqlFileStream)
+        private StreamReader GetSqlTextReader(Stream sqlFileStream)
         {
-            var sqlText = new StreamReader(sqlFileStream);
-            sqlFileStream.Seek(0, SeekOrigin.Begin);
-            return sqlText;
+            return sqlStreamReaderBuilder.CreateReader(sqlFileStream);
         }
 
         private void HandleParserErrors(string sqlPath, IEnumerable<ParseError> errors, IEnumerable<IRuleException> ignoredRules)
