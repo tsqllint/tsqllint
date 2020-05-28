@@ -177,6 +177,16 @@ Setting the compatability level using inline comments configures the Compatabili
 SELECT * FROM FOO;
 ```
 
+## SQL Placeholders
+
+Many tools in the SQL ecosystem support placeholders to templatize SQL files as shown in the example below:
+
+```sql
+SELECT * FROM FOO WHERE BAR = '$(MyPlaceholderValue)';
+```
+
+Before applying any linting rules, TSQLLint will replace any placeholder in a SQL file with values provided via environment variables.
+
 ## Plugins
 
 You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/).  Ensure the plugin is targeting `netcoreapp2.0`.
