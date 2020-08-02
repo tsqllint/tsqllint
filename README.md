@@ -118,7 +118,7 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
 
 To temporarily disable all rule warnings in a script, use comments in the following format:
 
-```sql
+```tsql
 /* tsqllint-disable */
 
 SELECT * FROM FOO;
@@ -128,7 +128,7 @@ SELECT * FROM FOO;
 
 To disable or enable warnings for specific rules:
 
-```sql
+```tsql
 /* tsqllint-disable select-star */
 
 SELECT * FROM FOO;
@@ -138,7 +138,7 @@ SELECT * FROM FOO;
 
 To disable warnings for the entire script, place a /* tsqllint-disable */ comment at the top of the file:
 
-```sql
+```tsql
 /* tsqllint-disable */
 
 SELECT * FROM FOO;
@@ -146,7 +146,7 @@ SELECT * FROM FOO;
 
 To disable specific rule warnings for the entire script place a comment similar to the following at the top of the file:
 
-```sql
+```tsql
 /* tsqllint-disable select-star */
 
 SELECT * FROM FOO;
@@ -171,7 +171,7 @@ Setting the compatability level within the `.tsqllintrc` file configures the def
 
 Setting the compatability level using inline comments configures the Compatability Level for just that file. Overrides should be placed at the top of files.
 
-```sql
+```tsql
 /* tsqllint-override compatability-level = 130 */
 
 SELECT * FROM FOO;
@@ -181,7 +181,7 @@ SELECT * FROM FOO;
 
 Many tools in the SQL ecosystem support placeholders to templatize SQL files as shown in the example below:
 
-```sql
+```tsql
 SELECT * FROM FOO WHERE BAR = '$(MyPlaceholderValue)';
 ```
 

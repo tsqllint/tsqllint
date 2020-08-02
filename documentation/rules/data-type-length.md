@@ -6,7 +6,7 @@ Use of length when specifying data types can help with database size and improve
 
 Examples of **incorrect** code for this rule:
 
-```sql
+```tsql
   CREATE TABLE MyTable
     (ID INT,
      Name nvarchar);
@@ -14,8 +14,8 @@ Examples of **incorrect** code for this rule:
 
 Examples of **correct** code for this rule:
 
-```sql
+```tsql
   CREATE TABLE MyTable
-	(ID INT,
-	Name nvarchar(50))
+  (ID INT,
+  Name nvarchar(50))
 ```

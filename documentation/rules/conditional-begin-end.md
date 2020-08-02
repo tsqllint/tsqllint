@@ -5,15 +5,15 @@
 Use BEGIN and END to bind conditional statments as a single block of code.
 
 Examples of **incorrect** code for this rule:
-        
-```sql
+
+```tsql
   IF (@parm = 1)
     SELECT @output = ‘foo’
 ```
 
 Examples of **correct** code for this rule:
 
-```sql
+```tsql
   IF (@parm = 1)
   BEGIN
     SELECT @output = ‘foo’
