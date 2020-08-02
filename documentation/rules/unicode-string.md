@@ -8,14 +8,11 @@ strings that do not support unicode characters.
 Examples of **incorrect** code for this rule:
 
 ```tsql
-SET @MyVar VARCHAR(30) = '¡This is incorrect!';
+DECLARE @MyVar VARCHAR(30) = 'Ⱦhis is incorrect.';
 ```
 
 Examples of **correct** code for this rule:
 
 ```tsql
-SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
-GO
-
-SELECT @MyVar NVARCHAR(30) = '¡This is correct!';
+DECLARE @MyVar NVARCHAR(30) = N'Ⱦhis is correct.';
 ```

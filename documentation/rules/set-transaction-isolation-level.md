@@ -7,7 +7,8 @@ This rule enforces setting `SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED` ne
 Examples of **incorrect** code for this rule:
 
 ```tsql
-SET @MyVar = 'This is incorrect.';
+DECLARE @MyVar VARCHAR(30);
+SELECT @MyVar = 'This is incorrect.';
 ```
 
 Examples of **correct** code for this rule:
@@ -16,5 +17,6 @@ Examples of **correct** code for this rule:
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 GO
 
+DECLARE @MyVar VARCHAR(30);
 SELECT @MyVar = 'This is correct.';
 ```

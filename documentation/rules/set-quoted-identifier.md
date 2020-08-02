@@ -8,7 +8,8 @@ near the top of the file.
 Examples of **incorrect** code for this rule:
 
 ```tsql
-SET @MyVar = 'This is incorrect.';
+DECLARE @MyVar VARCHAR(30);
+SELECT @MyVar = 'This is incorrect.';
 ```
 
 Examples of **correct** code for this rule:
@@ -17,5 +18,6 @@ Examples of **correct** code for this rule:
 SET QUOTED_IDENTIFIER ON;
 GO
 
+DECLARE @MyVar VARCHAR(30);
 SELECT @MyVar = 'This is correct.';
 ```
