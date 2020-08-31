@@ -4,12 +4,12 @@
 
 Capitalizing SQL keywords enhances readability and provides a clear seperation between keywords and objects
 
-```sql
+```tsql
 select * from foo;
 ```
 
 Examples of **correct** code for this rule:
 
-```sql
+```tsql
 SELECT * FROM foo;
 ```

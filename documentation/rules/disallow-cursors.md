@@ -6,15 +6,15 @@ Use of cursors introduces a pattern of row based operations, which less preferre
 
 Examples of **incorrect** code for this rule:
 
-```sql
-DECLARE @id int 
+```tsql
+DECLARE @id int
 DECLARE cursorT CURSOR
 FOR
 SELECT ProductId
 FROM AdventureWorks2012.Production.Product
 WHERE DaysToManufacture <= 1
- 
-OPEN cursorT 
+
+OPEN cursorT
 FETCH NEXT FROM cursorT INTO @id
 WHILE @@FETCH_STATUS = 0
 BEGIN
@@ -22,13 +22,13 @@ BEGIN
           WHERE ProductID=@id
           FETCH NEXT FROM cursorT INTO @id
 END
-CLOSE cursorT 
-DEALLOCATE cursorT 
+CLOSE cursorT
+DEALLOCATE cursorT
 ```
 
 Examples of **correct** code for this rule:
 
-```sql
+```tsql
 -- Alternative to cursor statement, using join
 
 SET STATISTICS TIME ON
