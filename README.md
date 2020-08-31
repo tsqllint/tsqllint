@@ -1,7 +1,3 @@
-
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/tsqllint/tsqllint?svg=true&branch=master)](https://ci.appveyor.com/project/nathan-boyd/tsqllint)
-[![codecov](https://codecov.io/gh/tsqllint/tsqllint/branch/master/graph/badge.svg)](https://codecov.io/gh/tsqllint/tsqllint)  
-
 [![npm version](https://badge.fury.io/js/tsqllint.svg)](https://badge.fury.io/js/tsqllint)
 [![npm](https://img.shields.io/npm/dt/tsqllint.svg)](https://www.npmjs.com/package/tsqllint)
 [![Gitter chat](https://img.shields.io/gitter/room/badges/shields.svg)](https://gitter.im/TSQLLint/Lobby)
@@ -16,13 +12,13 @@ The recommended method of installing tsqllint is to install the tool globally us
 
 This binary can be installed though [the `npm` registry](https://www.npmjs.com/). First, install [Node.js version 4 or higher](https://nodejs.org/en/download/), and then install using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
-``` bash
+```bash
 npm install tsqllint -g
 ```
 
 ## Usage
 
-``` bash
+```bash
 # lint a single file
 tsqllint test.sql
 
@@ -85,32 +81,32 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
 
 ```json
 {
-    "rules": {
-        "conditional-begin-end": "error",
-        "cross-database-transaction": "error",
-        "data-compression": "error",
-        "data-type-length": "error",
-        "disallow-cursors": "error",
-        "full-text": "error",
-        "information-schema": "error",
-        "keyword-capitalization": "error",
-        "linked-server": "error",
-        "multi-table-alias": "error",
-        "named-constraint": "error",
-        "non-sargable": "error",
-        "object-property": "error",
-        "print-statement": "error",
-        "schema-qualify": "error",
-        "select-star": "error",
-        "semicolon-termination": "error",
-        "set-ansi": "error",
-        "set-nocount": "error",
-        "set-quoted-identifier": "error",
-        "set-transaction-isolation-level": "error",
-        "set-variable": "error",
-        "upper-lower": "error",
-        "unicode-string" : "error"
-    }
+  "rules": {
+    "conditional-begin-end": "error",
+    "cross-database-transaction": "error",
+    "data-compression": "error",
+    "data-type-length": "error",
+    "disallow-cursors": "error",
+    "full-text": "error",
+    "information-schema": "error",
+    "keyword-capitalization": "error",
+    "linked-server": "error",
+    "multi-table-alias": "error",
+    "named-constraint": "error",
+    "non-sargable": "error",
+    "object-property": "error",
+    "print-statement": "error",
+    "schema-qualify": "error",
+    "select-star": "error",
+    "semicolon-termination": "error",
+    "set-ansi": "error",
+    "set-nocount": "error",
+    "set-quoted-identifier": "error",
+    "set-transaction-isolation-level": "error",
+    "set-variable": "error",
+    "upper-lower": "error",
+    "unicode-string": "error"
+  }
 }
 ```
 
@@ -136,7 +132,7 @@ SELECT * FROM FOO;
 /* tsqllint-enable select-star */
 ```
 
-To disable warnings for the entire script, place a /* tsqllint-disable */ comment at the top of the file:
+To disable warnings for the entire script, place a /_ tsqllint-disable _/ comment at the top of the file:
 
 ```tsql
 /* tsqllint-disable */
@@ -151,19 +147,21 @@ To disable specific rule warnings for the entire script place a comment similar 
 
 SELECT * FROM FOO;
 ```
+
 ## SQL Compatibility Level
 
-TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments within the SQL file. TSQLLint supports the following compatibility levels  80, 90, 100, 110, 120, 130, 140, and 150. 
+TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments within the SQL file. TSQLLint supports the following compatibility levels 80, 90, 100, 110, 120, 130, 140, and 150.
 
 ### Setting a default Compatability Level using .tsqllintrc
 
 Setting the compatability level within the `.tsqllintrc` file configures the default Compatability Level for all files.
+
 ```json
 {
-    "rules": {
-        "upper-lower": "error"
-    },
-    "compatability-level": 90
+  "rules": {
+    "upper-lower": "error"
+  },
+  "compatability-level": 90
 }
 ```
 
@@ -189,25 +187,25 @@ Before applying any linting rules, TSQLLint will replace any placeholder in a SQ
 
 ## Plugins
 
-You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/).  Ensure the plugin is targeting `netcoreapp2.0`.
+You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/). Ensure the plugin is targeting `netcoreapp2.0`.
 
 After developing the plugin, update the .tsqllintrc file to point to its `.dll`.
 
 ```json
 {
-    "rules": {
-        "upper-lower": "error"
-    },
-    "plugins": {
-        "my-first-plugin": "c:/users/someone/my-plugins/my-first-plugin.dll",
-        "my-second-plugin": "c:/users/someone/my-plugins/my-second-plugin.dll/"
-    }
+  "rules": {
+    "upper-lower": "error"
+  },
+  "plugins": {
+    "my-first-plugin": "c:/users/someone/my-plugins/my-first-plugin.dll",
+    "my-second-plugin": "c:/users/someone/my-plugins/my-second-plugin.dll/"
+  }
 }
 ```
 
 This sample plugin notifies users that spaces should be used rather than tabs.
 
-``` csharp
+```csharp
 using System;
 using TSQLLint.Common;
 using System.IO;
