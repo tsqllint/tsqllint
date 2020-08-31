@@ -14,4 +14,5 @@ deploy:
   on:
     repo: tsqllint/tsqllint
     branch: dev
+    tags: true
   skip_cleanup: 'true'
