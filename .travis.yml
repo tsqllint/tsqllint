@@ -18,6 +18,5 @@ deploy:
     - "./assemblies/win-x86.tgz"
   on:
     repo: tsqllint/tsqllint
-    branch: dev
     tags: true
   skip_cleanup: 'true'
