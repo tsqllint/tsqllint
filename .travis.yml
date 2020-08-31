@@ -3,14 +3,11 @@ services:
 - docker
 jobs:
   include:
-    - stage: "Tests"
-      name: "Unit Tests"
-      script: docker run --rm -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/test/cover.sh
-    - stage: "Report"
-      name: "Report"
-      script: docker run --rm -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/test/cover-report.sh
-    - stage: "Publish artifacts"
-      name: "Generate assemblies and publisn artifacts"
+    - stage: "Test"
+      name: "Run and cover tests"
+      scripts: docker run --rm -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/test/cover.sh
+    - stage: "Generate and publish artifacts"
+      name: "Generate assemblies and publish artifacts"
       script: docker run --rm -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/build/publish.sh
       deploy:
         provider: releases
