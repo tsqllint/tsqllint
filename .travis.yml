@@ -3,6 +3,7 @@ services:
 - docker
 script:
 - docker run --rm -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/test/cover.sh
+- docker run --rm -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/test/cover-report.sh
 - docker run --rm -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/build/publish.sh
 deploy:
   provider: releases
