@@ -1,18 +1,7 @@
-language: csharp
-sudo: required
-dist: trusty
-mono: none
-os:
-- linux
-solution: ./source/TSQLLint.sln
-branches:
-  only:
-  - master
-  - dev
-addons:
-  apt:
-    packages:
-    - libunwind8
-dotnet: 2.1
-script:
-- dotnet test ./source/TSQLLint.Tests/TSQLLint.Tests.csproj
+language: bash
+
+services:
+  - docker
+
+before_install:
+- docker build . -t tsqllintdev
