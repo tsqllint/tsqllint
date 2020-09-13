@@ -8,7 +8,14 @@ TSQLLint is a tool for describing, identifying, and reporting the presence of an
 
 ## Installation
 
-The recommended method of installing tsqllint is to install the tool globally using NPM.
+For OSX and Linux the recommended method of installing TSQLLint is to install the tool using homebrew.
+
+```shell
+$ brew tap tsqllint/homebrew-tsqllint
+$ brew install tsqllint
+```
+
+TSQLLint may also be installed with NPM
 
 This binary can be installed though [the `npm` registry](https://www.npmjs.com/). First, install [Node.js version 4 or higher](https://nodejs.org/en/download/), and then install using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
