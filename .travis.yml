@@ -5,7 +5,7 @@ jobs:
   include:
     - stage: "Test"
       name: "Run and cover tests"
-      scripts: docker run --rm -v -w /app $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/test/cover.sh
+      scripts: docker run --rm -w /app -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/test/cover.sh
     - stage: "Publish"
       name: "Generate assemblies and publish artifacts"
       script: docker run --rm -w /app -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/build/publish.sh
