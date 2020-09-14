@@ -26,6 +26,7 @@ do
         /p:Version="$VERSION" \
         -o "$ASSEMBLIESDIR/$PLATFORM"
 
+    # change directory to reduce directory depth in archive file
     cd "$ASSEMBLIESDIR"
     tar -zcvf "$ASSEMBLIESDIR/$PLATFORM.tgz" "$PLATFORM"
     cd "$WORKING_DIRECTORY"
