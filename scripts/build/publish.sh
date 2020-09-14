@@ -22,7 +22,7 @@ do
         $REPODIR/source/TSQLLint.Console/TSQLLint.Console.csproj \
         -c Release \
         -f netcoreapp3.1 \
-        -r "$platform" \
+        -r "$PLATFORM" \
         /p:Version="$VERSION" \
         -o "$ASSEMBLIESDIR/$PLATFORM"
 
