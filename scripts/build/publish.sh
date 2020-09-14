@@ -9,12 +9,22 @@ REPODIR="$(dirname "$BUILDSCRIPTDIR")"
 ASSEMBLIESDIR=$REPODIR/artifacts/assemblies
 mkdir -p $ASSEMBLIESDIR
 
-dotnet publish $REPODIR/source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r win-x86   -o $ASSEMBLIESDIR/win-x86
-dotnet publish $REPODIR/source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r win-x64   -o $ASSEMBLIESDIR/win-x64
-dotnet publish $REPODIR/source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r osx-x64   -o $ASSEMBLIESDIR/osx-x64
-dotnet publish $REPODIR/source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r linux-x64 -o $ASSEMBLIESDIR/linux-x64
+VERSION="0.0.0.1"
+CHECKOUT=$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD)
+if grep -q '^tags/' <<< "$CHECKOUT"; then
+    VERSION=$(echo "$CHECKOUT" | grep -oE "[0-9]+[.][0-9]+[.][0-9]+")
+fi
 
-tar -zcvf $ASSEMBLIESDIR/osx-x64.tgz   $ASSEMBLIESDIR/osx-x64
-tar -zcvf $ASSEMBLIESDIR/win-x86.tgz   $ASSEMBLIESDIR/win-x86
-tar -zcvf $ASSEMBLIESDIR/win-x64.tgz   $ASSEMBLIESDIR/win-x64
-tar -zcvf $ASSEMBLIESDIR/linux-x64.tgz $ASSEMBLIESDIR/linux-x64
+PLATFORMS=( "win-x86" "win-x64" "osx-x64" "linux-x64")
+for PLATFORM in "${PLATFORMS[@]}"
+do
+    dotnet publish \
+        $REPODIR/source/TSQLLint.Console/TSQLLint.Console.csproj \
+        -c Release \
+        -f netcoreapp3.1 \
+        -r "$platform" \
+        /p:Version="$VERSION" \
+        -o "$ASSEMBLIESDIR/$PLATFORM"
+
+    tar -zcvf "$ASSEMBLIESDIR/$PLATFORM.tgz" "$ASSEMBLIESDIR/$PLATFORM"
+done
