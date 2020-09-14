@@ -19,7 +19,7 @@ jobs:
         skip_cleanup: 'true'
     - stage: "Publish"
       name: "Generate assemblies and publish artifacts"
-      script: docker run --rm -w /app -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/build/publish.sh
+      script: docker run --rm -w /app --env-file <( env ) -v $(pwd)/:/app mcr.microsoft.com/dotnet/core/sdk:3.1 /app/scripts/build/publish.sh
       deploy:
         provider: releases
         prerelease: true
