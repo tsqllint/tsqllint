@@ -26,5 +26,7 @@ do
         /p:Version="$VERSION" \
         -o "$ASSEMBLIESDIR/$PLATFORM"
 
-    tar -zcvf "$ASSEMBLIESDIR/$PLATFORM.tgz" "$ASSEMBLIESDIR/$PLATFORM"
+    cd "$ASSEMBLIESDIR"
+    tar -zcvf "$ASSEMBLIESDIR/$PLATFORM.tgz" "$PLATFORM"
+    cd "$WORKING_DIRECTORY"
 done
