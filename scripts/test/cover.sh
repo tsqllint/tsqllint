@@ -28,7 +28,7 @@ cd $COVERAGEDIR
 tar -zcvf $COVERAGEDIR/coverage-report.tgz report
 cd $WORKING_DIRECTORY
 
-if [[ ! -z "${TRAVIS}" ]]; then
+if [[ -n "${TRAVIS}" ]]; then
   command -v csmacnz.Coveralls >/dev/null 2>&1 || { dotnet tool install --global coveralls.net --version 2.0.0-beta.1; }
   # send coverage report to coveralls
   csmacnz.Coveralls --opencover -i "$COVERAGEFILE"
