@@ -34,5 +34,17 @@ tar -zcvf $COVERAGEDIR/coverage-report.tgz report
 cd $WORKING_DIRECTORY
 
 if [[ -n "${COVERALLS_REPO_TOKEN}" ]]; then
-  csmacnz.Coveralls --opencover -i "$COVERAGEFILE"
+  REPO_COMMIT_AUTHOR=$(git show -s --pretty=format:"%cn")
+  REPO_COMMIT_AUTHOR_EMAIL=$(git show -s --pretty=format:"%ce")
+  REPO_COMMIT_MESSAGE=$(git show -s --pretty=format:"%s")
+  csmacnz.Coveralls --opencover -i "$COVERAGEFILE" \
+      --repoToken $COVERALLS_REPO_TOKEN \
+      --commitId $TRAVIS_COMMIT \
+      --commitBranch $TRAVIS_BRANCH \
+      --commitAuthor "$REPO_COMMIT_AUTHOR" \
+      --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" \
+      --commitMessage "$REPO_COMMIT_MESSAGE" \
+      --jobId $TRAVIS_JOB_ID  \
+      --serviceName "travis-ci"  \
+      --useRelativePaths
 fi
