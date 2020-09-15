@@ -1,4 +1,6 @@
+[![Build Status](https://travis-ci.org/tsqllint/tsqllint.svg?branch=master)](https://travis-ci.org/tsqllint/tsqllint)
 [![Coverage Status](https://coveralls.io/repos/github/tsqllint/tsqllint/badge.svg?branch=master)](https://coveralls.io/github/tsqllint/tsqllint?branch=master)
+
 [![npm version](https://badge.fury.io/js/tsqllint.svg)](https://badge.fury.io/js/tsqllint)
 [![npm](https://img.shields.io/npm/dt/tsqllint.svg)](https://www.npmjs.com/package/tsqllint)
 [![Gitter chat](https://img.shields.io/gitter/room/badges/shields.svg)](https://gitter.im/TSQLLint/Lobby)
