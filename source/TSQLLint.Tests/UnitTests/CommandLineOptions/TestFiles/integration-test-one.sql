@@ -47,7 +47,7 @@ SELECT FOO FROM BAR;
 -- select-star
 SELECT * FROM dbo.BAR;
 
--- semicolon-termination
+-- semicolon-termination & update-where
 UPDATE [dbo].[FOO] SET BAR = 1
 
 -- set-ansi

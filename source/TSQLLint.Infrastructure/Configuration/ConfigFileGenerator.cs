@@ -31,7 +31,8 @@ namespace TSQLLint.Infrastructure.Configuration
         ""set-transaction-isolation-level"": ""error"",
         ""set-variable"": ""error"",
         ""upper-lower"": ""error"",
-        ""unicode-string"" : ""error""
+        ""unicode-string"" : ""error"",
+        ""update-where"" : ""error""
     },
     ""compatability-level"": 120
 }";

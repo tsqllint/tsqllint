@@ -98,6 +98,9 @@
         },
         "unicode-string": {
           "$ref": "#/definitions/rule"
+        },
+        "update-where": {
+          "$ref": "#/definitions/rule"
         }
       },
       "additionalProperties": {

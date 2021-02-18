@@ -17,6 +17,7 @@
         "set-nocount": "error",
         "set-quoted-identifier": "error",
         "set-transaction-isolation-level": "error",
-        "upper-lower": "error"
+        "upper-lower": "error",
+        "update-where": "error"
     }
 }
