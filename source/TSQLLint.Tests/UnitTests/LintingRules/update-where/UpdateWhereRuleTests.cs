@@ -45,6 +45,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             new object[]
             {
                 @"EXEC('UPDATE dbo.MyTable
+                    SET TITLE = ''TEST''
+                    WHERE ID = 100;');",
+                new List<RuleViolation>()
+            },
+            new object[]
+            {
+                @"EXEC('UPDATE dbo.MyTable
                     SET TITLE = ''TEST'';');",
                 new List<RuleViolation>
                 {
