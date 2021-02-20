@@ -100,7 +100,9 @@
           "$ref": "#/definitions/rule"
         },
         "update-where": {
-          "$ref": "#/definitions/rule"
+          "$ref": "#/definitions/rule",
+          "description":
+            "Enforce use of WHERE condition when using UPDATE"
         }
       },
       "additionalProperties": {

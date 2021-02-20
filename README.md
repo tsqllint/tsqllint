@@ -104,6 +104,7 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
     "set-quoted-identifier": "error",
     "set-transaction-isolation-level": "error",
     "set-variable": "error",
+    "update-where": "error",
     "upper-lower": "error",
     "unicode-string": "error"
   }

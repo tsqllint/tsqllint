@@ -36,6 +36,7 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
             new RuleViolation("schema-qualify", 45, 17),
             new RuleViolation("select-star", 48, 8),
             new RuleViolation("semicolon-termination", 51, 31),
+            new RuleViolation("update-where", 51, 1),
             new RuleViolation("set-ansi", 1, 1),
             new RuleViolation("set-nocount", 1, 1),
             new RuleViolation("set-quoted-identifier", 1, 1),

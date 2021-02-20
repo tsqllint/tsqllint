@@ -19,7 +19,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             {
                 "update-where-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 1)
+                     new RuleViolation(RuleName, 1, 1)
                 }
             },
             new object[]
@@ -45,7 +45,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             new object[]
             {
                 @"EXEC('UPDATE dbo.MyTable
-                    SET TITLE = 'TEST';');",
+                    SET TITLE = ''TEST'';');",
                 new List<RuleViolation>
                 {
                     new RuleViolation(RuleName, 1, 7),
@@ -54,7 +54,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             new object[]
             {
                 @"EXECUTE ('UPDATE dbo.MyTable
-                    SET TITLE = 'TEST';');",
+                    SET TITLE = ''TEST'';');",
                 new List<RuleViolation>
                 {
                     new RuleViolation(RuleName, 1, 11),
@@ -64,7 +64,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             {
                 @"EXEC('SELECT 1
                     UPDATE dbo.MyTable
-                        SET TITLE = 'TEST';');",
+                        SET TITLE = ''TEST'';');",
                 new List<RuleViolation>
                 {
                     new RuleViolation(RuleName, 2, 21),
@@ -73,7 +73,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             new object[]
             {
                 @"EXEC('SELECT 1; UPDATE dbo.MyTable
-                    SET TITLE = 'TEST';');",
+                    SET TITLE = ''TEST'';');",
                 new List<RuleViolation>
                 {
                     new RuleViolation(RuleName, 1, 17),

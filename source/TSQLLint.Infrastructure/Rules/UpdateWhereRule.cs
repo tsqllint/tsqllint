@@ -21,36 +21,14 @@ namespace TSQLLint.Infrastructure.Rules
 
         public int DynamicSqlStartLine { get; set; }
 
-        public override void Visit(UpdateStatement node)
+        public override void Visit(UpdateSpecification node)
         {
-            Analyze(node);
-        }
-
-        private void Analyze(TSqlFragment node)
-        {
-            var whereVisitor = new WhereVisitor();
-            node.AcceptChildren(whereVisitor);
-
-            if (whereVisitor.WhereClauseFound)
+            if (node.WhereClause != null)
             {
                 return;
             }
 
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
-        }
-
-        private class WhereVisitor : TSqlFragmentVisitor
-        {
-            public bool WhereClauseFound
-            {
-                get;
-                private set;
-            }
-
-            public override void Visit(WhereClause node)
-            {
-                WhereClauseFound = true;
-            }
         }
 
         private int GetColumnNumber(TSqlFragment node)
