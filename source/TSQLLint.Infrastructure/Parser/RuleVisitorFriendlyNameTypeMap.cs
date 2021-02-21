@@ -13,6 +13,7 @@ namespace TSQLLint.Infrastructure.Parser
             { "cross-database-transaction", typeof(CrossDatabaseTransactionRule) },
             { "data-compression", typeof(DataCompressionOptionRule) },
             { "data-type-length", typeof(DataTypeLengthRule) },
+            { "delete-where", typeof(DeleteWhereRule) },
             { "disallow-cursors", typeof(DisallowCursorRule) },
             { "full-text", typeof(FullTextRule) },
             { "information-schema", typeof(InformationSchemaRule) },

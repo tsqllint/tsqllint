@@ -12,6 +12,7 @@ namespace TSQLLint.Infrastructure.Configuration
         ""cross-database-transaction"": ""error"",
         ""data-compression"": ""error"",
         ""data-type-length"": ""error"",
+        ""delete-where"": ""error"",
         ""disallow-cursors"": ""error"",
         ""full-text"": ""error"",
         ""information-schema"": ""error"",

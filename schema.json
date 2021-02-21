@@ -34,6 +34,11 @@
           "description":
             "Requires use of length when declaring data types with variable length"
         },
+        "delete-where": {
+          "$ref": "#/definitions/rule",
+          "description":
+            "Enforce use of WHERE condition when using DELETE"
+        },
         "disallow-cursors": {
           "$ref": "#/definitions/rule",
           "description": "Disallows use of cursors"

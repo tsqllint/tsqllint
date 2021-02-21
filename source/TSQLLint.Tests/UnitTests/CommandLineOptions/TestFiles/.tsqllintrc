@@ -3,6 +3,7 @@
         "conditional-begin-end": "error",
         "data-compression": "error",
         "data-type-length": "error",
+        "delete-where": "error",
         "disallow-cursors": "error",
         "information-schema": "error",
         "keyword-capitalization": "error",

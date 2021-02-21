@@ -1,0 +1,4 @@
+DELETE FROM dbo.MyTable;
+
+DELETE FROM dbo.MyTable
+WHERE ID = 100;
