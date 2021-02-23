@@ -82,6 +82,7 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
 ```json
 {
   "rules": {
+    "case-sensitive-variables": "error",
     "conditional-begin-end": "error",
     "cross-database-transaction": "error",
     "data-compression": "error",
