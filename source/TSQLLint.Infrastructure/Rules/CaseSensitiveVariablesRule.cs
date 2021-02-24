@@ -39,13 +39,7 @@ namespace TSQLLint.Infrastructure.Rules
             var variableName = node.Name;
             var caseInsensitiveMatch = variableNames.Where(v => v.ToUpper() == variableName.ToUpper());
 
-            if (!caseInsensitiveMatch.Any())
-            {
-                variableNames.Add(variableName);
-                return;
-            }
-            
-            if (caseInsensitiveMatch.First() == variableName)
+            if (!caseInsensitiveMatch.Any() || caseInsensitiveMatch.First() == variableName)
             {
                 return;
             }

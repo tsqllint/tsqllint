@@ -35,7 +35,9 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 "case-sensitive-variables-multi-error", new List<RuleViolation>
                 {
                     new RuleViolation(RuleName, 4, 8),
-                    new RuleViolation(RuleName, 5, 8)
+                    new RuleViolation(RuleName, 5, 8),
+                    new RuleViolation(RuleName, 7, 8),
+                    new RuleViolation(RuleName, 8, 8)
                 }
             }
         };
