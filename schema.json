@@ -14,6 +14,11 @@
     "rules": {
       "type": "object",
       "properties": {
+        "case-sensitive-variables": {
+          "$ref": "#/definitions/rule",
+          "description":
+            "Variable names must use common casing when referenced multiple times"
+        },
         "conditional-begin-end": {
           "$ref": "#/definitions/rule",
           "description":
