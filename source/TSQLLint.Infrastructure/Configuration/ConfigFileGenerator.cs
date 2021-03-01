@@ -12,6 +12,7 @@ namespace TSQLLint.Infrastructure.Configuration
         ""cross-database-transaction"": ""error"",
         ""data-compression"": ""error"",
         ""data-type-length"": ""error"",
+        ""delete-where"": ""error"",
         ""disallow-cursors"": ""error"",
         ""full-text"": ""error"",
         ""information-schema"": ""error"",
@@ -31,7 +32,8 @@ namespace TSQLLint.Infrastructure.Configuration
         ""set-transaction-isolation-level"": ""error"",
         ""set-variable"": ""error"",
         ""upper-lower"": ""error"",
-        ""unicode-string"" : ""error""
+        ""unicode-string"" : ""error"",
+        ""update-where"" : ""error""
     },
     ""compatability-level"": 120
 }";
