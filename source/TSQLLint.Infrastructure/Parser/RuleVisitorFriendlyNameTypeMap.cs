@@ -9,6 +9,7 @@ namespace TSQLLint.Infrastructure.Parser
         // a list of all classes that implement ISqlRule
         public static readonly Dictionary<string, Type> List = new Dictionary<string, Type>
         {
+            { "case-sensitive-variables", typeof(CaseSensitiveVariablesRule) },
             { "conditional-begin-end", typeof(ConditionalBeginEndRule) },
             { "cross-database-transaction", typeof(CrossDatabaseTransactionRule) },
             { "data-compression", typeof(DataCompressionOptionRule) },

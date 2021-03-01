@@ -8,6 +8,7 @@ namespace TSQLLint.Infrastructure.Configuration
         private const string DefaultConfigurationString =
 @"{
     ""rules"": {
+        ""case-sensitive-variables"": ""error"",
         ""conditional-begin-end"": ""error"",
         ""cross-database-transaction"": ""error"",
         ""data-compression"": ""error"",

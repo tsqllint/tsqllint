@@ -1,5 +1,6 @@
 {
     "rules": {
+        "case-sensitive-variables": "error",
         "conditional-begin-end": "error",
         "data-compression": "error",
         "data-type-length": "error",
