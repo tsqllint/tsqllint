@@ -96,6 +96,7 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
     "cross-database-transaction": "error",
     "data-compression": "error",
     "data-type-length": "error",
+    "delete-where": "error",
     "disallow-cursors": "error",
     "full-text": "error",
     "information-schema": "error",
@@ -114,6 +115,7 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
     "set-quoted-identifier": "error",
     "set-transaction-isolation-level": "error",
     "set-variable": "error",
+    "update-where": "error",
     "upper-lower": "error",
     "unicode-string": "error"
   }

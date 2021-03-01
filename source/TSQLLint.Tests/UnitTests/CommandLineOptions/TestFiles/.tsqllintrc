@@ -3,6 +3,7 @@
         "conditional-begin-end": "error",
         "data-compression": "error",
         "data-type-length": "error",
+        "delete-where": "error",
         "disallow-cursors": "error",
         "information-schema": "error",
         "keyword-capitalization": "error",
@@ -17,6 +18,7 @@
         "set-nocount": "error",
         "set-quoted-identifier": "error",
         "set-transaction-isolation-level": "error",
-        "upper-lower": "error"
+        "upper-lower": "error",
+        "update-where": "error"
     }
 }
