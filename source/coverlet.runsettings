@@ -6,7 +6,6 @@
         <Configuration>
           <Format>json,lcov,opencover</Format>
           <UseSourceLink>true</UseSourceLink>
-          <IncludeTestAssembly>true</IncludeTestAssembly>
           <SkipAutoProps>true</SkipAutoProps>
         </Configuration>
       </DataCollector>
