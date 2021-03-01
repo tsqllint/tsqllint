@@ -1,13 +1,33 @@
 #!/bin/bash
 
+set -e
+
+WORKING_DIRECTORY=$(pwd)
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BUILDSCRIPTDIR="$(dirname "$SCRIPTDIR")"
 REPODIR="$(dirname "$BUILDSCRIPTDIR")"
-cd "$REPODIR"
+ASSEMBLIESDIR=$REPODIR/artifacts/assemblies
+mkdir -p $ASSEMBLIESDIR
 
-set -e
+VERSION="0.0.0.1"
+CHECKOUT=$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD)
+if grep -q '^tags/' <<< "$CHECKOUT"; then
+    VERSION=$(echo "$CHECKOUT" | grep -oE "[0-9]+[.][0-9]+[.][0-9]+")
+fi
 
-dotnet publish ./source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r win-x86   -o ./assemblies/win-x86
-dotnet publish ./source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r win-x64   -o ./assemblies/win-x64
-dotnet publish ./source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r osx-x64   -o ./assemblies/osx-x64
-dotnet publish ./source/TSQLLint.Console/TSQLLint.Console.csproj -c Release -f netcoreapp3.1 -r linux-x64 -o ./assemblies/linux-x64
+PLATFORMS=( "win-x86" "win-x64" "osx-x64" "linux-x64")
+for PLATFORM in "${PLATFORMS[@]}"
+do
+    dotnet publish \
+        $REPODIR/source/TSQLLint.Console/TSQLLint.Console.csproj \
+        -c Release \
+        -f netcoreapp3.1 \
+        -r "$PLATFORM" \
+        /p:Version="$VERSION" \
+        -o "$ASSEMBLIESDIR/$PLATFORM"
+
+    # change directory to reduce directory depth in archive file
+    cd "$ASSEMBLIESDIR"
+    tar -zcvf "$ASSEMBLIESDIR/$PLATFORM.tgz" "$PLATFORM"
+    cd "$WORKING_DIRECTORY"
+done
