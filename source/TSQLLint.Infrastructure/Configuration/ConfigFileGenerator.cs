@@ -10,6 +10,7 @@ namespace TSQLLint.Infrastructure.Configuration
     ""rules"": {
         ""case-sensitive-variables"": ""error"",
         ""conditional-begin-end"": ""error"",
+        ""count-star"": ""error"",
         ""cross-database-transaction"": ""error"",
         ""data-compression"": ""error"",
         ""data-type-length"": ""error"",

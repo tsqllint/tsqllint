@@ -11,6 +11,7 @@ namespace TSQLLint.Infrastructure.Parser
         {
             { "case-sensitive-variables", typeof(CaseSensitiveVariablesRule) },
             { "conditional-begin-end", typeof(ConditionalBeginEndRule) },
+            { "count-star", typeof(CountStarRule) },
             { "cross-database-transaction", typeof(CrossDatabaseTransactionRule) },
             { "data-compression", typeof(DataCompressionOptionRule) },
             { "data-type-length", typeof(DataTypeLengthRule) },
