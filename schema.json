@@ -16,33 +16,31 @@
       "properties": {
         "case-sensitive-variables": {
           "$ref": "#/definitions/rule",
-          "description":
-            "Variable names must use common casing when referenced multiple times"
+          "description": "Variable names must use common casing when referenced multiple times"
         },
         "conditional-begin-end": {
           "$ref": "#/definitions/rule",
-          "description":
-            "Enforce use of BEGIN and END symbols inside condition statements"
+          "description": "Enforce use of BEGIN and END symbols inside condition statements"
+        },
+        "count-star": {
+          "$ref": "#/definitions/rule",
+          "description": "Disallows COUNT(*)"
         },
         "cross-database-transaction": {
           "$ref": "#/definitions/rule",
-          "description":
-            "Discourages inserts or updates that create transactions in more than one database"
+          "description": "Discourages inserts or updates that create transactions in more than one database"
         },
         "data-compression": {
           "$ref": "#/definitions/rule",
-          "description":
-            "Requires use of compression option during table creation"
+          "description": "Requires use of compression option during table creation"
         },
         "data-type-length": {
           "$ref": "#/definitions/rule",
-          "description":
-            "Requires use of length when declaring data types with variable length"
+          "description": "Requires use of length when declaring data types with variable length"
         },
         "delete-where": {
           "$ref": "#/definitions/rule",
-          "description":
-            "Enforce use of WHERE condition when using DELETE"
+          "description": "Enforce use of WHERE condition when using DELETE"
         },
         "disallow-cursors": {
           "$ref": "#/definitions/rule",
@@ -111,8 +109,7 @@
         },
         "update-where": {
           "$ref": "#/definitions/rule",
-          "description":
-            "Enforce use of WHERE condition when using UPDATE"
+          "description": "Enforce use of WHERE condition when using UPDATE"
         }
       },
       "additionalProperties": {
