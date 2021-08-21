@@ -43,4 +43,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="UnitTests\LintingRules\positional-insert\test-files\positional-insert-no-error.sql" />
+    <None Remove="UnitTests\LintingRules\positional-insert\test-files\positional-insert-one-error-mixed-state.sql" />
+    <None Remove="UnitTests\LintingRules\positional-insert\test-files\positional-insert-one-error.sql" />
+    <None Remove="UnitTests\LintingRules\positional-insert\test-files\positional-insert-two-errors.sql" />
+  </ItemGroup>
 </Project>

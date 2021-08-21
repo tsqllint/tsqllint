@@ -25,6 +25,7 @@ namespace TSQLLint.Infrastructure.Parser
             { "named-constraint", typeof(NamedContraintRule) },
             { "non-sargable", typeof(NonSargableRule) },
             { "object-property", typeof(ObjectPropertyRule) },
+            { "positional-insert", typeof(PositionalInsertRule) },
             { "print-statement", typeof(PrintStatementRule) },
             { "schema-qualify", typeof(SchemaQualifyRule) },
             { "select-star", typeof(SelectStarRule) },
