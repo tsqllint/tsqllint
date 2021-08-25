@@ -11,7 +11,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         {
             get
             {
-                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                var codeBase = Assembly.GetExecutingAssembly().Location;
                 var uri = new UriBuilder(codeBase);
                 return Uri.UnescapeDataString(uri.Path);
             }

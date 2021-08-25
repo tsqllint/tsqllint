@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <PackAsTool>true</PackAsTool>
+    <PackageOutputPath>./artifacts</PackageOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -13,7 +15,7 @@
     <PackageReference Include="Microsoft.SqlServer.DacFx" Version="150.4573.2" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.178" />
-    <PackageReference Include="TSQLLint.Common" Version="2.0.0" />
+    <PackageReference Include="TSQLLint.Common" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
