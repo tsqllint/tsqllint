@@ -136,28 +136,34 @@ do
     cd "/app"
 done
 
-if [ "$RELEASE" == "false" ]; then
-    echoMessage "Untagged commits are not published"
-    exit 0
+function pushToNuget () {
 
-fi
+  echoBlockMessage "pushing to Nuget"
 
-if [ "$BRANCH_NAME" != "main" ]; then
-    echoMessage "Branches other than main are not published"
-    exit 0
-fi
-
-echoBlockMessage "releasing project"
-
-if [[ -z "$NUGET_API_KEY" ]]; then
+  if [[ -z "$NUGET_API_KEY" ]]; then
     echoMessage "NUGET_API_KEY is not set in the environment."
     echoMessage "Artifacts will not be pushed to Nuget."
     exit 1
+  fi
+
+  dotnet nuget push \
+      "/artifacts/TSQLLint.$VERSION.nupkg" \
+      --api-key "$NUGET_API_KEY"  \
+      --source https://api.nuget.org/v3/index.json
+}
+
+
+if [ "$RELEASE" == "true" ]; then
+
+  echoBlockMessage "releasing project"
+
+  if [ "$BRANCH_NAME" == "main" ]; then
+      pushToNuget
+  else
+    echoBlockMessage "non-main branches are not released. branch name: $BRANCH_NAME"
+  fi
+else
+    echoBlockMessage "non release project build"
 fi
 
-echoBlockMessage "pushing to Nuget"
-
-dotnet nuget push \
-    "/artifacts/TSQLLint.$VERSION.nupkg" \
-    --api-key "$NUGET_API_KEY"  \
-    --source https://api.nuget.org/v3/index.json
+echoBlockMessage "done"
