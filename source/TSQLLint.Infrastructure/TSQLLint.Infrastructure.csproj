@@ -5,6 +5,7 @@
     <PackAsTool>true</PackAsTool>
     <PackageOutputPath>./artifacts</PackageOutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
@@ -21,5 +22,11 @@
   <ItemGroup>
     <ProjectReference Include="..\TSQLLint.Core\TSQLLint.Core.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <NoWarn>NU1701;NU1702;NU1705</NoWarn>
+  </PropertyGroup>
 
 </Project>
