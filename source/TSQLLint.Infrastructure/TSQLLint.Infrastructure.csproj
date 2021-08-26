@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="1.9.71" />
     <PackageReference Include="Microsoft.SqlServer.DacFx" Version="150.5164.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.IO.Abstractions" Version="13.2.47" />
     <PackageReference Include="TSQLLint.Common" Version="3.0.0" />
   </ItemGroup>
