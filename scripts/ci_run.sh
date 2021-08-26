@@ -154,6 +154,7 @@ function pushToNuget () {
 
 if [ "$RELEASE" == "true" ]; then
   echoBlockMessage "releasing project"
+  pushToNuget
 else
   echoBlockMessage "non release project build"
 fi
