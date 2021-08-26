@@ -38,7 +38,7 @@ namespace TSQLLint.Tests.Helpers
                 }
 
                 var workingDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory);
-                applicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint.Console")}/TSQLLint.Console.dll";
+                applicationPath = $@"{workingDirectory.Replace("TSQLLint.Tests", "TSQLLint")}/TSQLLint.dll";
 
                 return applicationPath;
             }

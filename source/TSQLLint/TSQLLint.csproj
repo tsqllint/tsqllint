@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <StartupObject>TSQLLint.Console.Program</StartupObject>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>TSQLLint.Program</StartupObject>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <OutputType>Exe</OutputType>
+
+    <ToolCommandName>tsqllint</ToolCommandName>
+    <PackAsTool>true</PackAsTool>
+    <PackageOutputPath>./artifacts</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,9 +21,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta007" />
-    <PackageReference Include="TSQLLint.Common" Version="2.0.0" />
-    <PackageReference Include="Mono.Cecil" Version="0.10.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="TSQLLint.Common" Version="3.0.0" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.4" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
