@@ -11,12 +11,22 @@ TSQLLint is a tool for describing, identifying, and reporting the presence of an
 
 ## Installation
 
+### Install with dotnet tool
+
+```
+$ dotnet tool install --global TSQLLint
+```
+
+### Homebrew
+
 For OSX and Linux the recommended method of installing TSQLLint is to install the tool using homebrew.
 
 ```shell
 $ brew tap tsqllint/homebrew-tsqllint
 $ brew install tsqllint
 ```
+
+### Optionally install with NPM
 
 TSQLLint may also be installed with NPM
 
