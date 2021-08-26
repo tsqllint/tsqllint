@@ -29,7 +29,7 @@
       <CodeAnalysisRuleSet>..\.stylecop\stylecop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TSQLLint.Console\TSQLLint.Console.csproj" />
+    <ProjectReference Include="..\TSQLLint\TSQLLint.csproj" />
     <ProjectReference Include="..\TSQLLint.Infrastructure\TSQLLint.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>

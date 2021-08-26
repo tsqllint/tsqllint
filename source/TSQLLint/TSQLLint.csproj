@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <StartupObject>TSQLLint.Console.Program</StartupObject>
+    <StartupObject>TSQLLint.Program</StartupObject>
     <TargetFramework>netcoreapp5.0</TargetFramework>
     <OutputType>Exe</OutputType>
 

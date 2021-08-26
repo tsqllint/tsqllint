@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TSQLLint.Infrastructure.Reporters;
 
-namespace TSQLLint.Console
+namespace TSQLLint
 {
     public class Program
     {

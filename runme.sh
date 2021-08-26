@@ -2,13 +2,16 @@
 
 rm -rf artifacts
 
-dotnet pack ./source/TSQLLint.sln \
- --output artifacts \
- --configuration Release
+VERSION="0.0.1"
 
-dotnet tool uninstall --global TSQLLint.Console
+dotnet pack ./source/TSQLLint/TSQLLint.csproj \
+  /p:Version="0.0.1" \
+  --output artifacts \
+  --configuration Release
 
-dotnet tool install --global --add-source ./artifacts TSQLLint.Console
+dotnet tool uninstall --global tsqllint
+
+dotnet tool install --global --add-source ./artifacts --version 0.0.1 TSQLLint
 
 echo ""
 echo "###############################"
@@ -42,6 +45,12 @@ echo ""
 
 tsqllint foo.sql
 
+echo ""
 echo "###############################"
 echo "###############################"
 echo ""
+
+dotnet nuget push \
+    "./artifacts/TSQLLint.$VERSION.nupkg" \
+    --api-key "$NUGET_API_KEY"  \
+    --source https://api.nuget.org/v3/index.json
