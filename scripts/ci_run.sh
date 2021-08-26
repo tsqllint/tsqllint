@@ -152,18 +152,10 @@ function pushToNuget () {
       --source https://api.nuget.org/v3/index.json
 }
 
-
 if [ "$RELEASE" == "true" ]; then
-
   echoBlockMessage "releasing project"
-
-  if [ "$BRANCH_NAME" == "main" ]; then
-      pushToNuget
-  else
-    echoBlockMessage "non-main branches are not released. branch name: $BRANCH_NAME"
-  fi
 else
-    echoBlockMessage "non release project build"
+  echoBlockMessage "non release project build"
 fi
 
 echoBlockMessage "done"
