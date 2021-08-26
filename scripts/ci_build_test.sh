@@ -73,11 +73,10 @@ else
     exit 1
 fi
 
-
 function echoBlockMessage () {
   MESSAGE=$1
   printf "\n#########################################################"
-  printf "\n# $MESSAGE"
+  printf "\n# %s" "$MESSAGE"
   printf "\n#########################################################"
   printf "\n"
   printf "\n"
@@ -110,6 +109,32 @@ dotnet pack \
     -p:VERSION="$VERSION" \
     --configuration Release \
     --output /artifacts
+
+echoBlockMessage "build and archive assemblies"
+
+ASSEMBLIES_DIR="/artifacts/assemblies"
+PLATFORMS=( "win-x86" "win-x64" "osx-x64" "linux-x64")
+for PLATFORM in "${PLATFORMS[@]}"
+do
+    echoBlockMessage "building assemblies for platform $PLATFORM"
+
+    OUT_DIR="$ASSEMBLIES_DIR/$PLATFORM"
+    mkdir -p "$OUT_DIR"
+
+    dotnet publish \
+        "./source/TSQLLint/TSQLLint.csproj" \
+        -c Release \
+        -r "$PLATFORM" \
+        /p:Version="$VERSION" \
+        -o "$OUT_DIR"
+
+    echoBlockMessage "archiving assemblies for platform $PLATFORM"
+
+    cd "$ASSEMBLIES_DIR"
+    tar -zcvf "/artifacts/$PLATFORM.tgz" "$PLATFORM"
+
+    cd "/app"
+done
 
 if [ "$RELEASE" == "false" ]; then
     echoMessage "Untagged commits are not pushed to Nuget"
