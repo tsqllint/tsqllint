@@ -9,22 +9,13 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Parser;
+using TSQLLint.Tests.Helpers;
 
 namespace TSQLLint.Tests.UnitTests.Parser
 {
     [TestFixture]
     public class SqlFileProcessorTests
     {
-        [SetUp]
-        [ExcludeFromCodeCoverage]
-        public void Setup()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
-            {
-                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
-            }
-        }
-
         [Test]
         public void ProcessPath_SingleFile_ShouldProcessFile()
         {
@@ -428,9 +419,9 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessList_InvalidPaths_ShouldProcessValidPaths()
         {
             // arrange
-            const string filePath1 = @"c:\dbscripts\db1\file2.sql";
-            const string filePath2 = @"c:\dbscripts\db1\file3.sql";
-            const string invalidFilePath = @"c:\invalid\invalid.sql";
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\db1\file2.sql");
+            var filePath2 = TestHelper.GetTestFilePath(@"c:\dbscripts\db1\file3.sql");
+            var invalidFilePath = TestHelper.GetTestFilePath(@"c:\invalid\invalid.sql");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -449,7 +440,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             // act
-            processor.ProcessList(new List<string> { invalidFilePath, @"c:\dbscripts\db1\" });
+            processor.ProcessList(new List<string> { invalidFilePath, TestHelper.GetTestFilePath(@"c:\dbscripts\db1\") });
 
             // assert
             ruleVisitor.DidNotReceive().VisitRules(invalidFilePath, Arg.Any<IEnumerable<IRuleException>>(), Arg.Any<Stream>());

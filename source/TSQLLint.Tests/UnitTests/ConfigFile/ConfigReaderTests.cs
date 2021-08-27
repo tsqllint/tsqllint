@@ -8,22 +8,14 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Configuration;
+using TSQLLint.Tests.Helpers;
+using static System.String;
 
 namespace TSQLLint.Tests.UnitTests.ConfigFile
 {
     [TestFixture]
     public class ConfigReaderTests
     {
-        [SetUp]
-        [ExcludeFromCodeCoverage]
-        public void Setup()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
-            {
-                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
-            }
-        }
-
         [Test]
         public void ConfigReaderInMemoryConfig()
         {
@@ -34,7 +26,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
-            configReader.LoadConfig(string.Empty); // load config from memory
+            configReader.LoadConfig(Empty); // load config from memory
             configReader.ListPlugins();
 
             // assert
@@ -72,7 +64,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
 
             // act
             var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
-            configReader.LoadConfig(@"c:\users\someone\.tsqllintrc");
+            configReader.LoadConfig(TestHelper.GetTestFilePath(@"c:\users\someone\.tsqllintrc"));
 
             // assert
             Assert.AreEqual(RuleViolationSeverity.Off, configReader.GetRuleSeverity("select-star"));
@@ -121,7 +113,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
             {
                 {
                     // should ignore config files in user profile when local config exists
-                    @"C:\Users\User\.tsqllintrc", new MockFileData(@"
+                    TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc"), new MockFileData(@"
                     {
                         'rules': {
                             'select-star': 'off',
@@ -157,7 +149,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderLoadsConfigsEnvironmentVariable()
         {
             // arrange
-            var testConfigFile = @"c:\foo\.tsqllintrc";
+            var testConfigFile = TestHelper.GetTestFilePath(@"c:\foo\.tsqllintrc");
 
             var fileSystem = new MockFileSystem(
                 new Dictionary<string, MockFileData>
@@ -174,7 +166,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
                     },
                     {
                         // should ignore config files in user profile when local config exists
-                        @"C:\Users\User\.tsqllintrc", new MockFileData(@"
+                        TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc"), new MockFileData(@"
                         {
                             'rules': {
                                 'select-star': 'error',
@@ -202,7 +194,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderGetRuleSeverity()
         {
             // arrange
-            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -233,7 +225,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderGetParserFromValidInt()
         {
             // arrange
-            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -260,7 +252,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderGetParserFromValidString()
         {
             // arrange
-            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -287,7 +279,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderGetParserFromInValidInt()
         {
             // arrange
-            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -314,7 +306,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderGetParserFromInValidString()
         {
             // arrange
-            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -341,7 +333,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderGetParserNotSet()
         {
             // arrange
-            const string configFilePath = @"C:\Users\User\.tsqllintrc";
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -367,7 +359,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderNoRulesNoThrow()
         {
             // arrange
-            const string configFilePath = @"c:\users\someone\.tsqllintrc-missing-rules";
+            var configFilePath = TestHelper.GetTestFilePath(@"c:\users\someone\.tsqllintrc-missing-rules");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -392,7 +384,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderReadBadRuleName()
         {
             // arrange
-            const string configFilePath = @"c:\users\someone\.tsqllintrc";
+            var configFilePath = TestHelper.GetTestFilePath(@"c:\users\someone\.tsqllintrc");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -421,7 +413,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderConfigReadBadRuleSeverity()
         {
             // arrange
-            const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-severity";
+            var configFilePath = TestHelper.GetTestFilePath(@"c:\users\someone\.tsqllintrc-bad-severity");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -450,7 +442,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderConfigReadInvalidJson()
         {
             // arrange
-            const string configFilePath = @"c:\users\someone\.tsqllintrc-bad-json";
+            var configFilePath = TestHelper.GetTestFilePath(@"c:\users\someone\.tsqllintrc-bad-json");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -474,49 +466,55 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         public void ConfigReaderSetupPlugins()
         {
             // arrange
-            const string configFilePath = @"c:\users\someone\.tsqllintrc";
-            const string pluginPath = @"c:\users\someone\my-plugins\foo.dll";
-            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
-            {
-                {
-                    configFilePath, new MockFileData(@"
-                    {
-                        'rules': {
-                            'select-star': 'error',
-                            'statement-semicolon-termination': 'warning'
-                        },
-                        'plugins': {
-                            'my-first-plugin': 'c:/users/someone/my-plugins/my-first-plugin.dll',
-                            'my-second-plugin': 'c:/users/someone/my-plugins/my-second-plugin.dll'
-                        }
-                    }")
-                },
-                { pluginPath, new MockFileData(string.Empty) }
-            });
+            var configFilePath = TestHelper.GetTestFilePath(@"c:\users\someone\.tsqllintrc");
+            var pluginPath = TestHelper.GetTestFilePath(@"c:\users\someone\my-plugins\foo.dll");
 
-            var reporter = Substitute.For<IReporter>();
-            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+            var plugOnePath = TestHelper.GetTestFilePath(@"c:/users/someone/my-plugins/my-first-plugin.dll");
+            var plugTwoPath = TestHelper.GetTestFilePath(@"c:/users/someone/my-plugins/my-second-plugin.dll");
 
-            // act
-            var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
-            configReader.LoadConfig(configFilePath);
-            var plugins = configReader.GetPlugins();
-            configReader.ListPlugins();
+            var fileContent = $@"{{
+               ""rules"": {{
+               ""select-star"": ""error"",
+                   ""statement-semicolon-termination"": ""warning""
+               }},
+               ""plugins"": {{
+                   ""my-first-plugin"": ""{plugOnePath}"",
+                   ""my-second-plugin"": ""{plugTwoPath}""
+               }}
+            }}";
 
-            // assert
-            Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
-            Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
-            Assert.IsTrue(configReader.IsConfigLoaded);
+           var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+           {
+               {
+                   configFilePath, new MockFileData(fileContent)
+               },
+               { pluginPath, new MockFileData(Empty) }
+           });
 
-            Assert.AreEqual(true, plugins.ContainsKey("my-first-plugin"));
-            Assert.AreEqual(true, plugins.ContainsKey("my-second-plugin"));
+           var reporter = Substitute.For<IReporter>();
+           var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
 
-            Assert.AreEqual("c:/users/someone/my-plugins/my-first-plugin.dll", plugins["my-first-plugin"]);
-            Assert.AreEqual("c:/users/someone/my-plugins/my-second-plugin.dll", plugins["my-second-plugin"]);
+           // act
+           var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
+           configReader.LoadConfig(configFilePath);
 
-            reporter.Received().Report("Found the following plugins:");
-            reporter.Received().Report("Plugin Name 'my-first-plugin' loaded from path 'c:/users/someone/my-plugins/my-first-plugin.dll'");
-            reporter.Received().Report("Plugin Name 'my-second-plugin' loaded from path 'c:/users/someone/my-plugins/my-second-plugin.dll'");
+           var plugins = configReader.GetPlugins();
+           configReader.ListPlugins();
+
+           // assert
+           Assert.AreEqual(RuleViolationSeverity.Error, configReader.GetRuleSeverity("select-star"));
+           Assert.AreEqual(RuleViolationSeverity.Warning, configReader.GetRuleSeverity("statement-semicolon-termination"));
+           Assert.IsTrue(configReader.IsConfigLoaded);
+
+           Assert.AreEqual(true, plugins.ContainsKey("my-first-plugin"));
+           Assert.AreEqual(true, plugins.ContainsKey("my-second-plugin"));
+
+           Assert.AreEqual(TestHelper.GetTestFilePath("c:/users/someone/my-plugins/my-first-plugin.dll"), plugins["my-first-plugin"]);
+           Assert.AreEqual(TestHelper.GetTestFilePath("c:/users/someone/my-plugins/my-second-plugin.dll"), plugins["my-second-plugin"]);
+
+           reporter.Received().Report("Found the following plugins:");
+           reporter.Received().Report($@"Plugin Name 'my-first-plugin' loaded from path '{plugOnePath}'");
+           reporter.Received().Report($@"Plugin Name 'my-second-plugin' loaded from path '{plugTwoPath}'");
         }
     }
 }

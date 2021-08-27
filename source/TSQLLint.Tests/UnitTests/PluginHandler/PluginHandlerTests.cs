@@ -12,23 +12,22 @@ using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Parser;
 using TSQLLint.Infrastructure.Plugins;
+using TSQLLint.Tests.Helpers;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
     public class PluginHandlerTests
     {
-        private readonly bool isExecutingOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
         [Test]
         public void LoadPlugins_ShouldLoadPluginsFromPathAndFile()
         {
             // arrange
-            var filePath1 = GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll");
-            var filePath2 = GetTestFilePath(@"c:\pluginDirectory\plugin_two.dll");
-            var filePath3 = GetTestFilePath(@"c:\pluginDirectory\plugin_three.dll");
-            var filePath4 = GetTestFilePath(@"c:\pluginDirectory\foo.txt");
-            var filePath5 = GetTestFilePath(@"c:\pluginDirectory\subDirectory\bar.txt");
-            var filePath6 = GetTestFilePath(@"c:\pluginDirectory\subDirectory\plugin_four.dll");
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll");
+            var filePath2 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_two.dll");
+            var filePath3 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_three.dll");
+            var filePath4 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\foo.txt");
+            var filePath5 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\subDirectory\bar.txt");
+            var filePath6 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\subDirectory\plugin_four.dll");
 
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -54,10 +53,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var assemblyWrapper = new TestAssemblyWrapper(new Dictionary<string, int>
             {
-                { GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll"), 0 },
-                { GetTestFilePath(@"c:\pluginDirectory\plugin_two.dll"), 1 },
-                { GetTestFilePath(@"c:\pluginDirectory\plugin_three.dll"), 2 },
-                { GetTestFilePath(@"c:\pluginDirectory\subDirectory\plugin_four.dll"), 3 }
+                { TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll"), 0 },
+                { TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_two.dll"), 1 },
+                { TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_three.dll"), 2 },
+                { TestHelper.GetTestFilePath(@"c:\pluginDirectory\subDirectory\plugin_four.dll"), 3 }
             });
 
             var reporter = Substitute.For<IReporter>();
@@ -68,7 +67,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var pluginPaths = new Dictionary<string, string>
             {
                 {
-                    "my-first-plugin", GetTestFilePath(@"c:\pluginDirectory\")
+                    "my-first-plugin", TestHelper.GetTestFilePath(@"c:\pluginDirectory\")
                 },
                 {
                     "my-second-plugin", filePath6
@@ -172,7 +171,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void LoadPlugins_ThrowErrors_When_Same_Type_Is_Loaded_More_Than_Once()
         {
             // arrange
-            var filePath1 = GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll");
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -188,10 +187,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                     "my-plugin", filePath1
                 },
                 {
-                    "my-plugin-directories", GetTestFilePath(@"c:\pluginDirectory")
+                    "my-plugin-directories", TestHelper.GetTestFilePath(@"c:\pluginDirectory")
                 },
                 {
-                    "my-plugin-invalid-path", GetTestFilePath(@"c:\doesnt-exist")
+                    "my-plugin-invalid-path", TestHelper.GetTestFilePath(@"c:\doesnt-exist")
                 }
             };
 
@@ -215,7 +214,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void ActivatePlugins_PluginRuleViolations_ShouldCallReporter()
         {
             // arrange
-            var filePath1 = GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll");
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\pluginDirectory\plugin_one.dll");
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {
@@ -235,7 +234,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var reporter = Substitute.For<IReporter>();
             var textReader = ParsingUtility.CreateTextReaderFromString("\tSELECT * FROM FOO");
 
-            var scriptPath = GetTestFilePath(@"c:\scripts\foo.sql");
+            var scriptPath = TestHelper.GetTestFilePath(@"c:\scripts\foo.sql");
             var context = new PluginContext(scriptPath, new List<IRuleException>(), textReader);
 
             var versionWrapper = Substitute.For<IFileversionWrapper>();
@@ -262,7 +261,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void ActivatePlugins_ThrowErrors_ShouldCatch_ShouldReport()
         {
             // arrange
-            var testFilePath = GetTestFilePath(@"UnitTests/PluginHandler/tsqllint-plugin-throws-exception.dll");
+            var testFilePath = TestHelper.GetTestFilePath(@"UnitTests/PluginHandler/tsqllint-plugin-throws-exception.dll");
             var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, testFilePath));
             var assemblyWrapper = new AssemblyWrapper();
 
@@ -286,22 +285,6 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
             reporter.Received().Report(@"There was a problem with plugin: tsqllint_plugin_throws_exception.PluginThatThrows - something bad happened");
-        }
-
-        private string GetTestFilePath(string path)
-        {
-            if (!isExecutingOnWindows)
-            {
-                if (path.Contains(":"))
-                {
-                    var splitPath = path.Split(":");
-                    path = splitPath[1];
-                }
-
-                path = path.Replace("\\", Path.DirectorySeparatorChar.ToString());
-            }
-
-            return path;
         }
 
         public class TestPlugin2 : TestPlugin

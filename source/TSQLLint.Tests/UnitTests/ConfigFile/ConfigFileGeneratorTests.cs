@@ -15,16 +15,6 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
     {
         private const string MockDirectory = @"c:\";
 
-        [SetUp]
-        [ExcludeFromCodeCoverage]
-        public void Setup()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX || Environment.OSVersion.Platform == PlatformID.Unix)
-            {
-                Assert.Ignore("Tests ignored on osx or linux until https://github.com/tathamoddie/System.IO.Abstractions/issues/252 is resolved");
-            }
-        }
-
         [Test]
         public void WriteConfigFile_FileDoesntExist_ShouldCreateFile()
         {
