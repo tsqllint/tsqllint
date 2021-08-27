@@ -47,10 +47,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessPath_PathWithSpaces_ShouldProcessFiles()
         {
             // arrange
-            const string filePath1 = @"c:\dbscripts\file1.SQL";
-            const string filePath2 = @"c:\dbscripts\file2.txt";
-            const string filePath3 = @"c:\dbscripts\file3.sql";
-            const string filePath4 = @"c:\dbscripts\file4.Sql";
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.SQL");
+            var filePath2 = TestHelper.GetTestFilePath(@"c:\dbscripts\file2.txt");
+            var filePath3 = TestHelper.GetTestFilePath(@"c:\dbscripts\file3.sql");
+            var filePath4 = TestHelper.GetTestFilePath(@"c:\dbscripts\file4.Sql");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var pluginHandler = Substitute.For<IPluginHandler>();
@@ -75,7 +75,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             // act
-            processor.ProcessPath("\" " + @"c:\DBScripts" + " \"");
+            processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts"));
 
             // assert
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
@@ -89,10 +89,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessPath_DirectorySpecified_ShouldProcessSubDirectories()
         {
             // arrange
-            const string filePath1 = @"c:\dbscripts\file1.SQL";
-            const string filePath2 = @"c:\dbscripts\db1\file2.sql";
-            const string filePath3 = @"c:\dbscripts\db2\file3.sql";
-            const string filePath4 = @"c:\dbscripts\db2\sproc\file4.Sql";
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.SQL");
+            var filePath2 = TestHelper.GetTestFilePath(@"c:\dbscripts\db1\file2.sql");
+            var filePath3 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\file3.sql");
+            var filePath4 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\sproc\file4.Sql");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -117,7 +117,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             // act
-            processor.ProcessPath(@"c:\DBScripts");
+            processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts"));
 
             // assert
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
@@ -162,10 +162,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessPath_QuestionMarkWildCard_ShouldProcessFilesWithWildcard()
         {
             // arrange
-            const string filePath1 = @"c:\dbscripts\file1.SQL";
-            const string filePath2 = @"c:\dbscripts\file2.txt";
-            const string filePath3 = @"c:\dbscripts\file3.sql";
-            const string filePath4 = @"c:\dbscripts\file4.Sql";
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.SQL");
+            var filePath2 = TestHelper.GetTestFilePath(@"c:\dbscripts\file2.txt");
+            var filePath3 = TestHelper.GetTestFilePath(@"c:\dbscripts\file3.sql");
+            var filePath4 = TestHelper.GetTestFilePath(@"c:\dbscripts\file4.Sql");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -190,7 +190,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             // act
-            processor.ProcessPath(@"c:\DBScripts\file?.sql");
+            processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts\file?.sql"));
 
             // assert
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
@@ -204,11 +204,11 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessPath_DirectorSpecifiedWildcard_ShouldOnlyProcessSqlFilesInSpecificDirectory()
         {
             // arrange
-            const string filePath1 = @"c:\dbscripts\file1.SQL";
-            const string filePath2 = @"c:\dbscripts\file2.txt";
-            const string filePath3 = @"c:\dbscripts\file3.sql";
-            const string filePath4 = @"c:\dbscripts\file4.Sql";
-            const string filePath5 = @"c:\file4.Sql";
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.SQL");
+            var filePath2 = TestHelper.GetTestFilePath(@"c:\dbscripts\file2.txt");
+            var filePath3 = TestHelper.GetTestFilePath(@"c:\dbscripts\file3.sql");
+            var filePath4 = TestHelper.GetTestFilePath(@"c:\dbscripts\file4.Sql");
+            var filePath5 = TestHelper.GetTestFilePath(@"c:\file4.Sql");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -236,7 +236,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             // act
-            processor.ProcessPath(@"c:\DBScripts\file*.*");
+            processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts\file*.*"));
 
             // assert
             ruleVisitor.Received().VisitRules(filePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
@@ -251,7 +251,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessPath_WildcardInvalidDirectory_ShouldNotProcess()
         {
             // arrange
-            const string sqlFilePath1 = @"c:\dbscripts\file1.SQL";
+            var sqlFilePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.SQL");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -264,12 +264,12 @@ namespace TSQLLint.Tests.UnitTests.Parser
                         sqlFilePath1, new MockFileData("File1SQL")
                     }
                 },
-                @"c:\dbscripts");
+                TestHelper.GetTestFilePath(@"c:\dbscripts"));
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             // act
-            processor.ProcessPath(@"c:\doesntExist\file*.*");
+            processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\doesntExist\file*.*"));
 
             // assert
             ruleVisitor.DidNotReceive().VisitRules(sqlFilePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
@@ -281,11 +281,11 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessPath_Wildcard_ShouldOnlyProcessSqlFilesInCurrentDirectory()
         {
             // arrange
-            const string sqlFilePath1 = @"c:\dbscripts\file1.SQL";
-            const string txtFilePath2 = @"c:\dbscripts\file2.txt";
-            const string sqlFilePath3 = @"c:\dbscripts\file3.sql";
-            const string sqlFilePath4 = @"c:\dbscripts\file4.Sql";
-            const string sqlFilePath5 = @"c:\file4.Sql";
+            var sqlFilePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.SQL");
+            var txtFilePath2 = TestHelper.GetTestFilePath(@"c:\dbscripts\file2.txt");
+            var sqlFilePath3 = TestHelper.GetTestFilePath(@"c:\dbscripts\file3.sql");
+            var sqlFilePath4 = TestHelper.GetTestFilePath(@"c:\dbscripts\file4.Sql");
+            var sqlFilePath5 = TestHelper.GetTestFilePath(@"c:\file4.Sql");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -309,8 +309,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                     {
                         sqlFilePath5, new MockFileData("File5SQL")
                     }
-                },
-                @"c:\dbscripts");
+                }, TestHelper.GetTestFilePath(@"c:\dbscripts"));
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
@@ -321,8 +320,12 @@ namespace TSQLLint.Tests.UnitTests.Parser
             ruleVisitor.Received().VisitRules(sqlFilePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(sqlFilePath3, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
             ruleVisitor.Received().VisitRules(sqlFilePath4, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
-            ruleVisitor.DidNotReceive().VisitRules(txtFilePath2, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());  // should not visit text files
-            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath5, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());  // should only visit files in current directory
+
+            // should not visit text files
+            ruleVisitor.DidNotReceive().VisitRules(txtFilePath2, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
+
+            // should only visit files in current directory
+            ruleVisitor.DidNotReceive().VisitRules(sqlFilePath5, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
 
             Assert.AreEqual(3, processor.FileCount);
         }
@@ -331,7 +334,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessPath_InvalidPath_ShouldNotProcess()
         {
             // arrange
-            const string filePath1 = @"c:\dbscripts\file1.txt";
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.txt");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -347,7 +350,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
             // act
-            processor.ProcessPath(@"c:\DBScripts\invalid*.*");
+            processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts\invalid*.*"));
 
             // assert
             ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
@@ -377,10 +380,10 @@ namespace TSQLLint.Tests.UnitTests.Parser
         public void ProcessList_ListOfPaths_ShouldOnlyProcessFilesInList()
         {
             // arrange
-            const string filePath1 = @"c:\dbscripts\file1.SQL";
-            const string filePath2 = @"c:\dbscripts\db1\file2.sql";
-            const string filePath3 = @"c:\dbscripts\db2\file3.sql";
-            const string filePath4 = @"c:\dbscripts\db2\sproc\file4.Sql";
+            var filePath1 = TestHelper.GetTestFilePath(@"c:\dbscripts\file1.SQL");
+            var filePath2 = TestHelper.GetTestFilePath(@"c:\dbscripts\db1\file2.sql");
+            var filePath3 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\file3.sql");
+            var filePath4 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\sproc\file4.Sql");
 
             var ruleVisitor = Substitute.For<IRuleVisitor>();
             var reporter = Substitute.For<IReporter>();
@@ -404,8 +407,17 @@ namespace TSQLLint.Tests.UnitTests.Parser
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
 
+            var f1 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\sproc");
+            var f2 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\file3.sql");
+            var multiPathString = $@" {f1}, {f2}";
+
             // act
-            processor.ProcessList(new List<string> { "\" c:\\dbscripts\\db2\\sproc , c:\\dbscripts\\db2\\file3.sql \"", @"c:\dbscripts\db1\" });             // tests quotes, extra spaces, commas, multiple items in the list
+            // tests quotes, extra spaces, commas, multiple items in the list
+            processor.ProcessList(new List<string>
+            {
+                multiPathString,
+                TestHelper.GetTestFilePath(@"c:\dbscripts\db1\")
+            });
 
             // assert
             ruleVisitor.DidNotReceive().VisitRules(filePath1, Arg.Any<IEnumerable<IExtendedRuleException>>(), Arg.Any<Stream>());
