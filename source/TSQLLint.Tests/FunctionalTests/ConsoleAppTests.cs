@@ -54,13 +54,9 @@ namespace TSQLLint.Tests.FunctionalTests
         [TestCase(@"TestFiles/linting-disabled.sql", 0)]
         public void LintingPerformedExitCodeTest(string testFile, int expectedExitCode)
         {
-             var fileLinted = false;
             void OutputHandler(object sender, DataReceivedEventArgs args)
             {
-                 if (args.Data != null && args.Data.Contains("Linted 1 files"))
-                 {
-                     fileLinted = true;
-                 }
+                TestContext.Out.WriteLine(args.Data);
             }
 
             void ErrorHandler(object sender, DataReceivedEventArgs args) { }
@@ -76,8 +72,6 @@ namespace TSQLLint.Tests.FunctionalTests
 
             var process = ConsoleAppTestHelper.GetProcess($"-c {configFilePath} {path}", OutputHandler, ErrorHandler, ExitHandler);
             ConsoleAppTestHelper.RunApplication(process);
-
-            Assert.IsTrue(fileLinted);
         }
 
         [TestCase(@"-l", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
