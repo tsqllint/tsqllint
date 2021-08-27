@@ -13,14 +13,7 @@ namespace TSQLLint
         {
             try
             {
-                System.Console.WriteLine("Running TSQLLint.");
-                var builder = new ConfigurationBuilder()
-                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("appsettings.json");
-
-                var configuration = builder.Build();
                 var application = new Application(args, new ConsoleReporter());
-
                 application.Run();
 
                 Task.Run(() =>
@@ -30,8 +23,8 @@ namespace TSQLLint
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine("TSQLLint encountered a problem.");
-                System.Console.WriteLine(exception);
+                Console.WriteLine("TSQLLint encountered a problem.");
+                Console.WriteLine(exception);
             }
         }
     }
