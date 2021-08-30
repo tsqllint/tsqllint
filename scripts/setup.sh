@@ -35,7 +35,7 @@ if [[ $(git diff --stat) != '' ]]; then
   GIT_STATE="dirty"
 fi
 
-BRANCH_NME="$(git rev-parse --abbrev-ref HEAD)"
+BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"
 
 # replace underscores with -
 BRANCH_NAME="${BRANCH_NAME//[_]/-}"
