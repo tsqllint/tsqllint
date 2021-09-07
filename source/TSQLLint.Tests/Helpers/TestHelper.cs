@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using NSubstitute;
 using NUnit.Framework;
 using TSQLLint.Common;
-using TSQLLint.Console;
 using TSQLLint.Infrastructure.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
@@ -12,6 +13,23 @@ namespace TSQLLint.Tests.Helpers
     public static class TestHelper
     {
         private static readonly RuleViolationComparer RuleViolationComparer = new RuleViolationComparer();
+        private static readonly bool IsExecutingOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+        public static string GetTestFilePath(string path)
+        {
+            if (!IsExecutingOnWindows)
+            {
+                if (path.Contains(":"))
+                {
+                    var splitPath = path.Split(":");
+                    path = splitPath[1];
+                }
+
+                path = path.Replace("\\", Path.DirectorySeparatorChar.ToString());
+            }
+
+            return path;
+        }
 
         public static void PerformApplicationTest(List<string> argumentsUnderTest, string expectedMessage, List<RuleViolation> expectedRuleViolations, int expectedFileCount)
         {

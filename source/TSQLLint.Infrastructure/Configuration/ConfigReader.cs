@@ -70,10 +70,14 @@ namespace TSQLLint.Infrastructure.Configuration
             if (string.IsNullOrWhiteSpace(configFilePath))
             {
                 var envVariableConfigFilePath = environmentWrapper.GetEnvironmentVariable("tsqllintrc");
-                if (fileSystem.File.Exists(envVariableConfigFilePath))
+
+                if (!string.IsNullOrWhiteSpace(envVariableConfigFilePath))
                 {
-                    LoadConfigFromFile(envVariableConfigFilePath);
-                    return;
+                  if (fileSystem.File.Exists(envVariableConfigFilePath))
+                  {
+                      LoadConfigFromFile(envVariableConfigFilePath);
+                      return;
+                  }
                 }
 
                 var localConfigFilePath = Path.Combine(Environment.CurrentDirectory, @".tsqllintrc");

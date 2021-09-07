@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <PackAsTool>true</PackAsTool>
+    <PackageOutputPath>./artifacts</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' AND '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -10,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TSQLLint.Common" Version="2.0.0" />
+    <PackageReference Include="TSQLLint.Common" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
