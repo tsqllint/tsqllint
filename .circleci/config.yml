@@ -7,5 +7,5 @@ jobs:
       - checkout
       - run:
           name: run_ci
-          command: /app/scripts/ci_run.sh
+          command: ./scripts/ci_run.sh
           working_directory: .
