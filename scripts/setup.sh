@@ -25,7 +25,10 @@ if [ ! -f /.dockerenv ]; then
     error "This script must be run from within a docker container. For local development use the ci_run_local.sh script.";
 fi
 
-cd app
+cd ../app
+
+echo $(pwd)
+exit
 
 GIT_STATE="clean"
 if [[ $(git diff --stat) != '' ]]; then
