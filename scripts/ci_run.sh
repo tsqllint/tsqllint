@@ -19,7 +19,8 @@ if [ ! -f /.dockerenv ]; then
     error "This script must be run from within a docker container. For local development use the ci_run_local.sh script.";
 fi
 
-source "/app/scripts/setup.sh"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source "$SCRIPT_DIR/setup.sh"
 
 info "restoring project"
 

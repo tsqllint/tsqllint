@@ -54,16 +54,17 @@ else
 	VERSION="$TAG"-"$BRANCH_NAME"-"$HEAD_COMMIT"-"$HEAD_COMMIT_DATE"-"$GIT_STATE"
 fi
 
-echo "#########################################################"
-echo "# Branch Name: ${BRANCH_NAME}                            "
-echo "# Git State:   ${GIT_STATE}                            "
-echo "# Release:     ${RELEASE}                                "
-echo "# Tag:         ${TAG}                                    "
-echo "# Tag Commit:  ${TAG_COMMIT}                             "
-echo "# HEAD Commit: ${HEAD_COMMIT}                            "
-echo "# HEAD Date:   ${HEAD_COMMIT_DATE}                       "
-echo "# Version:     ${VERSION}                                "
-echo "#########################################################"
+echo "###############################################################"
+echo "# Branch Name:       ${BRANCH_NAME}                            "
+echo "# Git State:         ${GIT_STATE}                              "
+echo "# Release:           ${RELEASE}                                "
+echo "# Tag:               ${TAG}                                    "
+echo "# Tag Commit:        ${TAG_COMMIT}                             "
+echo "# HEAD Commit:       ${HEAD_COMMIT}                            "
+echo "# HEAD Date:         ${HEAD_COMMIT_DATE}                       "
+echo "# Version:           ${VERSION}                                "
+echo "# Working Directory: $SCRIPT_DIR                               "
+echo "###############################################################"
 
 [ -n "$BRANCH_NAME" ]      || { echo "BRANCH_NAME is required and not set, aborting..." >&2; exit 1; }
 [ -n "$GIT_STATE" ]        || { echo "GIT_STATE is required and not set, aborting..." >&2; exit 1; }
