@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # enable for bash debugging
@@ -81,8 +80,8 @@ echo "# Version:              ${VERSION}                             "
 echo "# COMMIT_AUTHOR:        $COMMIT_AUTHOR                         "
 echo "# COMMIT_AUTHOR_EMAIL:  $COMMIT_AUTHOR_EMAIL                   "
 echo "# COMMIT_MESSAGE:       $COMMIT_MESSAGE                        "
-echo "# SCRIPT_DIR:           $SCRIPT_DIR                            "
 echo "# PROJECT_ROOT:         $PROJECT_ROOT                          "
+echo "# SCRIPT_DIR:           $SCRIPT_DIR                            "
 echo "###############################################################"
 
 [ -n "$BRANCH_NAME" ]      || { echo "BRANCH_NAME is required and not set, aborting..." >&2; exit 1; }
@@ -94,8 +93,8 @@ echo "###############################################################"
 [ -n "$HEAD_COMMIT_DATE" ] || { echo "HEAD_COMMIT_DATE is required and not set, aborting..." >&2; exit 1; }
 [ -n "$VERSION" ]          || { echo "VERSION is required and not set, aborting..." >&2; exit 1; }
 [ -n "$COVERAGE_DIR" ]     || { echo "COVERAGE_DIR is required and not set, aborting..." >&2; exit 1; }
-[ -n "$SCRIPT_DIR" ]       || { echo "SCRIPT_DIR is required and not set, aborting..." >&2; exit 1; }
 [ -n "$PROJECT_ROOT" ]     || { echo "PROJECT_ROOT is required and not set, aborting..." >&2; exit 1; }
+[ -n "$SCRIPT_DIR" ]       || { echo "SCRIPT_DIR is required and not set, aborting..." >&2; exit 1; }
 
 if [[ $VERSION =~ ^[0-9]+\.[0-9]+ ]]; then
     _=${BASH_REMATCH[0]}
@@ -122,16 +121,15 @@ info "calculating test coverage"
 
 command -v csmacnz.Coveralls >/dev/null 2>&1 || {
     info "installing coveralls tooling"
-    dotnet tool install coveralls.net --global --version 2.0.0-beta0002;
+    dotnet tool install coveralls.net --global --version 3.0.0;
 }
 
 command -v reportgenerator >/dev/null 2>&1 || {
     info "installing report generator tooling"
-    dotnet tool install dotnet-reportgenerator-globaltool --global --version 4.6.5;
+    dotnet tool install dotnet-reportgenerator-globaltool --global --version 5.0.2;
 }
 
 info "running test project"
-
 
 dotnet test \
     --no-restore \
@@ -166,7 +164,7 @@ if [[ -n "${COVERALLS_REPO_TOKEN}" ]]; then
       --commitEmail "$COMMIT_AUTHOR_EMAIL" \
       --commitMessage "$COMMIT_MESSAGE" \
       --jobId $JOB_ID  \
-      --serviceName "travis-ci"  \
+      --serviceName "circle-ci"  \
       --useRelativePaths
 fi
 
