@@ -9,3 +9,5 @@ jobs:
           name: run_ci
           command: ./scripts/ci_run.sh
           working_directory: .
+      - store_artifacts:
+          path: /artifacts
