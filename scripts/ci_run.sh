@@ -31,7 +31,6 @@ if [ ! -f /.dockerenv ]; then
     error "This script must be run from within a docker container. For local development use the ci_run_local.sh script.";
 fi
 
-
 cd $PROJECT_ROOT
 
 GIT_STATE="clean"
@@ -115,7 +114,6 @@ dotnet build \
     /p:Version="$VERSION" \
     --configuration Release \
     --no-restore
-
 
 info "calculating test coverage"
 

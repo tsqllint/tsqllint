@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/tsqllint/tsqllint/tree/main.svg?style=svg)](https://circleci.com/gh/tsqllint/tsqllint/tree/main)
-[![Coverage Status](https://coveralls.io/repos/github/tsqllint/tsqllint/badge.svg?branch=master)](https://coveralls.io/github/tsqllint/tsqllint?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/tsqllint/tsqllint/badge.svg?branch=master)](https://coveralls.io/github/tsqllint/tsqllint?branch=main)
 [![npm version](https://badge.fury.io/js/tsqllint.svg)](https://badge.fury.io/js/tsqllint)
 [![npm](https://img.shields.io/npm/dt/tsqllint.svg)](https://www.npmjs.com/package/tsqllint)
 [![Gitter chat](https://img.shields.io/gitter/room/badges/shields.svg)](https://gitter.im/TSQLLint/Lobby)
@@ -10,13 +10,15 @@ TSQLLint is a tool for describing, identifying, and reporting the presence of an
 
 ## Installation
 
+TSQLLint currently officially supports installation with dotnet-tool, Homebrew, and NPM.
+
 ### Install with dotnet tool
 
 ```
 $ dotnet tool install --global TSQLLint
 ```
 
-### Homebrew
+### Install with Homebrew
 
 For OSX and Linux the recommended method of installing TSQLLint is to install the tool using homebrew.
 
@@ -25,7 +27,7 @@ $ brew tap tsqllint/homebrew-tsqllint
 $ brew install tsqllint
 ```
 
-### Optionally install with NPM
+### Install with NPM
 
 TSQLLint may also be installed with NPM
 
