@@ -1,4 +1,3 @@
-[![buddy pipeline](https://app.buddy.works/tsqllint/tsqllint/pipelines/pipeline/344863/badge.svg?token=3184598c31b17fb29cdb0c6ce7a688d8dabd3cf8c6519bb2c51654d50d58d469 "buddy pipeline")](https://app.buddy.works/tsqllint/tsqllint/pipelines/pipeline/344863)
 [![Coverage Status](https://coveralls.io/repos/github/tsqllint/tsqllint/badge.svg?branch=master)](https://coveralls.io/github/tsqllint/tsqllint?branch=master)
 
 [![npm version](https://badge.fury.io/js/tsqllint.svg)](https://badge.fury.io/js/tsqllint)

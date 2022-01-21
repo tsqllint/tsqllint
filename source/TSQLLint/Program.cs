@@ -13,6 +13,8 @@ namespace TSQLLint
         {
             try
             {
+                NonBlockingConsole.WriteLine("running tsqllint");
+
                 var application = new Application(args, new ConsoleReporter());
                 application.Run();
 
