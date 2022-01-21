@@ -6,6 +6,7 @@ set -e
 # fail script if piped command fails
 set -o pipefail
 
+
 NC='\033[0m'
 
 BLUE='\033[0;34m'
@@ -25,10 +26,15 @@ if [ ! -f /.dockerenv ]; then
     error "This script must be run from within a docker container. For local development use the ci_run_local.sh script.";
 fi
 
-cd ../app
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 
-echo $(pwd)
+info "Script Dir: $SCRIPT_DIR"
+info "Parent Dir: $PARENT_DIR"
+
 exit
+
+cd /app
 
 GIT_STATE="clean"
 if [[ $(git diff --stat) != '' ]]; then
