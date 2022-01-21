@@ -1,14 +1,33 @@
 #!/bin/bash
 
-source /app/scripts/setup.sh
+# fail script if a cmd fails
+set -e
 
-echoBlockMessage "restoring project"
+# fail script if piped command fails
+set -o pipefail
+
+RED='\033[0;31m'
+NC='\033[0m'
+
+error () {
+    MESSAGE=$1
+    printf "${RED}ERROR:${NC} $MESSAGE\n"
+    exit 1
+}
+
+if [ ! -f /.dockerenv ]; then
+    error "This script must be run from within a docker container. For local development use the ci_run_local.sh script.";
+fi
+
+source "/app/scripts/setup.sh"
+
+info "restoring project"
 
 dotnet restore \
     ./source/TSQLLint.sln \
     --verbosity m
 
-echoBlockMessage "building project"
+info "building project"
 
 dotnet build \
     ./source/TSQLLint.sln \
@@ -16,13 +35,13 @@ dotnet build \
     --configuration Release \
     --no-restore
 
-echoBlockMessage "running test project"
+info "running test project"
 
 dotnet test \
     --no-restore \
     ./source/TSQLLint.sln
 
-echoBlockMessage "packing project"
+info "packing project"
 
 dotnet pack \
     ./source/TSQLLint.sln \
@@ -30,13 +49,13 @@ dotnet pack \
     --configuration Release \
     --output /artifacts
 
-echoBlockMessage "build and archive assemblies"
+info "build and archive assemblies"
 
 ASSEMBLIES_DIR="/artifacts/assemblies"
 PLATFORMS=( "win-x86" "win-x64" "osx-x64" "linux-x64")
 for PLATFORM in "${PLATFORMS[@]}"
 do
-    echoBlockMessage "building assemblies for platform $PLATFORM"
+    info "building assemblies for platform $PLATFORM"
 
     OUT_DIR="$ASSEMBLIES_DIR/$PLATFORM"
     mkdir -p "$OUT_DIR"
@@ -48,7 +67,7 @@ do
         /p:Version="$VERSION" \
         -o "$OUT_DIR"
 
-    echoBlockMessage "archiving assemblies for platform $PLATFORM"
+    info "archiving assemblies for platform $PLATFORM"
 
     cd "$ASSEMBLIES_DIR"
     tar -zcvf "/artifacts/$PLATFORM.tgz" "$PLATFORM"
@@ -57,16 +76,14 @@ do
 done
 
 if [ "$RELEASE" == "false" ]; then
-    echoMessage "done"
+    info "done"
     exit 0
 fi
 
-echoBlockMessage "pushing to Nuget"
+info "pushing to Nuget"
 
 if [[ -z "$NUGET_API_KEY" ]]; then
-  echoMessage "NUGET_API_KEY is not set in the environment."
-  echoMessage "Artifacts will not be pushed to Nuget."
-  exit 1
+  error "NUGET_API_KEY is not set in the environment. Artifacts will not be pushed to Nuget."
 fi
 
 dotnet nuget push \
@@ -74,12 +91,12 @@ dotnet nuget push \
     --api-key "$NUGET_API_KEY"  \
     --source https://api.nuget.org/v3/index.json
 
-echoBlockMessage "creating github release"
+info "creating github release"
 
 gh auth login  --hostname "github.com" --with-token < "$GITHUB_TOKEN_FILE"
 
 gh release create "$VERSION" -d /artifacts/*.tgz
 
-echoBlockMessage "done"
+info "done"
 
 exit 0

@@ -6,26 +6,23 @@ set -e
 # fail script if piped command fails
 set -o pipefail
 
-# echo a message
-function echoMessage () {
+NC='\033[0m'
+
+BLUE='\033[0;34m'
+info () {
     MESSAGE=$1
-    printf "\n%s" "$MESSAGE"
+    printf "\n${BLUE}INFO:${NC} $MESSAGE\n"
 }
 
-# echos a message surrounded by a seperator
-function echoBlockMessage () {
-  MESSAGE=$1
-  printf "\n#########################################################"
-  printf "\n# %s" "$MESSAGE"
-  printf "\n#########################################################"
-  printf "\n"
-  printf "\n"
+RED='\033[0;31m'
+error () {
+    MESSAGE=$1
+    printf "${RED}ERROR:${NC} $MESSAGE\n"
+    exit 1
 }
 
 if [ ! -f /.dockerenv ]; then
-    echoMessage "This script must be run from within a Docker container."
-    echoMessage "There is a script that will do this for you"
-    exit
+    error "This script must be run from within a docker container. For local development use the ci_run_local.sh script.";
 fi
 
 cd app
@@ -80,6 +77,5 @@ echo "#########################################################"
 if [[ $VERSION =~ ^[0-9]+\.[0-9]+ ]]; then
     _=${BASH_REMATCH[0]}
 else
-    echo "Version number failed validation: '$VERSION'"
-    exit 1
+    error "Version number failed validation: '$VERSION'"
 fi
