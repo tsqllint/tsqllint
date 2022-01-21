@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# enable for bash debugging
+#set -x
+
 # fail script if a cmd fails
 set -e
 
@@ -8,7 +11,7 @@ set -o pipefail
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-
+PATH=$PATH:$HOME/.dotnet/tools
 NC='\033[0m'
 
 BLUE='\033[0;34m'
@@ -28,8 +31,6 @@ if [ ! -f /.dockerenv ]; then
     error "This script must be run from within a docker container. For local development use the ci_run_local.sh script.";
 fi
 
-info "SCRIPT_DIR:  $SCRIPT_DIR"
-info "PROJECT_DIR: $PROJECT_ROOT"
 
 cd $PROJECT_ROOT
 
@@ -60,15 +61,27 @@ else
 	VERSION="$TAG"-"$BRANCH_NAME"-"$HEAD_COMMIT"-"$HEAD_COMMIT_DATE"-"$GIT_STATE"
 fi
 
+mkdir -p "$PROJECT_ROOT/artifacts/coverage"
+COVERAGE_DIR="$PROJECT_ROOT/artifacts/coverage/"
+
+COMMIT_AUTHOR=$(git show -s --pretty=format:"%cn")
+COMMIT_AUTHOR_EMAIL=$(git show -s --pretty=format:"%ce")
+COMMIT_MESSAGE=$(git show -s --pretty=format:"%s")
+
 echo "###############################################################"
-echo "# Branch Name:       ${BRANCH_NAME}                            "
-echo "# Git State:         ${GIT_STATE}                              "
-echo "# Release:           ${RELEASE}                                "
-echo "# Tag:               ${TAG}                                    "
-echo "# Tag Commit:        ${TAG_COMMIT}                             "
-echo "# HEAD Commit:       ${HEAD_COMMIT}                            "
-echo "# HEAD Date:         ${HEAD_COMMIT_DATE}                       "
-echo "# Version:           ${VERSION}                                "
+echo "# Branch Name:          ${BRANCH_NAME}                         "
+echo "# Git State:            ${GIT_STATE}                           "
+echo "# Release:              ${RELEASE}                             "
+echo "# Tag:                  ${TAG}                                 "
+echo "# Tag Commit:           ${TAG_COMMIT}                          "
+echo "# HEAD Commit:          ${HEAD_COMMIT}                         "
+echo "# HEAD Date:            ${HEAD_COMMIT_DATE}                    "
+echo "# Version:              ${VERSION}                             "
+echo "# COMMIT_AUTHOR:        $COMMIT_AUTHOR                         "
+echo "# COMMIT_AUTHOR_EMAIL:  $COMMIT_AUTHOR_EMAIL                   "
+echo "# COMMIT_MESSAGE:       $COMMIT_MESSAGE                        "
+echo "# PROJECT_ROOT:         $PROJECT_ROOT                          "
+echo "# SCRIPT_DIR:           $SCRIPT_DIR                            "
 echo "###############################################################"
 
 [ -n "$BRANCH_NAME" ]      || { echo "BRANCH_NAME is required and not set, aborting..." >&2; exit 1; }
@@ -79,6 +92,9 @@ echo "###############################################################"
 [ -n "$HEAD_COMMIT" ]      || { echo "HEAD_COMMIT is required and not set, aborting..." >&2; exit 1; }
 [ -n "$HEAD_COMMIT_DATE" ] || { echo "HEAD_COMMIT_DATE is required and not set, aborting..." >&2; exit 1; }
 [ -n "$VERSION" ]          || { echo "VERSION is required and not set, aborting..." >&2; exit 1; }
+[ -n "$COVERAGE_DIR" ]     || { echo "COVERAGE_DIR is required and not set, aborting..." >&2; exit 1; }
+[ -n "$PROJECT_ROOT" ]     || { echo "PROJECT_ROOT is required and not set, aborting..." >&2; exit 1; }
+[ -n "$SCRIPT_DIR" ]       || { echo "SCRIPT_DIR is required and not set, aborting..." >&2; exit 1; }
 
 if [[ $VERSION =~ ^[0-9]+\.[0-9]+ ]]; then
     _=${BASH_REMATCH[0]}
@@ -89,27 +105,73 @@ fi
 info "restoring project"
 
 dotnet restore \
-    ./source/TSQLLint.sln \
+    "$PROJECT_ROOT/source/TSQLLint.sln" \
     --verbosity m
 
 info "building project"
 
 dotnet build \
-    ./source/TSQLLint.sln \
+    "$PROJECT_ROOT/source/TSQLLint.sln" \
     /p:Version="$VERSION" \
     --configuration Release \
     --no-restore
+
+
+info "calculating test coverage"
+
+command -v csmacnz.Coveralls >/dev/null 2>&1 || {
+    info "installing coveralls tooling"
+    dotnet tool install coveralls.net --global --version 3.0.0;
+}
+
+command -v reportgenerator >/dev/null 2>&1 || {
+    info "installing report generator tooling"
+    dotnet tool install dotnet-reportgenerator-globaltool --global --version 5.0.2;
+}
 
 info "running test project"
 
 dotnet test \
     --no-restore \
-    ./source/TSQLLint.sln
+    --collect:"XPlat Code Coverage" \
+    --settings "$PROJECT_ROOT/source/coverlet.runsettings" \
+    --results-directory "$COVERAGE_DIR" \
+    "$PROJECT_ROOT/source/TSQLLint.sln"
+
+COVERAGE_FILE="$(find $COVERAGE_DIR -name coverage.opencover.xml)"
+info "COVERAGE_FILE: $COVERAGE_FILE"
+
+reportgenerator \
+    -reports:$COVERAGE_FILE \
+    -targetdir:$COVERAGE_DIR/report
+
+# change directory to reduce directory depth in archive file
+cd $COVERAGE_DIR
+tar -zcvf $COVERAGE_DIR/coverage-report.tgz report
+cd $WORKING_DIRECTORY
+
+if [[ -n "${COVERALLS_REPO_TOKEN}" ]]; then
+
+  info "pushing coverage results"
+
+  JOB_ID=${CIRCLE_WORKFLOW_JOB_ID:-"$HEAD_COMMIT"}
+
+  csmacnz.Coveralls --opencover -i "$COVERAGE_FILE" \
+      --repoToken $COVERALLS_REPO_TOKEN \
+      --commitId $HEAD_COMMIT \
+      --commitBranch $BRANCH_NAME \
+      --commitAuthor "$COMMIT_AUTHOR" \
+      --commitEmail "$COMMIT_AUTHOR_EMAIL" \
+      --commitMessage "$COMMIT_MESSAGE" \
+      --jobId $JOB_ID  \
+      --serviceName "circle-ci"  \
+      --useRelativePaths
+fi
 
 info "packing project"
 
 dotnet pack \
-    ./source/TSQLLint.sln \
+    "$PROJECT_ROOT/source/TSQLLint.sln" \
     -p:VERSION="$VERSION" \
     --configuration Release \
     --output /artifacts
@@ -128,7 +190,7 @@ do
     info "creating assemblies directory $OUT_DIR"
 
     dotnet publish \
-        "./source/TSQLLint/TSQLLint.csproj" \
+        "$PROJECT_ROOT/source/TSQLLint/TSQLLint.csproj" \
         -c Release \
         -r "$PLATFORM" \
         /p:Version="$VERSION" \
@@ -136,12 +198,12 @@ do
 
     info "archiving assemblies for platform $PLATFORM"
 
-    cd "$ASSEMBLIES_DIR"
 
+    # change directory to reduce directory depth in archive file
+    cd "$ASSEMBLIES_DIR"
     tar -zcvf "/artifacts/$PLATFORM.tgz" "$PLATFORM"
 
     info "changing directory to $PROJECT_ROOT"
-
     cd $PROJECT_ROOT
 done
 
