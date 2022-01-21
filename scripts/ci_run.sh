@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # enable for bash debugging
@@ -155,14 +156,16 @@ if [[ -n "${COVERALLS_REPO_TOKEN}" ]]; then
 
   info "pushing coverage results"
 
+  JOB_ID=${CIRCLE_WORKFLOW_JOB_ID:-"$HEAD_COMMIT"}
+
   csmacnz.Coveralls --opencover -i "$COVERAGE_FILE" \
       --repoToken $COVERALLS_REPO_TOKEN \
-      --commitId $TRAVIS_COMMIT \
-      --commitBranch $TRAVIS_BRANCH \
+      --commitId $HEAD_COMMIT \
+      --commitBranch $BRANCH_NAME \
       --commitAuthor "$COMMIT_AUTHOR" \
       --commitEmail "$COMMIT_AUTHOR_EMAIL" \
       --commitMessage "$COMMIT_MESSAGE" \
-      --jobId $TRAVIS_JOB_ID  \
+      --jobId $JOB_ID  \
       --serviceName "travis-ci"  \
       --useRelativePaths
 fi
