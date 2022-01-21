@@ -6,6 +6,9 @@ set -e
 # fail script if piped command fails
 set -o pipefail
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
 RED='\033[0;31m'
 NC='\033[0m'
 
@@ -73,7 +76,7 @@ do
     cd "$ASSEMBLIES_DIR"
     tar -zcvf "/artifacts/$PLATFORM.tgz" "$PLATFORM"
 
-    cd "/app"
+    cd $PROJECT_ROOT
 done
 
 if [ "$RELEASE" == "false" ]; then

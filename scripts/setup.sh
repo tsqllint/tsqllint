@@ -12,7 +12,7 @@ NC='\033[0m'
 BLUE='\033[0;34m'
 info () {
     MESSAGE=$1
-    printf "\n${BLUE}INFO:${NC} $MESSAGE\n"
+    printf "${BLUE}INFO:${NC} $MESSAGE\n"
 }
 
 RED='\033[0;31m'
@@ -32,9 +32,7 @@ PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 info "Script Dir: $SCRIPT_DIR"
 info "Parent Dir: $PARENT_DIR"
 
-exit
-
-cd /app
+cd $PARENT_DIR
 
 GIT_STATE="clean"
 if [[ $(git diff --stat) != '' ]]; then
@@ -72,7 +70,6 @@ echo "# Tag Commit:        ${TAG_COMMIT}                             "
 echo "# HEAD Commit:       ${HEAD_COMMIT}                            "
 echo "# HEAD Date:         ${HEAD_COMMIT_DATE}                       "
 echo "# Version:           ${VERSION}                                "
-echo "# Working Directory: $SCRIPT_DIR                               "
 echo "###############################################################"
 
 [ -n "$BRANCH_NAME" ]      || { echo "BRANCH_NAME is required and not set, aborting..." >&2; exit 1; }
