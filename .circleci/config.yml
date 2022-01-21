@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - run:
+          name: run_ci
+          command: ./scripts/ci_run.sh
+          working_directory: .
+      - store_artifacts:
+          path: /artifacts/linux-x64.tgz
+      - store_artifacts:
+          path: /artifacts/osx-x64.tgz
+      - store_artifacts:
+          path: /artifacts/win-x64.tgz
+      - store_artifacts:
+          path: /artifacts/win-x86.tgz
