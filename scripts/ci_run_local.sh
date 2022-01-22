@@ -1,6 +1,13 @@
 #!/bin/bash
 
+# enable for bash debugging
+#set -x
+
+# fail script if a cmd fails
 set -e
+
+# fail script if piped command fails
+set -o pipefail
 
 docker run \
     -v "$(pwd)":/app \
