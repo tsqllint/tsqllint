@@ -12,6 +12,10 @@ jobs:
           name: build and test
           working_directory: .
           command: ./scripts/ci_run.sh
+      - persist_to_workspace:
+          root: /artifacts
+          paths:
+            - "*.tgz"
       - store_artifacts:
           path: /artifacts/linux-x64.tgz
       - store_artifacts:
@@ -41,6 +45,8 @@ jobs:
           name: run release script
           working_directory: .
           command: ./scripts/release.sh
+      - attach_workspace:
+          at: /artifacts
       - slack/notify:
           event: fail
           template: basic_fail_1
