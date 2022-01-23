@@ -50,14 +50,22 @@ jobs:
 
 workflows:
 
-  build everything:
-    when:
-      and:
-        - matches:
-            pattern: '^[a-zA-Z]+'
-            value: "<< pipeline.git.branch >>"
+  build pull requests:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - /pull\/\d+/
+
+  build dev branches:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - /dev\/\d+/
+
   build and publish tags:
     jobs:
       - build:
