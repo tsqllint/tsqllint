@@ -56,14 +56,10 @@ jobs:
 
 workflows:
 
-  build everything:
-    when:
-      and:
-        - matches:
-            pattern: '^[a-zA-Z]+'
-            value: "<< pipeline.git.branch >>"
+  build:
     jobs:
       - build
+
   build and publish tags:
     jobs:
       - build:
