@@ -1,3 +1,4 @@
+
 [![CircleCI](https://circleci.com/gh/tsqllint/tsqllint/tree/main.svg?style=svg)](https://circleci.com/gh/tsqllint/tsqllint/tree/main)
 [![Coverage Status](https://coveralls.io/repos/github/tsqllint/tsqllint/badge.svg?branch=main)](https://coveralls.io/github/tsqllint/tsqllint?branch=main)
 [![npm version](https://badge.fury.io/js/tsqllint.svg)](https://badge.fury.io/js/tsqllint)
