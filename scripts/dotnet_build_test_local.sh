@@ -1,5 +1,9 @@
 #!/bin/bash
 
+################################################################################
+# a script to run the dotnet build test script locally
+################################################################################
+
 # enable for bash debugging
 #set -x
 
@@ -15,4 +19,4 @@ docker run \
     -v "$(pwd)/packages":/packages \
     --rm \
     mcr.microsoft.com/dotnet/sdk:5.0 \
-    /app/scripts/ci_run.sh
+    /app/scripts/dotnet_build_test.sh

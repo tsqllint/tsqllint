@@ -1,5 +1,9 @@
 #!/bin/bash
 
+################################################################################
+# a script to build, test, and push coverage results to coveralls
+################################################################################
+
 # enable for bash debugging
 #set -x
 

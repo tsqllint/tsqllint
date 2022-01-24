@@ -1,5 +1,9 @@
 #!/bin/bash
 
+################################################################################
+# a script to package, publish and push nuget packages
+################################################################################
+
 # enable for bash debugging
 #set -x
 
@@ -67,7 +71,7 @@ done
 info "pushing to Nuget"
 
 dotnet nuget push \
-    "$PROJECT_ROOT/artifacts/TSQLLint.$VERSION.nupkg" \
+    "$ARTIFACTS_DIR/TSQLLint.$VERSION.nupkg" \
     --api-key "$NUGET_API_KEY"  \
     --source https://api.nuget.org/v3/index.json
 

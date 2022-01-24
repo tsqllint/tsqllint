@@ -47,7 +47,7 @@ jobs:
       - checkout
       - run:
           name: release
-          command: ./scripts/package.sh
+          command: ./scripts/dotnet_package.sh
       - slack/notify:
           event: fail
           template: basic_fail_1

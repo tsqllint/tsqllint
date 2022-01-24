@@ -1,5 +1,9 @@
 #!/bin/bash
 
+################################################################################
+# a script to create github releases from built artifacts
+################################################################################
+
 # enable for bash debugging
 #set -x
 
@@ -33,16 +37,17 @@ echo "$GITHUB_TOKEN_FILE" > .githubtoken
 gh auth login --with-token < .githubtoken
 rm .githubtoken
 
-info "creating github release"
-
+info "configuring gh cli"
 gh config set prompt disabled
+
+info "creating github release"
 gh release create "$VERSION" --title "$VERSION" --prerelease --draft
 
 PLATFORMS=( "win-x86" "win-x64" "osx-x64" "linux-x64")
 for PLATFORM in "${PLATFORMS[@]}"
 do
     ARTIFACT="${ARTIFACTS_DIR}/${PLATFORM}".tgz
-    info "uploading artifact to release $ARTIFACT"
+    info "uploading artifact '$ARTIFACT' to release $VERSION"
     gh release upload "$VERSION" "$ARTIFACT"
 done
 
