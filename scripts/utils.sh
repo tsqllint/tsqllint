@@ -63,6 +63,8 @@ COMMIT_AUTHOR=$(git show -s --pretty=format:"%cn")
 COMMIT_AUTHOR_EMAIL=$(git show -s --pretty=format:"%ce")
 COMMIT_MESSAGE=$(git show -s --pretty=format:"%s")
 
+DOTNET_PACKAGE_DIR="$PROJECT_ROOT/packages"
+
 RELEASE="false"
 if [ "$HEAD_COMMIT" == "$TAG_COMMIT" ] && [ "$GIT_STATE" == "clean" ]; then
 	VERSION="$TAG"
@@ -87,21 +89,23 @@ echo "# PROJECT_ROOT:         $PROJECT_ROOT                          "
 echo "# SCRIPT_DIR:           $SCRIPT_DIR                            "
 echo "# ARTIFACTS_DIR:        $ARTIFACTS_DIR                         "
 echo "# COVERAGE_DIR:         $COVERAGE_DIR                          "
+echo "# DOTNET_PACKAGE_DIR:   $DOTNET_PACKAGE_DIR                    "
 echo "###############################################################"
 
 info "verifying variables"
 
-[ -n "$BRANCH_NAME" ]      || { error "BRANCH_NAME is required and not set"; }
-[ -n "$GIT_STATE" ]        || { error "GIT_STATE is required and not set"; }
-[ -n "$RELEASE" ]          || { error "RELEASE is required and not set"; }
-[ -n "$TAG" ]              || { error "TAG is required and not set"; }
-[ -n "$TAG_COMMIT" ]       || { error "TAG_COMMIT is required and not set"; }
-[ -n "$HEAD_COMMIT" ]      || { error "HEAD_COMMIT is required and not set"; }
-[ -n "$HEAD_COMMIT_DATE" ] || { error "HEAD_COMMIT_DATE is required and not set"; }
-[ -n "$VERSION" ]          || { error "VERSION is required and not set"; }
-[ -n "$PROJECT_ROOT" ]     || { error "PROJECT_ROOT is required and not set"; }
-[ -n "$SCRIPT_DIR" ]       || { error "SCRIPT_DIR is required and not set"; }
-[ -n "$COVERAGE_DIR" ]     || { error "COVERAGE_DIR is required and not set"; }
+[ -n "$BRANCH_NAME" ]          || { error "BRANCH_NAME is required and not set"; }
+[ -n "$GIT_STATE" ]            || { error "GIT_STATE is required and not set"; }
+[ -n "$RELEASE" ]              || { error "RELEASE is required and not set"; }
+[ -n "$TAG" ]                  || { error "TAG is required and not set"; }
+[ -n "$TAG_COMMIT" ]           || { error "TAG_COMMIT is required and not set"; }
+[ -n "$HEAD_COMMIT" ]          || { error "HEAD_COMMIT is required and not set"; }
+[ -n "$HEAD_COMMIT_DATE" ]     || { error "HEAD_COMMIT_DATE is required and not set"; }
+[ -n "$VERSION" ]              || { error "VERSION is required and not set"; }
+[ -n "$PROJECT_ROOT" ]         || { error "PROJECT_ROOT is required and not set"; }
+[ -n "$SCRIPT_DIR" ]           || { error "SCRIPT_DIR is required and not set"; }
+[ -n "$COVERAGE_DIR" ]         || { error "COVERAGE_DIR is required and not set"; }
+[ -n "$DOTNET_PACKAGE_DIR" ]   || { error "DOTNET_PACKAGE_DIR is required and not set"; }
 
 info "verifying version number"
 
@@ -124,12 +128,15 @@ export VERSION
 export PROJECT_ROOT
 export SCRIPT_DIR
 export COVERAGE_DIR
+export DOTNET_PACKAGE_DIR
 
 info "verifying directories"
 
-[ ! -d "$PROJECT_ROOT" ] && error "PROJECT_ROOT does not exist $PROJECT_ROOT"
-[ ! -d "$SCRIPT_DIR" ]   && error "SCRIPT_DIR does not exist: $SCRIPT_DIR"
-[ ! -d "$ARTIFACTS_DIR" ] && error "ARTIFACTS_DIR does not exist: $ARTIFACTS_DIR"
-[ ! -d "$COVERAGE_DIR" ] && error "COVERAGE_DIR does not exist: $COVERAGE_DIR"
+[ ! -d "$PROJECT_ROOT" ]       && error "PROJECT_ROOT does not exist $PROJECT_ROOT"
+[ ! -d "$SCRIPT_DIR" ]         && error "SCRIPT_DIR does not exist: $SCRIPT_DIR"
+[ ! -d "$ARTIFACTS_DIR" ]      && error "ARTIFACTS_DIR does not exist: $ARTIFACTS_DIR"
+[ ! -d "$COVERAGE_DIR" ]       && error "COVERAGE_DIR does not exist: $COVERAGE_DIR"
+
+# DOTNET_PACKAGE_DIR should not exist before dotnet restore
 
 info "initialization complete"

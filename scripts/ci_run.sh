@@ -11,8 +11,8 @@ set -o pipefail
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-PATH=$PATH:$HOME/.dotnet/tools
-cd $PROJECT_ROOT
+PATH="$PATH:$HOME/.dotnet/tools"
+cd "$PROJECT_ROOT"
 
 source "$SCRIPT_DIR/utils.sh"
 
@@ -22,7 +22,8 @@ info "restoring project"
 
 dotnet restore \
     "$PROJECT_ROOT/source/TSQLLint.sln" \
-    --verbosity m
+    --verbosity m \
+    --packages "$DOTNET_PACKAGE_DIR"
 
 info "building project"
 
@@ -61,9 +62,10 @@ reportgenerator \
     -targetdir:$COVERAGE_DIR/report
 
 # change directory to reduce directory depth in archive file
-cd $COVERAGE_DIR
-tar -zcvf $COVERAGE_DIR/coverage-report.tgz report
-cd $WORKING_DIRECTORY
+cd "$COVERAGE_DIR"
+tar -zcf $COVERAGE_DIR/coverage-report.tgz report
+
+cd "$PROJECT_ROOT"
 
 if [[ -n "${COVERALLS_REPO_TOKEN}" ]]; then
 
@@ -83,40 +85,6 @@ if [[ -n "${COVERALLS_REPO_TOKEN}" ]]; then
       --useRelativePaths
 fi
 
-info "packing project"
+info "done"
 
-dotnet pack \
-    "$PROJECT_ROOT/source/TSQLLint.sln" \
-    -p:VERSION="$VERSION" \
-    --configuration Release \
-    --output $ARTIFACTS_DIR
-
-info "build and archive assemblies"
-
-ASSEMBLIES_DIR="/artifacts/assemblies"
-PLATFORMS=( "win-x86" "win-x64" "osx-x64" "linux-x64")
-for PLATFORM in "${PLATFORMS[@]}"
-do
-    info "building assemblies for platform $PLATFORM"
-
-    OUT_DIR="$ASSEMBLIES_DIR/$PLATFORM"
-    mkdir -p "$OUT_DIR"
-
-    info "creating assemblies directory $OUT_DIR"
-
-    dotnet publish \
-        "$PROJECT_ROOT/source/TSQLLint/TSQLLint.csproj" \
-        -c Release \
-        -r "$PLATFORM" \
-        /p:Version="$VERSION" \
-        -o "$OUT_DIR"
-
-    info "archiving assemblies for platform $PLATFORM"
-
-    # change directory to reduce directory depth in archive file
-    cd "$ASSEMBLIES_DIR"
-    tar -zcvf "/artifacts/$PLATFORM.tgz" "$PLATFORM"
-
-    info "changing directory to $PROJECT_ROOT"
-    cd $PROJECT_ROOT
-done
+exit 0

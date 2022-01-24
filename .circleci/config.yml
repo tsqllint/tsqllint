@@ -10,7 +10,15 @@ jobs:
       - checkout
       - run:
           name: build and test
-          working_directory: .
+          command: ./scripts/ci_run.sh
+
+  build and notify:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - run:
+          name: build and test
           command: ./scripts/ci_run.sh
       - store_artifacts:
           path: /artifacts/linux-x64.tgz
@@ -24,7 +32,7 @@ jobs:
           event: fail
           template: basic_fail_1
 
-  request-approval:
+  request approval:
     docker:
       - image: circleci/node:4.8.2
     steps:
@@ -32,15 +40,32 @@ jobs:
           event: pass
           template: basic_on_hold_1
 
-  publish:
+  package and push to nuget:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
-          name: run release script
-          working_directory: .
-          command: ./scripts/release.sh
+          name: release
+          command: ./scripts/package.sh
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - save_cache:
+          paths:
+            - artifacts
+          key: artifacts-{{ .Environment.CIRCLE_SHA1 }}
+
+  release to github:
+    docker:
+      - image: nathanboyd/github_cli:0.0.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: artifacts-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: push artifacts to github release
+          command: ./scripts/github_create_release.sh
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -58,42 +83,50 @@ workflows:
               only:
                 - /pull\/\d+/
 
-  build dev branches:
+  build branches:
     jobs:
-      - build:
+      - build and notify:
           filters:
             branches:
               only:
-                - /dev\/\d+/
+                - /.*/
 
   build and publish tags:
     jobs:
-      - build:
+      - build and notify:
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^[0-9]+(\.[0-9]+)*$/
-      - request-approval:
+      - request approval:
           requires:
-            - build
+            - build and notify
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^[0-9]+(\.[0-9]+)*$/
-      - wait_for_approval:
+      - wait for approval:
           type: approval
           requires:
-            - request-approval
+            - request approval
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^[0-9]+(\.[0-9]+)*$/
-      - publish:
+      - package and push to nuget:
           requires:
-            - wait_for_approval
+            - wait for approval
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^[0-9]+(\.[0-9]+)*$/
+      - release to github:
+          requires:
+            - package and push to nuget
           filters:
             branches:
               ignore: /.*/
