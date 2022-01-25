@@ -1,14 +1,25 @@
-version: 2
+version: 2.1
+orbs:
+  slack: circleci/slack@4.6.1
 jobs:
+
   build:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:5.0
     steps:
       - checkout
       - run:
-          name: run_ci
-          command: ./scripts/ci_run.sh
-          working_directory: .
+          name: build and test
+          command: ./scripts/dotnet_build_test.sh
+
+  build and notify:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - run:
+          name: build and test
+          command: ./scripts/dotnet_build_test.sh
       - store_artifacts:
           path: /artifacts/linux-x64.tgz
       - store_artifacts:
@@ -17,3 +28,107 @@ jobs:
           path: /artifacts/win-x64.tgz
       - store_artifacts:
           path: /artifacts/win-x86.tgz
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+
+  request approval:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - slack/notify:
+          event: pass
+          template: basic_on_hold_1
+
+  package and push to nuget:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+    steps:
+      - checkout
+      - run:
+          name: release
+          command: ./scripts/dotnet_package.sh
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - save_cache:
+          paths:
+            - artifacts
+          key: artifacts-{{ .Environment.CIRCLE_SHA1 }}
+
+  release to github:
+    docker:
+      - image: nathanboyd/github_cli:0.0.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: artifacts-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: push artifacts to github release
+          command: ./scripts/github_create_release.sh
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+
+workflows:
+
+  build pull requests:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - /pull\/\d+/
+
+  build branches:
+    jobs:
+      - build and notify:
+          filters:
+            branches:
+              only:
+                - /.*/
+
+  build and publish tags:
+    jobs:
+      - build and notify:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^[0-9]+(\.[0-9]+)*$/
+      - request approval:
+          requires:
+            - build and notify
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^[0-9]+(\.[0-9]+)*$/
+      - wait for approval:
+          type: approval
+          requires:
+            - request approval
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^[0-9]+(\.[0-9]+)*$/
+      - package and push to nuget:
+          requires:
+            - wait for approval
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^[0-9]+(\.[0-9]+)*$/
+      - release to github:
+          requires:
+            - package and push to nuget
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^[0-9]+(\.[0-9]+)*$/
