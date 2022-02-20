@@ -63,6 +63,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
           new object[]
           {
               "semicolon-termination-try-catch-while", new List<RuleViolation>()
+          },
+          new object[]
+          {
+              "semicolon-termination-one-error-create-view", new List<RuleViolation>()
+              {
+                  new RuleViolation(RuleName, 3, 25)
+              }
           }
         };
 

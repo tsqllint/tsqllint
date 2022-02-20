@@ -21,7 +21,8 @@ namespace TSQLLint.Infrastructure.Rules
             typeof(IndexDefinition),
             typeof(LabelStatement),
             typeof(WhileStatement),
-            typeof(IfStatement)
+            typeof(IfStatement),
+            typeof(CreateViewStatement)
         };
 
         public SemicolonTerminationRule(Action<string, string, int, int> errorCallback)
