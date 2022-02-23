@@ -70,6 +70,17 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
               {
                   new RuleViolation(RuleName, 3, 25)
               }
+          },
+          new object[]
+          {
+              "semicolon-termination-one-error-simple-cte", new List<RuleViolation>()
+              {
+                  new RuleViolation(RuleName, 6, 21)
+              }
+          },
+          new object[]
+          {
+              "semicolon-termination-no-error-cte-in-function", new List<RuleViolation>()
           }
         };
 
