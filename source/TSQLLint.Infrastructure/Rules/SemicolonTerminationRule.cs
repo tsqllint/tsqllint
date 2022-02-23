@@ -43,26 +43,25 @@ namespace TSQLLint.Infrastructure.Rules
             waitForStatements.Add(node.Statement);
         }
 
-        public override void Visit(TSqlStatement node)
+        public override void Visit(CreateFunctionStatement node)
         {
             // if this node is create function statement, its return statement's child nodes should not be terminated by semicolon
             // otherwise it produces a syntax error
-            // TODO: check if we could factor it out to a separate Visit(CreateFunctionStatement node) method
-            if (node.GetType() == typeof(CreateFunctionStatement))
+            var childReturnVisitor = new ChildReturnVisitor();
+            node.AcceptChildren(childReturnVisitor);
+            foreach (SelectFunctionReturnType childReturnNode in childReturnVisitor.ReturnNodes)
             {
-                var childReturnVisitor = new ChildReturnVisitor();
-                node.AcceptChildren(childReturnVisitor);
-                foreach (SelectFunctionReturnType childReturnNode in childReturnVisitor.ReturnNodes)
+                var childSelectVisitor = new ChildSelectVisitor();
+                childReturnNode.AcceptChildren(childSelectVisitor);
+                foreach (TSqlFragment childSelectNode in childSelectVisitor.SelectNodes)
                 {
-                    var childSelectVisitor = new ChildSelectVisitor();
-                    childReturnNode.AcceptChildren(childSelectVisitor);
-                    foreach (TSqlFragment childSelectNode in childSelectVisitor.SelectNodes)
-                    {
-                        waitForStatements.Add(childSelectNode);
-                    }
+                    waitForStatements.Add(childSelectNode);
                 }
             }
+        }
 
+        public override void Visit(TSqlStatement node)
+        {
             if (Array.IndexOf(typesToSkip, node.GetType()) > -1 ||
                 EndsWithSemicolon(node) ||
                 waitForStatements.Contains(node))
