@@ -45,15 +45,21 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(TSqlStatement node)
         {
-            // if this node is create function statement, its children select nodes should not be terminated by semicolon
+            // if this node is create function statement, its return statement's child nodes should not be terminated by semicolon
             // otherwise it produces a syntax error
+            // TODO: check if we could factor it out to a separate Visit(CreateFunctionStatement node) method
             if (node.GetType() == typeof(CreateFunctionStatement))
             {
-                var childSelectVisitor = new ChildSelectVisitor();
-                node.AcceptChildren(childSelectVisitor);
-                foreach (TSqlFragment childSelectNode in childSelectVisitor.SelectNodes)
+                var childReturnVisitor = new ChildReturnVisitor();
+                node.AcceptChildren(childReturnVisitor);
+                foreach (SelectFunctionReturnType childReturnNode in childReturnVisitor.ReturnNodes)
                 {
-                    waitForStatements.Add(childSelectNode);
+                    var childSelectVisitor = new ChildSelectVisitor();
+                    childReturnNode.AcceptChildren(childSelectVisitor);
+                    foreach (TSqlFragment childSelectNode in childSelectVisitor.SelectNodes)
+                    {
+                        waitForStatements.Add(childSelectNode);
+                    }
                 }
             }
 
@@ -78,6 +84,16 @@ namespace TSQLLint.Infrastructure.Rules
         {
             return node.ScriptTokenStream[node.LastTokenIndex].TokenType == TSqlTokenType.Semicolon
                 || node.ScriptTokenStream[node.LastTokenIndex + 1].TokenType == TSqlTokenType.Semicolon;
+        }
+
+        public class ChildReturnVisitor : TSqlFragmentVisitor
+        {
+            public HashSet<SelectFunctionReturnType> ReturnNodes { get; } = new HashSet<SelectFunctionReturnType>();
+
+            public override void Visit(SelectFunctionReturnType node)
+            {
+                ReturnNodes.Add(node);
+            }
         }
 
         public class ChildSelectVisitor : TSqlFragmentVisitor

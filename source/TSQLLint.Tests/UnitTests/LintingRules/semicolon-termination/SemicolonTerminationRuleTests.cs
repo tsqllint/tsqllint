@@ -88,6 +88,15 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
               {
                   new RuleViolation(RuleName, 14, 2)
               }
+          },
+          new object[]
+          {
+              "semicolon-termination-three-errors-create-function", new List<RuleViolation>()
+              {
+                  new RuleViolation(RuleName, 6, 27),
+                  new RuleViolation(RuleName, 7, 28),
+                  new RuleViolation(RuleName, 8, 12)
+              }
           }
         };
 
