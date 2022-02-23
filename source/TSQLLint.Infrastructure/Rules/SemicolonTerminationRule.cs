@@ -45,6 +45,18 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(TSqlStatement node)
         {
+            // if this node is create function statement, its children select nodes should not be terminated by semicolon
+            // otherwise it produces a syntax error
+            if (node.GetType() == typeof(CreateFunctionStatement))
+            {
+                var childSelectVisitor = new ChildSelectVisitor();
+                node.AcceptChildren(childSelectVisitor);
+                foreach (TSqlFragment childSelectNode in childSelectVisitor.SelectNodes)
+                {
+                    waitForStatements.Add(childSelectNode);
+                }
+            }
+
             if (Array.IndexOf(typesToSkip, node.GetType()) > -1 ||
                 EndsWithSemicolon(node) ||
                 waitForStatements.Contains(node))
@@ -66,6 +78,16 @@ namespace TSQLLint.Infrastructure.Rules
         {
             return node.ScriptTokenStream[node.LastTokenIndex].TokenType == TSqlTokenType.Semicolon
                 || node.ScriptTokenStream[node.LastTokenIndex + 1].TokenType == TSqlTokenType.Semicolon;
+        }
+
+        public class ChildSelectVisitor : TSqlFragmentVisitor
+        {
+            public HashSet<SelectStatement> SelectNodes { get; } = new HashSet<SelectStatement>();
+
+            public override void Visit(SelectStatement node)
+            {
+                SelectNodes.Add(node);
+            }
         }
     }
 }

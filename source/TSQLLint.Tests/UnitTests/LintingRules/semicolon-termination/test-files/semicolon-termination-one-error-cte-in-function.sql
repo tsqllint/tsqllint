@@ -1,4 +1,4 @@
-﻿CREATE FUNCTION Foo.Bar ()
+CREATE FUNCTION Foo.Bar ()
 RETURNS TABLE
 
 AS
@@ -11,6 +11,6 @@ RETURN
 	)
 
 	SELECT a, b FROM CTE -- should not trigger an error
-);
+) -- should trigger an error
 
 GO

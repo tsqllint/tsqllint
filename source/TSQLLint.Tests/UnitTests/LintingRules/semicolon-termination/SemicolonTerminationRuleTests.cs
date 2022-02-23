@@ -81,6 +81,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
           new object[]
           {
               "semicolon-termination-no-error-cte-in-function", new List<RuleViolation>()
+          },
+          new object[]
+          {
+              "semicolon-termination-one-error-cte-in-function", new List<RuleViolation>()
+              {
+                  new RuleViolation(RuleName, 14, 2)
+              }
           }
         };
 
