@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
+using System.Collections.Generic;
 using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Infrastructure.CommandLineOptions

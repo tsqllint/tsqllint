@@ -32,7 +32,7 @@ namespace TSQLLint.Core.UseCases.Console
             {
                 var strategy = new PrintUsageStrategy(reporter);
                 strategy.HandleCommandLineOptions(request.CommandLineOptions);
-                return new HandlerResponseMessage(false, false);
+                return new HandlerResponseMessage(false, false, false);
             }
             
             if (request.CommandLineOptions.Help)

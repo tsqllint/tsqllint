@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TSQLLint.Common;
 
 namespace TSQLLint.Core.Interfaces
@@ -14,6 +13,6 @@ namespace TSQLLint.Core.Interfaces
 
         int DynamicSqlStartLine { get; set; }
 
-        Task FixViolations(IList<IRuleViolation> ruleViolations);
+        void FixViolation(string[] fileLines, IRuleViolation ruleViolation);
     }
 }

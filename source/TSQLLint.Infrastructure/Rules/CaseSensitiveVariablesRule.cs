@@ -49,11 +49,5 @@ namespace TSQLLint.Infrastructure.Rules
                 ? node.StartColumn + DynamicSqlStartColumn
                 : node.StartColumn;
         }
-
-        public override async Task FixViolations(IList<IRuleViolation> ruleViolations)
-            => await FixViolations(ruleViolations, (fileLines, ruleViolation) =>
-            {
-                fileLines[ruleViolation.Line - 1] += ";";
-            });
     }
 }

@@ -1,6 +1,8 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
@@ -59,6 +61,30 @@ namespace TSQLLint.Infrastructure.Rules
         {
             return node.ScriptTokenStream[node.LastTokenIndex].TokenType == TSqlTokenType.Semicolon
                 || node.ScriptTokenStream[node.LastTokenIndex + 1].TokenType == TSqlTokenType.Semicolon;
+        }
+
+        public override void FixViolation(string[] fileLines, IRuleViolation ruleViolation)
+        {
+            var lineIndex = ruleViolation.Line - 1;
+            var line = fileLines[lineIndex];
+            var charIndex = line.IndexOf("--");
+
+            if (charIndex == -1)
+            {
+                fileLines[lineIndex] = $"{fileLines[lineIndex].TrimEnd()};";
+            }
+            else
+            {
+                charIndex--;
+
+                while (charIndex >= 0 && new Regex(@"\s").IsMatch(line[charIndex].ToString()))
+                {
+                    charIndex--;
+                    break;
+                }
+
+                fileLines[lineIndex] = line.Insert(charIndex + 1, ";");
+            }
         }
     }
 }

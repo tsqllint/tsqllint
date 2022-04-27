@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using NSubstitute;
@@ -8,6 +9,7 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Infrastructure.Interfaces;
 using TSQLLint.Infrastructure.Parser;
+using TSQLLint.Infrastructure.Rules.Common;
 using TSQLLint.Infrastructure.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
@@ -53,11 +55,14 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             var fixedPath = path.Replace(".sql", ".fixed.sql");
             File.WriteAllText(fixedPath, File.ReadAllText(path));
 
+            var violationFixer = new ViolationFixer(new FileSystem(), true);
             var ruleViolations = new List<RuleViolation>();
 
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
             {
-                ruleViolations.Add(new RuleViolation(ruleName, startLine, startColumn));
+                var violiation = new RuleViolation(fixedPath, ruleName, startLine, startColumn);
+                violationFixer.AddViolation(violiation);
+                ruleViolations.Add(violiation);
             }
 
             var visitor = GetVisitor(ruleType, ErrorCallback);
@@ -71,6 +76,8 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 
             // act
             sqlFragment.Accept(visitor);
+
+            violationFixer.FixViolations();
 
             ruleViolations.Clear();
             fragmentBuilder = new FragmentBuilder(120);
@@ -121,9 +128,9 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
         }
 
-        private static TSqlFragmentVisitor GetVisitor(Type ruleType, Action<string, string, int, int> errorCallback)
+        private static BaseRuleVisitor GetVisitor(Type ruleType, Action<string, string, int, int> errorCallback)
         {
-            return (TSqlFragmentVisitor)Activator.CreateInstance(ruleType, errorCallback);
+            return (BaseRuleVisitor)Activator.CreateInstance(ruleType, errorCallback);
         }
     }
 }
