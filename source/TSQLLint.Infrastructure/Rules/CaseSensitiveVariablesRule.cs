@@ -1,34 +1,28 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
-using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class CaseSensitiveVariablesRule : TSqlFragmentVisitor, ISqlRule
+    public class CaseSensitiveVariablesRule : BaseRuleVisitor
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
-        private List<string> variableNames;
+        private readonly List<string> variableNames;
 
         public CaseSensitiveVariablesRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
             this.variableNames = new List<string>();
         }
 
-        public string RULE_NAME => "case-sensitive-variables";
+        public override string RULE_NAME => "case-sensitive-variables";
 
-        public string RULE_TEXT => "Expected variable names to use common casing";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Expected variable names to use common casing";
 
         public override void Visit(DeclareVariableStatement node)
         {
-            foreach(var decalaration in node.Declarations)
+            foreach (var decalaration in node.Declarations)
             {
                 variableNames.Add(decalaration.VariableName.Value);
             }

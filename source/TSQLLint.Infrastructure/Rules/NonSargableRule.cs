@@ -1,38 +1,32 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class NonSargableRule : TSqlFragmentVisitor, ISqlRule
+    public class NonSargableRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         private readonly List<TSqlFragment> errorsReported = new List<TSqlFragment>();
 
         private bool multiClauseQuery;
 
         public NonSargableRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "non-sargable";
+        public override string RULE_NAME => "non-sargable";
 
-        public string RULE_TEXT => "Performing functions on filter clauses or join predicates can cause performance problems";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Performing functions on filter clauses or join predicates can cause performance problems";
 
         public override void Visit(JoinTableReference node)
         {
             var predicateExpressionVisitor = new PredicateVisitor();
             node.AcceptChildren(predicateExpressionVisitor);
             var multiClauseQuery = predicateExpressionVisitor.PredicatesFound;
-            
+
             var joinVisitor = new JoinQueryVisitor(VisitorCallback, multiClauseQuery);
             node.AcceptChildren(joinVisitor);
         }
@@ -46,7 +40,7 @@ namespace TSQLLint.Infrastructure.Rules
             var childVisitor = new FunctionVisitor(VisitorCallback, multiClauseQuery);
             node.Accept(childVisitor);
         }
-        
+
         private void VisitorCallback(TSqlFragment childNode)
         {
             if (errorsReported.Contains(childNode))

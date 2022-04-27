@@ -1,14 +1,13 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class SchemaQualifyRule : TSqlFragmentVisitor, ISqlRule
+    public class SchemaQualifyRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         private readonly List<string> tableAliases = new List<string>
         {
             "INSERTED",
@@ -17,17 +16,13 @@ namespace TSQLLint.Infrastructure.Rules
         };
 
         public SchemaQualifyRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "schema-qualify";
+        public override string RULE_NAME => "schema-qualify";
 
-        public string RULE_TEXT => "Object name not schema qualified";
-
-        public int DynamicSqlStartLine { get; set; }
-
-        public int DynamicSqlStartColumn { get; set; }
+        public override string RULE_TEXT => "Object name not schema qualified";
 
         public override void Visit(TSqlStatement node)
         {

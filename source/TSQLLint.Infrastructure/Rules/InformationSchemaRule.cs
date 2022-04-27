@@ -1,25 +1,20 @@
-using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class InformationSchemaRule : TSqlFragmentVisitor, ISqlRule
+    public class InformationSchemaRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         public InformationSchemaRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "information-schema";
+        public override string RULE_NAME => "information-schema";
 
-        public string RULE_TEXT => "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Expected use of SYS.Partitions rather than INFORMATION_SCHEMA views";
 
         public override void Visit(SchemaObjectName node)
         {
