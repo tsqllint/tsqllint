@@ -74,8 +74,8 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(process);
         }
 
-        [TestCase(@"TestFiles/with-fixable-errors.sql", true)]
         [TestCase(@"TestFiles/with-fixable-errors.sql", false)]
+        [TestCase(@"TestFiles/with-fixable-errors.sql", true)]
         public void LintingErrorsFixedExitCodeTest(string testFile, bool withFix)
         {
             void OutputHandler(object sender, DataReceivedEventArgs args)
@@ -99,7 +99,7 @@ namespace TSQLLint.Tests.FunctionalTests
             }
 
             var testPath = Path.GetFullPath(Path.Combine(testDirectoryPath, $@"FunctionalTests/{testFile}"));
-            var testOutputPath = Path.GetFullPath(Path.Combine(testDirectoryPath, $@"FunctionalTests/{testFile}.output"));
+            var testOutputPath = testPath.Replace(".sql", $".fixed-{withFix}.sql");
 
             var testFileContent = File.ReadAllText(testPath);
             File.WriteAllText(testOutputPath, testFileContent);
