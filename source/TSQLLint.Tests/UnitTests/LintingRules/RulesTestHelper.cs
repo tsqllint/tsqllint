@@ -8,7 +8,6 @@ using NUnit.Framework;
 using TSQLLint.Common;
 using TSQLLint.Infrastructure.Interfaces;
 using TSQLLint.Infrastructure.Parser;
-using TSQLLint.Infrastructure.Rules;
 using TSQLLint.Infrastructure.Rules.RuleViolations;
 using TSQLLint.Tests.Helpers.ObjectComparers;
 
@@ -45,6 +44,46 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             // assert
             CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
             Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
+        }
+
+        public static void RunRulesTestWithFix(string rule, string testFileName, Type ruleType)
+        {
+            // arrange
+            var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"UnitTests/LintingRules/{rule}/test-files/{testFileName}.sql"));
+            var fixedPath = path.Replace(".sql", ".fixed.sql");
+            File.WriteAllText(fixedPath, File.ReadAllText(path));
+
+            var ruleViolations = new List<RuleViolation>();
+
+            void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
+            {
+                ruleViolations.Add(new RuleViolation(ruleName, startLine, startColumn));
+            }
+
+            var visitor = GetVisitor(ruleType, ErrorCallback);
+            var compareer = new RuleViolationComparer();
+
+            var fragmentBuilder = new FragmentBuilder(120);
+            var fileStream = File.OpenRead(path);
+            var textReader = new StreamReader(fileStream);
+            var sqlFragment = fragmentBuilder.GetFragment(textReader, out _);
+            textReader.Close();
+
+            // act
+            sqlFragment.Accept(visitor);
+
+            ruleViolations.Clear();
+            fragmentBuilder = new FragmentBuilder(120);
+            fileStream = File.OpenRead(fixedPath);
+            textReader = new StreamReader(fileStream);
+            sqlFragment = fragmentBuilder.GetFragment(textReader, out _);
+            textReader.Close();
+
+            // act
+            sqlFragment.Accept(visitor);
+
+            // assert
+            Assert.Zero(ruleViolations.Count());
         }
 
         public static void RunDynamicSQLRulesTest(Type ruleType, string sql, List<RuleViolation> expectedRuleViolations)

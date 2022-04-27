@@ -8,6 +8,8 @@ namespace TSQLLint.Core.Interfaces
 
         string ConfigFile { get; set; }
 
+        bool Fix { get; set; }
+
         bool Force { get; set; }
 
         bool Help { get; set; }

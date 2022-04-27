@@ -30,6 +30,13 @@ namespace TSQLLint.Infrastructure.CommandLineOptions
         public bool Force { get; set; }
 
         [Option(
+            'x',
+            longName: "fix",
+            Required = false,
+            HelpText = "Used to fix some of the common linting errors if possible")]
+        public bool Fix { get; set; }
+
+        [Option(
             'i',
             longName: "init",
             Required = false,

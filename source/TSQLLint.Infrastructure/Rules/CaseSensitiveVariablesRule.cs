@@ -2,6 +2,8 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TSQLLint.Common;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
@@ -47,5 +49,11 @@ namespace TSQLLint.Infrastructure.Rules
                 ? node.StartColumn + DynamicSqlStartColumn
                 : node.StartColumn;
         }
+
+        public override async Task FixViolations(IList<IRuleViolation> ruleViolations)
+            => await FixViolations(ruleViolations, (fileLines, ruleViolation) =>
+            {
+                fileLines[ruleViolation.Line - 1] += ";";
+            });
     }
 }
