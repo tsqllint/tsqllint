@@ -43,7 +43,7 @@ npm install tsqllint -g
 # lint a single file
 tsqllint test.sql
 
-# Writes fixes for some rules back to the file/s (--fix or -x)
+# fix all auto-fixable problems (--fix or -x)
 tsqllint --fix test.sql
 
 # lint all files in a directory
