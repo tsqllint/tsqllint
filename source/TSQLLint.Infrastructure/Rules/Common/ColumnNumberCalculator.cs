@@ -33,10 +33,17 @@ namespace TSQLLint.Infrastructure.Rules.Common
             }
 
             var tabCount = CountTabs(charactersBeforeNode);
-            var totalTabLentgh = tabCount * Constants.TabWidth;
+            var totalTabLength = tabCount * Constants.TabWidth;
 
-            var nodePosition = totalTabLentgh + (charactersBeforeNode.Length - tabCount) + offSet;
+            var nodePosition = totalTabLength + (charactersBeforeNode.Length - tabCount) + offSet;
             return nodePosition;
+        }
+
+        public static int GetIndex(string line, int startCharIndex)
+        {
+            startCharIndex--;
+            var tabs = CountTabs(line.Substring(0, startCharIndex));
+            return startCharIndex - tabs * (Constants.TabWidth - 1);
         }
 
         private static int CountTabs(string charactersBeforeNode)

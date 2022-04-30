@@ -1,6 +1,8 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
+using TSQLLint.Common;
 using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
@@ -42,6 +44,20 @@ namespace TSQLLint.Infrastructure.Rules
 
                 errorCallback(RULE_NAME, RULE_TEXT, token.Line, column + dynamicSQLAdjustment);
             }
+        }
+
+        public override void FixViolation(string[] fileLines, IRuleViolation ruleViolation)
+        {
+            var lineIndex = ruleViolation.Line - 1;
+            var line = fileLines[lineIndex];
+            var startCharIndex = ColumnNumberCalculator.GetIndex(line, ruleViolation.Column);
+
+            var errorWord = new Regex(@"\w+").Matches(line[startCharIndex..]).First().Value;
+
+            line = line.Remove(startCharIndex, errorWord.Length);
+            line = line.Insert(startCharIndex, errorWord.ToUpper());
+
+            fileLines[lineIndex] = line;
         }
 
         private int AdjustColumnForDymamicSQL(TSqlParserToken node)
