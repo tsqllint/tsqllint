@@ -62,7 +62,8 @@ namespace TSQLLint.Infrastructure.Rules
             var childBeginEndVisitor = new ChildBeginEndVisitor();
             node.AcceptChildren(childBeginEndVisitor);
 
-            if (childBeginEndVisitor.BeginEndBlockFound)
+            if (childBeginEndVisitor.BeginEndBlockFound ||
+                node is BeginEndBlockStatement)
             {
                 return;
             }
