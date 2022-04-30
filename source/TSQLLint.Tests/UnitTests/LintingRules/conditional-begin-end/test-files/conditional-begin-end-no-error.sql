@@ -1,4 +1,8 @@
 ﻿IF(1 = 1)
 BEGIN;
-    SELECT 1
-END;
+    SELECT 1;
+END
+ELSE
+BEGIN
+	SELECT 2;
+END

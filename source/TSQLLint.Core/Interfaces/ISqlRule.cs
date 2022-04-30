@@ -13,6 +13,6 @@ namespace TSQLLint.Core.Interfaces
 
         int DynamicSqlStartLine { get; set; }
 
-        void FixViolation(string[] fileLines, IRuleViolation ruleViolation);
+        void FixViolation(List<string> fileLines, IRuleViolation ruleViolation);
     }
 }

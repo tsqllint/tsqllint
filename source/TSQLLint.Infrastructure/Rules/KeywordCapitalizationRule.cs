@@ -1,5 +1,6 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TSQLLint.Common;
@@ -46,7 +47,7 @@ namespace TSQLLint.Infrastructure.Rules
             }
         }
 
-        public override void FixViolation(string[] fileLines, IRuleViolation ruleViolation)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
         {
             var lineIndex = ruleViolation.Line - 1;
             var line = fileLines[lineIndex];

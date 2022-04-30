@@ -1,6 +1,9 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
+using System.Collections.Generic;
+using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Helpers;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
@@ -23,6 +26,34 @@ namespace TSQLLint.Infrastructure.Rules
             if (node.ElseStatement != null)
             {
                 Foo(node.ElseStatement);
+            }
+        }
+
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        {
+            var ifNode = FixHelpers.FindViolatingNode<IfStatement>(fileLines, ruleViolation);
+            TSqlStatement statement;
+
+            if (ifNode == null)
+            {
+                (statement, ifNode) = FindElse(fileLines, ruleViolation);
+            }
+            else
+            {
+                statement = ifNode.ThenStatement;
+            }
+
+            var indent = FixHelpers.GetIndent(fileLines, ifNode);
+            var beingLine = statement.ScriptTokenStream[statement.FirstTokenIndex].Line - 1;
+            var endLine = statement.ScriptTokenStream[statement.LastTokenIndex].Line;
+
+            fileLines.Insert(endLine, $"{indent}END");
+            fileLines.Insert(beingLine, $"{indent}BEGIN");
+
+            static (TSqlStatement, IfStatement) FindElse(List<string> fileLines, IRuleViolation ruleViolation)
+            {
+                return FixHelpers.FindViolatingNode<IfStatement, TSqlStatement>(
+                    fileLines, ruleViolation, x => x.ElseStatement);
             }
         }
 
