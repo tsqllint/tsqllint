@@ -21,11 +21,14 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(IfStatement node)
         {
-            Foo(node);
-
-            if (node.ElseStatement != null)
+            if (node.ThenStatement is not BeginEndBlockStatement)
             {
-                Foo(node.ElseStatement);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+            }
+
+            if (node.ElseStatement != null && node.ElseStatement  is not BeginEndBlockStatement)
+            {
+                errorCallback(RULE_NAME, RULE_TEXT, node.ElseStatement.StartLine, GetColumnNumber(node.ElseStatement));
             }
         }
 
@@ -54,34 +57,6 @@ namespace TSQLLint.Infrastructure.Rules
             {
                 return FixHelpers.FindViolatingNode<IfStatement, TSqlStatement>(
                     fileLines, ruleViolation, x => x.ElseStatement);
-            }
-        }
-
-        private void Foo(TSqlFragment node)
-        {
-            var childBeginEndVisitor = new ChildBeginEndVisitor();
-            node.AcceptChildren(childBeginEndVisitor);
-
-            if (childBeginEndVisitor.BeginEndBlockFound ||
-                node is BeginEndBlockStatement)
-            {
-                return;
-            }
-
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
-        }
-
-        private class ChildBeginEndVisitor : TSqlFragmentVisitor
-        {
-            public bool BeginEndBlockFound
-            {
-                get;
-                private set;
-            }
-
-            public override void Visit(BeginEndBlockStatement node)
-            {
-                BeginEndBlockFound = true;
             }
         }
 

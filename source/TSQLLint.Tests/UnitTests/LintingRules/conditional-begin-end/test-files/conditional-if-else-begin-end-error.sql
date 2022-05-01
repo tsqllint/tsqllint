@@ -1,0 +1,6 @@
+IF 1=1
+    SELECT 1;
+ELSE
+BEGIN
+    SELECT @Foo = @Bar;
+END
