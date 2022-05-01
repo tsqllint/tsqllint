@@ -63,7 +63,6 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 
         [TestCaseSource(nameof(TestCases))]
         public void TestRuleWithFix(string testFileName, List<RuleViolation> expectedRuleViolations)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
             RulesTestHelper.RunRulesTestWithFix(RuleName, testFileName, typeof(SetAnsiNullsRule));
         }
