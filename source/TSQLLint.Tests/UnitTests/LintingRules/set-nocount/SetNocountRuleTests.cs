@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
@@ -56,6 +55,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
         {
             RulesTestHelper.RunDynamicSQLRulesTest(typeof(SetNoCountRule), sql, expectedVioalations);
+        }
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRuleWithFix(string testFileName, List<RuleViolation> expectedRuleViolations)
+#pragma warning restore IDE0060 // Remove unused parameter
+        {
+            RulesTestHelper.RunRulesTestWithFix(RuleName, testFileName, typeof(SetNoCountRule));
         }
     }
 }
