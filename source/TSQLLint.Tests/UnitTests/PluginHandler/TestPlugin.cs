@@ -25,7 +25,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                         "Should use spaces rather than tabs",
                         lineNumber,
                         column,
-                        RuleViolationSeverity.Error));
+                        RuleViolationSeverity.Warning));
                 }
             }
         }

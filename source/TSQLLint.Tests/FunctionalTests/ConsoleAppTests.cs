@@ -114,7 +114,7 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(validateFixProcess);
         }
 
-        [TestCase(@"TestFiles/with-tabs.sql", "error prefer-tabs : Should use spaces rather than tabs", 0)]
+        [TestCase(@"TestFiles/with-tabs.sql", "prefer-tabs : Should use spaces rather than tabs", 0)]
         [TestCase(@"TestFiles/with-spaces.sql", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
         public void LoadPluginTest(string testFile, string expectedMessage, int expectedExitCode)
         {
