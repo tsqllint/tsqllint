@@ -24,7 +24,7 @@ namespace TSQLLint.Infrastructure.Helpers
                 throw new Exception($"Parsing failed. {string.Join(". ", errors.Select(x => x.Message))}");
             }
 
-            var checker = new FindViolatingNodeVisitor<TFind>(ruleViolation);
+            var checker = new FindViolatingNodeVisitor<TFind>();
             tree.Accept(checker);
 
             var node = checker.Nodes.FirstOrDefault(x =>
@@ -70,12 +70,6 @@ namespace TSQLLint.Infrastructure.Helpers
             where T : TSqlFragment
         {
             public List<T> Nodes = new();
-            private readonly IRuleViolation ruleViolation;
-
-            public FindViolatingNodeVisitor(IRuleViolation ruleViolation)
-            {
-                this.ruleViolation = ruleViolation;
-            }
 
             public override void Visit(TSqlFragment node)
             {
