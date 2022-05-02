@@ -1,5 +1,6 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
+using System.Collections.Generic;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 
@@ -19,7 +20,7 @@ namespace TSQLLint.Infrastructure.Rules.Common
         public abstract string RULE_NAME { get; }
         public abstract string RULE_TEXT { get; }
 
-        public virtual void FixViolation(string[] fileLines, IRuleViolation ruleViolation)
+        public virtual void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
         {
         }
     }

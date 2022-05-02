@@ -40,9 +40,9 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         {
             new object[]
             {
-                @"SET ANSI_NULLS ON; 
+                @"SET ANSI_NULLS ON;
                   EXEC('SET QUOTED_IDENTIFIER ON;
-                  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED  
+                  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
                   SET NOCOUNT ON;
                   SELECT * FROM FOO;');",
                 new List<RuleViolation>()
@@ -59,6 +59,12 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
         {
             RulesTestHelper.RunDynamicSQLRulesTest(typeof(SetAnsiNullsRule), sql, expectedVioalations);
+        }
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRuleWithFix(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTestWithFix(RuleName, testFileName, typeof(SetAnsiNullsRule));
         }
     }
 }
