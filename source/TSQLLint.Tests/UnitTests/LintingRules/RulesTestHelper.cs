@@ -31,7 +31,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             }
 
             var visitor = GetVisitor(ruleType, ErrorCallback);
-            var compareer = new RuleViolationComparer();
+            var comparer = new RuleViolationComparer();
 
             var fragmentBuilder = new FragmentBuilder(120);
             var textReader = new StreamReader(fileStream);
@@ -44,7 +44,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.Column).ToList();
 
             // assert
-            CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, compareer);
+            CollectionAssert.AreEqual(expectedRuleViolations, ruleViolations, comparer);
             Assert.AreEqual(expectedRuleViolations.Count, ruleViolations.Count);
         }
 
@@ -60,13 +60,12 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
             {
-                var violiation = new RuleViolation(fixedPath, ruleName, startLine, startColumn);
-                violationFixer.AddViolation(violiation);
-                ruleViolations.Add(violiation);
+                var violation = new RuleViolation(fixedPath, ruleName, startLine, startColumn);
+                violationFixer.AddViolation(violation);
+                ruleViolations.Add(violation);
             }
 
             var visitor = GetVisitor(ruleType, ErrorCallback);
-            var compareer = new RuleViolationComparer();
 
             var fragmentBuilder = new FragmentBuilder(120);
             var fileStream = File.OpenRead(path);

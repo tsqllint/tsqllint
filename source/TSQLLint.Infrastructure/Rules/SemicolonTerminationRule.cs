@@ -63,7 +63,7 @@ namespace TSQLLint.Infrastructure.Rules
                 || node.ScriptTokenStream[node.LastTokenIndex + 1].TokenType == TSqlTokenType.Semicolon;
         }
 
-        public override void FixViolation(string[] fileLines, IRuleViolation ruleViolation)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
         {
             var lineIndex = ruleViolation.Line - 1;
             var line = fileLines[lineIndex];

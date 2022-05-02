@@ -37,6 +37,20 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     new RuleViolation(RuleName, 6, 1),
                     new RuleViolation(RuleName, 14, 5)
                 }
+            },
+            new object[]
+            {
+                "conditional-else-begin-end-error", new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 6, 5)
+                }
+            },
+            new object[]
+            {
+                "conditional-if-else-begin-end-error", new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 1),
+                }
             }
         };
 
@@ -91,6 +105,12 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
         {
             RulesTestHelper.RunDynamicSQLRulesTest(typeof(ConditionalBeginEndRule), sql, expectedVioalations);
+        }
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRuleWithFix(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTestWithFix(RuleName, testFileName, typeof(ConditionalBeginEndRule));
         }
     }
 }

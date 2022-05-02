@@ -1,5 +1,7 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
+using System.Collections.Generic;
+using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
@@ -39,6 +41,12 @@ namespace TSQLLint.Infrastructure.Rules
             }
 
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
+        }
+
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        {
+            fileLines.RemoveAll(x => x.StartsWith("SET NOCOUNT", StringComparison.CurrentCultureIgnoreCase));
+            fileLines.Insert(0, "SET NOCOUNT ON;");
         }
 
         public class ChildRowsetVisitor : TSqlFragmentVisitor

@@ -1,6 +1,9 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
+using System.Collections.Generic;
+using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Helpers;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
@@ -18,38 +21,42 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(IfStatement node)
         {
-            Foo(node);
-
-            if (node.ElseStatement != null)
+            if (node.ThenStatement is not BeginEndBlockStatement)
             {
-                Foo(node.ElseStatement);
+                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+            }
+
+            if (node.ElseStatement != null && node.ElseStatement  is not BeginEndBlockStatement)
+            {
+                errorCallback(RULE_NAME, RULE_TEXT, node.ElseStatement.StartLine, GetColumnNumber(node.ElseStatement));
             }
         }
 
-        private void Foo(TSqlFragment node)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
         {
-            var childBeginEndVisitor = new ChildBeginEndVisitor();
-            node.AcceptChildren(childBeginEndVisitor);
+            var ifNode = FixHelpers.FindViolatingNode<IfStatement>(fileLines, ruleViolation);
+            TSqlStatement statement;
 
-            if (childBeginEndVisitor.BeginEndBlockFound)
+            if (ifNode == null)
             {
-                return;
+                (statement, ifNode) = FindElse(fileLines, ruleViolation);
+            }
+            else
+            {
+                statement = ifNode.ThenStatement;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
-        }
+            var indent = FixHelpers.GetIndent(fileLines, ifNode);
+            var beingLine = statement.ScriptTokenStream[statement.FirstTokenIndex].Line - 1;
+            var endLine = statement.ScriptTokenStream[statement.LastTokenIndex].Line;
 
-        private class ChildBeginEndVisitor : TSqlFragmentVisitor
-        {
-            public bool BeginEndBlockFound
-            {
-                get;
-                private set;
-            }
+            fileLines.Insert(endLine, $"{indent}END");
+            fileLines.Insert(beingLine, $"{indent}BEGIN");
 
-            public override void Visit(BeginEndBlockStatement node)
+            static (TSqlStatement, IfStatement) FindElse(List<string> fileLines, IRuleViolation ruleViolation)
             {
-                BeginEndBlockFound = true;
+                return FixHelpers.FindViolatingNode<IfStatement, TSqlStatement>(
+                    fileLines, ruleViolation, x => x.ElseStatement);
             }
         }
 
