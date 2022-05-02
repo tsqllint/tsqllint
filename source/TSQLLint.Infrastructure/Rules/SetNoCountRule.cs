@@ -1,25 +1,20 @@
-using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class SetNoCountRule : TSqlFragmentVisitor, ISqlRule
+    public class SetNoCountRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         public SetNoCountRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "set-nocount";
+        public override string RULE_NAME => "set-nocount";
 
-        public string RULE_TEXT => "Expected SET NOCOUNT ON near top of file";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Expected SET NOCOUNT ON near top of file";
 
         public override void Visit(TSqlScript node)
         {

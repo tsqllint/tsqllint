@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using TSQLLint.Common;
+
 namespace TSQLLint.Core.Interfaces
 {
     public interface ISqlRule
@@ -9,5 +12,7 @@ namespace TSQLLint.Core.Interfaces
         int DynamicSqlStartColumn { get; set; }
 
         int DynamicSqlStartLine { get; set; }
+
+        void FixViolation(string[] fileLines, IRuleViolation ruleViolation);
     }
 }

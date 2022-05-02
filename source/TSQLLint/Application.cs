@@ -1,8 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.IO.Abstractions;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
@@ -46,17 +44,23 @@ namespace TSQLLint
         {
             configReader.LoadConfig(commandLineOptions.ConfigFile);
 
+            var response = commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));
+            var violationFixer = new ViolationFixer(new FileSystem(), response.ShouldFix);
             var fragmentBuilder = new FragmentBuilder(configReader.CompatabilityLevel);
-            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter, violationFixer);
             var ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
             pluginHandler = new PluginHandler(reporter);
             fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
 
             pluginHandler.ProcessPaths(configReader.GetPlugins());
-            var response = commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));
             if (response.ShouldLint)
             {
                 fileProcessor.ProcessList(commandLineOptions.LintPath);
+
+                if (response.ShouldFix)
+                {
+                    violationFixer.FixViolations();
+                }
             }
 
             if (fileProcessor.FileCount > 0)

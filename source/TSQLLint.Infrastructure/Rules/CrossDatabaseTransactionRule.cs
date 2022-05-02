@@ -1,27 +1,22 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class CrossDatabaseTransactionRule : TSqlFragmentVisitor, ISqlRule
+    public class CrossDatabaseTransactionRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         public CrossDatabaseTransactionRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "cross-database-transaction";
+        public override string RULE_NAME => "cross-database-transaction";
 
-        public string RULE_TEXT => "Cross database inserts or updates enclosed in a transaction can lead to data corruption";
-
-        public int DynamicSqlStartColumn { get; set; }
-        
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Cross database inserts or updates enclosed in a transaction can lead to data corruption";
 
         public override void Visit(TSqlBatch node)
         {

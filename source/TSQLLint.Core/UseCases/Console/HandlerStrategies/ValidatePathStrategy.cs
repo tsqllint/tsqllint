@@ -22,7 +22,7 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
             if (invalidPaths < commandLineOptions.LintPath.Count)
             {
                 // if there are valid paths then signal success and lint
-                return new HandlerResponseMessage(true, true);
+                return new HandlerResponseMessage(true, true, commandLineOptions.Fix);
             }
 
             reporter.Report("No valid file paths provided");

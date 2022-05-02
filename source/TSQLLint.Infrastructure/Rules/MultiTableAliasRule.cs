@@ -1,29 +1,23 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class MultiTableAliasRule : TSqlFragmentVisitor, ISqlRule
+    public class MultiTableAliasRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         private HashSet<string> cteNames = new HashSet<string>();
 
         public MultiTableAliasRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "multi-table-alias";
+        public override string RULE_NAME => "multi-table-alias";
 
-        public string RULE_TEXT => "Unaliased table found in multi table joins";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Unaliased table found in multi table joins";
 
         public override void Visit(TSqlStatement node)
         {

@@ -122,5 +122,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         {
             RulesTestHelper.RunDynamicSQLRulesTest(typeof(SemicolonTerminationRule), sql, expectedVioalations);
         }
+
+        [TestCaseSource(nameof(TestCases))]
+        #pragma warning disable IDE0060 // Remove unused parameter
+        public void TestRuleWithFix(string testFileName, List<RuleViolation> expectedRuleViolations)
+        #pragma warning restore IDE0060 // Remove unused parameter
+        {
+            RulesTestHelper.RunRulesTestWithFix(RuleName, testFileName, typeof(SemicolonTerminationRule));
+        }
     }
 }

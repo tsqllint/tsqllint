@@ -19,6 +19,14 @@ namespace TSQLLint.Infrastructure.Rules.RuleViolations
             Severity = severity;
         }
 
+        public RuleViolation(string fileName, string ruleName, int startLine, int startColumn)
+        {
+            FileName = fileName;
+            RuleName = ruleName;
+            Line = startLine;
+            Column = startColumn;
+        }
+
         public RuleViolation(string ruleName, int startLine, int startColumn)
         {
             RuleName = ruleName;

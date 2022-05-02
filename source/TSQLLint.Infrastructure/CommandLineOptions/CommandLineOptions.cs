@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
+using System.Collections.Generic;
 using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Infrastructure.CommandLineOptions
@@ -28,6 +28,13 @@ namespace TSQLLint.Infrastructure.CommandLineOptions
             Required = false,
             HelpText = "Used to force generation of default config file when one already exists")]
         public bool Force { get; set; }
+
+        [Option(
+            'x',
+            longName: "fix",
+            Required = false,
+            HelpText = "Used to fix some of the common linting errors if possible")]
+        public bool Fix { get; set; }
 
         [Option(
             'i',

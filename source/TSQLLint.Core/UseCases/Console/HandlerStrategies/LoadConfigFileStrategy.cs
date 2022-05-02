@@ -30,7 +30,7 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
                 return new HandlerResponseMessage(true, false);
             }
 
-            return new HandlerResponseMessage(true, true);
+            return new HandlerResponseMessage(true, true, commandLineOptions.Fix);
         }
     }
 }

@@ -1,25 +1,20 @@
-using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class DataCompressionOptionRule : TSqlFragmentVisitor, ISqlRule
+    public class DataCompressionOptionRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         public DataCompressionOptionRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "data-compression";
+        public override string RULE_NAME => "data-compression";
 
-        public string RULE_TEXT => "Expected table to use data compression";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Expected table to use data compression";
 
         public override void Visit(CreateTableStatement node)
         {

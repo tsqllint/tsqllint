@@ -1,25 +1,20 @@
-using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class ConditionalBeginEndRule : TSqlFragmentVisitor, ISqlRule
+    public class ConditionalBeginEndRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         public ConditionalBeginEndRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "conditional-begin-end";
+        public override string RULE_NAME => "conditional-begin-end";
 
-        public string RULE_TEXT => "Expected BEGIN and END statement within conditional logic block";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Expected BEGIN and END statement within conditional logic block";
 
         public override void Visit(IfStatement node)
         {
@@ -29,7 +24,6 @@ namespace TSQLLint.Infrastructure.Rules
             {
                 Foo(node.ElseStatement);
             }
-
         }
 
         private void Foo(TSqlFragment node)

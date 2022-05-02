@@ -1,14 +1,13 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class DataTypeLengthRule : TSqlFragmentVisitor, ISqlRule
+    public class DataTypeLengthRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         private readonly SqlDataTypeOption[] typesThatRequireLength =
         {
                 SqlDataTypeOption.Char,
@@ -23,17 +22,13 @@ namespace TSQLLint.Infrastructure.Rules
         };
 
         public DataTypeLengthRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "data-type-length";
+        public override string RULE_NAME => "data-type-length";
 
-        public string RULE_TEXT => "Data type length not specified";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Data type length not specified";
 
         public override void Visit(SqlDataTypeReference node)
         {

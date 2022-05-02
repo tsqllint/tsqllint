@@ -74,6 +74,46 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(process);
         }
 
+        [TestCase(@"TestFiles/with-fixable-errors.sql", false)]
+        [TestCase(@"TestFiles/with-fixable-errors.sql", true)]
+        public void LintingErrorsFixedExitCodeTest(string testFile, bool withFix)
+        {
+            void OutputHandler(object sender, DataReceivedEventArgs args)
+            {
+                TestContext.Out.WriteLine(args.Data);
+            }
+
+            void ErrorHandler(object sender, DataReceivedEventArgs args) { }
+
+            void FixExitHandler(object sender, EventArgs args)
+            {
+                var processExitCode = ((Process)sender).ExitCode;
+                Assert.AreEqual(1, processExitCode, $"Exit code should be {1}");
+            }
+
+            void ValidateFixExitHandler(object sender, EventArgs args)
+            {
+                var expectedExistCode = withFix ? 0 : 1;
+                var processExitCode = ((Process)sender).ExitCode;
+                Assert.AreEqual(expectedExistCode, processExitCode, $"Exit code should be {expectedExistCode}");
+            }
+
+            var testPath = Path.GetFullPath(Path.Combine(testDirectoryPath, $@"FunctionalTests/{testFile}"));
+            var testOutputPath = testPath.Replace(".sql", $".fixed-{withFix}.sql");
+
+            var testFileContent = File.ReadAllText(testPath);
+            File.WriteAllText(testOutputPath, testFileContent);
+
+            var configFilePath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc"));
+
+            var fixProcess = ConsoleAppTestHelper.GetProcess($"{(withFix ? "-x" : string.Empty)} -c {configFilePath} {testOutputPath}", OutputHandler, ErrorHandler, FixExitHandler);
+
+            var validateFixProcess = ConsoleAppTestHelper.GetProcess($" -c {configFilePath} {testOutputPath}", OutputHandler, ErrorHandler, ValidateFixExitHandler);
+
+            ConsoleAppTestHelper.RunApplication(fixProcess);
+            ConsoleAppTestHelper.RunApplication(validateFixProcess);
+        }
+
         [TestCase(@"-l", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
         public void LoadPluginTest(string testArgs, string expectedMessage, int expectedExitCode)
         {

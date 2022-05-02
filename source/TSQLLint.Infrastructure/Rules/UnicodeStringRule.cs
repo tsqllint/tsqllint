@@ -1,26 +1,20 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Text;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class UnicodeStringRule : TSqlFragmentVisitor, ISqlRule
+    public class UnicodeStringRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
-        public UnicodeStringRule(Action<string, string, int, int> errorCallback)
+        public UnicodeStringRule(Action<string, string, int, int> errorCallback) : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "unicode-string";
+        public override string RULE_NAME => "unicode-string";
 
-        public string RULE_TEXT => "Use of unicode characters in a non unicode string";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Use of unicode characters in a non unicode string";
 
         public override void Visit(StringLiteral node)
         {

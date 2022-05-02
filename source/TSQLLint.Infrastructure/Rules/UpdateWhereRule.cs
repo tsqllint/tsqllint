@@ -1,25 +1,21 @@
 using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class UpdateWhereRule : TSqlFragmentVisitor, ISqlRule
+    public class UpdateWhereRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         public UpdateWhereRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "update-where";
+        public override string RULE_NAME => "update-where";
 
-        public string RULE_TEXT => "Expected WHERE clause for UPDATE statement";
+        public override string RULE_TEXT => "Expected WHERE clause for UPDATE statement";
 
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
 
         public override void Visit(UpdateSpecification node)
         {

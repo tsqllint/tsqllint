@@ -1,16 +1,15 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System.Text.RegularExpressions;
+using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class SemicolonTerminationRule : TSqlFragmentVisitor, ISqlRule
+    public class SemicolonTerminationRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         private readonly IList<TSqlFragment> waitForStatements = new List<TSqlFragment>();
 
         // don't enforce semicolon termination on these statements
@@ -26,17 +25,13 @@ namespace TSQLLint.Infrastructure.Rules
         };
 
         public SemicolonTerminationRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "semicolon-termination";
+        public override string RULE_NAME => "semicolon-termination";
 
-        public string RULE_TEXT => "Statement not terminated with semicolon";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Statement not terminated with semicolon";
 
         public override void Visit(WaitForStatement node)
         {
@@ -66,6 +61,30 @@ namespace TSQLLint.Infrastructure.Rules
         {
             return node.ScriptTokenStream[node.LastTokenIndex].TokenType == TSqlTokenType.Semicolon
                 || node.ScriptTokenStream[node.LastTokenIndex + 1].TokenType == TSqlTokenType.Semicolon;
+        }
+
+        public override void FixViolation(string[] fileLines, IRuleViolation ruleViolation)
+        {
+            var lineIndex = ruleViolation.Line - 1;
+            var line = fileLines[lineIndex];
+            var charIndex = line.IndexOf("--");
+
+            if (charIndex == -1)
+            {
+                fileLines[lineIndex] = $"{fileLines[lineIndex].TrimEnd()};";
+            }
+            else
+            {
+                charIndex--;
+
+                while (charIndex >= 0 && new Regex(@"\s").IsMatch(line[charIndex].ToString()))
+                {
+                    charIndex--;
+                    break;
+                }
+
+                fileLines[lineIndex] = line.Insert(charIndex + 1, ";");
+            }
         }
     }
 }

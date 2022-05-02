@@ -1,28 +1,22 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class KeywordCapitalizationRule : TSqlFragmentVisitor, ISqlRule
+    public class KeywordCapitalizationRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
         public KeywordCapitalizationRule(Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "keyword-capitalization";
+        public override string RULE_NAME => "keyword-capitalization";
 
-        public string RULE_TEXT => "Expected TSQL Keyword to be capitalized";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
+        public override string RULE_TEXT => "Expected TSQL Keyword to be capitalized";
 
         public override void Visit(TSqlScript node)
         {
@@ -49,6 +43,7 @@ namespace TSQLLint.Infrastructure.Rules
                 errorCallback(RULE_NAME, RULE_TEXT, token.Line, column + dynamicSQLAdjustment);
             }
         }
+
         private int AdjustColumnForDymamicSQL(TSqlParserToken node)
         {
             return node.Line == DynamicSqlStartLine

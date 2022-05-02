@@ -1,25 +1,20 @@
-using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core.Interfaces;
+using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class CountStarRule : TSqlFragmentVisitor, ISqlRule
+    public class CountStarRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly Action<string, string, int, int> errorCallback;
-
-        public CountStarRule(Action<string, string, int, int> errorCallback)
+        public CountStarRule(System.Action<string, string, int, int> errorCallback)
+            : base(errorCallback)
         {
-            this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "count-star";
+        public override string RULE_NAME => "count-star";
 
-        public string RULE_TEXT => "COUNT(*) disallowed. Suggest COUNT(1) or COUNT(<PK>)";
+        public override string RULE_TEXT => "COUNT(*) disallowed. Suggest COUNT(1) or COUNT(<PK>)";
 
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
         public override void Visit(FunctionCall node)
         {
             var functionName = node.FunctionName?.Value;
@@ -35,18 +30,18 @@ namespace TSQLLint.Infrastructure.Rules
                 {
                     errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
                 }
-
             }
         }
 
-        class ParameterVisitor : TSqlFragmentVisitor
+        private class ParameterVisitor : TSqlFragmentVisitor
         {
             public bool IsWildcard { get; private set; }
+
             public ParameterVisitor()
             {
-
                 this.IsWildcard = false;
             }
+
             public override void Visit(ColumnReferenceExpression node)
             {
                 this.IsWildcard = node.ColumnType.Equals(ColumnType.Wildcard);
