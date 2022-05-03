@@ -1,6 +1,7 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
@@ -31,10 +32,10 @@ namespace TSQLLint.Infrastructure.Rules
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
-        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
-            fileLines.RemoveAll(x => x.StartsWith("SET ANSI_NULLS", StringComparison.CurrentCultureIgnoreCase));
-            fileLines.Insert(0, "SET ANSI_NULLS ON;");
+            actions.RemoveAll(x => x.StartsWith("SET ANSI_NULLS OFF", StringComparison.CurrentCultureIgnoreCase));
+            actions.Insert(0, "SET ANSI_NULLS ON;");
         }
 
         public class ChildAnsiNullsVisitor : TSqlFragmentVisitor

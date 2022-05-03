@@ -41,12 +41,16 @@ namespace TSQLLint.Infrastructure.Parser
                     .ToList();
 
                 var fileLines = FileSystem.File.ReadAllLines(file.Key).ToList();
+                var fileLineActions = new FileLineActions(fileViolations, fileLines);
 
                 foreach (var violation in fileViolations)
                 {
                     if (Rules.ContainsKey(violation.RuleName))
                     {
-                        Rules[violation.RuleName].FixViolation(fileLines, violation);
+                        // Prevent fix actions for screwing with the file lines.
+                        // All modifications need to use fileLineActions.
+                        var lines = new List<string>(fileLines);
+                        Rules[violation.RuleName].FixViolation(lines, violation, fileLineActions);
                     }
                 }
 

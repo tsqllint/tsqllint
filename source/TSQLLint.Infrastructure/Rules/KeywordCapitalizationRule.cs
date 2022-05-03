@@ -47,7 +47,7 @@ namespace TSQLLint.Infrastructure.Rules
             }
         }
 
-        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
             var lineIndex = ruleViolation.Line - 1;
             var line = fileLines[lineIndex];
@@ -55,10 +55,8 @@ namespace TSQLLint.Infrastructure.Rules
 
             var errorWord = new Regex(@"\w+").Matches(line[startCharIndex..]).First().Value;
 
-            line = line.Remove(startCharIndex, errorWord.Length);
-            line = line.Insert(startCharIndex, errorWord.ToUpper());
-
-            fileLines[lineIndex] = line;
+            actions.RemoveInLine(lineIndex, startCharIndex, errorWord.Length);
+            actions.InsertInLine(lineIndex, startCharIndex, errorWord.ToUpper());
         }
 
         private int AdjustColumnForDymamicSQL(TSqlParserToken node)
