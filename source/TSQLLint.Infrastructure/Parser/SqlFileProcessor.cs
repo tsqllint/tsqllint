@@ -25,7 +25,7 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly IRuleExceptionFinder ruleExceptionFinder;
 
-        private ConcurrentDictionary<string, Stream> fileStreams = new ConcurrentDictionary<string, Stream>();
+        private readonly ConcurrentDictionary<string, Stream> fileStreams = new();
 
         public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
         {
@@ -148,6 +148,7 @@ namespace TSQLLint.Infrastructure.Parser
                 return;
             }
             ProcessRules(fileStream, ignoredRules, filePath);
+            fileStream.Position = 0;
             ProcessPlugins(fileStream, ignoredRules, filePath);
         }
 
