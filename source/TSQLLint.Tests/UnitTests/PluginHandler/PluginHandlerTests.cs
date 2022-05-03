@@ -63,6 +63,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var versionWrapper = Substitute.For<IFileversionWrapper>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+            var rules = Substitute.For<Dictionary<string, ISqlLintRule>>();
 
             var pluginPaths = new Dictionary<string, string>
             {
@@ -75,7 +76,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper, rules);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -110,6 +111,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var versionWrapper = Substitute.For<IFileversionWrapper>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+            var rules = Substitute.For<Dictionary<string, ISqlLintRule>>();
 
             var pluginPaths = new Dictionary<string, string>
             {
@@ -119,7 +121,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper, rules);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -151,6 +153,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var versionWrapper = Substitute.For<IFileversionWrapper>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+            var rules = Substitute.For<Dictionary<string, ISqlLintRule>>();
 
             var pluginPaths = new Dictionary<string, string>
             {
@@ -160,7 +163,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             };
 
             // act
-            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper, rules);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -196,11 +199,11 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var versionWrapper = Substitute.For<IFileversionWrapper>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
-
             var reporter = Substitute.For<IReporter>();
+            var rules = Substitute.For<Dictionary<string, ISqlLintRule>>();
 
             // act
-            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper, rules);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -239,9 +242,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             var versionWrapper = Substitute.For<IFileversionWrapper>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+            var rules = Substitute.For<Dictionary<string, ISqlLintRule>>();
 
             // act
-            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, fileSystem, assemblyWrapper, versionWrapper, rules);
             pluginHandler.ProcessPaths(pluginPaths);
 
             // assert
@@ -276,9 +280,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             var versionWrapper = Substitute.For<IFileversionWrapper>();
             var context = Substitute.For<IPluginContext>();
             versionWrapper.GetVersion(Arg.Any<Assembly>()).Returns("1.2.3");
+            var rules = Substitute.For<Dictionary<string, ISqlLintRule>>();
 
             // act
-            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, new FileSystem(), assemblyWrapper, versionWrapper);
+            var pluginHandler = new Infrastructure.Plugins.PluginHandler(reporter, new FileSystem(), assemblyWrapper, versionWrapper, rules);
             pluginHandler.ProcessPaths(pluginPaths);
             pluginHandler.ActivatePlugins(context);
 

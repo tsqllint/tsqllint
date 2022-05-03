@@ -1,37 +1,37 @@
-using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
 using TSQLLint.Common;
-using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Interfaces;
 
 namespace TSQLLint.Infrastructure.Parser
 {
     public class ViolationFixer : IViolationFixer
     {
-        private readonly bool shouldFix;
-        private readonly ConcurrentBag<IRuleViolation> violations = new ConcurrentBag<IRuleViolation>();
-        private readonly IFileSystem fileSystem;
+        private readonly Dictionary<string, ISqlLintRule> Rules;
+        private readonly IFileSystem FileSystem;
+        private readonly IList<IRuleViolation> Violations;
 
-        public ViolationFixer(IFileSystem fileSystem, bool shouldFix)
+        public ViolationFixer(
+            IFileSystem fileSystem,
+            Dictionary<string, ISqlLintRule> rules,
+            IList<IRuleViolation> violations)
         {
-            this.fileSystem = fileSystem;
-            this.shouldFix = shouldFix;
+            Rules = rules;
+            FileSystem = fileSystem;
+            Violations = violations;
         }
 
-        public void AddViolation(IRuleViolation violation)
+        public ViolationFixer(
+            IFileSystem fileSystem,
+            IList<IRuleViolation> violations)
+            : this(fileSystem, RuleVisitorFriendlyNameTypeMap.Rules, violations)
         {
-            if (shouldFix)
-            {
-                violations.Add(violation);
-            }
         }
 
-        public void FixViolations()
+        public void Fix()
         {
-            var rules = new ConcurrentDictionary<string, ISqlRule>();
-            var files = violations.GroupBy(x => x.FileName);
+            var files = Violations.GroupBy(x => x.FileName);
 
             foreach (var file in files)
             {
@@ -40,17 +40,17 @@ namespace TSQLLint.Infrastructure.Parser
                     .ThenByDescending(x => x.Column)
                     .ToList();
 
-                var fileLines = fileSystem.File.ReadAllLines(file.Key).ToList();
+                var fileLines = FileSystem.File.ReadAllLines(file.Key).ToList();
 
                 foreach (var violation in fileViolations)
                 {
-                    var rule = rules.GetOrAdd(violation.RuleName, (ruleName)
-                        => (ISqlRule)Activator.CreateInstance(RuleVisitorFriendlyNameTypeMap.List[ruleName], (Action<string, string, int, int>)null));
-
-                    rule.FixViolation(fileLines, violation);
+                    if (Rules.ContainsKey(violation.RuleName))
+                    {
+                        Rules[violation.RuleName].FixViolation(fileLines, violation);
+                    }
                 }
 
-                fileSystem.File.WriteAllLines(file.Key, fileLines);
+                FileSystem.File.WriteAllLines(file.Key, fileLines);
             }
         }
     }

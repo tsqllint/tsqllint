@@ -1,15 +1,20 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
+using System.Linq;
 using TSQLLint.Common;
 
 namespace TSQLLint.Infrastructure.Reporters
 {
-    public class ConsoleReporter : IReporter
+    public class ConsoleReporter : IConsoleReporter
     {
-        private int warningCount;
+        private readonly ConcurrentBag<IRuleViolation> ruleViolations = new();
         private int errorCount;
+        private int warningCount;
+        public bool ShouldCollectViolations { get; set; }
+
+        public List<IRuleViolation> Violations => ruleViolations.ToList();
 
         [ExcludeFromCodeCoverage]
         public virtual void Report(string message)
@@ -28,14 +33,21 @@ namespace TSQLLint.Infrastructure.Reporters
 
         public void ReportViolation(IRuleViolation violation)
         {
+            if (ShouldCollectViolations)
+            {
+                ruleViolations.Add(violation);
+            }
+
             switch (violation.Severity)
             {
                 case RuleViolationSeverity.Warning:
                     warningCount++;
                     break;
+
                 case RuleViolationSeverity.Error:
                     errorCount++;
                     break;
+
                 default:
                     return;
             }

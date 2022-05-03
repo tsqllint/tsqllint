@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Linq;
 using TSQLLint.Common;
 using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
@@ -19,13 +19,13 @@ namespace TSQLLint
         private readonly IRequestHandler<CommandLineRequestMessage, HandlerResponseMessage> commandLineOptionHandler;
         private readonly ICommandLineOptions commandLineOptions;
         private readonly IConfigReader configReader;
-        private readonly IReporter reporter;
+        private readonly IConsoleReporter reporter;
         private readonly IConsoleTimer timer;
 
         private IPluginHandler pluginHandler;
         private ISqlFileProcessor fileProcessor;
 
-        public Application(string[] args, IReporter reporter)
+        public Application(string[] args, IConsoleReporter reporter)
         {
             timer = new ConsoleTimer();
             timer.Start();
@@ -45,21 +45,22 @@ namespace TSQLLint
             configReader.LoadConfig(commandLineOptions.ConfigFile);
 
             var response = commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));
-            var violationFixer = new ViolationFixer(new FileSystem(), response.ShouldFix);
             var fragmentBuilder = new FragmentBuilder(configReader.CompatabilityLevel);
-            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter, violationFixer);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter);
             var ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
-            pluginHandler = new PluginHandler(reporter);
+            var rules = RuleVisitorFriendlyNameTypeMap.Rules;
+            pluginHandler = new PluginHandler(reporter, rules);
             fileProcessor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, new FileSystem());
-
             pluginHandler.ProcessPaths(configReader.GetPlugins());
+
             if (response.ShouldLint)
             {
+                reporter.ShouldCollectViolations = response.ShouldFix;
                 fileProcessor.ProcessList(commandLineOptions.LintPath);
 
                 if (response.ShouldFix)
                 {
-                    violationFixer.FixViolations();
+                    new ViolationFixer(new FileSystem(), rules, reporter.Violations).Fix();
                 }
             }
 

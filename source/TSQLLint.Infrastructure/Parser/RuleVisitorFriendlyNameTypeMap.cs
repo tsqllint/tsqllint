@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using TSQLLint.Common;
 using TSQLLint.Infrastructure.Rules;
 
 namespace TSQLLint.Infrastructure.Parser
 {
     public static class RuleVisitorFriendlyNameTypeMap
     {
+        public static Dictionary<string, ISqlLintRule> Rules => List.ToDictionary(
+            x => x.Key, x => (ISqlLintRule)Activator.CreateInstance(x.Value, (Action<string, string, int, int>)null));
+
         // a list of all classes that implement ISqlRule
         public static readonly Dictionary<string, Type> List = new Dictionary<string, Type>
         {
