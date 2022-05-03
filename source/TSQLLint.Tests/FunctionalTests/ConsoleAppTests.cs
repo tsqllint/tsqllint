@@ -114,8 +114,9 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(validateFixProcess);
         }
 
-        [TestCase(@"-l", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
-        public void LoadPluginTest(string testArgs, string expectedMessage, int expectedExitCode)
+        [TestCase(@"TestFiles/with-tabs.sql", "prefer-tabs : Should use spaces rather than tabs", 0)]
+        [TestCase(@"TestFiles/with-spaces.sql", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
+        public void LoadPluginTest(string testFile, string expectedMessage, int expectedExitCode)
         {
             var pluginLoaded = false;
 
@@ -135,6 +136,8 @@ namespace TSQLLint.Tests.FunctionalTests
                 Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
             }
 
+            var testPath = Path.GetFullPath(Path.Combine(testDirectoryPath, $@"FunctionalTests/{testFile}"));
+
             var configFilePath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins"));
             var jsonString = File.ReadAllText(configFilePath);
             dynamic jsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonString);
@@ -142,7 +145,7 @@ namespace TSQLLint.Tests.FunctionalTests
             var updatedConfigFilePath = Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins-updated");
             File.WriteAllText(updatedConfigFilePath, jsonObject.ToString());
 
-            var process = ConsoleAppTestHelper.GetProcess($"-c {updatedConfigFilePath} {testArgs}", OutputHandler, ErrorHandler, ExitHandler);
+            var process = ConsoleAppTestHelper.GetProcess($"-c {updatedConfigFilePath} -l {testPath}", OutputHandler, ErrorHandler, ExitHandler);
             ConsoleAppTestHelper.RunApplication(process);
 
             Assert.IsTrue(pluginLoaded);
