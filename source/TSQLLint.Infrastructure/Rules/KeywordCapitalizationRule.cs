@@ -55,8 +55,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             var errorWord = new Regex(@"\w+").Matches(line[startCharIndex..]).First().Value;
 
-            actions.RemoveInLine(lineIndex, startCharIndex, errorWord.Length);
-            actions.InsertInLine(lineIndex, startCharIndex, errorWord.ToUpper());
+            actions.RepaceInlineAt(lineIndex, startCharIndex, errorWord.ToUpper());
         }
 
         private int AdjustColumnForDymamicSQL(TSqlParserToken node)
