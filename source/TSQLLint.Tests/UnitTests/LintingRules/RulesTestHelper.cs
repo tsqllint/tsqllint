@@ -53,6 +53,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             // arrange
             var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"UnitTests/LintingRules/{rule}/test-files/{testFileName}.sql"));
             var fixedPath = path.Replace(".sql", ".fixed.sql");
+            var expectedPath = path.Replace(".sql", ".expected.sql");
             File.WriteAllText(fixedPath, File.ReadAllText(path));
 
             var ruleViolations = new List<IRuleViolation>();
@@ -88,6 +89,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 
             // assert
             Assert.Zero(ruleViolations.Count());
+
+            if (File.Exists(expectedPath))
+            {
+                var expectedText = File.ReadAllText(expectedPath);
+                var actualText = File.ReadAllText(fixedPath);
+                Assert.AreEqual(expectedText, actualText);
+            }
         }
 
         public static void RunDynamicSQLRulesTest(Type ruleType, string sql, List<RuleViolation> expectedRuleViolations)

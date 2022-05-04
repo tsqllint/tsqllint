@@ -36,6 +36,15 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 2, 27)
                 }
+            },
+            new object[]
+            {
+                "information-schema-where-clause", new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 30),
+                    new RuleViolation(RuleName, 10, 26),
+                    new RuleViolation(RuleName, 19, 26)
+                }
             }
         };
 
@@ -70,6 +79,12 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
         {
             RulesTestHelper.RunDynamicSQLRulesTest(typeof(InformationSchemaRule), sql, expectedVioalations);
+        }
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRuleWithFix(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTestWithFix(RuleName, testFileName, typeof(InformationSchemaRule));
         }
     }
 }
