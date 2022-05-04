@@ -13,9 +13,7 @@ END
 
 
 IF EXISTS (SELECT 1 FROM sys.columns 
-	WHERE [object_id] = OBJECT_ID(N'dbo.tableName')
-		AND [name] = 'columnName' 
-		AND [system_type_id] = TYPE_ID(N'nvarchar'))
+	WHERE [object_id] = OBJECT_ID(N'dbo.tableName') AND [name] = 'columnName' AND [system_type_id] = TYPE_ID(N'nvarchar'))
 BEGIN
 SELECT 1;
 END
