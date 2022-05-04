@@ -47,8 +47,20 @@ namespace TSQLLint.Infrastructure.Parser
                 {
                     if (Rules.ContainsKey(violation.RuleName))
                     {
-                        // Prevent fix actions for screwing with the file lines.
-                        // All modifications need to use fileLineActions.
+                        if (violation.Line == 1 && violation.Column > fileLines[violation.Line].Length)
+                        {
+                            // There is a pretty bad bug with dynamic sql that I can't figure out.
+                            // If you use SET instead of SELECT
+                            // DECLARE @Sql NVARCHAR(4000);
+                            // SET @Sql = 'CREATE PROCEDURE dbo.test AS RETURN 0';
+                            // EXEC(@Sql);
+                            // Then all the dynamic sql error happen to line 1.
+                            // This is a super hacky way around the issue.
+                            // ALSO if you change the SET to SELECT,
+                            // then the dynamic sql no longer validates any rules.
+                            continue;
+                        }
+
                         var lines = new List<string>(fileLines);
                         Rules[violation.RuleName].FixViolation(lines, violation, fileLineActions);
                     }
