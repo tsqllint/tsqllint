@@ -49,6 +49,7 @@ namespace TSQLLint.Infrastructure.Parser
                     {
                         if (violation.Line == 1 && violation.Column > fileLines[violation.Line].Length)
                         {
+                            // https://github.com/tsqllint/tsqllint/issues/294
                             // There is a pretty bad bug with dynamic sql that I can't figure out.
                             // If you use SET instead of SELECT
                             // DECLARE @Sql NVARCHAR(4000);
