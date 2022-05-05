@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TSQLLint.Common;
 using TSQLLint.Infrastructure.Interfaces;
 
@@ -8,8 +9,9 @@ namespace TSQLLint.Infrastructure.Parser
 {
     public class ViolationFixer : IViolationFixer
     {
-        private readonly Dictionary<string, ISqlLintRule> Rules;
+        private static readonly Regex EmptyLineRegex = new(@"^\s*$", RegexOptions.Compiled);
         private readonly IFileSystem FileSystem;
+        private readonly Dictionary<string, ISqlLintRule> Rules;
         private readonly IList<IRuleViolation> Violations;
 
         public ViolationFixer(
@@ -47,7 +49,7 @@ namespace TSQLLint.Infrastructure.Parser
                 {
                     if (Rules.ContainsKey(violation.RuleName))
                     {
-                        if (violation.Line == 1 && violation.Column > fileLines[violation.Line  - 1].Length + 1)
+                        if (violation.Line == 1 && violation.Column > fileLines[violation.Line - 1].Length + 1)
                         {
                             // https://github.com/tsqllint/tsqllint/issues/294
                             // There is a pretty bad bug with dynamic sql that I can't figure out.
@@ -67,7 +69,30 @@ namespace TSQLLint.Infrastructure.Parser
                     }
                 }
 
+                RemoveDuplicateNewLines(fileLines);
+
                 FileSystem.File.WriteAllLines(file.Key, fileLines);
+            }
+        }
+
+        private static void RemoveDuplicateNewLines(List<string> fileLines)
+        {
+            var isEmptyLine = false;
+
+            for (var i = fileLines.Count - 1; i >= 0; i--)
+            {
+                if (EmptyLineRegex.IsMatch(fileLines[i]))
+                {
+                    if (isEmptyLine)
+                    {
+                        fileLines.RemoveAt(i);
+                    }
+                    isEmptyLine = true;
+                }
+                else
+                {
+                    isEmptyLine = false;
+                }
             }
         }
     }
