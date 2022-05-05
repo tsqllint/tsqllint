@@ -47,7 +47,7 @@ namespace TSQLLint.Infrastructure.Parser
                 {
                     if (Rules.ContainsKey(violation.RuleName))
                     {
-                        if (violation.Line == 1 && violation.Column > fileLines[violation.Line].Length)
+                        if (violation.Line == 1 && violation.Column > fileLines[violation.Line  - 1].Length + 1)
                         {
                             // https://github.com/tsqllint/tsqllint/issues/294
                             // There is a pretty bad bug with dynamic sql that I can't figure out.
@@ -56,7 +56,7 @@ namespace TSQLLint.Infrastructure.Parser
                             // SET @Sql = 'CREATE PROCEDURE dbo.test AS RETURN 0';
                             // EXEC(@Sql);
                             // Then all the dynamic sql error happen to line 1.
-                            // This is a super hacky way around the issue.
+                            // This is a super hacky way around the issue that will usually work.
                             // ALSO if you change the SET to SELECT,
                             // then the dynamic sql no longer validates any rules.
                             continue;
