@@ -31,10 +31,10 @@ namespace TSQLLint.Infrastructure.Rules
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
-        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
-            fileLines.RemoveAll(x => x.StartsWith("SET QUOTED_IDENTIFIER", StringComparison.CurrentCultureIgnoreCase));
-            fileLines.Insert(0, "SET QUOTED_IDENTIFIER ON;");
+            actions.RemoveAll(x => x.StartsWith("SET QUOTED_IDENTIFIER", StringComparison.CurrentCultureIgnoreCase));
+            actions.Insert(0, "SET QUOTED_IDENTIFIER ON;");
         }
 
         public class ChildQuotedidentifierVisitor : TSqlFragmentVisitor

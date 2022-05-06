@@ -53,15 +53,14 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             // arrange
             var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"UnitTests/LintingRules/{rule}/test-files/{testFileName}.sql"));
             var fixedPath = path.Replace(".sql", ".fixed.sql");
+            var expectedPath = path.Replace(".sql", ".expected.sql");
             File.WriteAllText(fixedPath, File.ReadAllText(path));
 
-            var violationFixer = new ViolationFixer(new FileSystem(), true);
-            var ruleViolations = new List<RuleViolation>();
+            var ruleViolations = new List<IRuleViolation>();
 
             void ErrorCallback(string ruleName, string ruleText, int startLine, int startColumn)
             {
                 var violation = new RuleViolation(fixedPath, ruleName, startLine, startColumn);
-                violationFixer.AddViolation(violation);
                 ruleViolations.Add(violation);
             }
 
@@ -76,7 +75,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             // act
             sqlFragment.Accept(visitor);
 
-            violationFixer.FixViolations();
+            new ViolationFixer(new FileSystem(), ruleViolations).Fix();
 
             ruleViolations.Clear();
             fragmentBuilder = new FragmentBuilder(120);
@@ -90,6 +89,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
 
             // assert
             Assert.Zero(ruleViolations.Count());
+
+            if (File.Exists(expectedPath))
+            {
+                var expectedText = File.ReadAllText(expectedPath);
+                var actualText = File.ReadAllText(fixedPath);
+                Assert.AreEqual(expectedText, actualText);
+            }
         }
 
         public static void RunDynamicSQLRulesTest(Type ruleType, string sql, List<RuleViolation> expectedRuleViolations)

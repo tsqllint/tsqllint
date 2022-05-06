@@ -38,7 +38,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
 
             var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
-            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, null, null);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, null);
 
             var ignoredRuleList = new List<IExtendedRuleException>();
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors("foo.sql", ignoredRuleList);

@@ -11,26 +11,33 @@ namespace TSQLLint.Infrastructure.Plugins
 {
     public class PluginHandler : IPluginHandler
     {
-        private readonly IReporter reporter;
         private readonly IAssemblyWrapper assemblyWrapper;
         private readonly IFileSystem fileSystem;
+        private readonly IReporter reporter;
         private readonly IFileversionWrapper versionWrapper;
         private Dictionary<Type, IPlugin> plugins;
+        private Dictionary<string, ISqlLintRule> rules;
 
-        public PluginHandler(IReporter reporter)
-            : this(reporter, new FileSystem(), new AssemblyWrapper(), new VersionInfoWrapper()) { }
+        public PluginHandler(IReporter reporter, Dictionary<string, ISqlLintRule> rules)
+            : this(reporter, new FileSystem(), new AssemblyWrapper(), new VersionInfoWrapper(), rules) { }
 
-        public PluginHandler(IReporter reporter, IFileSystem fileSystem, IAssemblyWrapper assemblyWrapper, IFileversionWrapper versionWrapper)
+        public PluginHandler(
+            IReporter reporter,
+            IFileSystem fileSystem,
+            IAssemblyWrapper assemblyWrapper,
+            IFileversionWrapper versionWrapper,
+            Dictionary<string, ISqlLintRule> rules)
         {
             this.reporter = reporter;
             this.fileSystem = fileSystem;
             this.assemblyWrapper = assemblyWrapper;
             this.versionWrapper = versionWrapper;
+            this.rules = rules;
         }
 
         public IList<IPlugin> Plugins => plugins.Values.ToList();
 
-        private Dictionary<Type, IPlugin> List => plugins ?? (plugins = new Dictionary<Type, IPlugin>());
+        private Dictionary<Type, IPlugin> List => plugins ??= new Dictionary<Type, IPlugin>();
 
         public void ProcessPaths(Dictionary<string, string> pluginPaths)
         {
@@ -91,7 +98,9 @@ namespace TSQLLint.Infrastructure.Plugins
 
             foreach (var type in assemblyWrapper.GetExportedTypes(dll))
             {
-                if (!type.GetInterfaces().Contains(typeof(IPlugin)))
+                var inerfaces = type.GetInterfaces();
+
+                if (!inerfaces.Contains(typeof(IPlugin)))
                 {
                     continue;
                 }
@@ -105,6 +114,23 @@ namespace TSQLLint.Infrastructure.Plugins
                 else
                 {
                     reporter.Report($"Already loaded plugin with type '{type.FullName}'");
+                }
+
+                if (inerfaces.Contains(typeof(IPluginWithRules)))
+                {
+                    var plugin = (IPluginWithRules)Activator.CreateInstance(type);
+                    foreach (var rule in plugin.Rules)
+                    {
+                        try
+                        {
+                            rules.Add(rule.Key, rule.Value);
+                        }
+                        catch (Exception exception)
+                        {
+                            reporter.Report($"There was a problem with plugin: {plugin.GetType().FullName} - {exception.Message}");
+                            Trace.WriteLine(exception);
+                        }
+                    }
                 }
             }
         }

@@ -31,10 +31,10 @@ namespace TSQLLint.Infrastructure.Rules
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
         }
 
-        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
-            fileLines.RemoveAll(x => x.StartsWith("SET TRANSACTION ISOLATION LEVEL", StringComparison.CurrentCultureIgnoreCase));
-            fileLines.Insert(0, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;");
+            actions.RemoveAll(x => x.StartsWith("SET TRANSACTION ISOLATION LEVEL", StringComparison.CurrentCultureIgnoreCase));
+            actions.Insert(0, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;");
         }
 
         public class ChildTransactionIsolationLevelVisitor : TSqlFragmentVisitor

@@ -1,8 +1,7 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Interfaces;
@@ -14,17 +13,14 @@ namespace TSQLLint.Infrastructure.Parser
     public class RuleVisitorBuilder : IRuleVisitorBuilder
     {
         private readonly IReporter reporter;
-        private readonly IViolationFixer violationFixer;
         private readonly IConfigReader configReader;
         private bool errorLogged;
 
         public RuleVisitorBuilder(
             IConfigReader configReader,
-            IReporter reporter,
-            IViolationFixer violationFixer)
+            IReporter reporter)
         {
             this.reporter = reporter;
-            this.violationFixer = violationFixer;
             this.configReader = configReader;
         }
 
@@ -88,7 +84,6 @@ namespace TSQLLint.Infrastructure.Parser
 
             var ruleViolation = new RuleViolation(sqlPath, ruleName, ruleText, startLne, startColumn, ruleSeverity);
 
-            violationFixer?.AddViolation(ruleViolation);
             reporter.ReportViolation(ruleViolation);
         }
     }

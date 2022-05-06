@@ -63,7 +63,7 @@ namespace TSQLLint.Infrastructure.Rules
                 || node.ScriptTokenStream[node.LastTokenIndex + 1].TokenType == TSqlTokenType.Semicolon;
         }
 
-        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
             var lineIndex = ruleViolation.Line - 1;
             var line = fileLines[lineIndex];
@@ -71,7 +71,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (charIndex == -1)
             {
-                fileLines[lineIndex] = $"{fileLines[lineIndex].TrimEnd()};";
+                actions.UpdateLine(lineIndex, $"{fileLines[lineIndex].TrimEnd()};");
             }
             else
             {
@@ -83,7 +83,7 @@ namespace TSQLLint.Infrastructure.Rules
                     break;
                 }
 
-                fileLines[lineIndex] = line.Insert(charIndex + 1, ";");
+                actions.InsertInLine(lineIndex, charIndex + 1, ";");
             }
         }
     }

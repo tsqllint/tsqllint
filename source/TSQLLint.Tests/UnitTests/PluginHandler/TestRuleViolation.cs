@@ -14,11 +14,11 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             Severity = ruleViolationSeverity;
         }
 
-        public int Column { get; }
+        public int Column { get; set; }
 
         public string FileName { get; }
 
-        public int Line { get; }
+        public int Line { get; set;  }
 
         public string RuleName { get; }
 

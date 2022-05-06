@@ -29,7 +29,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
             var ignoredRuleList = new List<IExtendedRuleException>();
 
             var pathString = "DoesntExist.sql";
-            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter, null);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO;");
             var textReader = new StreamReader(testFileStream);
@@ -68,7 +68,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
             };
 
             var pathString = "DoesntExist.sql";
-            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter, null);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO;");
             var textReader = new StreamReader(testFileStream);
@@ -104,7 +104,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
             };
 
             var pathString = "DoesntExist.sql";
-            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter, null);
+            var ruleVisitorBuilder = new RuleVisitorBuilder(mockConfigReader, mockReporter);
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors(pathString, ignoredRuleList);
             var testFileStream = ParsingUtility.GenerateStreamFromString("SELECT * FROM FOO");
             var textReader = new StreamReader(testFileStream);

@@ -20,7 +20,8 @@ namespace TSQLLint.Infrastructure.Rules.Common
         public abstract string RULE_NAME { get; }
         public abstract string RULE_TEXT { get; }
 
-        public virtual void FixViolation(List<string> fileLines, IRuleViolation ruleViolation)
+        public virtual void FixViolation(
+            List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
         }
     }

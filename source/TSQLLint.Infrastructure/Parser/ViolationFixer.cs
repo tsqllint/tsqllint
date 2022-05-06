@@ -1,37 +1,39 @@
-using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TSQLLint.Common;
-using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Interfaces;
 
 namespace TSQLLint.Infrastructure.Parser
 {
     public class ViolationFixer : IViolationFixer
     {
-        private readonly bool shouldFix;
-        private readonly ConcurrentBag<IRuleViolation> violations = new ConcurrentBag<IRuleViolation>();
-        private readonly IFileSystem fileSystem;
+        private static readonly Regex EmptyLineRegex = new(@"^\s*$", RegexOptions.Compiled);
+        private readonly IFileSystem FileSystem;
+        private readonly Dictionary<string, ISqlLintRule> Rules;
+        private readonly IList<IRuleViolation> Violations;
 
-        public ViolationFixer(IFileSystem fileSystem, bool shouldFix)
+        public ViolationFixer(
+            IFileSystem fileSystem,
+            Dictionary<string, ISqlLintRule> rules,
+            IList<IRuleViolation> violations)
         {
-            this.fileSystem = fileSystem;
-            this.shouldFix = shouldFix;
+            Rules = rules;
+            FileSystem = fileSystem;
+            Violations = violations;
         }
 
-        public void AddViolation(IRuleViolation violation)
+        public ViolationFixer(
+            IFileSystem fileSystem,
+            IList<IRuleViolation> violations)
+            : this(fileSystem, RuleVisitorFriendlyNameTypeMap.Rules, violations)
         {
-            if (shouldFix)
-            {
-                violations.Add(violation);
-            }
         }
 
-        public void FixViolations()
+        public void Fix()
         {
-            var rules = new ConcurrentDictionary<string, ISqlRule>();
-            var files = violations.GroupBy(x => x.FileName);
+            var files = Violations.GroupBy(x => x.FileName);
 
             foreach (var file in files)
             {
@@ -40,17 +42,57 @@ namespace TSQLLint.Infrastructure.Parser
                     .ThenByDescending(x => x.Column)
                     .ToList();
 
-                var fileLines = fileSystem.File.ReadAllLines(file.Key).ToList();
+                var fileLines = FileSystem.File.ReadAllLines(file.Key).ToList();
+                var fileLineActions = new FileLineActions(fileViolations, fileLines);
 
                 foreach (var violation in fileViolations)
                 {
-                    var rule = rules.GetOrAdd(violation.RuleName, (ruleName)
-                        => (ISqlRule)Activator.CreateInstance(RuleVisitorFriendlyNameTypeMap.List[ruleName], (Action<string, string, int, int>)null));
+                    if (Rules.ContainsKey(violation.RuleName))
+                    {
+                        if (violation.Line == 1 && violation.Column > fileLines[violation.Line - 1].Length + 1)
+                        {
+                            // https://github.com/tsqllint/tsqllint/issues/294
+                            // There is a pretty bad bug with dynamic sql that I can't figure out.
+                            // If you use SET instead of SELECT
+                            // DECLARE @Sql NVARCHAR(4000);
+                            // SET @Sql = 'CREATE PROCEDURE dbo.test AS RETURN 0';
+                            // EXEC(@Sql);
+                            // Then all the dynamic sql error happen to line 1.
+                            // This is a super hacky way around the issue that will usually work.
+                            // ALSO if you change the SET to SELECT,
+                            // then the dynamic sql no longer validates any rules.
+                            continue;
+                        }
 
-                    rule.FixViolation(fileLines, violation);
+                        var lines = new List<string>(fileLines);
+                        Rules[violation.RuleName].FixViolation(lines, violation, fileLineActions);
+                    }
                 }
 
-                fileSystem.File.WriteAllLines(file.Key, fileLines);
+                RemoveDuplicateNewLines(fileLines);
+
+                FileSystem.File.WriteAllLines(file.Key, fileLines);
+            }
+        }
+
+        private static void RemoveDuplicateNewLines(List<string> fileLines)
+        {
+            var isEmptyLine = false;
+
+            for (var i = fileLines.Count - 1; i >= 0; i--)
+            {
+                if (EmptyLineRegex.IsMatch(fileLines[i]))
+                {
+                    if (isEmptyLine)
+                    {
+                        fileLines.RemoveAt(i);
+                    }
+                    isEmptyLine = true;
+                }
+                else
+                {
+                    isEmptyLine = false;
+                }
             }
         }
     }

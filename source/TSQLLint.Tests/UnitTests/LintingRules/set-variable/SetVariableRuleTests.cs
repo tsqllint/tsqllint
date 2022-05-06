@@ -72,5 +72,11 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         {
             RulesTestHelper.RunDynamicSQLRulesTest(typeof(SetVariableRule), sql, expectedVioalations);
         }
+
+        [TestCaseSource(nameof(TestCases))]
+        public void TestRuleWithFix(string testFileName, List<RuleViolation> expectedRuleViolations)
+        {
+            RulesTestHelper.RunRulesTestWithFix(RuleName, testFileName, typeof(SetVariableRule));
+        }
     }
 }
