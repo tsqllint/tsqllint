@@ -85,16 +85,13 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (node != null)
             {
-                var test = FixHelpers.GetString(node);
-
                 var (lastToken, column) = GetLastTokenAndColumn(node);
                 var index = lastToken.Column + lastToken.Text.Length;
 
-                if(index > 1)
+                if (index > 1)
                 {
                     actions.InsertInLine(lastToken.Line - 1, index - 1, ";");
                 }
-                
             }
         }
     }

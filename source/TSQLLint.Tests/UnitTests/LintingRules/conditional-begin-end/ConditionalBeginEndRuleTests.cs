@@ -112,7 +112,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         [TestCaseSource(nameof(TestCases))]
         public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
         {
-            RulesTestHelper.RunRulesTest(RuleName, testFileName,  typeof(ConditionalBeginEndRule), expectedRuleViolations);
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(ConditionalBeginEndRule), expectedRuleViolations);
         }
 
         [TestCaseSource(nameof(DynamicSqlTestCases))]

@@ -1,7 +1,6 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
@@ -12,6 +11,7 @@ namespace TSQLLint.Infrastructure.Rules
     public class SetNoCountRule : BaseRuleVisitor, ISqlRule
     {
         public readonly Regex IsNoCountOff = new Regex(@"\S*SET NOCOUNT OFF", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         public SetNoCountRule(Action<string, string, int, int> errorCallback)
             : base(errorCallback)
         {
