@@ -51,6 +51,20 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 1, 1),
                 }
+            },
+            new object[]
+            {
+                "conditional-begin-end-if-else-inline-no-error", new List<RuleViolation>()
+            },
+            new object[]
+            {
+                "conditional-begin-end-if-else-inline-errors", new List<RuleViolation>()
+                {
+                    new RuleViolation(RuleName, 1, 1),
+                    new RuleViolation(RuleName, 2, 6),
+                    new RuleViolation(RuleName, 3, 6),
+                    new RuleViolation(RuleName, 4, 6)
+                }
             }
         };
 

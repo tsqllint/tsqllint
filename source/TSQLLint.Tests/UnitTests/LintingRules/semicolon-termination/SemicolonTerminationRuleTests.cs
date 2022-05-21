@@ -69,6 +69,14 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
               {
                   new RuleViolation(RuleName, 3, 25)
               }
+          },
+          new object[]
+          {
+              "semicolon-termination-multiple-inline-errors", new List<RuleViolation>()
+              {
+                  new RuleViolation(RuleName, 1, 9),
+                  new RuleViolation(RuleName, 1, 18)
+              }
           }
         };
 

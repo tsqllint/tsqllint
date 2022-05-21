@@ -1,1 +1,1 @@
-SELECT * FROM BAR
+select * FROM BAR

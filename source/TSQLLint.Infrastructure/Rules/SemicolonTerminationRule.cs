@@ -1,6 +1,7 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
@@ -11,6 +12,8 @@ namespace TSQLLint.Infrastructure.Rules
     public class SemicolonTerminationRule : BaseRuleVisitor, ISqlRule
     {
         private readonly IList<TSqlFragment> waitForStatements = new List<TSqlFragment>();
+        private static Regex WhiteSpaceRegex = new Regex(@"\s", RegexOptions.Compiled);
+        private static Regex AllWhiteSpaceRegex = new Regex(@"^\s$", RegexOptions.Compiled);
 
         // don't enforce semicolon termination on these statements
         private readonly Type[] typesToSkip =
@@ -51,10 +54,17 @@ namespace TSQLLint.Infrastructure.Rules
                 ? DynamicSqlStartColumn
                 : 0;
 
+            var (lastToken, column) = GetLastTokenAndColumn(node);
+            errorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column + dynamicSqlColumnOffset);
+        }
+
+        private static (TSqlParserToken, int) GetLastTokenAndColumn(TSqlStatement node)
+        {
             var lastToken = node.ScriptTokenStream[node.LastTokenIndex];
             var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(lastToken.Line, node.LastTokenIndex, node.ScriptTokenStream);
             var column = ColumnNumberCalculator.GetColumnNumberAfterToken(tabsOnLine, lastToken);
-            errorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column + dynamicSqlColumnOffset);
+
+            return (lastToken, column);
         }
 
         private static bool EndsWithSemicolon(TSqlFragment node)
@@ -67,23 +77,24 @@ namespace TSQLLint.Infrastructure.Rules
         {
             var lineIndex = ruleViolation.Line - 1;
             var line = fileLines[lineIndex];
-            var charIndex = line.IndexOf("--");
-
-            if (charIndex == -1)
+            var node = FixHelpers.FindNodes<TSqlStatement>(fileLines, x =>
             {
-                actions.UpdateLine(lineIndex, $"{fileLines[lineIndex].TrimEnd()};");
-            }
-            else
-            {
-                charIndex--;
+                var (lastToken, column) = GetLastTokenAndColumn(x);
+                return lastToken.Line == ruleViolation.Line && column == ruleViolation.Column;
+            }).FirstOrDefault();
 
-                while (charIndex >= 0 && new Regex(@"\s").IsMatch(line[charIndex].ToString()))
+            if (node != null)
+            {
+                var test = FixHelpers.GetString(node);
+
+                var (lastToken, column) = GetLastTokenAndColumn(node);
+                var index = lastToken.Column + lastToken.Text.Length;
+
+                if(index > 1)
                 {
-                    charIndex--;
-                    break;
+                    actions.InsertInLine(lastToken.Line - 1, index - 1, ";");
                 }
-
-                actions.InsertInLine(lineIndex, charIndex + 1, ";");
+                
             }
         }
     }

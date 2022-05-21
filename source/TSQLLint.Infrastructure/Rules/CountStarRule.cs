@@ -1,4 +1,6 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System.Collections.Generic;
+using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
@@ -33,18 +35,36 @@ namespace TSQLLint.Infrastructure.Rules
             }
         }
 
+        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
+        {
+            var node = FixHelpers.FindViolatingNode<FunctionCall>(fileLines, ruleViolation);
+
+            foreach (ScalarExpression param in node.Parameters)
+            {
+                var paramVisitor = new ParameterVisitor();
+                param.Accept(paramVisitor);
+                if (paramVisitor.IsWildcard)
+                {
+                    var whileCard = paramVisitor.Expression;
+                    actions.RepaceInlineAt(whileCard.StartLine - 1, whileCard.StartColumn - 1, "1");
+                }
+            }
+        }
+
         private class ParameterVisitor : TSqlFragmentVisitor
         {
             public bool IsWildcard { get; private set; }
+            public ColumnReferenceExpression Expression { get; private set; }
 
             public ParameterVisitor()
             {
-                this.IsWildcard = false;
+                IsWildcard = false;
             }
 
             public override void Visit(ColumnReferenceExpression node)
             {
-                this.IsWildcard = node.ColumnType.Equals(ColumnType.Wildcard);
+                IsWildcard = node.ColumnType.Equals(ColumnType.Wildcard);
+                Expression = node;
             }
         }
 

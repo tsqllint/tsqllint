@@ -2,8 +2,6 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using TSQLLint.Common;
 using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
@@ -21,6 +19,11 @@ namespace TSQLLint.Infrastructure.Rules
         public override string RULE_NAME => "case-sensitive-variables";
 
         public override string RULE_TEXT => "Expected variable names to use common casing";
+
+        public override void Visit(TSqlBatch node)
+        {
+            variableNames.Clear();
+        }
 
         public override void Visit(DeclareVariableStatement node)
         {
