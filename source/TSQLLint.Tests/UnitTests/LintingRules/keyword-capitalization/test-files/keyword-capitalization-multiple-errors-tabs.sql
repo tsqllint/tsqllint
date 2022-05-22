@@ -9,3 +9,7 @@ CREATE TABLE #bar
 ( 
 	ID varchar(64)
 );
+
+SELECT foo FROM foo 
+		WHERE foo = 'foo' and
+		foo != 'foo'

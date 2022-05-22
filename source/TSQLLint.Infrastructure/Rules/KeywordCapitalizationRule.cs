@@ -51,11 +51,15 @@ namespace TSQLLint.Infrastructure.Rules
         {
             var lineIndex = ruleViolation.Line - 1;
             var line = fileLines[lineIndex];
+
             var startCharIndex = ColumnNumberCalculator.GetIndex(line, ruleViolation.Column);
 
-            var errorWord = new Regex(@"\w+").Matches(line[startCharIndex..]).First().Value;
+            if (startCharIndex != -1)
+            {
+                var errorWord = new Regex(@"\w+").Matches(line[startCharIndex..]).First().Value;
 
-            actions.RepaceInlineAt(lineIndex, startCharIndex, errorWord.ToUpper());
+                actions.RepaceInlineAt(lineIndex, startCharIndex, errorWord.ToUpper());
+            }
         }
 
         private int AdjustColumnForDymamicSQL(TSqlParserToken node)

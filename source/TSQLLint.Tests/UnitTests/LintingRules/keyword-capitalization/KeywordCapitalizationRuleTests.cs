@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
@@ -31,7 +30,8 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     new RuleViolation("keyword-capitalization", 1, 8),
                     new RuleViolation("keyword-capitalization", 3, 20),
                     new RuleViolation("keyword-capitalization", 3, 24),
-                    new RuleViolation("keyword-capitalization", 10, 8)
+                    new RuleViolation("keyword-capitalization", 10, 8),
+                    new RuleViolation("keyword-capitalization", 14, 27)
                 }
             },
             new object[]

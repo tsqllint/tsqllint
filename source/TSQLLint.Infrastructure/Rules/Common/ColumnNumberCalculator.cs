@@ -1,7 +1,7 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Core;
 
 namespace TSQLLint.Infrastructure.Rules.Common
@@ -39,11 +39,29 @@ namespace TSQLLint.Infrastructure.Rules.Common
             return nodePosition;
         }
 
-        public static int GetIndex(string line, int startCharIndex)
+        /// <summary>
+        /// Returns -1 if can't be found
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public static int GetIndex(string line, int column)
         {
-            startCharIndex--;
-            var tabs = CountTabs(line.Substring(0, startCharIndex));
-            return startCharIndex - tabs * (Constants.TabWidth - 1);
+            var index = 0;
+            while (index != column)
+            {
+                if (line.Length <= index)
+                {
+                    return -1;
+                }
+
+                if (line[index] == '\t')
+                {
+                    column -= (Constants.TabWidth - 1);
+                }
+                index++;
+            }
+            return column - 1;
         }
 
         private static int CountTabs(string charactersBeforeNode)

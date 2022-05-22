@@ -1,6 +1,7 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
@@ -9,6 +10,8 @@ namespace TSQLLint.Infrastructure.Rules
 {
     public class ConditionalBeginEndRule : BaseRuleVisitor, ISqlRule
     {
+        private readonly Regex IsWhiteSpaceOrSemiColon = new Regex(@"\s|;", RegexOptions.Compiled);
+
         public ConditionalBeginEndRule(Action<string, string, int, int> errorCallback)
             : base(errorCallback)
         {
@@ -25,7 +28,7 @@ namespace TSQLLint.Infrastructure.Rules
                 errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
             }
 
-            if (node.ElseStatement != null && node.ElseStatement  is not BeginEndBlockStatement)
+            if (node.ElseStatement != null && node.ElseStatement is not BeginEndBlockStatement && node.ElseStatement is not IfStatement)
             {
                 errorCallback(RULE_NAME, RULE_TEXT, node.ElseStatement.StartLine, GetColumnNumber(node.ElseStatement));
             }
@@ -45,12 +48,23 @@ namespace TSQLLint.Infrastructure.Rules
                 statement = ifNode.ThenStatement;
             }
 
+            var stream = statement.ScriptTokenStream;
             var indent = FixHelpers.GetIndent(fileLines, ifNode);
-            var beingLine = statement.ScriptTokenStream[statement.FirstTokenIndex].Line - 1;
-            var endLine = statement.ScriptTokenStream[statement.LastTokenIndex].Line;
+            var beingLine = stream[statement.FirstTokenIndex].Line - 1;
+            var ifNodeLastToken = stream[statement.LastTokenIndex];
+            var endLine = stream[statement.LastTokenIndex].Line;
 
-            actions.Insert(endLine, $"{indent}END");
-            actions.Insert(beingLine, $"{indent}BEGIN");
+            if (statement.StartLine == ifNodeLastToken.Line)
+            {
+                var index = statement.LastTokenIndex;
+                actions.InsertInLine(statement.StartLine - 1, stream[index].Column, " END");
+                actions.InsertInLine(statement.StartLine - 1, statement.StartColumn - 1, "BEGIN ");
+            }
+            else
+            {
+                actions.Insert(endLine, $"{indent}END");
+                actions.Insert(beingLine, $"{indent}BEGIN");
+            }
 
             static (TSqlStatement, IfStatement) FindElse(List<string> fileLines, IRuleViolation ruleViolation)
             {
