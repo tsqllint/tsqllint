@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
@@ -64,7 +63,6 @@ namespace TSQLLint.Infrastructure.Parser
                         }
 
                         var lines = new List<string>(fileLines);
-                        Console.WriteLine(violation);
                         Rules[violation.RuleName].FixViolation(lines, violation, fileLineActions);
                     }
                 }
