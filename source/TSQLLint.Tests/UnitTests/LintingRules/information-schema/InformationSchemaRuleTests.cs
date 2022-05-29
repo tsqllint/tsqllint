@@ -43,7 +43,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 1, 30),
                     new RuleViolation(RuleName, 10, 26),
-                    new RuleViolation(RuleName, 19, 26)
+                    new RuleViolation(RuleName, 18, 26)
                 }
             }
         };
