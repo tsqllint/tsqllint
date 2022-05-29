@@ -16,6 +16,8 @@ namespace TSQLLint.Infrastructure.Configuration
         ""data-type-length"": ""error"",
         ""delete-where"": ""error"",
         ""disallow-cursors"": ""error"",
+        ""duplicate-empty-line"" : ""error"",
+        ""duplicate-go"" : ""error"",
         ""full-text"": ""error"",
         ""information-schema"": ""error"",
         ""keyword-capitalization"": ""error"",
@@ -33,11 +35,9 @@ namespace TSQLLint.Infrastructure.Configuration
         ""set-quoted-identifier"": ""error"",
         ""set-transaction-isolation-level"": ""error"",
         ""set-variable"": ""error"",
-        ""upper-lower"": ""error"",
         ""unicode-string"" : ""error"",
         ""update-where"" : ""error"",
-        ""duplicate-empty-line"" : ""error"",
-        ""duplicate-go"" : ""error""
+        ""upper-lower"": ""error""
     },
     ""compatability-level"": 120
 }";
