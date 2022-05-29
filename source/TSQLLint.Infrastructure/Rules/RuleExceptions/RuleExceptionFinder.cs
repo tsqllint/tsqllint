@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using TSQLLint.Core;
 using TSQLLint.Core.Interfaces;
-using TSQLLint.Infrastructure.Parser;
 
 namespace TSQLLint.Infrastructure.Rules.RuleExceptions
 {
@@ -33,7 +32,7 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
                 {
                     continue;
                 }
-                
+
                 var match = RuleExceptionRegex.Match(line);
                 if (!match.Success)
                 {

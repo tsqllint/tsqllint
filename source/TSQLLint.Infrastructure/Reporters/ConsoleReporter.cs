@@ -9,12 +9,20 @@ namespace TSQLLint.Infrastructure.Reporters
 {
     public class ConsoleReporter : IConsoleReporter
     {
+        public bool ReporterMuted { get; set; }
+        public int? FixedCount { get; set; }
         private readonly ConcurrentBag<IRuleViolation> ruleViolations = new();
         private int errorCount;
         private int warningCount;
+
         public bool ShouldCollectViolations { get; set; }
 
         public List<IRuleViolation> Violations => ruleViolations.ToList();
+
+        public void ClearViolations()
+        {
+            ruleViolations.Clear();
+        }
 
         [ExcludeFromCodeCoverage]
         public virtual void Report(string message)
@@ -24,7 +32,13 @@ namespace TSQLLint.Infrastructure.Reporters
 
         public void ReportResults(TimeSpan timespan, int fileCount)
         {
-            Report($"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings");
+            var text = $"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings";
+            if (FixedCount > 0)
+            {
+                text += $"\n\nFixed {FixedCount}";
+            }
+
+            Report(text);
         }
 
         public void ReportFileResults()
@@ -38,27 +52,32 @@ namespace TSQLLint.Infrastructure.Reporters
                 ruleViolations.Add(violation);
             }
 
-            switch (violation.Severity)
+            // If --fix is turned on sometimes the program runs a couple times to fixed issues
+            // caused by fixing another rule. This prevents double or tripple counting.
+            if (!ReporterMuted)
             {
-                case RuleViolationSeverity.Warning:
-                    warningCount++;
-                    break;
+                switch (violation.Severity)
+                {
+                    case RuleViolationSeverity.Warning:
+                        warningCount++;
+                        break;
 
-                case RuleViolationSeverity.Error:
-                    errorCount++;
-                    break;
+                    case RuleViolationSeverity.Error:
+                        errorCount++;
+                        break;
 
-                default:
-                    return;
+                    default:
+                        return;
+                }
+
+                ReportViolation(
+                    violation.FileName,
+                    violation.Line.ToString(),
+                    violation.Column.ToString(),
+                    violation.Severity.ToString().ToLowerInvariant(),
+                    violation.RuleName,
+                    violation.Text);
             }
-
-            ReportViolation(
-                violation.FileName,
-                violation.Line.ToString(),
-                violation.Column.ToString(),
-                violation.Severity.ToString().ToLowerInvariant(),
-                violation.RuleName,
-                violation.Text);
         }
 
         public void ReportViolation(string fileName, string line, string column, string severity, string ruleName, string violationText)
