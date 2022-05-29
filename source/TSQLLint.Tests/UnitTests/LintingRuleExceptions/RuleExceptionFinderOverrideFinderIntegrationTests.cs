@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Configuration.Overrides;
@@ -12,7 +13,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleExceptions
     [TestFixture]
     public class RuleExceptionFinderOverrideFinderIntegrationTests
     {
-        private static readonly RuleExceptionFinder RuleExceptionFinder = new RuleExceptionFinder();
+        private static readonly RuleExceptionFinder RuleExceptionFinder = new RuleExceptionFinder(RuleVisitorFriendlyNameTypeMap.List);
         private static readonly RuleExceptionComparer RuleExceptionComparer = new RuleExceptionComparer();
 
         private static readonly OverrideFinder OverrideFinder = new OverrideFinder();

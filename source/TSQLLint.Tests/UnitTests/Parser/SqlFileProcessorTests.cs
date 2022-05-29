@@ -16,6 +16,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
     [TestFixture]
     public class SqlFileProcessorTests
     {
+        private static Dictionary<string, Type> ruleList = RuleVisitorFriendlyNameTypeMap.List;
+
         [Test]
         public void ProcessPath_SingleFile_ShouldProcessFile()
         {
@@ -27,7 +29,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var fileSystem = Substitute.For<IFileSystem>();
             var fileBase = Substitute.For<FileBase>();
             var pluginHandler = Substitute.For<IPluginHandler>();
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             fileBase.Exists(filePath).Returns(true);
             fileBase.OpenRead(filePath).Returns(ParsingUtility.GenerateStreamFromString("Some Sql To Parse"));
@@ -72,7 +74,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts"));
@@ -114,7 +116,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts"));
@@ -145,7 +147,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             directoryBase.Exists(filePath).Returns(false);
             fileSystem.Directory.Returns(directoryBase);
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(filePath);
@@ -187,7 +189,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts\file?.sql"));
@@ -233,7 +235,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts\file*.*"));
@@ -266,7 +268,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 },
                 TestHelper.GetTestFilePath(@"c:\dbscripts"));
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\doesntExist\file*.*"));
@@ -311,7 +313,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                     }
                 }, TestHelper.GetTestFilePath(@"c:\dbscripts"));
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(@"file*.*");
@@ -347,7 +349,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts\invalid*.*"));
@@ -366,7 +368,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var reporter = Substitute.For<IReporter>();
             var fileSystem = Substitute.For<IFileSystem>();
             var pluginHandler = Substitute.For<IPluginHandler>();
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessList(new List<string>());
@@ -405,7 +407,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             var f1 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\sproc");
             var f2 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\file3.sql");
@@ -449,7 +451,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
                 }
             });
 
-            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem);
+            var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList);
 
             // act
             processor.ProcessList(new List<string> { invalidFilePath, TestHelper.GetTestFilePath(@"c:\dbscripts\db1\") });

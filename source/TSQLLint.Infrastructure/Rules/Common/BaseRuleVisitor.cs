@@ -24,5 +24,19 @@ namespace TSQLLint.Infrastructure.Rules.Common
             List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
         }
+
+        protected void Ignore(List<string> fileLines, FileLineActions actions)
+        {
+            var disableStatement = $"/* tsqllint-disable {RULE_NAME} - approved by: Damon Ashman */";
+            var index = 0;
+            while (fileLines[index].StartsWith("--"))
+            {
+                index++;
+            }
+            if (!fileLines.Contains(disableStatement))
+            {
+                actions.Insert(index, disableStatement);
+            }
+        }
     }
 }

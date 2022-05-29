@@ -12,7 +12,13 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
     public class RuleExceptionFinder : IRuleExceptionFinder
     {
         public static Regex RuleExceptionRegex = new Regex(@"(tsqllint-(?:dis|en)able)\s*(.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        
+        private readonly IDictionary<string, Type> Rules;
+
+        public RuleExceptionFinder(IDictionary<string, Type> rules)
+        {
+            Rules = rules;
+        }
+
         public IEnumerable<IExtendedRuleException> GetIgnoredRuleList(Stream fileStream)
         {
             var ruleExceptionList = new List<IExtendedRuleException>();
@@ -50,7 +56,7 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
             return ruleExceptionList;
         }
 
-        private static void FindIgnoredRules(ICollection<IExtendedRuleException> ruleExceptionList, int lineNumber, Match match)
+        private void FindIgnoredRules(ICollection<IExtendedRuleException> ruleExceptionList, int lineNumber, Match match)
         {
             var action = match.Groups[1].Value;
 
@@ -58,7 +64,7 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
             var enableCommand = action.Equals("tsqllint-enable", StringComparison.OrdinalIgnoreCase);
 
             var ruleExceptionDetails = match.Groups[2].Value.Split(' ').Select(p => p.Trim()).ToList();
-            var matchedFriendlyNames = ruleExceptionDetails.Intersect(RuleVisitorFriendlyNameTypeMap.List.Select(friendly => friendly.Key)).ToList();
+            var matchedFriendlyNames = ruleExceptionDetails.Intersect(Rules.Keys).ToList();
 
             if (!matchedFriendlyNames.Any())
             {
@@ -77,7 +83,7 @@ namespace TSQLLint.Infrastructure.Rules.RuleExceptions
 
             foreach (var matchedFriendlyName in matchedFriendlyNames)
             {
-                RuleVisitorFriendlyNameTypeMap.List.TryGetValue(matchedFriendlyName, out var matchedType);
+                Rules.TryGetValue(matchedFriendlyName, out var matchedType);
 
                 if (disableCommand)
                 {

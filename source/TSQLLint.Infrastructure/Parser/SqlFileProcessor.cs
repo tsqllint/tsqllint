@@ -27,13 +27,18 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly ConcurrentDictionary<string, Stream> fileStreams = new();
 
-        public SqlFileProcessor(IRuleVisitor ruleVisitor, IPluginHandler pluginHandler, IReporter reporter, IFileSystem fileSystem)
+        public SqlFileProcessor(
+            IRuleVisitor ruleVisitor,
+            IPluginHandler pluginHandler,
+            IReporter reporter,
+            IFileSystem fileSystem,
+            IDictionary<string, Type> rules)
         {
             this.ruleVisitor = ruleVisitor;
             this.pluginHandler = pluginHandler;
             this.reporter = reporter;
             this.fileSystem = fileSystem;
-            ruleExceptionFinder = new RuleExceptionFinder();
+            ruleExceptionFinder = new RuleExceptionFinder(rules);
         }
 
         private int _fileCount;

@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Text.RegularExpressions;
 using TSQLLint.Common;
 using TSQLLint.Infrastructure.Interfaces;
 
@@ -9,7 +9,6 @@ namespace TSQLLint.Infrastructure.Parser
 {
     public class ViolationFixer : IViolationFixer
     {
-        private static readonly Regex EmptyLineRegex = new(@"^\s*$", RegexOptions.Compiled);
         private readonly IFileSystem FileSystem;
         private readonly Dictionary<string, ISqlLintRule> Rules;
         private readonly IList<IRuleViolation> Violations;
@@ -65,34 +64,12 @@ namespace TSQLLint.Infrastructure.Parser
                         }
 
                         var lines = new List<string>(fileLines);
+                        Console.WriteLine(violation);
                         Rules[violation.RuleName].FixViolation(lines, violation, fileLineActions);
                     }
                 }
 
-                RemoveDuplicateNewLines(fileLines);
-
                 FileSystem.File.WriteAllLines(file.Key, fileLines);
-            }
-        }
-
-        private static void RemoveDuplicateNewLines(List<string> fileLines)
-        {
-            var isEmptyLine = false;
-
-            for (var i = fileLines.Count - 1; i >= 0; i--)
-            {
-                if (EmptyLineRegex.IsMatch(fileLines[i]))
-                {
-                    if (isEmptyLine)
-                    {
-                        fileLines.RemoveAt(i);
-                    }
-                    isEmptyLine = true;
-                }
-                else
-                {
-                    isEmptyLine = false;
-                }
             }
         }
     }

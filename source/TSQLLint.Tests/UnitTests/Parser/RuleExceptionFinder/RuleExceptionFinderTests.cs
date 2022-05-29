@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using TSQLLint.Common;
+using TSQLLint.Infrastructure.Parser;
 using TSQLLint.Infrastructure.Rules;
 using TSQLLint.Infrastructure.Rules.RuleExceptions;
 using TSQLLint.Tests.Helpers.ObjectComparers;
@@ -87,7 +88,7 @@ namespace TSQLLint.Tests.UnitTests.Parser.RuleExceptionFinder
             var path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, $@"UnitTests/Parser/RuleExceptionFinder/TestFiles/{testFileName}.sql"));
             var fileStream = File.OpenRead(path);
 
-            var ruleExceptionFinder = new Infrastructure.Rules.RuleExceptions.RuleExceptionFinder();
+            var ruleExceptionFinder = new Infrastructure.Rules.RuleExceptions.RuleExceptionFinder(RuleVisitorFriendlyNameTypeMap.List);
             var comparer = new RuleExceptionComparer();
 
             // act

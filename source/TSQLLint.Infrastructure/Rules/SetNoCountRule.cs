@@ -8,7 +8,7 @@ using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class SetNoCountRule : BaseRuleVisitor, ISqlRule
+    public class SetNoCountRule : BaseNearTopOfFileRule, ISqlRule
     {
         public readonly Regex IsNoCountOff = new Regex(@"\S*SET NOCOUNT OFF", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -20,6 +20,9 @@ namespace TSQLLint.Infrastructure.Rules
         public override string RULE_NAME => "set-nocount";
 
         public override string RULE_TEXT => "Expected SET NOCOUNT ON near top of file";
+        public override string Insert => "SET NOCOUNT ON;";
+
+        public override Func<string, bool> Remove => (x) => IsNoCountOff.IsMatch(x);
 
         public override void Visit(TSqlScript node)
         {
@@ -44,12 +47,6 @@ namespace TSQLLint.Infrastructure.Rules
             }
 
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-        }
-
-        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
-        {
-            actions.RemoveAll(x => IsNoCountOff.IsMatch(x));
-            actions.Insert(0, "SET NOCOUNT ON;");
         }
 
         public class ChildRowsetVisitor : TSqlFragmentVisitor

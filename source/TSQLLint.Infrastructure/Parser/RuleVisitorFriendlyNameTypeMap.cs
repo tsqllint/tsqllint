@@ -41,7 +41,9 @@ namespace TSQLLint.Infrastructure.Parser
             { "set-variable", typeof(SetVariableRule) },
             { "upper-lower", typeof(UpperLowerRule) },
             { "unicode-string", typeof(UnicodeStringRule) },
-            { "update-where", typeof(UpdateWhereRule) }
+            { "update-where", typeof(UpdateWhereRule) },
+            { "duplicate-empty-line", typeof(DuplicateEmptyLineRule) },
+            { "duplicate-go", typeof(DuplicateGoRule) }
         };
     }
 }
