@@ -22,6 +22,8 @@ namespace TSQLLint.Infrastructure.Parser
             { "data-type-length", typeof(DataTypeLengthRule) },
             { "delete-where", typeof(DeleteWhereRule) },
             { "disallow-cursors", typeof(DisallowCursorRule) },
+            { "duplicate-empty-line", typeof(DuplicateEmptyLineRule) },
+            { "duplicate-go", typeof(DuplicateGoRule) },
             { "full-text", typeof(FullTextRule) },
             { "information-schema", typeof(InformationSchemaRule) },
             { "keyword-capitalization", typeof(KeywordCapitalizationRule) },
@@ -39,11 +41,9 @@ namespace TSQLLint.Infrastructure.Parser
             { "set-quoted-identifier", typeof(SetQuotedIdentifierRule) },
             { "set-transaction-isolation-level", typeof(SetTransactionIsolationLevelRule) },
             { "set-variable", typeof(SetVariableRule) },
-            { "upper-lower", typeof(UpperLowerRule) },
             { "unicode-string", typeof(UnicodeStringRule) },
             { "update-where", typeof(UpdateWhereRule) },
-            { "duplicate-empty-line", typeof(DuplicateEmptyLineRule) },
-            { "duplicate-go", typeof(DuplicateGoRule) }
+            { "upper-lower", typeof(UpperLowerRule) }
         };
     }
 }
