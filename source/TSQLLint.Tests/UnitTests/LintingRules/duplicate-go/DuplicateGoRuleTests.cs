@@ -28,7 +28,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 3, 1),
                     new RuleViolation(RuleName, 7, 1),
-                    new RuleViolation(RuleName, 8, 1)
+                    new RuleViolation(RuleName, 9, 1)
                 }
             }
         };

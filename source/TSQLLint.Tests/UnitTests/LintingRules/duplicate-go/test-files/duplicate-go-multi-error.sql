@@ -5,4 +5,5 @@ Go
 SELECT * FROM Foo
 Go
 Go
+  
 Go
