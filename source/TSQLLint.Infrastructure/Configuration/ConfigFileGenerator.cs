@@ -36,7 +36,8 @@ namespace TSQLLint.Infrastructure.Configuration
         ""upper-lower"": ""error"",
         ""unicode-string"" : ""error"",
         ""update-where"" : ""error"",
-        ""duplicate-empty-line"" : ""error""
+        ""duplicate-empty-line"" : ""error"",
+        ""duplicate-go"" : ""error""
     },
     ""compatability-level"": 120
 }";
