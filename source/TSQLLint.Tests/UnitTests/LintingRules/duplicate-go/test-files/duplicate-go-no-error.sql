@@ -1,0 +1,4 @@
+SELECT * FROM Foo; GO;
+
+SELECT * FROM Foo
+GO

@@ -1,13 +1,10 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
-using System.Collections.Generic;
-using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
-using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class SetQuotedIdentifierRule : BaseRuleVisitor, ISqlRule
+    public class SetQuotedIdentifierRule : BaseNearTopOfFileRule, ISqlRule
     {
         public SetQuotedIdentifierRule(Action<string, string, int, int> errorCallback)
             : base(errorCallback)
@@ -17,6 +14,11 @@ namespace TSQLLint.Infrastructure.Rules
         public override string RULE_NAME => "set-quoted-identifier";
 
         public override string RULE_TEXT => "Expected SET QUOTED_IDENTIFIER ON near top of file";
+
+        public override string Insert => "SET QUOTED_IDENTIFIER ON;";
+
+        public override Func<string, bool> Remove =>
+            x => x.StartsWith("SET QUOTED_IDENTIFIER", StringComparison.CurrentCultureIgnoreCase);
 
         public override void Visit(TSqlScript node)
         {
@@ -29,12 +31,6 @@ namespace TSQLLint.Infrastructure.Rules
             }
 
             errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, node.StartColumn);
-        }
-
-        public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
-        {
-            actions.RemoveAll(x => x.StartsWith("SET QUOTED_IDENTIFIER", StringComparison.CurrentCultureIgnoreCase));
-            actions.Insert(0, "SET QUOTED_IDENTIFIER ON;");
         }
 
         public class ChildQuotedidentifierVisitor : TSqlFragmentVisitor

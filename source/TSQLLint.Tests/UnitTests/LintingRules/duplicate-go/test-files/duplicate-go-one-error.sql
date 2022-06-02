@@ -1,0 +1,3 @@
+SELECT * FROM Foo
+GO
+GO
