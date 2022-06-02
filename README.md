@@ -180,9 +180,9 @@ SELECT * FROM FOO;
 
 TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments within the SQL file. TSQLLint supports the following compatibility levels 80, 90, 100, 110, 120, 130, 140, and 150.
 
-### Setting a default Compatability Level using .tsqllintrc
+### Setting a default Compatibility Level using .tsqllintrc
 
-Setting the compatability level within the `.tsqllintrc` file configures the default Compatability Level for all files.
+Setting the compatibility level within the `.tsqllintrc` file configures the default Compatibility Level for all files.
 
 ```json
 {
@@ -193,9 +193,9 @@ Setting the compatability level within the `.tsqllintrc` file configures the def
 }
 ```
 
-### Setting Compatability Level Using Inline Comments
+### Setting Compatibility Level Using Inline Comments
 
-Setting the compatability level using inline comments configures the Compatability Level for just that file. Overrides should be placed at the top of files.
+Setting the compatibility level using inline comments configures the Compatibility Level for just that file. Overrides should be placed at the top of files.
 
 ```tsql
 /* tsqllint-override compatability-level = 130 */
