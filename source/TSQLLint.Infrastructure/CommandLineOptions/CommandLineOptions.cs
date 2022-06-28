@@ -54,6 +54,13 @@ namespace TSQLLint.Infrastructure.CommandLineOptions
         public bool PrintConfig { get; set; }
 
         [Option(
+            'g',
+             longName: "load-plugins",
+             Required = false,
+             HelpText = "Used to specify plugins to be loaded")]
+        public string Plugins { get; set; }
+
+        [Option(
             'l',
              longName: "list-plugins",
              Required = false,

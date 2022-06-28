@@ -64,6 +64,12 @@ namespace TSQLLint.Core.UseCases.Console
                 var strategy = new CreateConfigFileStrategy(reporter, configFileGenerator, fileSystemWrapper);
                 return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
+
+            if (request.CommandLineOptions.Plugins.Length > 0)
+            {
+                var strategy = new LoadPluginsStrategy(reporter, fileSystemWrapper);
+                return strategy.HandleCommandLineOptions(request.CommandLineOptions);
+            }
             
             if (request.CommandLineOptions.ListPlugins)
             {

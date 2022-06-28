@@ -18,6 +18,8 @@ namespace TSQLLint.Core.Interfaces
 
         List<string> LintPath { get; set; }
 
+        string Plugins { get; set; }
+
         bool ListPlugins { get; set; }
 
         bool PrintConfig { get; set; }

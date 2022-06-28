@@ -14,8 +14,17 @@ namespace TSQLLint.Core.DTO
             ShouldFix = shouldFix;
         }
 
+        public HandlerResponseMessage(bool success, bool shouldLint, bool shouldFix, bool shouldLoadPlugins)
+        {
+            Success = success;
+            ShouldLint = shouldLint;
+            ShouldFix = shouldFix;
+            ShouldLoadPlugins = shouldLoadPlugins;
+        }
+
         public bool Success { get; }
         public bool ShouldLint { get; }
         public bool ShouldFix { get; }
+        public bool ShouldLoadPlugins { get; }
     }
 }
