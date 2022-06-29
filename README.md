@@ -61,6 +61,9 @@ tsqllint --print-config
 # display usage info
 tsqllint --help
 
+# load a list of plugins, enclosed in quotes
+tsqllint --load-plugins "c:\myPlugins\myPlugin1.dll, c:\myPlugins\myPlugin2.dll"
+
 # list the plugins loaded
 tsqllint --list-plugins
 ```
