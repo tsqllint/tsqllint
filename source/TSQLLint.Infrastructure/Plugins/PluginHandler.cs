@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Reflection;
 using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 
@@ -39,6 +40,14 @@ namespace TSQLLint.Infrastructure.Plugins
 
         private Dictionary<Type, IPlugin> List => plugins ??= new Dictionary<Type, IPlugin>();
 
+        public void ProcessPaths(string pluginPaths)
+        {
+            foreach (var pluginPath in pluginPaths.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
+            {
+                ProcessPath(pluginPath);
+            }
+        }
+
         public void ProcessPaths(Dictionary<string, string> pluginPaths)
         {
             // process user specified plugins
@@ -52,6 +61,7 @@ namespace TSQLLint.Infrastructure.Plugins
         {
             // remove quotes from path
             path = path.Replace("\"", string.Empty).Trim();
+            path = Path.GetFullPath(path);
 
             char[] arrToReplace = { '\\', '/' };
             foreach (var toReplace in arrToReplace)

@@ -62,12 +62,13 @@ namespace TSQLLint
                     var ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
                     var rules = RuleVisitorFriendlyNameTypeMap.Rules;
 
+                    pluginHandler = new PluginHandler(reporter, rules);
+
                     if (response.ShouldLoadPlugins)
                     {
-                        configReader.GetPlugins
+                        pluginHandler.ProcessPaths(commandLineOptions.Plugins);
                     }
 
-                    pluginHandler = new PluginHandler(reporter, rules);
                     pluginHandler.ProcessPaths(configReader.GetPlugins());
                     fileProcessor = new SqlFileProcessor(
                         ruleVisitor, pluginHandler, reporter, new FileSystem(), rules.ToDictionary(x => x.Key, x => x.Value.GetType()));

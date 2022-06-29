@@ -7,6 +7,8 @@ namespace TSQLLint.Core.Interfaces
     {
         IList<IPlugin> Plugins { get; }
 
+        void ProcessPaths(string pluginPaths);
+
         void ProcessPaths(Dictionary<string, string> pluginPaths);
 
         void ProcessPath(string path);
