@@ -65,7 +65,7 @@ namespace TSQLLint.Core.UseCases.Console
                 return strategy.HandleCommandLineOptions(request.CommandLineOptions);
             }
 
-            if (request.CommandLineOptions.Plugins.Length > 0)
+            if (!string.IsNullOrEmpty(request.CommandLineOptions.Plugins))
             {
                 var strategy = new LoadPluginsStrategy(reporter, fileSystemWrapper);
                 return strategy.HandleCommandLineOptions(request.CommandLineOptions);

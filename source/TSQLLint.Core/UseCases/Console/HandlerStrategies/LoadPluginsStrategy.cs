@@ -18,7 +18,7 @@ namespace TSQLLint.Core.UseCases.Console.HandlerStrategies
 
         public HandlerResponseMessage HandleCommandLineOptions(ICommandLineOptions commandLineOptions)
         {
-            if (commandLineOptions.Plugins.Length == 0)
+            if (string.IsNullOrEmpty(commandLineOptions.Plugins.Trim()))
             {
                 reporter.Report($"No plugins specified to be loaded");
             }

@@ -57,7 +57,7 @@ namespace TSQLLint.Infrastructure.CommandLineOptions
             'g',
              longName: "load-plugins",
              Required = false,
-             HelpText = "Used to specify plugins to be loaded")]
+             HelpText = "Used to specify plugins to be loaded in a comma-delimited list")]
         public string Plugins { get; set; }
 
         [Option(

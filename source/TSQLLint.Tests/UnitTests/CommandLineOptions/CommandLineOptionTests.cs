@@ -19,7 +19,11 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
         private static readonly string TestFileInvalidEncoding = Path.Combine(TestFileDirectory, @"invalid-encoding.sql");
         private static readonly string ConfigNotFoundMessage = $"Config file not found at: {InvalidConfigFile} use the '--init' option to create if one does not exist or the '--force' option to overwrite";
         private static readonly string ConfigFoundMessage = $"Config file found at: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc")}";
+        private static readonly string LoadedPlugin = "Loaded plugin: 'tsqllint_plugin_throws_exception.PluginThatThrows', Version: '1.0.0.0'";
         private static readonly string NoPluginsFound = "Did not find any plugins";
+        private static readonly string NoPluginsToLoad = "No plugins specified to be loaded";
+        private static readonly string BadPluginSpecified = $"\nFailed to load plugin(s) defined by '{BadPluginName}'. No file or directory found by that name.\n";
+        private static readonly string GoodAndBadPluginsSpecified = $"{LoadedPlugin} {BadPluginSpecified}";
 
         private static readonly IEnumerable<RuleViolation> TestFileOneRuleViolations = new List<RuleViolation>
         {
@@ -70,11 +74,28 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
         private static string TestFileBase => TestContext.CurrentContext.WorkDirectory;
 
-        private static string TestFileDirectory => Path.Combine(TestFileBase, @"UnitTests/CommandLineOptions/TestFiles");
+        private static string TestFileDirectory => Path.Combine(TestFileBase, @"UnitTests\\CommandLineOptions\\TestFiles");
 
         private static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
         private static string UsageString => new Infrastructure.CommandLineOptions.CommandLineOptions(new string[] { }).GetUsage();
+
+        private static string BadPluginName => ".\\badPlugin.dll";
+
+        private static string GoodPluginName => ".\\UnitTests\\CommandLineOptions\\TestFiles\\tsqllint-plugin-throws-exception.dll";
+
+        private static string MultiplePlugins => ".\\UnitTests\\CommandLineOptions\\TestFiles\\tsqllint-plugin-throws-exception.dll, .\\UnitTests\\CommandLineOptions\\TestFiles\\TestFileSubDirectory\\test-plugin-2.dll";
+
+        private static string MultiplePluginsGoodAndBad => ".\\UnitTests\\CommandLineOptions\\TestFiles\\tsqllint-plugin-throws-exception.dll, .\\badPlugin.dll";
+
+        private static string DefaultConfigAlreadyExists
+        {
+            get
+            {
+                var defaultConfigFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".tsqllintrc");
+                return $"Default config file already exists at: {defaultConfigFilePath} use the '--init' option combined with the '--force' option to overwrite";
+            }
+        }
 
         private static string TSqllVersion
         {
@@ -134,10 +155,15 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
                 yield return new TestCaseData(new List<string> { "-p" }, ConfigFoundMessage, new List<RuleViolation>(), 0).SetName("Print Config Valid");
                 yield return new TestCaseData(new List<string> { "-l" }, NoPluginsFound, new List<RuleViolation>(), 0).SetName("List Plugins Valid");
                 yield return new TestCaseData(new List<string> { "-v" }, $"v{TSqllVersion}", new List<RuleViolation>(), 0).SetName("Print Version Valid");
-                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, new List<RuleViolation>(), 1).SetName("Init Args Valid Missing Config File");
-                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, null, new List<RuleViolation>(), 1).SetName("Init Args Valid Existing Config File");
+                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, DefaultConfigAlreadyExists, new List<RuleViolation>(), 1).SetName("Init Args Valid Missing Config File");
+                yield return new TestCaseData(new List<string> { "-i", TestFileOne }, DefaultConfigAlreadyExists, new List<RuleViolation>(), 1).SetName("Init Args Valid Existing Config File");
                 yield return new TestCaseData(new List<string> { "-f", TestFileOne }, null, TestFileOneRuleViolations, 1).SetName("Force Args Valid");
-                yield return new TestCaseData(new List<string> { "-l", TestFileOne }, null, new List<RuleViolation>(), 1).SetName("List plugins, valid lint path, should not lint");
+                yield return new TestCaseData(new List<string> { "-l", TestFileOne }, NoPluginsFound, new List<RuleViolation>(), 1).SetName("List plugins, valid lint path, should not lint");
+                yield return new TestCaseData(new List<string> { "-g", GoodPluginName }, LoadedPlugin, new List<RuleViolation>(), 0).SetName("Load Plugins via Command Line");
+                yield return new TestCaseData(new List<string> { "-g", MultiplePlugins }, LoadedPlugin, new List<RuleViolation>(), 0).SetName("Load Multiple Plugins via Command Line");
+                yield return new TestCaseData(new List<string> { "-g", " " }, NoPluginsToLoad, new List<RuleViolation>(), 0).SetName("Load Plugins via Command Line No Plugin Specified");
+                yield return new TestCaseData(new List<string> { "-g", BadPluginName }, BadPluginSpecified, new List<RuleViolation>(), 0).SetName("Load Plugins via Command Line Bad Plugin Specified");
+                yield return new TestCaseData(new List<string> { "-g", MultiplePluginsGoodAndBad }, GoodAndBadPluginsSpecified, new List<RuleViolation>(), 0).SetName("Load Multiple Plugins via Command Line Good and Bad Plugins Specified");
 
                 // invalid linting targets
                 yield return new TestCaseData(new List<string> { @"invalid.sql" }, "No valid file paths provided", new List<RuleViolation>(), 0).SetName("File Args Invalid File Does Not Exist");

@@ -61,7 +61,6 @@ namespace TSQLLint.Infrastructure.Plugins
         {
             // remove quotes from path
             path = path.Replace("\"", string.Empty).Trim();
-            path = Path.GetFullPath(path);
 
             char[] arrToReplace = { '\\', '/' };
             foreach (var toReplace in arrToReplace)

@@ -46,4 +46,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="UnitTests\CommandLineOptions\TestFiles\TestFileSubDirectory\test-plugin-2.dll" />
+    <None Remove="UnitTests\CommandLineOptions\TestFiles\tsqllint-plugin-throws-exception.dll" />
+  </ItemGroup>
 </Project>

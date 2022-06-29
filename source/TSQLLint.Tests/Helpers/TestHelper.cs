@@ -54,7 +54,7 @@ namespace TSQLLint.Tests.Helpers
             reportedViolations = reportedViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
             expectedRuleViolations = expectedRuleViolations.OrderBy(o => o.Line).ThenBy(o => o.RuleName).ToList();
             Assert.AreEqual(expectedRuleViolations.Count, reportedViolations.Count);
-            Assert.IsTrue(string.IsNullOrEmpty(expectedMessage) || reportedMessages.Contains(expectedMessage), $"Expected: '{expectedMessage}', Received: '{string.Join(" ", reportedMessages)}'");
+            Assert.IsTrue((string.IsNullOrEmpty(expectedMessage) && reportedMessages.Count == 0) || string.Join(" ", reportedMessages).Contains(expectedMessage), $"Expected: '{expectedMessage}', Received: '{string.Join(" ", reportedMessages)}'");
             CollectionAssert.AreEqual(expectedRuleViolations, reportedViolations, RuleViolationComparer);
         }
     }
