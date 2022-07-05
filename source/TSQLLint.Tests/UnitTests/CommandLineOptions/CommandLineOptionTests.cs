@@ -74,19 +74,19 @@ namespace TSQLLint.Tests.UnitTests.CommandLineOptions
 
         private static string TestFileBase => TestContext.CurrentContext.WorkDirectory;
 
-        private static string TestFileDirectory => Path.Combine(TestFileBase, @"UnitTests\\CommandLineOptions\\TestFiles");
+        private static string TestFileDirectory => Path.Combine(TestFileBase, @"UnitTests/CommandLineOptions/TestFiles");
 
         private static string TestFileOne => Path.Combine(TestFileDirectory, @"integration-test-one.sql");
 
         private static string UsageString => new Infrastructure.CommandLineOptions.CommandLineOptions(new string[] { }).GetUsage();
 
-        private static string BadPluginName => ".\\badPlugin.dll";
+        private static string BadPluginName => "./badPlugin.dll";
 
-        private static string GoodPluginName => ".\\UnitTests\\CommandLineOptions\\TestFiles\\tsqllint-plugin-throws-exception.dll";
+        private static string GoodPluginName => "./UnitTests/CommandLineOptions/TestFiles/tsqllint-plugin-throws-exception.dll";
 
-        private static string MultiplePlugins => ".\\UnitTests\\CommandLineOptions\\TestFiles\\tsqllint-plugin-throws-exception.dll, .\\UnitTests\\CommandLineOptions\\TestFiles\\TestFileSubDirectory\\test-plugin-2.dll";
+        private static string MultiplePlugins => "./UnitTests/CommandLineOptions/TestFiles/tsqllint-plugin-throws-exception.dll, ./UnitTests/CommandLineOptions/TestFiles/TestFileSubDirectory/test-plugin-2.dll";
 
-        private static string MultiplePluginsGoodAndBad => ".\\UnitTests\\CommandLineOptions\\TestFiles\\tsqllint-plugin-throws-exception.dll, .\\badPlugin.dll";
+        private static string MultiplePluginsGoodAndBad => "./UnitTests/CommandLineOptions/TestFiles/tsqllint-plugin-throws-exception.dll, ./badPlugin.dll";
 
         private static string DefaultConfigAlreadyExists
         {
