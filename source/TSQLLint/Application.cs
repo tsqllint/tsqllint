@@ -58,9 +58,9 @@ namespace TSQLLint
                 do
                 {
                     var fragmentBuilder = new FragmentBuilder(configReader.CompatabilityLevel);
-                    var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter);
-                    var ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
                     var rules = RuleVisitorFriendlyNameTypeMap.Rules;
+                    var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, this.reporter, rules);
+                    var ruleVisitor = new SqlRuleVisitor(ruleVisitorBuilder, fragmentBuilder, reporter);
                     pluginHandler = new PluginHandler(reporter, rules);
                     pluginHandler.ProcessPaths(configReader.GetPlugins());
                     fileProcessor = new SqlFileProcessor(
