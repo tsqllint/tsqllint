@@ -15,7 +15,7 @@
     <PackageReference Include="CommandLineParser" Version="1.9.71" />
     <PackageReference Include="Microsoft.SqlServer.DacFx" Version="160.5400.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="TSQLLint.Common" Version="3.2.0" />
+    <PackageReference Include="TSQLLint.Common" Version="3.3.0" />
     <PackageReference Include="System.IO.Abstractions" Version="17.0.3" />
   </ItemGroup>
 
