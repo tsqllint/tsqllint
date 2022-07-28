@@ -39,7 +39,7 @@ namespace TSQLLint.Infrastructure.Configuration
         ""update-where"" : ""error"",
         ""upper-lower"": ""error""
     },
-    ""compatability-level"": 120
+    ""compatibility-level"": 120
 }";
 
         private readonly IFileSystem fileSystem;
