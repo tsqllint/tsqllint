@@ -15,10 +15,18 @@ namespace TSQLLint.Tests.UnitTests.Parser
     {
         private static readonly object[] TestCases =
         {
+            // Test misspelled "compatability-level"
+            new object[]
+            {
+                "Compatibility Level Override Old",
+                @"/* tsqllint-override compatability-level = 130 */
+                  SELECT * FROM FOO;",
+                1
+            },
             new object[]
             {
                 "Compatibility Level Override",
-                @"/* tsqllint-override compatability-level = 130 */
+                @"/* tsqllint-override compatibility-level = 130 */
                   SELECT * FROM FOO;",
                 1
             },
@@ -31,7 +39,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             new object[]
             {
                 "Malformed Override",
-                @"/* tsqllint-overrides compatability-level = 130 */
+                @"/* tsqllint-overrides compatibility-level = 130 */
                   SELECT * FROM FOO;",
                 0
             }

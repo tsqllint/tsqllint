@@ -189,7 +189,7 @@ Setting the compatibility level within the `.tsqllintrc` file configures the def
   "rules": {
     "upper-lower": "error"
   },
-  "compatability-level": 90
+  "compatibility-level": 90
 }
 ```
 
@@ -198,7 +198,7 @@ Setting the compatibility level within the `.tsqllintrc` file configures the def
 Setting the compatibility level using inline comments configures the Compatibility Level for just that file. Overrides should be placed at the top of files.
 
 ```tsql
-/* tsqllint-override compatability-level = 130 */
+/* tsqllint-override compatibility-level = 130 */
 
 SELECT * FROM FOO;
 ```
