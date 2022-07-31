@@ -13,6 +13,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
     {
         private static readonly object[] TestCases =
         {
+            // Test misspelled "compatability-level"
             new object[]
             {
                 "valid compatability-level override",
@@ -21,25 +22,31 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
             },
             new object[]
             {
-                "valid compatability-level override and unsupported 'foo' override",
-                @"/* tsqllint-override compatability-level = 90, foo = bar */",
+                "valid compatibility-level override",
+                @"/* tsqllint-override compatibility-level = 130 */",
+                new List<IOverride> { new OverrideCompatabilityLevel("130") }
+            },
+            new object[]
+            {
+                "valid compatibility-level override and unsupported 'foo' override",
+                @"/* tsqllint-override compatibility-level = 90, foo = bar */",
                 new List<IOverride> { new OverrideCompatabilityLevel("90") }
             },
             new object[]
             {
-                "valid compatability-level override within multiline comment block",
+                "valid compatibility-level override within multiline comment block",
                 @"/* 
                    tsqllint-disable select-star
-                   tsqllint-override compatability-level = 80 
+                   tsqllint-override compatibility-level = 80 
                 */",
                 new List<IOverride> { new OverrideCompatabilityLevel("80") }
             },
             new object[]
             {
-                "valid compatability-level and unsupported override override within multiline comment block",
+                "valid compatibility-level and unsupported override override within multiline comment block",
                 @"/* 
                    tsqllint-disable select-star
-                   tsqllint-override compatability-level = 80, foo = bar 
+                   tsqllint-override compatibility-level = 80, foo = bar 
                 */",
                 new List<IOverride> { new OverrideCompatabilityLevel("80") }
             }

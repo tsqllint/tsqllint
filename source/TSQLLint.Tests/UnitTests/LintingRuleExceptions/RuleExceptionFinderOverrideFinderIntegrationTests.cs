@@ -32,6 +32,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleExceptions
             },
             new object[]
             {
+                // Test misspelled "compatability-level"
                 "valid compatability-level override",
                 @"/*
                     tsqllint-override compatability-level = 100
@@ -44,10 +45,22 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleExceptions
             },
             new object[]
             {
-                "valid compatability-level override, ignore multiple rules",
+                "valid compatibility-level override",
+                @"/*
+                    tsqllint-override compatibility-level = 100
+                    tsqllint-disable select-star
+                  */
+                        SELECT * FROM FOO:
+                  */ tsqllint-enable select-star */",
+                new List<IExtendedRuleException> { new RuleException(typeof(SelectStarRule), "select-star", 3, 6) },
+                new List<IOverride> { new OverrideCompatabilityLevel("100") }
+            },
+            new object[]
+            {
+                "valid compatibility-level override, ignore multiple rules",
                 @"/*
                     tsqllint-disable select-star set-ansi
-                    tsqllint-override compatability-level = 110
+                    tsqllint-override compatibility-level = 110
                   */
                         SELECT * FROM FOO:
                   */ tsqllint-enable: select-star */",
