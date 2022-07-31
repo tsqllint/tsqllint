@@ -55,9 +55,9 @@ namespace TSQLLint.Infrastructure.Configuration
             }
         }
 
-        public RuleViolationSeverity GetRuleSeverity(string key)
+        public RuleViolationSeverity GetRuleSeverity(string key, RuleViolationSeverity defaultValue = RuleViolationSeverity.Off)
         {
-            return configuredRules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return configuredRules.TryGetValue(key, out var ruleValue) ? ruleValue : defaultValue;
         }
 
         public Dictionary<string, string> GetPlugins()

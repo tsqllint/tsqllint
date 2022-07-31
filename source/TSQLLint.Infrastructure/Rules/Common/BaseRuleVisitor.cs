@@ -10,7 +10,7 @@ namespace TSQLLint.Infrastructure.Rules.Common
     {
         protected readonly Action<string, string, int, int> errorCallback;
 
-        public BaseRuleVisitor(Action<string, string, int, int> errorCallback)
+        protected BaseRuleVisitor(Action<string, string, int, int> errorCallback)
         {
             this.errorCallback = errorCallback;
         }
@@ -19,6 +19,7 @@ namespace TSQLLint.Infrastructure.Rules.Common
         public int DynamicSqlStartLine { get; set; }
         public abstract string RULE_NAME { get; }
         public abstract string RULE_TEXT { get; }
+        public RuleViolationSeverity RULE_SEVERITY => RuleViolationSeverity.Off;
 
         public virtual void FixViolation(
             List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)

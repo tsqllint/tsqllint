@@ -14,32 +14,36 @@ namespace TSQLLint.Infrastructure.Parser
     {
         private readonly IReporter reporter;
         private readonly IConfigReader configReader;
+        private readonly IDictionary<string, ISqlLintRule> rules;
         private bool errorLogged;
 
         public RuleVisitorBuilder(
             IConfigReader configReader,
-            IReporter reporter)
+            IReporter reporter,
+            IDictionary<string, ISqlLintRule> rules)
         {
             this.reporter = reporter;
             this.configReader = configReader;
+            this.rules = rules;
         }
 
         public List<TSqlFragmentVisitor> BuildVisitors(string sqlPath, IEnumerable<IRuleException> ignoredRules)
         {
-            void RuleViolationCallback(string ruleName, string ruleText, int startLne, int startColumn)
-            {
-                HandleRuleViolation(sqlPath, ignoredRules, ruleName, startLne, ruleText, startColumn);
-            }
-
             var configuredVisitors = new List<TSqlFragmentVisitor>();
 
-            foreach (var visitor in RuleVisitorFriendlyNameTypeMap.List)
+            foreach (var visitor in rules)
             {
-                var visitorInstance = (ISqlRule)Activator.CreateInstance(
-                    visitor.Value,
+                var severity = configReader.GetRuleSeverity(visitor.Value.RULE_NAME, visitor.Value.RULE_SEVERITY);
+
+                void RuleViolationCallback(string ruleName, string ruleText, int startLne, int startColumn)
+                {
+                    HandleRuleViolation(sqlPath, ignoredRules, ruleName, startLne, ruleText, startColumn, severity);
+                }
+
+                var visitorInstance = (ISqlLintRule)Activator.CreateInstance(
+                    visitor.Value.GetType(),
                     (Action<string, string, int, int>)RuleViolationCallback);
 
-                var severity = configReader.GetRuleSeverity(visitorInstance.RULE_NAME);
                 if (severity == RuleViolationSeverity.Off)
                 {
                     continue;
@@ -51,10 +55,10 @@ namespace TSQLLint.Infrastructure.Parser
             return configuredVisitors;
         }
 
-        private static bool IsRuleIgnored(IEnumerable<IRuleException> ignoredRules, string ruleName, int startLne)
+        private bool IsRuleIgnored(IEnumerable<IRuleException> ignoredRules, string ruleName, int startLne)
         {
-            var friendlyNameToType = RuleVisitorFriendlyNameTypeMap.List.Where(x => x.Key == ruleName);
-            var ruleType = friendlyNameToType.FirstOrDefault().Value;
+            var friendlyNameToType = rules.Where(x => x.Key == ruleName);
+            var ruleType = friendlyNameToType.FirstOrDefault().Value.GetType();
 
             var rulesOnLine = ignoredRules.OfType<RuleException>().Where(
                 x => x.RuleType.Name == ruleType.Name
@@ -68,14 +72,13 @@ namespace TSQLLint.Infrastructure.Parser
             return rulesOnLine.Any() || globalRulesOnLine.Any();
         }
 
-        private void HandleRuleViolation(string sqlPath, IEnumerable<IRuleException> ignoredRules, string ruleName, int startLne, string ruleText, int startColumn)
+        private void HandleRuleViolation(string sqlPath, IEnumerable<IRuleException> ignoredRules, string ruleName, int startLne, string ruleText, int startColumn, RuleViolationSeverity ruleSeverity)
         {
             if (ignoredRules.Any() && IsRuleIgnored(ignoredRules, ruleName, startLne))
             {
                 return;
             }
 
-            var ruleSeverity = configReader.GetRuleSeverity(ruleName);
             if (ruleSeverity == RuleViolationSeverity.Error && !errorLogged)
             {
                 errorLogged = true;

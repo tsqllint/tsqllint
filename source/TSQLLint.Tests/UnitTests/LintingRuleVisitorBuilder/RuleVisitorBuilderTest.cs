@@ -8,6 +8,7 @@ using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Configuration;
 using TSQLLint.Infrastructure.Parser;
+using TSQLLint.Tests.UnitTests.PluginHandler;
 
 namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
 {
@@ -38,11 +39,15 @@ namespace TSQLLint.Tests.UnitTests.LintingRuleVisitorBuilder
 
             var configReader = new ConfigReader(reporter, fileSystem, environmentWrapper);
             configReader.LoadConfig(configFilePath);
-            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, null);
+
+            var rules = RuleVisitorFriendlyNameTypeMap.Rules;
+            rules.Add("plugin-rule", new TestPluginRule(null));
+
+            var ruleVisitorBuilder = new RuleVisitorBuilder(configReader, reporter, rules);
 
             var ignoredRuleList = new List<IExtendedRuleException>();
             var activeRuleVisitors = ruleVisitorBuilder.BuildVisitors("foo.sql", ignoredRuleList);
-            Assert.AreEqual(2, activeRuleVisitors.Count);
+            Assert.AreEqual(3, activeRuleVisitors.Count);
         }
     }
 }
