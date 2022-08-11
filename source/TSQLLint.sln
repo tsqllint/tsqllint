@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint", "TSQLLint\TSQLLint.csproj", "{7697E982-E7EA-4D1A-A26C-3DDA32423F1C}"
 EndProject
@@ -10,15 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\.gitignore = ..\.gitignore
-		..\.npmignore = ..\.npmignore
-		..\.travis.yml = ..\.travis.yml
-		..\appveyor.yml = ..\appveyor.yml
 		..\CODE_OF_CONDUCT.md = ..\CODE_OF_CONDUCT.md
-		..\codecov.yml = ..\codecov.yml
 		..\CONTRIBUTING.MD = ..\CONTRIBUTING.MD
+		coverlet.runsettings = coverlet.runsettings
 		.stylecop\custom-dictionary.xml = .stylecop\custom-dictionary.xml
 		..\LICENSE = ..\LICENSE
-		..\package.json = ..\package.json
 		..\README.md = ..\README.md
 		.stylecop\stylecop.json = .stylecop\stylecop.json
 		.stylecop\stylecop.ruleset = .stylecop\stylecop.ruleset
@@ -27,6 +23,53 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Infrastructure", "TSQLLint.Infrastructure\TSQLLint.Infrastructure.csproj", "{7BF3E473-D00C-49A0-ADD8-7D0177B30AB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSQLLint.Core", "TSQLLint.Core\TSQLLint.Core.csproj", "{28E4C305-8BEC-4CF1-A5EE-D6624DE66154}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{52EF63F4-06B8-4259-8E2E-D11492C1A4CB}"
+	ProjectSection(SolutionItems) = preProject
+		..\scripts\dotnet_build_test.sh = ..\scripts\dotnet_build_test.sh
+		..\scripts\dotnet_build_test_local.sh = ..\scripts\dotnet_build_test_local.sh
+		..\scripts\dotnet_package.sh = ..\scripts\dotnet_package.sh
+		..\scripts\github_create_release.sh = ..\scripts\github_create_release.sh
+		..\scripts\utils.sh = ..\scripts\utils.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documentation", "documentation", "{0C86ABC0-83A8-4538-A91C-96EB8BB17D4E}"
+	ProjectSection(SolutionItems) = preProject
+		..\documentation\SSMSIntegrationScreenshot.PNG = ..\documentation\SSMSIntegrationScreenshot.PNG
+		..\documentation\usage-animation.gif = ..\documentation\usage-animation.gif
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rules", "rules", "{3C0AF9FF-74BB-4BF5-AFC3-7A795EE0AEFF}"
+	ProjectSection(SolutionItems) = preProject
+		..\documentation\rules\case-sensitive-variables.md = ..\documentation\rules\case-sensitive-variables.md
+		..\documentation\rules\conditional-begin-end.md = ..\documentation\rules\conditional-begin-end.md
+		..\documentation\rules\count-star.md = ..\documentation\rules\count-star.md
+		..\documentation\rules\cross-database-transaction.md = ..\documentation\rules\cross-database-transaction.md
+		..\documentation\rules\data-compression.md = ..\documentation\rules\data-compression.md
+		..\documentation\rules\data-type-length.md = ..\documentation\rules\data-type-length.md
+		..\documentation\rules\delete-where.md = ..\documentation\rules\delete-where.md
+		..\documentation\rules\disallow-cursors.md = ..\documentation\rules\disallow-cursors.md
+		..\documentation\rules\full-text.md = ..\documentation\rules\full-text.md
+		..\documentation\rules\information-schema.md = ..\documentation\rules\information-schema.md
+		..\documentation\rules\keyword-capitalization.md = ..\documentation\rules\keyword-capitalization.md
+		..\documentation\rules\linked-server.md = ..\documentation\rules\linked-server.md
+		..\documentation\rules\multi-table-alias.md = ..\documentation\rules\multi-table-alias.md
+		..\documentation\rules\named-constraint.md = ..\documentation\rules\named-constraint.md
+		..\documentation\rules\non-sargable.md = ..\documentation\rules\non-sargable.md
+		..\documentation\rules\object-property.md = ..\documentation\rules\object-property.md
+		..\documentation\rules\print-statement.md = ..\documentation\rules\print-statement.md
+		..\documentation\rules\schema-qualify.md = ..\documentation\rules\schema-qualify.md
+		..\documentation\rules\select-star.md = ..\documentation\rules\select-star.md
+		..\documentation\rules\semicolon-termination.md = ..\documentation\rules\semicolon-termination.md
+		..\documentation\rules\set-ansi.md = ..\documentation\rules\set-ansi.md
+		..\documentation\rules\set-nocount.md = ..\documentation\rules\set-nocount.md
+		..\documentation\rules\set-quoted-identifier.md = ..\documentation\rules\set-quoted-identifier.md
+		..\documentation\rules\set-transaction-isolation-level.md = ..\documentation\rules\set-transaction-isolation-level.md
+		..\documentation\rules\set-variable.md = ..\documentation\rules\set-variable.md
+		..\documentation\rules\unicode-string.md = ..\documentation\rules\unicode-string.md
+		..\documentation\rules\update-where.md = ..\documentation\rules\update-where.md
+		..\documentation\rules\upper-lower.md = ..\documentation\rules\upper-lower.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +95,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{52EF63F4-06B8-4259-8E2E-D11492C1A4CB} = {396E960A-A8E0-4636-A790-457CB273976B}
+		{0C86ABC0-83A8-4538-A91C-96EB8BB17D4E} = {396E960A-A8E0-4636-A790-457CB273976B}
+		{3C0AF9FF-74BB-4BF5-AFC3-7A795EE0AEFF} = {0C86ABC0-83A8-4538-A91C-96EB8BB17D4E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C431AB0C-C24B-4FE3-BCA0-0A36B93F432F}
