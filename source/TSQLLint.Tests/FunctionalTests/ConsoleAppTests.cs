@@ -116,6 +116,7 @@ namespace TSQLLint.Tests.FunctionalTests
 
         [TestCase(@"TestFiles/with-tabs.sql", "prefer-tabs : Should use spaces rather than tabs", 0)]
         [TestCase(@"TestFiles/with-spaces.sql", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
+        [TestCase(@"TestFiles/with-dynamic-sql.sql", "select-star : Expected column names in SELECT", 0)]
         public void LoadPluginTest(string testFile, string expectedMessage, int expectedExitCode)
         {
             var pluginLoaded = false;

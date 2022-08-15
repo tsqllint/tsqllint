@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using TSQLLint.Common;
-using TSQLLint.Core.Interfaces;
 
 namespace TSQLLint.Tests.UnitTests.PluginHandler
 {
     [ExcludeFromCodeCoverage]
-    public class TestPluginRule : TSqlFragmentVisitor, ISqlRule
+    public class TestPluginRule : TSqlFragmentVisitor, ISqlLintRule
     {
         private readonly Action<string, string, int, int> errorCallback;
 
@@ -20,10 +19,6 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public string RULE_NAME => "plugin-rule";
 
         public string RULE_TEXT => "Plugin rule failed";
-
-        public int DynamicSqlStartColumn { get; set; }
-
-        public int DynamicSqlStartLine { get; set; }
 
         public RuleViolationSeverity RULE_SEVERITY => RuleViolationSeverity.Error;
 

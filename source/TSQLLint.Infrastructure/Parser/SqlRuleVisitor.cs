@@ -80,11 +80,11 @@ namespace TSQLLint.Infrastructure.Parser
 
         private static bool VisitorIsBlackListedForDynamicSql(TSqlFragmentVisitor visitor)
         {
-            if (visitor == null)
+            if (visitor is not ISqlRule)
             {
                 return false;
             }
-            
+
             return new List<string>
             {
                 "SetAnsiNullsRule",
