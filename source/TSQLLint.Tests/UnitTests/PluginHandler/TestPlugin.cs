@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using TSQLLint.Common;
 
@@ -29,5 +30,10 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 }
             }
         }
+
+        public IDictionary<string, ISqlLintRule> GetRules() => new Dictionary<string, ISqlLintRule>
+        {
+            ["plugin-rule"] = new TestPluginRule(null)
+        };
     }
 }
