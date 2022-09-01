@@ -180,25 +180,25 @@ SELECT * FROM FOO;
 
 TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments within the SQL file. TSQLLint supports the following compatibility levels 80, 90, 100, 110, 120, 130, 140, and 150.
 
-### Setting a default Compatability Level using .tsqllintrc
+### Setting a default Compatibility Level using .tsqllintrc
 
-Setting the compatability level within the `.tsqllintrc` file configures the default Compatability Level for all files.
+Setting the compatibility level within the `.tsqllintrc` file configures the default Compatibility Level for all files.
 
 ```json
 {
   "rules": {
     "upper-lower": "error"
   },
-  "compatability-level": 90
+  "compatibility-level": 90
 }
 ```
 
-### Setting Compatability Level Using Inline Comments
+### Setting Compatibility Level Using Inline Comments
 
-Setting the compatability level using inline comments configures the Compatability Level for just that file. Overrides should be placed at the top of files.
+Setting the compatibility level using inline comments configures the Compatibility Level for just that file. Overrides should be placed at the top of files.
 
 ```tsql
-/* tsqllint-override compatability-level = 130 */
+/* tsqllint-override compatibility-level = 130 */
 
 SELECT * FROM FOO;
 ```
@@ -215,7 +215,7 @@ Before applying any linting rules, TSQLLint will replace any placeholder in a SQ
 
 ## Plugins
 
-You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/). Ensure the plugin is targeting `netcoreapp2.0`.
+You can extend the base functionality of TSQLLint by creating a custom plugin. TSQLLint plugins are Dotnet assemblies that implement the IPlugin interface from [TSQLLint.Common](https://www.nuget.org/packages/TSQLLint.Common/). Ensure the plugin is targeting `net6.0`.
 
 After developing the plugin, update the .tsqllintrc file to point to its `.dll`.
 
@@ -235,13 +235,16 @@ This sample plugin notifies users that spaces should be used rather than tabs.
 
 ```csharp
 using System;
-using TSQLLint.Common;
+using System.Collections.Generic;
 using System.IO;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
+using TSQLLint.Common;
 
-namespace TSQLLint.Tests.UnitTests.PluginHandler
+namespace TSQLLint_Sample_Plugin
 {
     public class SamplePlugin : IPlugin
     {
+        // This method is required but can be a no-op if using the GetRules method to parse code through the plugin's rules.
         public void PerformAction(IPluginContext context, IReporter reporter)
         {
             string line;
@@ -262,13 +265,19 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                     RuleViolationSeverity.Warning));
             }
         }
+
+        // Starting with TSQLLint.Common version 3.3.0, this method can be used to return rules to be used by the TSQLLint parser.
+        public IDictionary<string, ISqlLintRule> GetRules() => new Dictionary<string, ISqlLintRule>
+        {
+            ["sample-plugin-rule"] = new SampleRule((Action<string, string, int, int>)null)
+        };
     }
 
     class SampleRuleViolation : IRuleViolation
     {
-        public int Column { get; private set; }
+        public int Column { get; set; }
         public string FileName { get; private set; }
-        public int Line { get; private set; }
+        public int Line { get; set; }
         public string RuleName { get; private set; }
         public RuleViolationSeverity Severity { get; private set; }
         public string Text { get; private set; }
@@ -281,6 +290,35 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             Line = lineNumber;
             Column = column;
             Severity = ruleViolationSeverity;
+        }
+    }
+
+    class SampleRule : TSqlFragmentVisitor, ISqlLintRule
+    {
+        protected readonly Action<string, string, int, int> ErrorCallback;
+
+        public SampleRule(Action<string, string, int, int> errorCallback)
+        {
+            ErrorCallback = errorCallback;
+        }
+
+        public string RULE_NAME => "sample-plugin-rule";
+        public string RULE_TEXT => "Sample plugin rule message text";
+        public RuleViolationSeverity RULE_SEVERITY => RuleViolationSeverity.Warning;
+
+        public override void Visit(TSqlScript node)
+        {
+            var line = 0;
+            var column = 0;
+
+            // Logic for testing TSQL code for rule goes here.
+
+            ErrorCallback(RULE_NAME, RULE_TEXT, line, column);
+        }
+
+        public void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
+        {
+            // Logic for fixing rule violation goes here.
         }
     }
 }

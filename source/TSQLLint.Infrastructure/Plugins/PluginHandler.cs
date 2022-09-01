@@ -107,19 +107,12 @@ namespace TSQLLint.Infrastructure.Plugins
 
                 if (!List.ContainsKey(type))
                 {
-                    List.Add(type, (IPlugin)Activator.CreateInstance(type));
+                    var plugin = (IPlugin)Activator.CreateInstance(type);
+                    List.Add(type, plugin);
                     var version = versionWrapper.GetVersion(dll);
                     reporter.Report($"Loaded plugin: '{type.FullName}', Version: '{version}'");
-                }
-                else
-                {
-                    reporter.Report($"Already loaded plugin with type '{type.FullName}'");
-                }
 
-                if (inerfaces.Contains(typeof(IPluginWithRules)))
-                {
-                    var plugin = (IPluginWithRules)Activator.CreateInstance(type);
-                    foreach (var rule in plugin.Rules)
+                    foreach (var rule in plugin.GetRules())
                     {
                         try
                         {
@@ -127,10 +120,14 @@ namespace TSQLLint.Infrastructure.Plugins
                         }
                         catch (Exception exception)
                         {
-                            reporter.Report($"There was a problem with plugin: {plugin.GetType().FullName} - {exception.Message}");
+                            reporter.Report($"There was a problem with plugin: {type.FullName} - {exception.Message}");
                             Trace.WriteLine(exception);
                         }
                     }
+                }
+                else
+                {
+                    reporter.Report($"Already loaded plugin with type '{type.FullName}'");
                 }
             }
         }

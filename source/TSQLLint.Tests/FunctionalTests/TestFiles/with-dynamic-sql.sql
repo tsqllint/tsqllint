@@ -1,0 +1,1 @@
+EXEC (N'SELECT * FROM BAR;');

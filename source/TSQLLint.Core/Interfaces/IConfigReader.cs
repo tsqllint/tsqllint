@@ -13,7 +13,7 @@ namespace TSQLLint.Core.Interfaces
 
         Dictionary<string, string> GetPlugins();
 
-        RuleViolationSeverity GetRuleSeverity(string key);
+        RuleViolationSeverity GetRuleSeverity(string key, RuleViolationSeverity defaultValue = RuleViolationSeverity.Off);
 
         void ListPlugins();
 

@@ -221,6 +221,63 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
             Assert.IsTrue(configReader.IsConfigLoaded);
         }
 
+        // Test misspelled "compatability-level"
+        [Test]
+        public void ConfigReaderGetParserFromValidIntOld()
+        {
+            // arrange
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'compatability-level': 120
+                    }")
+                }
+            });
+
+            var mockReporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var configReader = new ConfigReader(mockReporter, mockFileSystem, environmentWrapper);
+            configReader.LoadConfig(configFilePath);
+
+            // assert
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            Assert.AreEqual(120, configReader.CompatabilityLevel);
+        }
+
+        // Test misspelled "compatability-level" with correctly spelled "compatibility-level"
+        [Test]
+        public void ConfigReaderGetParserFromValidIntFallback()
+        {
+            // arrange
+            var configFilePath = TestHelper.GetTestFilePath(@"C:\Users\User\.tsqllintrc");
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    configFilePath, new MockFileData(@"
+                    {
+                        'compatability-level': 120,
+                        'compatibility-level': 130
+                    }")
+                }
+            });
+
+            var mockReporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var configReader = new ConfigReader(mockReporter, mockFileSystem, environmentWrapper);
+            configReader.LoadConfig(configFilePath);
+
+            // assert
+            Assert.IsTrue(configReader.IsConfigLoaded);
+            Assert.AreEqual(130, configReader.CompatabilityLevel);
+        }
+
         [Test]
         public void ConfigReaderGetParserFromValidInt()
         {
@@ -231,7 +288,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability-level': 120
+                        'compatibility-level': 120
                     }")
                 }
             });
@@ -258,7 +315,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability-level': '130'
+                        'compatibility-level': '130'
                     }")
                 }
             });
@@ -285,7 +342,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability-level': 10
+                        'compatibility-level': 10
                     }")
                 }
             });
@@ -312,7 +369,7 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
                 {
                     configFilePath, new MockFileData(@"
                     {
-                        'compatability-level': 'foo'
+                        'compatibility-level': 'foo'
                     }")
                 }
             });

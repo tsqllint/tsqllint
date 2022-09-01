@@ -55,9 +55,9 @@ namespace TSQLLint.Infrastructure.Configuration
             }
         }
 
-        public RuleViolationSeverity GetRuleSeverity(string key)
+        public RuleViolationSeverity GetRuleSeverity(string key, RuleViolationSeverity defaultValue = RuleViolationSeverity.Off)
         {
-            return configuredRules.TryGetValue(key, out var ruleValue) ? ruleValue : RuleViolationSeverity.Off;
+            return configuredRules.TryGetValue(key, out var ruleValue) ? ruleValue : defaultValue;
         }
 
         public Dictionary<string, string> GetPlugins()
@@ -169,7 +169,7 @@ namespace TSQLLint.Infrastructure.Configuration
 
         private void SetupParser(JToken jsonObject)
         {
-            var compatabilityLevel = jsonObject.SelectTokens("..compatability-level").FirstOrDefault()?.ToString();
+            var compatabilityLevel = (jsonObject.SelectTokens("..compatibility-level").FirstOrDefault() ?? jsonObject.SelectTokens("..compatability-level").FirstOrDefault())?.ToString();
             int.TryParse(compatabilityLevel, out var parsedCompatabilityLevel);
             CompatabilityLevel = Core.CompatabilityLevel.Validate(parsedCompatabilityLevel);
         }
