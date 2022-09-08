@@ -116,7 +116,6 @@ namespace TSQLLint.Tests.FunctionalTests
 
         [TestCase(@"TestFiles/with-tabs.sql", "prefer-tabs : Should use spaces rather than tabs", 0)]
         [TestCase(@"TestFiles/with-spaces.sql", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
-        [TestCase(@"TestFiles/with-dynamic-sql.sql", "select-star : Expected column names in SELECT", 0)]
         public void LoadPluginTest(string testFile, string expectedMessage, int expectedExitCode)
         {
             var pluginLoaded = false;
@@ -150,6 +149,45 @@ namespace TSQLLint.Tests.FunctionalTests
             ConsoleAppTestHelper.RunApplication(process);
 
             Assert.IsTrue(pluginLoaded);
+
+            // remove updated plugin config file
+            File.Delete(updatedConfigFilePath);
+        }
+
+        [TestCase(@"TestFiles/with-dynamic-sql.sql", "System.InvalidCastException", 0)]
+        public void LoadPluginTest_No_Exception(string testFile, string errorMessage, int expectedExitCode)
+        {
+            var errorDetected = false;
+
+            void OutputHandler(object sender, DataReceivedEventArgs args)
+            {
+                if (args.Data != null && args.Data.Contains(errorMessage))
+                {
+                    errorDetected = true;
+                }
+            }
+
+            void ErrorHandler(object sender, DataReceivedEventArgs args) { }
+
+            void ExitHandler(object sender, EventArgs args)
+            {
+                var processExitCode = ((Process)sender).ExitCode;
+                Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
+            }
+
+            var testPath = Path.GetFullPath(Path.Combine(testDirectoryPath, $@"FunctionalTests/{testFile}"));
+
+            var configFilePath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins"));
+            var jsonString = File.ReadAllText(configFilePath);
+            dynamic jsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonString);
+            jsonObject["plugins"]["test-plugin"] = ConsoleAppTestHelper.TestPluginPath;
+            var updatedConfigFilePath = Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc-plugins-updated");
+            File.WriteAllText(updatedConfigFilePath, jsonObject.ToString());
+
+            var process = ConsoleAppTestHelper.GetProcess($"-c {updatedConfigFilePath} -l {testPath}", OutputHandler, ErrorHandler, ExitHandler);
+            ConsoleAppTestHelper.RunApplication(process);
+
+            Assert.IsFalse(errorDetected);
 
             // remove updated plugin config file
             File.Delete(updatedConfigFilePath);

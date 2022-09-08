@@ -82,7 +82,7 @@ namespace TSQLLint.Infrastructure.Parser
         {
             if (visitor is not ISqlRule)
             {
-                return false;
+                return true;
             }
 
             return new List<string>
