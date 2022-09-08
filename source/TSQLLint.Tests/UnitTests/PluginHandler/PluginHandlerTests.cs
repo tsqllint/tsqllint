@@ -182,10 +182,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 }
             });
 
-            var testFilePath = TestHelper.GetTestFilePath(@"UnitTests/PluginHandler/tsqllint-plugin-throws-exception.dll");
-            var assembly = Assembly.LoadFrom(testFilePath);
-            var type = assembly.GetType("tsqllint_plugin_throws_exception.PluginThatThrows");
-            var assemblyWrapper = new TestAssemblyWrapper(defaultPlugin: type);
+            var assemblyWrapper = new TestAssemblyWrapper(defaultPlugin: typeof(TestPluginThrowsException));
 
             var pluginPaths = new Dictionary<string, string>
             {
@@ -211,6 +208,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
             // assert
             Assert.AreEqual(1, pluginHandler.Plugins.Count);
+            var type = typeof(TestPluginThrowsException);
             reporter.Received().Report($"Loaded plugin: '{type.FullName}', Version: '1.2.3'");
             reporter.Received().Report($"Already loaded plugin with type '{type.FullName}'");
         }
@@ -304,6 +302,14 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
         public class TestPlugin4 : TestPlugin
         {
+        }
+
+        public class TestPluginThrowsException : IPlugin
+        {
+            public void PerformAction(IPluginContext context, IReporter reporter)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public class TestAssemblyWrapper : IAssemblyWrapper
