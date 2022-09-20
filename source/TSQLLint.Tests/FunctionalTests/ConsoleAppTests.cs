@@ -3,7 +3,10 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
+using Microsoft.SqlServer.Dac.Model;
+using NSubstitute.Core;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using TSQLLint.Tests.Helpers;
 
 namespace TSQLLint.Tests.FunctionalTests
@@ -153,6 +156,36 @@ namespace TSQLLint.Tests.FunctionalTests
 
             // remove updated plugin config file
             File.Delete(updatedConfigFilePath);
+        }
+
+        [TestCase(6, 0)]
+        public void LintingFilesWithIgnoreListTest(int expectedFileCount, int expectedExitCode)
+        {
+            var passed = false;
+            void OutputHandler(object sender, DataReceivedEventArgs args)
+            {
+                if (args.Data != null && args.Data.Contains($"Linted {expectedFileCount} files"))
+                {
+                    passed = true;
+                }
+            }
+
+            void ErrorHandler(object sender, DataReceivedEventArgs args) { }
+
+            void ExitHandler(object sender, EventArgs args)
+            {
+                var processExitCode = ((Process)sender).ExitCode;
+                Assert.AreEqual(expectedExitCode, processExitCode, $"Exit code should be {expectedExitCode}");
+            }
+
+            var directoryPath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/TestFiles"));
+            var configFilePath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintrc"));
+            var ignoreListFilePath = Path.GetFullPath(Path.Combine(testDirectoryPath, @"FunctionalTests/.tsqllintignore"));
+
+            var process = ConsoleAppTestHelper.GetProcess($"-c {configFilePath} -g {ignoreListFilePath} {directoryPath}", OutputHandler, ErrorHandler, ExitHandler);
+            ConsoleAppTestHelper.RunApplication(process);
+
+            Assert.IsTrue(passed);
         }
     }
 }

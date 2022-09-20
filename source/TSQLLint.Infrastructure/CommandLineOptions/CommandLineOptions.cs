@@ -23,6 +23,13 @@ namespace TSQLLint.Infrastructure.CommandLineOptions
         public string ConfigFile { get; set; }
 
         [Option(
+            'g',
+             longName: "ignorelist",
+             Required = false,
+             HelpText = "Used to specify a .tsqllintignore file path other than the default")]
+        public string IgnoreListFile { get; set; }
+
+        [Option(
             'f',
             longName: "force",
             Required = false,

@@ -42,7 +42,7 @@
     <Content Include="UnitTests\**\*.sql;UnitTests\**\*.dll;UnitTests\**\*.tsqllintrc*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FunctionalTests\**\*.sql;FunctionalTests\**\*.dll;FunctionalTests\**\*.tsqllintrc*">
+    <Content Include="FunctionalTests\**\*.sql;FunctionalTests\**\*.dll;FunctionalTests\**\*.tsqllintrc*;FunctionalTests\**\*.tsqllintignore*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
