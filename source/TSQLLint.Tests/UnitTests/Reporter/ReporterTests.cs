@@ -30,7 +30,7 @@ namespace TSQLLint.Tests.UnitTests.Reporter
             reporter.Received().Report("foo.sql(1,2): error rule name : rule text.");
             reporter.Received().Report("foo.sql(1,3): warning rule name : rule text.");
             reporter.DidNotReceive().Report("foo.sql(1,3): off rule name : rule text.");
-            reporter.Received().Report("\nLinted 1 files in 3661 seconds\n\n2 Errors.\n1 Warnings");
+            reporter.Received().Report("\nLinted 1 files in 3661 seconds\n\n2 Errors.\n1 Warnings.");
         }
     }
 }
