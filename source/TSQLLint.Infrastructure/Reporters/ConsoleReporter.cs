@@ -32,7 +32,7 @@ namespace TSQLLint.Infrastructure.Reporters
 
         public void ReportResults(TimeSpan timespan, int fileCount)
         {
-            var text = $"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings";
+            var text = $"\nLinted {fileCount} files in {timespan.TotalSeconds} seconds\n\n{errorCount} Errors.\n{warningCount} Warnings.";
             if (FixedCount > 0)
             {
                 text += $"\n{FixedCount} Fixed";
