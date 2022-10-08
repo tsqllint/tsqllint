@@ -77,7 +77,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList, globPatternMatcher);
-            globPatternMatcher.GetResultsInFullPath(@"c:\dbscripts").Returns(new[] { filePath1, filePath3, filePath4 });
+            globPatternMatcher.GetResultsInFullPath(TestHelper.GetTestFilePath(@"c:\dbscripts")).Returns(new[] { filePath1, filePath3, filePath4 });
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts"));
@@ -121,7 +121,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList, globPatternMatcher);
-            globPatternMatcher.GetResultsInFullPath(@"c:\dbscripts").Returns(new[] { filePath1, filePath2, filePath3, filePath4 });
+            globPatternMatcher.GetResultsInFullPath(TestHelper.GetTestFilePath(@"c:\dbscripts")).Returns(new[] { filePath1, filePath2, filePath3, filePath4 });
 
             // act
             processor.ProcessPath(TestHelper.GetTestFilePath(@"c:\dbscripts"));
@@ -422,8 +422,8 @@ namespace TSQLLint.Tests.UnitTests.Parser
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList, globPatternMatcher);
-            globPatternMatcher.GetResultsInFullPath(@"c:\dbscripts\db1\").Returns(new[] { filePath2 });
-            globPatternMatcher.GetResultsInFullPath(@"c:\dbscripts\db2\sproc").Returns(new[] { filePath4 });
+            globPatternMatcher.GetResultsInFullPath(TestHelper.GetTestFilePath(@"c:\dbscripts\db1\")).Returns(new[] { filePath2 });
+            globPatternMatcher.GetResultsInFullPath(TestHelper.GetTestFilePath(@"c:\dbscripts\db2\sproc")).Returns(new[] { filePath4 });
 
             var f1 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\sproc");
             var f2 = TestHelper.GetTestFilePath(@"c:\dbscripts\db2\file3.sql");
@@ -469,7 +469,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             });
 
             var processor = new SqlFileProcessor(ruleVisitor, pluginHandler, reporter, fileSystem, ruleList, globPatternMatcher);
-            globPatternMatcher.GetResultsInFullPath(@"c:\dbscripts\db1\").Returns(new[] { filePath1, filePath2 });
+            globPatternMatcher.GetResultsInFullPath(TestHelper.GetTestFilePath(@"c:\dbscripts\db1\")).Returns(new[] { filePath1, filePath2 });
 
             // act
             processor.ProcessList(new List<string> { invalidFilePath, TestHelper.GetTestFilePath(@"c:\dbscripts\db1\") });
