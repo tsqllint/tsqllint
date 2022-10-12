@@ -27,17 +27,21 @@ namespace TSQLLint.Infrastructure.Parser
 
         private readonly ConcurrentDictionary<string, Stream> fileStreams = new();
 
+        private readonly IGlobPatternMatcher matcher;
+
         public SqlFileProcessor(
             IRuleVisitor ruleVisitor,
             IPluginHandler pluginHandler,
             IReporter reporter,
             IFileSystem fileSystem,
-            IDictionary<string, Type> rules)
+            IDictionary<string, Type> rules,
+            IGlobPatternMatcher matcher)
         {
             this.ruleVisitor = ruleVisitor;
             this.pluginHandler = pluginHandler;
             this.reporter = reporter;
             this.fileSystem = fileSystem;
+            this.matcher = matcher;
             ruleExceptionFinder = new RuleExceptionFinder(rules);
         }
 
@@ -110,7 +114,7 @@ namespace TSQLLint.Infrastructure.Parser
         {
             var fileStream = GetFileContents(filePath);
             AddToProcessing(filePath, fileStream);
-            
+
             Interlocked.Increment(ref _fileCount);
         }
 
@@ -121,7 +125,7 @@ namespace TSQLLint.Infrastructure.Parser
             {
                 return false;
             }
-            
+
             var lineOneRuleIgnores = ignoredRulesEnum.OfType<GlobalRuleException>().Where(x => 1 == x.StartLine).ToArray();
             if (!lineOneRuleIgnores.Any())
             {
@@ -159,16 +163,9 @@ namespace TSQLLint.Infrastructure.Parser
 
         private void ProcessDirectory(string path)
         {
-            var subDirectories = fileSystem.Directory.GetDirectories(path);
-            Parallel.ForEach(subDirectories, (filePath) =>
+            Parallel.ForEach(matcher.GetResultsInFullPath(path), (file) =>
             {
-                processPath(filePath);
-            });
-            
-            var fileEntries = fileSystem.Directory.GetFiles(path);
-            Parallel.ForEach(fileEntries, (file) =>
-            {
-                ProcessIfSqlFile(file);
+                processPath(file);
             });
         }
 

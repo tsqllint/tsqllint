@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
+using Microsoft.Extensions.FileSystemGlobbing;
 using TSQLLint.Common;
 using TSQLLint.Core.DTO;
 using TSQLLint.Core.Interfaces;
@@ -22,6 +23,7 @@ namespace TSQLLint
         private readonly IConfigReader configReader;
         private readonly IConsoleReporter reporter;
         private readonly IConsoleTimer timer;
+        private readonly IIgnoreListReader ignoreListReader;
 
         private IPluginHandler pluginHandler;
         private ISqlFileProcessor fileProcessor;
@@ -34,6 +36,7 @@ namespace TSQLLint
             this.reporter = reporter;
             commandLineOptions = new CommandLineOptions(args);
             configReader = new ConfigReader(reporter);
+            ignoreListReader = new IgnoreListReader(reporter);
             commandLineOptionHandler = new CommandLineOptionHandler(
                 new ConfigFileGenerator(),
                 configReader,
@@ -44,6 +47,7 @@ namespace TSQLLint
         public void Run()
         {
             configReader.LoadConfig(commandLineOptions.ConfigFile);
+            ignoreListReader.LoadIgnoreList(commandLineOptions.IgnoreListFile);
 
             var response = commandLineOptionHandler.Handle(new CommandLineRequestMessage(commandLineOptions));
 
@@ -53,6 +57,9 @@ namespace TSQLLint
                 List<IRuleViolation> violitions = null;
                 List<IRuleViolation> previousViolations = null;
                 const int maxPasses = 10;
+                var matcher = new Matcher();
+                matcher.AddInclude("**/*.sql").AddExcludePatterns(ignoreListReader.IgnoreList);
+                var globPatternMatcher = new GlobPatternMatcher(matcher);
                 var passCount = 0;
 
                 do
@@ -64,7 +71,7 @@ namespace TSQLLint
                     pluginHandler = new PluginHandler(reporter, rules);
                     pluginHandler.ProcessPaths(configReader.GetPlugins());
                     fileProcessor = new SqlFileProcessor(
-                        ruleVisitor, pluginHandler, reporter, new FileSystem(), rules.ToDictionary(x => x.Key, x => x.Value.GetType()));
+                        ruleVisitor, pluginHandler, reporter, new FileSystem(), rules.ToDictionary(x => x.Key, x => x.Value.GetType()), globPatternMatcher);
 
                     passCount++;
                     previousViolations = violitions;

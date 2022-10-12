@@ -1,0 +1,6 @@
+invalid-syntax.sql
+with-errors.sql
+with-fixable-errors.sql
+with-fixable-errors*.sql
+IgnoreFolder1/*.sql
+IgnoreFolder2/**/*.sql
