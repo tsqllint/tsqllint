@@ -39,9 +39,24 @@ BEGIN;
 END;
 GO;
 
+CREATE FUNCTION dbo.SelectReturnTypeFunction ()
+RETURNS TABLE
+AS
+RETURN
+(
+	WITH cte AS
+	(
+		SELECT c1, c2 FROM t1
+	)
+
+	SELECT c1, c2 FROM cte -- should not trigger an error
+);
+GO;
+
 DROP VIEW dbo.PartitionedView;
 DROP VIEW dbo.TestView;
 DROP FUNCTION dbo.GetId;
 DROP TABLE t1;
 DROP TABLE t2;
+DROP FUNCTION IF EXISTS dbo.SelectReturnTypeFunction;
 GO;

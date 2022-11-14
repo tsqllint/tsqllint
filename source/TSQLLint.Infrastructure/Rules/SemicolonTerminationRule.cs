@@ -12,6 +12,7 @@ namespace TSQLLint.Infrastructure.Rules
     public class SemicolonTerminationRule : BaseRuleVisitor, ISqlRule
     {
         private readonly IList<TSqlFragment> waitForStatements = new List<TSqlFragment>();
+        private readonly IList<TSqlFragment> functionReturnTypeSelectStatements = new List<TSqlFragment>();
         private static Regex WhiteSpaceRegex = new Regex(@"\s", RegexOptions.Compiled);
         private static Regex AllWhiteSpaceRegex = new Regex(@"^\s$", RegexOptions.Compiled);
 
@@ -41,11 +42,20 @@ namespace TSQLLint.Infrastructure.Rules
             waitForStatements.Add(node.Statement);
         }
 
+        public override void Visit(CreateFunctionStatement node)
+        {
+            if (node.ReturnType is SelectFunctionReturnType returnType)
+            {
+                functionReturnTypeSelectStatements.Add(returnType.SelectStatement);
+            }
+        }
+
         public override void Visit(TSqlStatement node)
         {
             if (Array.IndexOf(typesToSkip, node.GetType()) > -1 ||
                 EndsWithSemicolon(node) ||
-                waitForStatements.Contains(node))
+                waitForStatements.Contains(node) ||
+                functionReturnTypeSelectStatements.Contains(node))
             {
                 return;
             }
