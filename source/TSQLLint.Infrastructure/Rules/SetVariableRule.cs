@@ -25,7 +25,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(SetVariableStatement node)
         {
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+            errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
         }
 
         public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
@@ -39,13 +39,6 @@ namespace TSQLLint.Infrastructure.Rules
                 var isStartOfLine = regex.ValueSpan.Length <= SET_LENGTH + 1;
                 actions.RepaceInlineAt(lineIndex, isStartOfLine ? regex.Index : regex.Index + 1, SELECT, SET_LENGTH);
             }
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
         }
     }
 }

@@ -10,8 +10,6 @@ namespace TSQLLint.Infrastructure.Rules
     {
         private readonly List<TSqlFragment> errorsReported = new List<TSqlFragment>();
 
-        private bool multiClauseQuery;
-
         public NonSargableRule(Action<string, string, int, int> errorCallback)
             : base(errorCallback)
         {
@@ -35,7 +33,7 @@ namespace TSQLLint.Infrastructure.Rules
         {
             var predicateExpressionVisitor = new PredicateVisitor();
             node.Accept(predicateExpressionVisitor);
-            multiClauseQuery = predicateExpressionVisitor.PredicatesFound;
+            var multiClauseQuery = predicateExpressionVisitor.PredicatesFound;
 
             var childVisitor = new FunctionVisitor(VisitorCallback, multiClauseQuery);
             node.Accept(childVisitor);
@@ -48,12 +46,10 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            var dynamicSqlColumnAdjustment = childNode.StartLine == DynamicSqlStartLine
-                ? DynamicSqlStartColumn
-                : 0;
+            var dynamicSqlColumnAdjustment = GetDynamicSqlColumnOffset(childNode);
 
             errorsReported.Add(childNode);
-            errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode) + dynamicSqlColumnAdjustment);
+            errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(childNode), ColumnNumberCalculator.GetNodeColumnPosition(childNode) + dynamicSqlColumnAdjustment);
         }
 
         private class JoinQueryVisitor : TSqlFragmentVisitor

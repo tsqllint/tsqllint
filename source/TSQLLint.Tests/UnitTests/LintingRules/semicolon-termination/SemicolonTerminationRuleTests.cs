@@ -23,7 +23,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
           {
               "semicolon-termination-one-error", new List<RuleViolation>
               {
-                  new RuleViolation(RuleName, 1, 18)
+                  new (RuleName, 1, 18)
               }
           },
           new object[]
@@ -34,29 +34,29 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
           {
               "semicolon-termination-multiple-errors-with-tab", new List<RuleViolation>
               {
-                  new RuleViolation(RuleName, 2, 24),
-                  new RuleViolation(RuleName, 3, 28),
-                  new RuleViolation(RuleName, 4, 36)
+                  new (RuleName, 2, 24),
+                  new (RuleName, 3, 28),
+                  new (RuleName, 4, 36)
               }
           },
           new object[]
           {
               "semicolon-termination-multiple-errors", new List<RuleViolation>
               {
-                  new RuleViolation(RuleName, 1, 20),
-                  new RuleViolation(RuleName, 4, 13),
-                  new RuleViolation(RuleName, 8, 10),
-                  new RuleViolation(RuleName, 12, 47),
-                  new RuleViolation(RuleName, 14, 29),
-                  new RuleViolation(RuleName, 19, 47),
-                  new RuleViolation(RuleName, 29, 36)
+                  new (RuleName, 1, 20),
+                  new (RuleName, 4, 13),
+                  new (RuleName, 8, 10),
+                  new (RuleName, 12, 47),
+                  new (RuleName, 14, 29),
+                  new (RuleName, 19, 47),
+                  new (RuleName, 29, 36)
               }
           },
           new object[]
           {
               "semicolon-termination-one-error-mixed-state", new List<RuleViolation>
               {
-                  new RuleViolation(RuleName, 1, 20)
+                  new (RuleName, 1, 20)
               }
           },
           new object[]
@@ -67,15 +67,15 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
           {
               "semicolon-termination-one-error-create-view", new List<RuleViolation>()
               {
-                  new RuleViolation(RuleName, 3, 25)
+                  new (RuleName, 3, 25)
               }
           },
           new object[]
           {
               "semicolon-termination-multiple-inline-errors", new List<RuleViolation>()
               {
-                  new RuleViolation(RuleName, 1, 9),
-                  new RuleViolation(RuleName, 1, 18)
+                  new (RuleName, 1, 9),
+                  new (RuleName, 1, 18)
               }
           }
         };
@@ -87,7 +87,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 @"EXEC('SELECT 1');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation("semicolon-termination", 1, 15),
+                    new ("semicolon-termination", 1, 15),
                 }
             },
             new object[]
@@ -95,7 +95,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 @"EXECUTE('SELECT 1');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation("semicolon-termination", 1, 18),
+                    new ("semicolon-termination", 1, 18),
                 }
             },
             new object[]
@@ -103,8 +103,8 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 @"EXECUTE('SELECT 1')", // inner and outer statements missing semicolon
                 new List<RuleViolation>
                 {
-                    new RuleViolation("semicolon-termination", 1, 18),
-                    new RuleViolation("semicolon-termination", 1, 20),
+                    new (RuleName, 1, 18),
+                    new (RuleName, 1, 20),
                 }
             },
             new object[]
@@ -113,9 +113,30 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     SELECT 1');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation("semicolon-termination", 2, 29),
+                    new (RuleName, 2, 29),
                 }
             },
+            new object[]
+            {
+                @"DECLARE @Sql NVARCHAR(400);
+                    SET @Sql = 'CREATE PROCEDURE dbo.test AS BEGIN RETURN 0; END';
+                    EXEC (@Sql);",
+                new List<RuleViolation>
+                {
+                    new (RuleName, 2, 81)
+                }
+            },
+            new object[]
+            {
+                @"DECLARE @Sql NVARCHAR(400);
+                    SELECT @Sql = 'CREATE PROCEDURE dbo.test AS BEGIN RETURN 0 END';
+                    EXEC (@Sql);",
+                new List<RuleViolation>
+                {
+                    new (RuleName, 2, 79),
+                    new (RuleName, 2, 83)
+                }
+            }
         };
 
         [TestCaseSource(nameof(TestCases))]
@@ -125,9 +146,9 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         }
 
         [TestCaseSource(nameof(DynamicSqlTestCases))]
-        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedViolations)
         {
-            RulesTestHelper.RunDynamicSQLRulesTest(typeof(SemicolonTerminationRule), sql, expectedVioalations);
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(SemicolonTerminationRule), sql, expectedViolations);
         }
 
         [TestCaseSource(nameof(TestCases))]

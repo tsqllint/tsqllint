@@ -1,6 +1,6 @@
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using System;
 using System.Collections.Generic;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace TSQLLint.Infrastructure.Parser
 {
@@ -8,7 +8,7 @@ namespace TSQLLint.Infrastructure.Parser
     {
         private readonly Action<string, int, int> callback;
         private string executableSql = string.Empty;
-        private Dictionary<string, string> VariableValues = new Dictionary<string, string>();
+        private Dictionary<string, VariableVisitor.VariableRef> VariableValues = new ();
 
         private int DynamicSQLStartingLine { get; set; }
         
@@ -62,10 +62,11 @@ namespace TSQLLint.Infrastructure.Parser
                 return;
             }
 
-            executableSql += value;
+            executableSql += value.Value;
+
             if (counter == executableCount)
             {
-                callback(executableSql, DynamicSQLStartingLine, DynamicSQLStartingColumn);
+                callback(executableSql, value.StartLine, value.StartColumn);
             }
         }
 
@@ -81,26 +82,31 @@ namespace TSQLLint.Infrastructure.Parser
 
     public class VariableVisitor : TSqlFragmentVisitor
     {
-        public VariableVisitor()
+        public Dictionary<string, VariableRef> VariableValues { get; } = new ();
+
+        public override void Visit(SelectSetVariable node)
         {
-            VariableValues = new Dictionary<string, string>();
+            HandleExpression(node.Variable.Name, node.Expression);
         }
 
-        public Dictionary<string, string> VariableValues { get; }
-        
         public override void Visit(SetVariableStatement node)
         {
-            if (node.Expression is StringLiteral strLiteral)
+            HandleExpression(node.Variable.Name, node.Expression);
+        }
+
+        private void HandleExpression(string name, ScalarExpression expression)
+        {
+            switch (expression)
             {
-                VariableValues[node.Variable.Name] = strLiteral.Value;
-            }
-            else if (node.Expression is IntegerLiteral intLiteral)
-            {
-                VariableValues[node.Variable.Name] = intLiteral.Value;
-            }
-            else if (node.Expression is BinaryExpression binaryExpression)
-            {
-                HandleBinaryExpression(node.Variable.Name, binaryExpression);
+                case StringLiteral strLiteral:
+                    VariableValues[name] = new VariableRef(strLiteral);
+                    break;
+                case IntegerLiteral intLiteral:
+                    VariableValues[name] = new VariableRef(intLiteral);
+                    break;
+                case BinaryExpression binaryExpression:
+                    HandleBinaryExpression(name, binaryExpression);
+                    break;
             }
         }
 
@@ -114,8 +120,35 @@ namespace TSQLLint.Infrastructure.Parser
             if (expression.FirstExpression is StringLiteral first
                 && expression.SecondExpression is StringLiteral second)
             {
-                VariableValues[name] = first.Value + second.Value;
+                VariableValues[name] = new VariableRef(first)
+                {
+                    Value = first.Value + second.Value
+                };
             }
+        }
+
+        public struct VariableRef
+        {
+            public VariableRef(StringLiteral stringLiteral)
+                : this((Literal)stringLiteral)
+            {
+            }
+
+            public VariableRef(IntegerLiteral integerLiteral)
+                : this((Literal)integerLiteral)
+            {
+            }
+
+            private VariableRef(Literal literal)
+            {
+                StartColumn = literal.StartColumn;
+                StartLine = literal.StartLine;
+                Value = literal.Value;
+            }
+
+            public int StartColumn { get; set; }
+            public int StartLine { get; set; }
+            public string Value { get; set; }
         }
     }
 }

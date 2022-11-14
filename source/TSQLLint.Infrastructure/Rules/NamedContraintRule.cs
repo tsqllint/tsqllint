@@ -5,9 +5,9 @@ using TSQLLint.Infrastructure.Rules.Common;
 
 namespace TSQLLint.Infrastructure.Rules
 {
-    public class NamedContraintRule : BaseRuleVisitor, ISqlRule
+    public class NamedConstraintRule : BaseRuleVisitor, ISqlRule
     {
-        public NamedContraintRule(Action<string, string, int, int> errorCallback)
+        public NamedConstraintRule(Action<string, string, int, int> errorCallback)
             : base(errorCallback)
         {
         }
@@ -29,7 +29,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (constraintVisitor.NamedConstraintExists)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+                errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
             }
         }
 
@@ -50,13 +50,6 @@ namespace TSQLLint.Infrastructure.Rules
 
                 NamedConstraintExists = node.ConstraintIdentifier != null;
             }
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
         }
     }
 }

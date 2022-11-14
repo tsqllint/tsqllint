@@ -22,15 +22,8 @@ namespace TSQLLint.Infrastructure.Rules
             node.Accept(visitor);
             if (visitor.QueryExpressionUpperLowerFunctionFound)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+                errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
             }
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
         }
 
         public class ChildQueryComparisonVisitor : TSqlFragmentVisitor

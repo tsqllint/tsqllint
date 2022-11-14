@@ -19,37 +19,37 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             {
                 "conditional-begin-end-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 1)
+                    new (RuleName, 1, 1)
                 }
             },
             new object[]
             {
                 "conditional-begin-end-two-errors", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 1),
-                    new RuleViolation(RuleName, 4, 1)
+                    new (RuleName, 1, 1),
+                    new (RuleName, 4, 1)
                 }
             },
             new object[]
             {
                 "conditional-begin-end-multi-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 6, 1),
-                    new RuleViolation(RuleName, 14, 5)
+                    new (RuleName, 6, 1),
+                    new (RuleName, 14, 5)
                 }
             },
             new object[]
             {
                 "conditional-else-begin-end-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 6, 5)
+                    new (RuleName, 6, 5)
                 }
             },
             new object[]
             {
                 "conditional-if-else-begin-end-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 1),
+                    new (RuleName, 1, 1),
                 }
             },
             new object[]
@@ -60,10 +60,10 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             {
                 "conditional-begin-end-if-else-inline-errors", new List<RuleViolation>()
                 {
-                    new RuleViolation(RuleName, 1, 1),
-                    new RuleViolation(RuleName, 2, 6),
-                    new RuleViolation(RuleName, 3, 6),
-                    new RuleViolation(RuleName, 4, 6)
+                    new (RuleName, 1, 1),
+                    new (RuleName, 2, 6),
+                    new (RuleName, 3, 6),
+                    new (RuleName, 4, 6)
                 }
             }
         };
@@ -76,7 +76,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                             SELECT 1;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 7),
+                    new (RuleName, 1, 7),
                 }
             },
             new object[]
@@ -85,7 +85,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                                 SELECT 1;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 11),
+                    new (RuleName, 1, 11),
                 }
             },
             new object[]
@@ -95,7 +95,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                         SELECT 2;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 2, 21),
+                    new (RuleName, 2, 21),
                 }
             },
             new object[]
@@ -104,7 +104,18 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                         SELECT 2;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 17),
+                    new (RuleName, 1, 17),
+                }
+            },
+            new object[]
+            {
+                @"DECLARE @Sql NVARCHAR(400);
+                    SELECT @Sql = 'IF(1 = 1)
+                                       SELECT 1;';
+                    EXEC (@Sql);",
+                new List<RuleViolation>
+                {
+                    new (RuleName, 2, 36),
                 }
             }
         };
@@ -116,9 +127,9 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         }
 
         [TestCaseSource(nameof(DynamicSqlTestCases))]
-        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedViolations)
         {
-            RulesTestHelper.RunDynamicSQLRulesTest(typeof(ConditionalBeginEndRule), sql, expectedVioalations);
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(ConditionalBeginEndRule), sql, expectedViolations);
         }
 
         [TestCaseSource(nameof(TestCases))]

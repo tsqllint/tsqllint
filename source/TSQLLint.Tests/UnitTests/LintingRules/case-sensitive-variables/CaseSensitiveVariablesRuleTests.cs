@@ -19,25 +19,25 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             {
                 "case-sensitive-variables-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 5, 8)
+                    new (RuleName, 5, 8)
                 }
             },
             new object[]
             {
                 "case-sensitive-variables-two-errors", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 4, 8),
-                    new RuleViolation(RuleName, 5, 8)
+                    new (RuleName, 4, 8),
+                    new (RuleName, 5, 8)
                 }
             },
             new object[]
             {
                 "case-sensitive-variables-multi-error", new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 4, 8),
-                    new RuleViolation(RuleName, 5, 8),
-                    new RuleViolation(RuleName, 7, 8),
-                    new RuleViolation(RuleName, 8, 8)
+                    new (RuleName, 4, 8),
+                    new (RuleName, 5, 8),
+                    new (RuleName, 7, 8),
+                    new (RuleName, 8, 8)
                 }
             }
         };
@@ -56,7 +56,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     SELECT @variableName = 1;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 2, 28),
+                    new (RuleName, 2, 28),
                 }
             },
             new object[]
@@ -65,7 +65,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     SELECT @variableName = 1;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 2, 28),
+                    new (RuleName, 2, 28),
                 }
             },
             new object[]
@@ -77,7 +77,7 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 SELECT @someOtherVariable = 1;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 5, 24),
+                    new (RuleName, 5, 24),
                 }
             },
             new object[]
@@ -87,7 +87,19 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 SELECT @VariableName = 1; SELECT @someOtherVariable = 1;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 3, 50),
+                    new (RuleName, 3, 50),
+                }
+            },
+            new object[]
+            {
+                @"DECLARE @Sql NVARCHAR(400);
+                    SELECT @Sql = 'DECLARE @VariableName INT;
+                       SELECT @variableName = 1;';
+
+                    EXEC (@Sql);",
+                new List<RuleViolation>
+                {
+                    new (RuleName, 3, 31),
                 }
             }
         };
@@ -99,9 +111,9 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         }
 
         [TestCaseSource(nameof(DynamicSqlTestCases))]
-        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedViolations)
         {
-            RulesTestHelper.RunDynamicSQLRulesTest(typeof(CaseSensitiveVariablesRule), sql, expectedVioalations);
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(CaseSensitiveVariablesRule), sql, expectedViolations);
         }
     }
 }
