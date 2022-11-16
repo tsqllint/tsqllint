@@ -8,7 +8,7 @@ namespace TSQLLint.Infrastructure.Rules
 {
     public class NonSargableRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly List<TSqlFragment> errorsReported = new List<TSqlFragment>();
+        private readonly List<TSqlFragment> errorsReported = new();
 
         public NonSargableRule(Action<string, string, int, int> errorCallback)
             : base(errorCallback)
@@ -84,6 +84,7 @@ namespace TSQLLint.Infrastructure.Rules
         {
             private readonly bool isMultiClause;
             private readonly Action<TSqlFragment> childCallback;
+            private bool hasColumnReferenceParameter;
 
             public FunctionVisitor(Action<TSqlFragment> errorCallback, bool isMultiClause)
             {
@@ -93,10 +94,20 @@ namespace TSQLLint.Infrastructure.Rules
 
             public override void Visit(FunctionCall node)
             {
-                // allow isnull predicates provided other filters exist
-                if (node.FunctionName.Value == "ISNULL" && isMultiClause)
+                switch (node.FunctionName.Value.ToUpper())
                 {
-                    return;
+                    // allow isnull predicates provided other filters exist
+                    case "ISNULL" when isMultiClause:
+                        return;
+                    case "DATEADD":
+                    case "DATEDIFF":
+                    case "DATEDIFF_BIG":
+                    case "DATENAME":
+                    case "DATEPART":
+                    case "DATETRUNC":
+                    case "DATE_BUCKET":
+                        hasColumnReferenceParameter = true;
+                        break;
                 }
 
                 FindColumnReferences(node);
@@ -127,7 +138,7 @@ namespace TSQLLint.Infrastructure.Rules
                 var columnReferenceVisitor = new ColumnReferenceVisitor();
                 node.AcceptChildren(columnReferenceVisitor);
 
-                if (columnReferenceVisitor.ColumnReferenceFound)
+                if (columnReferenceVisitor.ColumnReferenceFound && (!hasColumnReferenceParameter || columnReferenceVisitor.ColumnReferenceCount > 1))
                 {
                     childCallback(node);
                 }
@@ -138,8 +149,11 @@ namespace TSQLLint.Infrastructure.Rules
         {
             public bool ColumnReferenceFound { get; private set; }
 
+            public int ColumnReferenceCount { get; private set; }
+
             public override void Visit(ColumnReferenceExpression node)
             {
+                ColumnReferenceCount++;
                 ColumnReferenceFound = true;
             }
         }
