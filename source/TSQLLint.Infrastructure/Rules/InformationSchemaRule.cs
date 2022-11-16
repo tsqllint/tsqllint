@@ -25,7 +25,7 @@ namespace TSQLLint.Infrastructure.Rules
 
             if (schemaIdentifier && node.SchemaIdentifier.Value.Equals("INFORMATION_SCHEMA", StringComparison.InvariantCultureIgnoreCase))
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+                errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
             }
         }
 
@@ -196,13 +196,6 @@ namespace TSQLLint.Infrastructure.Rules
                     UpdateWhere(actions, fromClause, whereClause, newWhere);
                 }
             }
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
         }
     }
 }

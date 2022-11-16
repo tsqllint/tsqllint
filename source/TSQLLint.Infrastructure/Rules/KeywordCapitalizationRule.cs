@@ -37,13 +37,13 @@ namespace TSQLLint.Infrastructure.Rules
                     continue;
                 }
 
-                var dynamicSQLAdjustment = AdjustColumnForDymamicSQL(token);
+                var dynamicSQLAdjustment = GetDynamicSqlColumnOffset(token);
 
                 // get a count of all tabs on the line that occur prior to the last token in this node
                 var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(token.Line, index, node.ScriptTokenStream);
                 var column = ColumnNumberCalculator.GetColumnNumberBeforeToken(tabsOnLine, token);
 
-                errorCallback(RULE_NAME, RULE_TEXT, token.Line, column + dynamicSQLAdjustment);
+                errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(token), column + dynamicSQLAdjustment);
             }
         }
 
@@ -60,13 +60,6 @@ namespace TSQLLint.Infrastructure.Rules
 
                 actions.RepaceInlineAt(lineIndex, startCharIndex, errorWord.ToUpper());
             }
-        }
-
-        private int AdjustColumnForDymamicSQL(TSqlParserToken node)
-        {
-            return node.Line == DynamicSqlStartLine
-                ? DynamicSqlStartColumn
-                : 0;
         }
 
         private static bool IsUpperCase(string input)

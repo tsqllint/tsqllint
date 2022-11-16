@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
@@ -20,22 +19,22 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             {
                 "select-star-one-error", new List<RuleViolation>
                 {
-                    new RuleViolation("select-star", 1, 8)
+                    new (RuleName, 1, 8)
                 }
             },
             new object[]
             {
                 "select-star-two-errors", new List<RuleViolation>
                 {
-                    new RuleViolation("select-star", 1, 8),
-                    new RuleViolation("select-star", 3, 14)
+                    new (RuleName, 1, 8),
+                    new (RuleName, 3, 14)
                 }
             },
             new object[]
             {
                 "select-star-one-error-mixed-state", new List<RuleViolation>
                 {
-                    new RuleViolation("select-star", 3, 12)
+                    new (RuleName, 3, 12)
                 }
             }
         };
@@ -47,7 +46,27 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 @"EXEC('SELECT * FROM FOO;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 1, 14),
+                    new (RuleName, 1, 14),
+                }
+            },
+            new object[]
+            {
+                @"SELECT [Name] FROM dbo.MyTable;
+                  EXEC(
+                    'SELECT * FROM FOO;');",
+                new List<RuleViolation>
+                {
+                    new (RuleName, 3, 29),
+                }
+            },
+            new object[]
+            {
+                @"SELECT [Name] FROM dbo.MyTable;
+                  EXEC('
+                    SELECT * FROM FOO;');",
+                new List<RuleViolation>
+                {
+                    new (RuleName, 3, 28),
                 }
             },
             new object[]
@@ -56,7 +75,17 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     SELECT * FROM FOO;');",
                 new List<RuleViolation>
                 {
-                    new RuleViolation(RuleName, 2, 28),
+                    new (RuleName, 2, 28),
+                }
+            },
+            new object[]
+            {
+                @"DECLARE @Sql NVARCHAR(400);
+                    SET @Sql = 'SELECT * FROM dbo.MyTable;';
+                    EXEC (@Sql);",
+                new List<RuleViolation>
+                {
+                    new (RuleName, 2, 40),
                 }
             }
         };
@@ -68,9 +97,9 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         }
 
         [TestCaseSource(nameof(DynamicSqlTestCases))]
-        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedViolations)
         {
-            RulesTestHelper.RunDynamicSQLRulesTest(typeof(SelectStarRule), sql, expectedVioalations);
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(SelectStarRule), sql, expectedViolations);
         }
     }
 }

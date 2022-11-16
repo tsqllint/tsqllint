@@ -30,7 +30,7 @@ namespace TSQLLint.Infrastructure.Rules
                 param.Accept(paramVisitor);
                 if (paramVisitor.IsWildcard)
                 {
-                    errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+                    errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
                 }
             }
         }
@@ -66,13 +66,6 @@ namespace TSQLLint.Infrastructure.Rules
                 IsWildcard = node.ColumnType.Equals(ColumnType.Wildcard);
                 Expression = node;
             }
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
         }
     }
 }

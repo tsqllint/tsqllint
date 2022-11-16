@@ -31,8 +31,8 @@ namespace TSQLLint.Infrastructure.Rules
                     errorCallback(
                         RULE_NAME,
                         RULE_TEXT,
-                        transaction.Begin.StartLine,
-                        GetColumnNumber(transaction));
+                        GetLineNumber(transaction.Begin),
+                        GetColumnNumber(transaction.Begin));
                 }
             }
         }
@@ -124,13 +124,6 @@ namespace TSQLLint.Infrastructure.Rules
                     DatabasesUpdated.Add(node.SchemaObject.DatabaseIdentifier.Value);
                 }
             }
-        }
-
-        private int GetColumnNumber(TrackedTransaction transaction)
-        {
-            return transaction.Begin.StartLine == DynamicSqlStartLine
-                ? transaction.Begin.StartColumn + DynamicSqlStartColumn
-                : transaction.Begin.StartColumn;
         }
     }
 }
