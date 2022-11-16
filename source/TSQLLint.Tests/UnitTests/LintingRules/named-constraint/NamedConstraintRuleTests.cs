@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TSQLLint.Infrastructure.Rules;
@@ -64,13 +63,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
         [TestCaseSource(nameof(TestCases))]
         public void TestRule(string testFileName, List<RuleViolation> expectedRuleViolations)
         {
-            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(NamedContraintRule), expectedRuleViolations);
+            RulesTestHelper.RunRulesTest(RuleName, testFileName, typeof(NamedConstraintRule), expectedRuleViolations);
         }
 
         [TestCaseSource(nameof(DynamicSqlTestCases))]
-        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedVioalations)
+        public void TestRuleWithDynamicSql(string sql, List<RuleViolation> expectedViolations)
         {
-            RulesTestHelper.RunDynamicSQLRulesTest(typeof(NamedContraintRule), sql, expectedVioalations);
+            RulesTestHelper.RunDynamicSQLRulesTest(typeof(NamedConstraintRule), sql, expectedViolations);
         }
     }
 }

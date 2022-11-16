@@ -29,7 +29,7 @@ namespace TSQLLint.Infrastructure.Parser
             { "keyword-capitalization", typeof(KeywordCapitalizationRule) },
             { "linked-server", typeof(LinkedServerRule) },
             { "multi-table-alias", typeof(MultiTableAliasRule) },
-            { "named-constraint", typeof(NamedContraintRule) },
+            { "named-constraint", typeof(NamedConstraintRule) },
             { "non-sargable", typeof(NonSargableRule) },
             { "object-property", typeof(ObjectPropertyRule) },
             { "print-statement", typeof(PrintStatementRule) },

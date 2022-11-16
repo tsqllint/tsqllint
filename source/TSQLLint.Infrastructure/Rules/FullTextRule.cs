@@ -18,14 +18,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(FullTextPredicate node)
         {
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
+            errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
         }
     }
 }

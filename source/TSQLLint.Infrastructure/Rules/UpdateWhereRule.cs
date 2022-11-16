@@ -1,5 +1,5 @@
-using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using System;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
@@ -24,14 +24,7 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
+            errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
         }
     }
 }

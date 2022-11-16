@@ -46,12 +46,10 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            var dynamicSqlColumnAdjustment = childNode.StartLine == DynamicSqlStartLine
-                ? DynamicSqlStartColumn
-                : 0;
+            var dynamicSqlColumnAdjustment = GetDynamicSqlColumnOffset(childNode);
 
             errorsReported.Add(childNode);
-            errorCallback(RULE_NAME, RULE_TEXT, childNode.StartLine, ColumnNumberCalculator.GetNodeColumnPosition(childNode) + dynamicSqlColumnAdjustment);
+            errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(childNode), ColumnNumberCalculator.GetNodeColumnPosition(childNode) + dynamicSqlColumnAdjustment);
         }
 
         private class JoinQueryVisitor : TSqlFragmentVisitor

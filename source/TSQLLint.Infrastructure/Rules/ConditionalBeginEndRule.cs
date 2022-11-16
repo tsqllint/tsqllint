@@ -25,12 +25,12 @@ namespace TSQLLint.Infrastructure.Rules
         {
             if (node.ThenStatement is not BeginEndBlockStatement)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.StartLine, GetColumnNumber(node));
+                errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
             }
 
             if (node.ElseStatement != null && node.ElseStatement is not BeginEndBlockStatement && node.ElseStatement is not IfStatement)
             {
-                errorCallback(RULE_NAME, RULE_TEXT, node.ElseStatement.StartLine, GetColumnNumber(node.ElseStatement));
+                errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node.ElseStatement), GetColumnNumber(node.ElseStatement));
             }
         }
 
@@ -71,13 +71,6 @@ namespace TSQLLint.Infrastructure.Rules
                 return FixHelpers.FindViolatingNode<IfStatement, TSqlStatement>(
                     fileLines, ruleViolation, x => x.ElseStatement);
             }
-        }
-
-        private int GetColumnNumber(TSqlFragment node)
-        {
-            return node.StartLine == DynamicSqlStartLine
-                ? node.StartColumn + DynamicSqlStartColumn
-                : node.StartColumn;
         }
     }
 }

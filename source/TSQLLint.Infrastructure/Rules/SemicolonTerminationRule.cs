@@ -16,6 +16,7 @@ namespace TSQLLint.Infrastructure.Rules
         private static Regex WhiteSpaceRegex = new Regex(@"\s", RegexOptions.Compiled);
         private static Regex AllWhiteSpaceRegex = new Regex(@"^\s$", RegexOptions.Compiled);
 
+
         // don't enforce semicolon termination on these statements
         private readonly Type[] typesToSkip =
         {
@@ -60,12 +61,10 @@ namespace TSQLLint.Infrastructure.Rules
                 return;
             }
 
-            var dynamicSqlColumnOffset = node.StartLine == DynamicSqlStartLine
-                ? DynamicSqlStartColumn
-                : 0;
+            var dynamicSqlColumnOffset = GetDynamicSqlColumnOffset(node);
 
             var (lastToken, column) = GetLastTokenAndColumn(node);
-            errorCallback(RULE_NAME, RULE_TEXT, lastToken.Line, column + dynamicSqlColumnOffset);
+            errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(lastToken), column + dynamicSqlColumnOffset);
         }
 
         private static (TSqlParserToken, int) GetLastTokenAndColumn(TSqlStatement node)
