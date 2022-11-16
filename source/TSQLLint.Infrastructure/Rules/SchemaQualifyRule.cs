@@ -8,7 +8,7 @@ namespace TSQLLint.Infrastructure.Rules
 {
     public class SchemaQualifyRule : BaseRuleVisitor, ISqlRule
     {
-        private readonly List<string> tableAliases = new List<string>
+        private readonly List<string> tableAliases = new ()
         {
             "INSERTED",
             "UPDATED",
@@ -33,19 +33,47 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(NamedTableReference node)
         {
-            if (node.SchemaObject.SchemaIdentifier != null)
+            VisitTableName(node.SchemaObject, true);
+        }
+
+        public override void Visit(CreateTableStatement node)
+        {
+            VisitTableName(node.SchemaObjectName, false);
+        }
+
+        public override void Visit(AlterTableStatement node)
+        {
+            VisitTableName(node.SchemaObjectName, false);
+        }
+
+        public override void Visit(TruncateTableStatement node)
+        {
+            VisitTableName(node.TableName, false);
+        }
+
+        public override void Visit(DropTableStatement node)
+        {
+            foreach (var schemaObjectName in node.Objects)
+            {
+                VisitTableName(schemaObjectName, false);
+            }
+        }
+
+        private void VisitTableName(SchemaObjectName node, bool canHaveTableAliases)
+        {
+            if (node.SchemaIdentifier != null)
             {
                 return;
             }
 
             // don't attempt to enforce schema validation on temp tables
-            if (node.SchemaObject.BaseIdentifier.Value.Contains("#"))
+            if (node.BaseIdentifier.Value.Contains('#'))
             {
                 return;
             }
 
             // don't attempt to enforce schema validation on table aliases
-            if (tableAliases.FindIndex(x => x.Equals(node.SchemaObject.BaseIdentifier.Value, StringComparison.OrdinalIgnoreCase)) != -1)
+            if (canHaveTableAliases && tableAliases.Exists(x => x.Equals(node.BaseIdentifier.Value, StringComparison.OrdinalIgnoreCase)))
             {
                 return;
             }
@@ -55,7 +83,7 @@ namespace TSQLLint.Infrastructure.Rules
 
         public class ChildAliasVisitor : TSqlFragmentVisitor
         {
-            public List<string> TableAliases { get; } = new List<string>();
+            public List<string> TableAliases { get; } = new ();
 
             public override void Visit(TableReferenceWithAlias node)
             {
