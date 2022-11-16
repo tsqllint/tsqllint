@@ -1,8 +1,13 @@
+
 SELECT ISNULL(Name, 0) FROM Foo;
 
 SELECT * FROM Foo WHERE Foo.name = UPPER('foo');
 
 SELECT * FROM Foo WHERE UPPER('foo') = Foo.name;
+
+SELECT * FROM Foo WHERE Foo.Value >= DATEADD(DAY, -3, GETDATE());
+
+SELECT * FROM Foo WHERE Foo.Value >= datediff(HOUR, GETUTCDATE(), GETDATE());
 
 SELECT Name
 FROM Production.Product
@@ -10,6 +15,20 @@ WHERE ProductSubcategoryID IN
     (SELECT ProductSubcategoryID
      FROM Production.ProductSubcategory
      WHERE UPPER('foo') = Foo.name);
+
+SELECT Name
+FROM Production.Product
+WHERE ProductSubcategoryID IN
+    (SELECT ProductSubcategoryID
+     FROM Production.ProductSubcategory
+     WHERE Foo.Value >= DATEADD(DAY, -3, GETDATE()));
+
+SELECT Name
+FROM Production.Product
+WHERE ProductSubcategoryID IN
+    (SELECT ProductSubcategoryID
+     FROM Production.ProductSubcategory
+     WHERE Foo.Value >= datediff(HOUR, GETUTCDATE(), GETDATE()));
 
 -- no errors with isnull and an additional where clause (that could hit index)
 SELECT Name FROM Foo 
