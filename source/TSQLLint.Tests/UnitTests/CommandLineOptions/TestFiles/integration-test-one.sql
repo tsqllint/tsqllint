@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[MyTable]
 	 [Name] NVARCHAR(64));
 
 -- data-type-length
-CREATE TABLE MyTable 
+CREATE TABLE dbo.MyTable 
 	(ID INT, 
 	 Name NVARCHAR)
 WITH (DATA_COMPRESSION = ROW);
