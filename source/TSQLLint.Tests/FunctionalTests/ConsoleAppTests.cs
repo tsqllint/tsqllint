@@ -119,6 +119,7 @@ namespace TSQLLint.Tests.FunctionalTests
 
         [TestCase(@"TestFiles/with-tabs.sql", "prefer-tabs : Should use spaces rather than tabs", 0)]
         [TestCase(@"TestFiles/with-spaces.sql", "Loaded plugin: 'TSQLLint.Tests.UnitTests.PluginHandler.TestPlugin'", 0)]
+        [TestCase(@"TestFiles/with-comment.sql", "no-comments : Should not have comments", 0)]
         public void LoadPluginTest(string testFile, string expectedMessage, int expectedExitCode)
         {
             var pluginLoaded = false;
@@ -196,7 +197,7 @@ namespace TSQLLint.Tests.FunctionalTests
             File.Delete(updatedConfigFilePath);
         }
 
-        [TestCase(6, 0)]
+        [TestCase(7, 0)]
         public void LintingFilesWithIgnoreListTest(int expectedFileCount, int expectedExitCode)
         {
             var passed = false;
