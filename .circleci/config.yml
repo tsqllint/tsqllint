@@ -83,13 +83,13 @@ workflows:
               only:
                 - /pull\/\d+/
 
-#  build branches:
-#    jobs:
-#      - build and notify:
-#          filters:
-#            branches:
-#              only:
-#                - /.*/
+  build branches:
+    jobs:
+      - build and notify:
+          filters:
+            branches:
+              only:
+                - /.*/
 
   build and publish tags:
     jobs:
