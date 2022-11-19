@@ -16,11 +16,25 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
             this.errorCallback = errorCallback;
         }
 
-        public string RULE_NAME => "plugin-rule";
+        public string RULE_NAME => "no-comments";
 
-        public string RULE_TEXT => "Plugin rule failed";
+        public string RULE_TEXT => "Should not have comments";
 
         public RuleViolationSeverity RULE_SEVERITY => RuleViolationSeverity.Error;
+
+        public override void Visit(TSqlScript node)
+        {
+            foreach (var token in node.ScriptTokenStream)
+            {
+                if (token.TokenType != TSqlTokenType.SingleLineComment)
+                {
+                    continue;
+                }
+
+                errorCallback(RULE_NAME, RULE_TEXT, token.Line, token.Column);
+                break;
+            }
+        }
 
         public void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {

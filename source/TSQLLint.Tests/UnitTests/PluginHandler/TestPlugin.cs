@@ -33,7 +33,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
 
         public IDictionary<string, ISqlLintRule> GetRules() => new Dictionary<string, ISqlLintRule>
         {
-            ["plugin-rule"] = new TestPluginRule(null)
+            ["no-comments"] = new TestPluginRule(null)
         };
     }
 }

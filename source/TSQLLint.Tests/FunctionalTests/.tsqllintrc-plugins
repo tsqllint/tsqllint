@@ -3,7 +3,7 @@
     "schema-qualify": "off",
     "select-star": "warning",
     "semicolon-termination": "error",
-    "plugin-rule": "error"
+    "no-comments": "warning"
   },
   "plugins": {
     "test-plugin": "changeme"
