@@ -326,7 +326,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
                 this.defaultPlugin = defaultPlugin ?? typeof(TestPlugin);
             }
 
-            public Assembly LoadFile(string path)
+            public Assembly LoadFrom(string path)
             {
                 assemblyLoaded = path;
                 return assembly;
