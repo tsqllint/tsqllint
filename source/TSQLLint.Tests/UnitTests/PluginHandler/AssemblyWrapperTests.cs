@@ -20,7 +20,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void AssemblyWrapper_LoadFile_ShouldLoadTestAssembly()
         {
             var assemblyWrapper = new AssemblyWrapper();
-            var loadedAssembly = assemblyWrapper.LoadFile(AssemblyPath);
+            var loadedAssembly = assemblyWrapper.LoadFrom(AssemblyPath);
 
             Assert.AreEqual("TSQLLint.Tests.dll", loadedAssembly.ManifestModule.ScopeName);
         }
@@ -29,7 +29,7 @@ namespace TSQLLint.Tests.UnitTests.PluginHandler
         public void AssemblyWrapper_GetExportedTypes_ShouldReturnTypes()
         {
             var assemblyWrapper = new AssemblyWrapper();
-            var loadedAssembly = assemblyWrapper.LoadFile(AssemblyPath);
+            var loadedAssembly = assemblyWrapper.LoadFrom(AssemblyPath);
             var loadedTypes = assemblyWrapper.GetExportedTypes(loadedAssembly);
 
             Assert.IsTrue(loadedTypes.Length > 0);
