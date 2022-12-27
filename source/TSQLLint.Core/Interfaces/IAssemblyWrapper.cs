@@ -5,7 +5,7 @@ namespace TSQLLint.Core.Interfaces
 {
     public interface IAssemblyWrapper
     {
-        Assembly LoadFile(string path);
+        Assembly LoadFrom(string path);
 
         Type[] GetExportedTypes(Assembly assembly);
     }
