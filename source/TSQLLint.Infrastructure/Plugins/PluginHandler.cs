@@ -94,7 +94,7 @@ namespace TSQLLint.Infrastructure.Plugins
         public void LoadPlugin(string assemblyPath)
         {
             var path = fileSystem.Path.GetFullPath(assemblyPath);
-            var dll = assemblyWrapper.LoadFile(path);
+            var dll = assemblyWrapper.LoadFrom(path);
 
             foreach (var type in assemblyWrapper.GetExportedTypes(dll))
             {

@@ -6,9 +6,9 @@ namespace TSQLLint.Infrastructure.Plugins
 {
     public class AssemblyWrapper : IAssemblyWrapper
     {
-        public Assembly LoadFile(string path)
+        public Assembly LoadFrom(string path)
         {
-            return Assembly.LoadFile(path);
+            return Assembly.LoadFrom(path);
         }
 
         public Type[] GetExportedTypes(Assembly assembly)
