@@ -51,11 +51,14 @@ command -v reportgenerator >/dev/null 2>&1 || {
 
 info "running test project"
 
+TEST_TARGET_FRAMEWORK=$1
+
 dotnet test \
     --no-restore \
     --collect:"XPlat Code Coverage" \
     --settings "$PROJECT_ROOT/source/coverlet.runsettings" \
     --results-directory "$COVERAGE_DIR" \
+    -property:TargetFramework=$TEST_TARGET_FRAMEWORK \
     "$PROJECT_ROOT/source/TSQLLint.sln"
 
 COVERAGE_FILE="$(find $COVERAGE_DIR -name coverage.opencover.xml)"
