@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: build and test
-          command: ./scripts/dotnet_build_test.sh
+          command: ./scripts/dotnet_build_test.sh net7.0
 
   build and notify:
     docker:
