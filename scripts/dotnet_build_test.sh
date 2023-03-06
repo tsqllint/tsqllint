@@ -49,9 +49,9 @@ command -v reportgenerator >/dev/null 2>&1 || {
     dotnet tool install dotnet-reportgenerator-globaltool --global --version 5.0.2;
 }
 
-info "running test project"
-
 TEST_TARGET_FRAMEWORK=$1
+
+info "running test project on $TEST_TARGET_FRAMEWORK"
 
 dotnet test \
     --no-restore \
