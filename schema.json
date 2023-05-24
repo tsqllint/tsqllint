@@ -22,10 +22,6 @@
           "$ref": "#/definitions/rule",
           "description": "Enforce use of BEGIN and END symbols inside condition statements"
         },
-        "count-star": {
-          "$ref": "#/definitions/rule",
-          "description": "Disallows COUNT(*)"
-        },
         "cross-database-transaction": {
           "$ref": "#/definitions/rule",
           "description": "Discourages inserts or updates that create transactions in more than one database"
