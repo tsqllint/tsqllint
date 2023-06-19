@@ -1,4 +1,4 @@
-# Disallows user of linked server calls
+# Disallows use of linked server calls
 
 ## Rule Details
 
