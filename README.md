@@ -1,4 +1,3 @@
-
 [![CircleCI](https://circleci.com/gh/tsqllint/tsqllint/tree/main.svg?style=svg)](https://circleci.com/gh/tsqllint/tsqllint/tree/main)
 [![Coverage Status](https://coveralls.io/repos/github/tsqllint/tsqllint/badge.svg?branch=main)](https://coveralls.io/github/tsqllint/tsqllint?branch=main)
 [![npm version](https://badge.fury.io/js/tsqllint.svg)](https://badge.fury.io/js/tsqllint)
@@ -183,7 +182,7 @@ SELECT * FROM FOO;
 ```
 
 > TIP:   
-> Check existing rules in [this repo](https://github.com/sfdc-mc-mj/PLATFORM.TSQLLint-MC-Plugin/tree/main/TSQLLint_MC_Plugin/Rules). Look in the relevant cs file for the override string, such as the example below, and then use it in your T-SQL script as seen in previous examples.   
+> Check existing rules in [this repo](https://github.com/sfdc-mc-mj/PLATFORM.TSQLLint-MC-Plugin/tree/main/TSQLLint_MC_Plugin/Rules). Look in the relevant cs file for the override string, such as the example below, and then use the string inside double-quotes in your T-SQL script, as seen in previous examples.   
 > `public override string RULE_NAME => "select-star";`
 
 ## SQL Compatibility Level
