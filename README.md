@@ -182,6 +182,10 @@ To disable specific rule warnings for the entire script place a comment similar 
 SELECT * FROM FOO;
 ```
 
+> TIP:   
+> Check existing rules in [this repo](https://github.com/sfdc-mc-mj/PLATFORM.TSQLLint-MC-Plugin/tree/main/TSQLLint_MC_Plugin/Rules). Look in the relevant cs file for the override string, such as the example below, and then use it in your T-SQL script as seen in previous examples.   
+> `public override string RULE_NAME => "select-star";`
+
 ## SQL Compatibility Level
 
 TSQLLint provides a configurable "compatibility-level" that aligns with [SQL Server's Compatibility Level](http://docs.microsoft.com/en-us/sql/relational-databases/databases/view-or-change-the-compatibility-level-of-a-database). The value defaults to 120 but may be changed with the following edit to the `.tsqllintrc` or by using inline comments within the SQL file. TSQLLint supports the following compatibility levels 80, 90, 100, 110, 120, 130, 140, and 150.
