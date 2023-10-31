@@ -43,7 +43,7 @@ gh config set prompt disabled
 info "creating github release"
 gh release create "$VERSION" --title "$VERSION" --prerelease --draft
 
-PLATFORMS=( "win-x86" "win-x64" "osx-x64" "linux-x64")
+PLATFORMS=("win-x86" "win-x64" "win-arm64" "osx-x64" "osx-arm64" "linux-x64" "linux-musl-x64" "linux-musl-arm64" "linux-arm" "linux-arm64")
 for PLATFORM in "${PLATFORMS[@]}"
 do
     ARTIFACT="${ARTIFACTS_DIR}/${PLATFORM}".tgz
