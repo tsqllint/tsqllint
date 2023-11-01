@@ -5,21 +5,21 @@ jobs:
 
   build:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0
+      - image: mcr.microsoft.com/dotnet/sdk:7.0
     steps:
       - checkout
       - run:
           name: build and test
-          command: ./scripts/dotnet_build_test.sh
+          command: ./scripts/dotnet_build_test.sh net7.0
 
   build and notify:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0
+      - image: mcr.microsoft.com/dotnet/sdk:7.0
     steps:
       - checkout
       - run:
           name: build and test
-          command: ./scripts/dotnet_build_test.sh
+          command: ./scripts/dotnet_build_test.sh net7.0
       - store_artifacts:
           path: /artifacts/linux-x64.tgz
       - store_artifacts:
@@ -42,7 +42,7 @@ jobs:
 
   package and push to nuget:
     docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0
+      - image: mcr.microsoft.com/dotnet/sdk:7.0
     steps:
       - checkout
       - run:
