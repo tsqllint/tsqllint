@@ -23,11 +23,23 @@ jobs:
       - store_artifacts:
           path: /artifacts/linux-x64.tgz
       - store_artifacts:
+          path: /artifacts/linux-musl-x64.tgz
+      - store_artifacts:
+          path: /artifacts/linux-musl-arm64.tgz
+      - store_artifacts:
+          path: /artifacts/linux-arm.tgz
+      - store_artifacts:
+          path: /artifacts/linux-arm64.tgz
+      - store_artifacts:
           path: /artifacts/osx-x64.tgz
+      - store_artifacts:
+          path: /artifacts/osx-arm64.tgz
       - store_artifacts:
           path: /artifacts/win-x64.tgz
       - store_artifacts:
           path: /artifacts/win-x86.tgz
+      - store_artifacts:
+          path: /artifacts/win-arm64.tgz
       - slack/notify:
           event: fail
           template: basic_fail_1
