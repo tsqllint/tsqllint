@@ -11,7 +11,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 2. Make your changes or additions.
 3. Update the README.md with details of changes to the interface, this includes new environment 
    variables, exposed ports, useful file locations and container parameters.
-4. Write tests, no changes will beE considered that do not have testing coverage.
+4. Write tests, no changes will be considered that do not have testing coverage.
 5. Create a pull request against the dev branch.
 6. Pull requests will be merged once code reviews are complete and CI status checks have passed. 
 
