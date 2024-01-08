@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <PackAsTool>true</PackAsTool>
     <PackageOutputPath>./artifacts</PackageOutputPath>
   </PropertyGroup>
@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TSQLLint.Common" Version="3.3.0" />
+    <PackageReference Include="TSQLLint.Common" Version="3.3.3" />
   </ItemGroup>
 
 </Project>
