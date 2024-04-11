@@ -1,0 +1,2 @@
+-- simple inner join
+SELECT FOO.ID FROM FOO INNER JOIN BAR ON FOO.ID = BAR.ID;
