@@ -49,7 +49,16 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void FixViolation(List<string> fileLines, IRuleViolation ruleViolation, FileLineActions actions)
         {
-            actions.RemoveAt(ruleViolation.Line - 1);
+            if (ruleViolation.Line - 1 == fileLines.Count)
+            {
+                /*handle the special case of a duplicate empty line being the last line of the file
+                  by removing the second to last line. */
+                actions.RemoveAt(ruleViolation.Line - 2);
+            }
+            else
+            {
+                actions.RemoveAt(ruleViolation.Line - 1);
+            }
         }
     }
 }

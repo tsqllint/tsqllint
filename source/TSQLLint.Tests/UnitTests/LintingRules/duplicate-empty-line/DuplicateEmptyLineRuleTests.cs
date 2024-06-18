@@ -30,7 +30,14 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     new RuleViolation(RuleName, 6, 1),
                     new RuleViolation(RuleName, 7, 1)
                 }
-            }
+            },
+            new object[]
+            {
+                "duplicate-empty-line-EOF-error", new List<RuleViolation>
+                {
+                     new RuleViolation(RuleName, 7, 1)
+                }
+            },
         };
 
         [TestCaseSource(nameof(TestCases))]
