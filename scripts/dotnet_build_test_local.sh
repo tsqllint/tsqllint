@@ -18,5 +18,5 @@ docker run \
     -v "$(pwd)/artifacts":/artifacts \
     -v "$(pwd)/packages":/packages \
     --rm \
-    mcr.microsoft.com/dotnet/sdk:6.0 \
+    mcr.microsoft.com/dotnet/sdk:8.0 \
     /app/scripts/dotnet_build_test.sh
