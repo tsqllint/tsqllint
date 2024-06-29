@@ -26,6 +26,7 @@ namespace TSQLLint.Infrastructure.Parser
             { "duplicate-go", typeof(DuplicateGoRule) },
             { "full-text", typeof(FullTextRule) },
             { "information-schema", typeof(InformationSchemaRule) },
+            { "join-keyword", typeof(JoinKeywordRule) },
             { "keyword-capitalization", typeof(KeywordCapitalizationRule) },
             { "linked-server", typeof(LinkedServerRule) },
             { "multi-table-alias", typeof(MultiTableAliasRule) },
