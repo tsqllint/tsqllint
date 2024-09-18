@@ -48,6 +48,7 @@ do
 
     dotnet publish \
         "$PROJECT_ROOT/source/TSQLLint/TSQLLint.csproj" \
+        -f net8.0 \
         -c Release \
         -r "$PLATFORM" \
         /p:Version="$VERSION" \

@@ -7,6 +7,9 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:8.0
     steps:
+      - run:
+          name: install dependencies
+          command: apt-get update && apt-get install -y nt git
       - checkout
       - run:
           name: build and test
@@ -94,14 +97,6 @@ workflows:
             branches:
               only:
                 - /pull\/\d+/
-
-#  build branches:
-#    jobs:
-#      - build and notify:
-#          filters:
-#            branches:
-#              only:
-#                - /.*/
 
   build and publish tags:
     jobs:
