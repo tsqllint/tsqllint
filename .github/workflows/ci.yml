@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+    tags-ignore: ['**']
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # TODO: pin to SHA - Dependabot will handle this
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+      - name: Restore
+        run: dotnet restore source/TSQLLint.sln
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4.4.0
+        with:
+          node-version: '20'
+      - run: node scripts/check-dependency-age.mjs .
+      - name: Build
+        run: dotnet build source/TSQLLint.sln --configuration Release --no-restore
+      - name: Test
+        run: >
+          dotnet test source/TSQLLint.sln
+          --no-restore
+          --collect:"XPlat Code Coverage"
+          --results-directory artifacts/coverage
+          -property:TargetFramework=net8.0

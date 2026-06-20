@@ -20,7 +20,9 @@ cd "$PROJECT_ROOT"
 
 source "$SCRIPT_DIR/utils.sh"
 
-confirmRunningInDocker
+if [ -f /.dockerenv ]; then
+    confirmRunningInDocker
+fi
 
 info "restoring project"
 
@@ -71,26 +73,6 @@ reportgenerator \
 # change directory to reduce directory depth in archive file
 cd "$COVERAGE_DIR"
 tar -zcf $COVERAGE_DIR/coverage-report.tgz report
-
-#cd "$PROJECT_ROOT"
-
-#if [[ -n "${COVERALLS_REPO_TOKEN}" ]]; then
-#
-#  info "pushing coverage results"
-#
-#  JOB_ID=${CIRCLE_WORKFLOW_JOB_ID:-"$HEAD_COMMIT"}
-#
-#  csmacnz.Coveralls --opencover -i "$COVERAGE_FILE" \
-#      --repoToken $COVERALLS_REPO_TOKEN \
-#      --commitId $HEAD_COMMIT \
-#      --commitBranch $BRANCH_NAME \
-#      --commitAuthor "$COMMIT_AUTHOR" \
-#      --commitEmail "$COMMIT_AUTHOR_EMAIL" \
-#      --commitMessage "$COMMIT_MESSAGE" \
-#      --jobId $JOB_ID  \
-#      --serviceName "circle-ci"  \
-#      --useRelativePaths
-#fi
 
 info "done"
 
