@@ -10,8 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # TODO: pin to SHA - Dependabot will handle this
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: actions/setup-dotnet@3951f0dfe7a714d785938fb57c4ffd2c3e1a5b1c  # v4.3.0
         with:
           dotnet-version: '8.x'
       - name: Restore
