@@ -1,7 +1,4 @@
 using Microsoft.SqlServer.TransactSql.ScriptDom;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using TSQLLint.Common;
 using TSQLLint.Core.Interfaces;
 using TSQLLint.Infrastructure.Rules.Common;
 
@@ -20,30 +17,18 @@ namespace TSQLLint.Infrastructure.Rules
 
         public override void Visit(FromClause node)
         {
-            // Check if the join is using commas (implicit join syntax)
+            // More than one top-level table reference in a FROM clause means the tables
+            // are separated by commas (implicit join syntax). Explicit JOIN, APPLY, PIVOT,
+            // derived tables and table-valued functions all nest into a single table
+            // reference, so any count greater than one indicates a comma join -- including
+            // mixed forms such as "FROM A, B INNER JOIN C" that the previous per-element
+            // check let slip through. (#332)
             if (node.TableReferences.Count > 1)
             {
-                for (int i = 0; i < node.TableReferences.Count; i++)
-                {
-                    if (node.TableReferences[i] is QualifiedJoin)
-                    {
-                        // Skip if it's a proper JOIN
-                        continue;
-                    }
-                    if (i < node.TableReferences.Count - 1)
-                    {
-                        // If the next table reference is not a JOIN, it's a comma join
-                        if (!(node.TableReferences[i + 1] is QualifiedJoin))
-                        {
-                            errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
-                            break;
-                        }
-                    }
-                }
+                errorCallback(RULE_NAME, RULE_TEXT, GetLineNumber(node), GetColumnNumber(node));
             }
-            
+
             base.Visit(node);
         }
-
     }
 }
