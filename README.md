@@ -120,6 +120,8 @@ TSQLLint rules may be set to "off", "warning", or "error". Rules that are violat
     "data-type-length": "error",
     "delete-where": "error",
     "disallow-cursors": "error",
+    "duplicate-empty-line": "error",
+    "duplicate-go": "error",
     "full-text": "error",
     "information-schema": "error",
     "keyword-capitalization": "error",
