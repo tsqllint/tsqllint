@@ -51,7 +51,7 @@ namespace TSQLLint.Tests.UnitTests.Parser
             var fixer = new ViolationFixer(fileSystem, rules, violations, reporter);
 
             // the throwing fixer must not take down the whole run
-            Assert.DoesNotThrow(() => fixer.Fix());
+            Assert.That(() => fixer.Fix(), Throws.Nothing);
 
             // the healthy fixer still ran even though the other one threw
             healthyRule.Received().FixViolation(Arg.Any<List<string>>(), Arg.Any<IRuleViolation>(), Arg.Any<FileLineActions>());

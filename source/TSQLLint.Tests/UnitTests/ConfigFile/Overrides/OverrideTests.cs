@@ -49,6 +49,14 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile.Overrides
                    tsqllint-override compatibility-level = 80, foo = bar 
                 */",
                 new List<IOverride> { new OverrideCompatabilityLevel("80") }
+            },
+            new object[]
+            {
+                // line contains the marker but has no "key = value" body, so the
+                // override regex fails to match and the line is skipped.
+                "tsqllint-override marker with no assignment is ignored",
+                @"/* tsqllint-override */",
+                new List<IOverride>()
             }
         };
 

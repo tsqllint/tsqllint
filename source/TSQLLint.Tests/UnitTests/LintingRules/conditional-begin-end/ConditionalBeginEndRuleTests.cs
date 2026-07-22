@@ -65,6 +65,15 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     new (RuleName, 3, 6),
                     new (RuleName, 4, 6)
                 }
+            },
+            new object[]
+            {
+                // an IF whose then-body statement spans multiple lines is fixed by
+                // inserting BEGIN/END on their own lines (the multi-line fix branch).
+                "conditional-begin-end-multiline-body-error", new List<RuleViolation>
+                {
+                    new (RuleName, 1, 1)
+                }
             }
         };
 
