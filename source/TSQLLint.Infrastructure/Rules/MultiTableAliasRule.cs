@@ -9,6 +9,7 @@ namespace TSQLLint.Infrastructure.Rules
     public class MultiTableAliasRule : BaseRuleVisitor, ISqlRule
     {
         private HashSet<string> cteNames = new HashSet<string>();
+        private readonly HashSet<TSqlFragment> reportedNodes = new HashSet<TSqlFragment>();
 
         public MultiTableAliasRule(Action<string, string, int, int> errorCallback)
             : base(errorCallback)
@@ -30,6 +31,14 @@ namespace TSQLLint.Infrastructure.Rules
         {
             void ChildCallback(TSqlFragment childNode)
             {
+                // A join chain of 4+ tables is a left-nested tree of QualifiedJoin nodes, and
+                // QualifiedJoin is itself a TableReference, so Visit(TableReference) re-walks the
+                // same subtree once per nesting level. Report each unaliased table only once. (#300)
+                if (!reportedNodes.Add(childNode))
+                {
+                    return;
+                }
+
                 var dynamicSqlAdjustment = GetDynamicSqlColumnOffset(childNode);
                 var tabsOnLine = ColumnNumberCalculator.CountTabsBeforeToken(childNode.StartLine, childNode.LastTokenIndex, childNode.ScriptTokenStream);
                 var column = ColumnNumberCalculator.GetColumnNumberBeforeToken(tabsOnLine, childNode.ScriptTokenStream[childNode.FirstTokenIndex]);
