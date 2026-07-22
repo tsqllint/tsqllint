@@ -85,7 +85,7 @@ namespace TSQLLint
 
                     if (response.ShouldFix)
                     {
-                        new ViolationFixer(new FileSystem(), rules, reporter.Violations).Fix();
+                        new ViolationFixer(new FileSystem(), rules, reporter.Violations, reporter).Fix();
 
                         violitions = reporter.Violations;
 
