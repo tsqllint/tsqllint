@@ -15,6 +15,14 @@
     <PackageReference Include="CommandLineParser" Version="1.9.71" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="6.0.0" />
     <PackageReference Include="Microsoft.SqlServer.DacFx" Version="160.5400.1" />
+    <!-- Security pins for issue #333. Microsoft.SqlServer.DacFx (both our direct reference and the copy
+         pulled transitively by TSQLLint.Common) resolves vulnerable versions of the packages below.
+         tsqllint only uses the ScriptDom parser, so these connection-layer assemblies are never exercised
+         at runtime; the explicit references simply force patched versions and override the transitive ones:
+           Microsoft.Data.SqlClient 3.0.0 -> 5.1.6 (CVE-2024-0056)
+           Azure.Identity           1.3.0 -> 1.13.2 (CVE-2023-36414 and later advisories) -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.6" />
+    <PackageReference Include="Azure.Identity" Version="1.13.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="TSQLLint.Common" Version="3.3.0" />
     <PackageReference Include="System.IO.Abstractions" Version="17.0.24" />

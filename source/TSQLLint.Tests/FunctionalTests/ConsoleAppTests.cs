@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
-using Microsoft.SqlServer.Dac.Model;
 using NSubstitute.Core;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
