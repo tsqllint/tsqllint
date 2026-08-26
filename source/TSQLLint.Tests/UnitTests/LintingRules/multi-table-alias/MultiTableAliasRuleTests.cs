@@ -48,6 +48,15 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                     new RuleViolation("multi-table-alias", 3, 6),
                     new RuleViolation("multi-table-alias", 5, 6)
                 }
+            },
+            new object[]
+            {
+                // issue #300: a deeply nested join chain (4+ tables) must not report
+                // the same unaliased table once per enclosing join level.
+                "multi-table-alias-nested-joins-one-error", new List<RuleViolation>
+                {
+                    new RuleViolation("multi-table-alias", 2, 6)
+                }
             }
         };
 

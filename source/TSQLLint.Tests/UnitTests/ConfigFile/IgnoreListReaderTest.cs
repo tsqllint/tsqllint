@@ -130,6 +130,53 @@ namespace TSQLLint.Tests.UnitTests.ConfigFile
         }
 
         [Test]
+        public void IgnoreListReaderExplicitPathThatExists_LoadsFromThatFile()
+        {
+            // arrange: an explicit path is supplied and the file exists
+            var explicitPath = TestHelper.GetTestFilePath(@"c:\configs\.tsqllintignore");
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {
+                    explicitPath, new MockFileData(@"
+                        test1.sql
+                        test2.sql
+                    ")
+                }
+            });
+            var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+
+            // act
+            var ignoreListReader = new IgnoreListReader(reporter, fileSystem, environmentWrapper);
+            ignoreListReader.LoadIgnoreList(explicitPath);
+
+            // assert
+            Assert.That(ignoreListReader.IsIgnoreListLoaded, Is.True);
+            Assert.That(ignoreListReader.IgnoreList, Is.EqualTo(new List<string> { "test1.sql", "test2.sql" }));
+            reporter.DidNotReceive().Report(Arg.Any<string>());
+        }
+
+        [Test]
+        public void IgnoreListReaderEnvironmentVariablePointsToMissingFile_FallsBackToEmpty()
+        {
+            // arrange: env var is set but the file it points to does not exist,
+            // and there is no local or user-profile ignore file either.
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
+            var reporter = Substitute.For<IReporter>();
+            var environmentWrapper = Substitute.For<IEnvironmentWrapper>();
+            environmentWrapper.GetEnvironmentVariable("tsqllintignore")
+                .Returns(TestHelper.GetTestFilePath(@"c:\does\not\exist\.tsqllintignore"));
+
+            // act
+            var ignoreListReader = new IgnoreListReader(reporter, fileSystem, environmentWrapper);
+            ignoreListReader.LoadIgnoreList(null);
+
+            // assert: it fell past the missing env-var file to the empty default
+            Assert.That(ignoreListReader.IsIgnoreListLoaded, Is.True);
+            Assert.That(ignoreListReader.IgnoreList, Is.EqualTo(new List<string>()));
+        }
+
+        [Test]
         public void ConfigReaderLoadsConfigsEnvironmentVariable()
         {
             // arrange

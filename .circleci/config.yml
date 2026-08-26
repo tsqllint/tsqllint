@@ -9,7 +9,7 @@ jobs:
     steps:
       - run:
           name: install dependencies
-          command: apt-get update && apt-get install -y nt git
+          command: apt-get update && apt-get install -y git
       - checkout
       - run:
           name: build and test

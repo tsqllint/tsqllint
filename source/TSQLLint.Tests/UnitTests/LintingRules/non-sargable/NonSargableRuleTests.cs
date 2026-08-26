@@ -22,6 +22,13 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
             },
             new object[]
             {
+                // issue #325: nested built-in date functions produce datepart
+                // pseudo-columns (MONTH, DAY, ...) that must not be counted as
+                // genuine column references and flagged as non-sargable.
+                "non-sargable-nested-datetime-no-error", new List<RuleViolation>()
+            },
+            new object[]
+            {
                 "non-sargable-one-error-where-clause", new List<RuleViolation>
                 {
                     new RuleViolation(RuleName, 1, 25)

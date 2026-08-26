@@ -32,5 +32,64 @@ namespace TSQLLint.Tests.UnitTests.Reporter
             reporter.DidNotReceive().Report("foo.sql(1,3): off rule name : rule text.");
             reporter.Received().Report("\nLinted 1 files in 3661 seconds\n\n2 Errors.\n1 Warnings.");
         }
+
+        [Test]
+        public void ConsoleReporter_ReportResults_AppendsFixedCountWhenPositive()
+        {
+            // arrange
+            var reporter = Substitute.ForPartsOf<ConsoleReporter>();
+            reporter.When(x => x.Report(Arg.Any<string>())).DoNotCallBase(); // suppress console output
+            reporter.FixedCount = 3;
+
+            // act
+            reporter.ReportResults(new TimeSpan(1, 1, 1), 2);
+
+            // assert
+            reporter.Received().Report("\nLinted 2 files in 3661 seconds\n\n0 Errors.\n0 Warnings.\n3 Fixed");
+        }
+
+        [Test]
+        public void ConsoleReporter_CollectsViolations_WhenShouldCollectViolationsIsTrue()
+        {
+            // arrange
+            var reporter = Substitute.ForPartsOf<ConsoleReporter>();
+            reporter.When(x => x.Report(Arg.Any<string>())).DoNotCallBase(); // suppress console output
+            reporter.ShouldCollectViolations = true;
+
+            // act
+            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 1, RuleViolationSeverity.Error));
+            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 2, 1, RuleViolationSeverity.Warning));
+
+            // assert
+            Assert.That(reporter.Violations.Count, Is.EqualTo(2));
+
+            reporter.ClearViolations();
+            Assert.That(reporter.Violations.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void ConsoleReporter_DoesNotCollectViolations_WhenShouldCollectViolationsIsFalse()
+        {
+            // arrange
+            var reporter = Substitute.ForPartsOf<ConsoleReporter>();
+            reporter.When(x => x.Report(Arg.Any<string>())).DoNotCallBase(); // suppress console output
+
+            // act
+            reporter.ReportViolation(new RuleViolation("foo.sql", "rule name", "rule text", 1, 1, RuleViolationSeverity.Error));
+
+            // assert
+            Assert.That(reporter.Violations, Is.Empty);
+        }
+
+        [Test]
+        public void ConsoleReporter_ReportFileResults_DoesNotThrow()
+        {
+            // arrange
+            var reporter = Substitute.ForPartsOf<ConsoleReporter>();
+            reporter.When(x => x.Report(Arg.Any<string>())).DoNotCallBase(); // suppress console output
+
+            // act / assert
+            Assert.That(() => reporter.ReportFileResults(), Throws.Nothing);
+        }
     }
 }

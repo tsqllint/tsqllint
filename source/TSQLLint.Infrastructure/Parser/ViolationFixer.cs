@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
@@ -11,21 +12,25 @@ namespace TSQLLint.Infrastructure.Parser
         private readonly IFileSystem FileSystem;
         private readonly Dictionary<string, ISqlLintRule> Rules;
         private readonly IList<IRuleViolation> Violations;
+        private readonly IReporter Reporter;
 
         public ViolationFixer(
             IFileSystem fileSystem,
             Dictionary<string, ISqlLintRule> rules,
-            IList<IRuleViolation> violations)
+            IList<IRuleViolation> violations,
+            IReporter reporter = null)
         {
             Rules = rules;
             FileSystem = fileSystem;
             Violations = violations;
+            Reporter = reporter;
         }
 
         public ViolationFixer(
             IFileSystem fileSystem,
-            IList<IRuleViolation> violations)
-            : this(fileSystem, RuleVisitorFriendlyNameTypeMap.Rules, violations)
+            IList<IRuleViolation> violations,
+            IReporter reporter = null)
+            : this(fileSystem, RuleVisitorFriendlyNameTypeMap.Rules, violations, reporter)
         {
         }
 
@@ -63,7 +68,19 @@ namespace TSQLLint.Infrastructure.Parser
                         }
 
                         var lines = new List<string>(fileLines);
-                        Rules[violation.RuleName].FixViolation(lines, violation, fileLineActions);
+                        try
+                        {
+                            Rules[violation.RuleName].FixViolation(lines, violation, fileLineActions);
+                        }
+                        catch (Exception ex)
+                        {
+                            // A fixer re-parses the file, and some constructs the linter tolerates
+                            // cannot be re-parsed by the fix helpers (e.g. CREATE OR ALTER, see
+                            // https://github.com/tsqllint/tsqllint/issues/337). Skip the offending
+                            // fix instead of aborting every remaining fix in the run.
+                            Reporter?.Report(
+                                $"{file.Key}({violation.Line},{violation.Column}): unable to fix {violation.RuleName} : {ex.Message}");
+                        }
                     }
                 }
 

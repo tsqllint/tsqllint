@@ -37,6 +37,23 @@ namespace TSQLLint.Tests.UnitTests.LintingRules
                 {
                     new RuleViolation(RuleName, 3, 19)
                 }
+            },
+            new object[]
+            {
+                // issue #332: a comma join mixed with an explicit join must still
+                // be flagged regardless of order -- "FROM FOO, BAR INNER JOIN BAZ"
+                // and "FROM FOO INNER JOIN BAR ..., BAZ" were both missed by the
+                // original per-element check.
+                "join-keyword-mixed-comma-and-explicit", new List<RuleViolation>
+                {
+                    new RuleViolation(RuleName, 1, 15),
+                    new RuleViolation(RuleName, 2, 15)
+                }
+            },
+            new object[]
+            {
+                // chained explicit joins and CROSS APPLY are not comma joins
+                "join-keyword-no-error-explicit-joins", new List<RuleViolation>()
             }
         };
 

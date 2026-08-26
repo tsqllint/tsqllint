@@ -84,7 +84,6 @@ namespace TSQLLint.Infrastructure.Rules
         {
             private readonly bool isMultiClause;
             private readonly Action<TSqlFragment> childCallback;
-            private bool hasColumnReferenceParameter;
 
             public FunctionVisitor(Action<TSqlFragment> errorCallback, bool isMultiClause)
             {
@@ -94,20 +93,10 @@ namespace TSQLLint.Infrastructure.Rules
 
             public override void Visit(FunctionCall node)
             {
-                switch (node.FunctionName.Value.ToUpper())
+                // allow isnull predicates provided other filters exist
+                if (node.FunctionName.Value.ToUpper() == "ISNULL" && isMultiClause)
                 {
-                    // allow isnull predicates provided other filters exist
-                    case "ISNULL" when isMultiClause:
-                        return;
-                    case "DATEADD":
-                    case "DATEDIFF":
-                    case "DATEDIFF_BIG":
-                    case "DATENAME":
-                    case "DATEPART":
-                    case "DATETRUNC":
-                    case "DATE_BUCKET":
-                        hasColumnReferenceParameter = true;
-                        break;
+                    return;
                 }
 
                 FindColumnReferences(node);
@@ -136,9 +125,9 @@ namespace TSQLLint.Infrastructure.Rules
             private void FindColumnReferences(TSqlFragment node)
             {
                 var columnReferenceVisitor = new ColumnReferenceVisitor();
-                node.AcceptChildren(columnReferenceVisitor);
+                node.Accept(columnReferenceVisitor);
 
-                if (columnReferenceVisitor.ColumnReferenceFound && (!hasColumnReferenceParameter || columnReferenceVisitor.ColumnReferenceCount > 1))
+                if (columnReferenceVisitor.ColumnReferenceFound)
                 {
                     childCallback(node);
                 }
@@ -147,13 +136,41 @@ namespace TSQLLint.Infrastructure.Rules
 
         private class ColumnReferenceVisitor : TSqlFragmentVisitor
         {
+            // The first argument of these date functions is a datepart keyword
+            // (MONTH, DAY, YEAR, ...) which ScriptDom parses as a
+            // ColumnReferenceExpression even though it is not a real column.
+            private static readonly HashSet<string> DatePartFunctions = new(StringComparer.OrdinalIgnoreCase)
+            {
+                "DATEADD",
+                "DATEDIFF",
+                "DATEDIFF_BIG",
+                "DATENAME",
+                "DATEPART",
+                "DATETRUNC",
+                "DATE_BUCKET"
+            };
+
+            private readonly HashSet<TSqlFragment> datePartPseudoColumns = new();
+
             public bool ColumnReferenceFound { get; private set; }
 
-            public int ColumnReferenceCount { get; private set; }
+            public override void Visit(FunctionCall node)
+            {
+                // Exclude the datepart pseudo-column so that nested date functions
+                // are not mistaken for genuine column references. (#325)
+                if (DatePartFunctions.Contains(node.FunctionName.Value) && node.Parameters.Count > 0)
+                {
+                    datePartPseudoColumns.Add(node.Parameters[0]);
+                }
+            }
 
             public override void Visit(ColumnReferenceExpression node)
             {
-                ColumnReferenceCount++;
+                if (datePartPseudoColumns.Contains(node))
+                {
+                    return;
+                }
+
                 ColumnReferenceFound = true;
             }
         }
